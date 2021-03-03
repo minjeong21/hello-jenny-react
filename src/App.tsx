@@ -9,19 +9,10 @@ function App() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [visibleIsCorrect, setVisibleIsCorrect] = useState(false);
 
-  useEffect(
-    () => {
-      setKorean("넥타이를 멘 소녀.");
-      setEnglish("A girl with a tie.");
-    }
-
-    // fetch("https://jsonplaceholder.typicode.com/users")
-    //   .then((response) => response.json())
-    //   .then((users) => {
-    //     setUsers(users)
-    //     setLoading(false)
-    //   })
-  );
+  useEffect(() => {
+    setKorean("넥타이를 멘 소녀.");
+    setEnglish("A girl with a tie.");
+  }, []);
 
   const compareAnswer = () => {
     if (english.toLowerCase() == tryAnswer.toLowerCase()) {
@@ -30,20 +21,22 @@ function App() {
       setIsCorrect(false);
     }
 
-    setVisibleTryAnswer(true)
+    setVisibleTryAnswer(true);
     setVisibleIsCorrect(true);
   };
 
   if (korean && english) {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1>Koo's 영작 연습소 </h1>
+        <header className="header">
+          <h1 className="">Koo's 영작 연습소 </h1>
+        </header>
+        <section>
           <div className="flex">
             <div>한글: </div> <div>{korean}</div>
           </div>
 
-          <div className="flex font-gray">
+          <div className="flex">
             <div> 영어: </div>
             <input
               name="english_sentence"
@@ -52,13 +45,13 @@ function App() {
             />
           </div>
           <div className="flex">
-            <button
-              className="btn-white"
-              onClick={compareAnswer}
-            >
+            <button className="btn-white" onClick={compareAnswer}>
               맞추기
             </button>
-            <button onClick={() => setVisibleTryAnswer(!visibleTryAnswer)} className="btn-white">
+            <button
+              onClick={() => setVisibleTryAnswer(!visibleTryAnswer)}
+              className="btn-white"
+            >
               답보기
             </button>
           </div>
@@ -69,7 +62,7 @@ function App() {
               {isCorrect ? <>맞았습니다!! 👏</> : <div>틀렸어요 😹</div>}
             </div>
           ) : null}
-        </header>
+        </section>
       </div>
     );
   } else {
