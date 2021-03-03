@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import { convertPlainText } from "./ManagerSentence";
 
 function App() {
   const [korean, setKorean] = useState("");
@@ -10,12 +11,14 @@ function App() {
   const [visibleIsCorrect, setVisibleIsCorrect] = useState(false);
 
   useEffect(() => {
-    setKorean("넥타이를 멘 소녀.");
-    setEnglish("A girl with a tie.");
+    setKorean("넥타이를 멘 남자.");
+    setEnglish("A maa with a tie.");
   }, []);
 
   const compareAnswer = () => {
-    if (english.toLowerCase() == tryAnswer.toLowerCase()) {
+    const correctPlainText = convertPlainText(english);
+    const tryPlainText = convertPlainText(tryAnswer);
+    if (correctPlainText === tryPlainText) {
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
