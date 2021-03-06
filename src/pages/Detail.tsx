@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
-import practiceBundle from "./sample/practiceBundle.json";
+import practiceBundle from "../sample/practiceBundle.json";
 import queryString from "query-string";
-import { convertPlainText } from "./ManagerSentence";
-import { IPracticeBundle } from "./interface/IPracticeBundle";
+import { convertPlainText } from "../ManagerSentence";
+import { IPracticeBundle } from "../interface/IPracticeBundle";
 import {
   Anchor,
   Box,
@@ -20,7 +19,7 @@ import {
   TextInput,
   Main,
 } from "grommet";
-import { Download, SettingsOption } from "grommet-icons";
+import { SettingsOption } from "grommet-icons";
 import styled from "styled-components";
 
 const StyledAnchor = styled(Anchor)`
