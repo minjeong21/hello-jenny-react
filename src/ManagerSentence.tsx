@@ -3,7 +3,7 @@ export const convertPlainText = (text: string) => {
   return convertedText;
 };
 
-export const UnMatchedWordCount = (text1: string, text2: string) => {
+export const unMatchedWordCount = (text1: string, text2: string) => {
   const correctTextWords = text1.split(" ");
   const tryTextWords = text2.split(" ");
 
@@ -16,7 +16,7 @@ export const UnMatchedWordCount = (text1: string, text2: string) => {
   return correctTextWords.length;
 };
 
-export const UnMatchedWordPercent = (text1: string, text2: string) => {
+export const matchedWordPercent = (text1: string, text2: string) => {
   const correctTextWords = text1.split(" ");
   const countOfCorrectTextWords = correctTextWords.length;
   const tryTextWords = text2.split(" ");
