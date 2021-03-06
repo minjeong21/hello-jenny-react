@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import practiceBundle from "./sample/practiceBundle.json";
+import queryString from "query-string";
 import { convertPlainText } from "./ManagerSentence";
+import { IPracticeBundle } from "./interface/IPracticeBundle";
 
 function App() {
-  const [korean, setKorean] = useState("");
-  const [english, setEnglish] = useState("");
   const [tryAnswer, setTryAnswer] = useState("");
   const [visibleTryAnswer, setVisibleTryAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [visibleIsCorrect, setVisibleIsCorrect] = useState(false);
+  const [targetPractice, setTargetPractice] = useState<IPracticeBundle>();
 
   useEffect(() => {
-    setKorean("넥타이를 멘 남자.");
-    setEnglish("A maa with a tie.");
+    const parsed = queryString.parse(window.location.search);
+    let targetIndex = Number(parsed.index);
+    if (
+      typeof targetIndex !== "number" ||
+      targetIndex >= practiceBundle.length
+    ) {
+      targetIndex = 0;
+    }
+    const targetPractice = practiceBundle[targetIndex];
+
+    setTargetPractice(targetPractice);
   }, []);
 
-  const compareAnswer = () => {
-    const correctPlainText = convertPlainText(english);
+  const compareAnswer = (targetPractice: IPracticeBundle) => {
+    const correctPlainText = convertPlainText(targetPractice.enTexts[0]);
     const tryPlainText = convertPlainText(tryAnswer);
     if (correctPlainText === tryPlainText) {
       setIsCorrect(true);
@@ -28,7 +39,7 @@ function App() {
     setVisibleIsCorrect(true);
   };
 
-  if (korean && english) {
+  if (targetPractice) {
     return (
       <div className="App">
         <header className="header">
@@ -36,7 +47,7 @@ function App() {
         </header>
         <section>
           <div className="flex">
-            <div>한글: </div> <div>{korean}</div>
+            <div>한글: </div> <div>{targetPractice.korText}</div>
           </div>
 
           <div className="flex">
@@ -48,7 +59,10 @@ function App() {
             />
           </div>
           <div className="flex">
-            <button className="btn-white" onClick={compareAnswer}>
+            <button
+              className="btn-white"
+              onClick={() => compareAnswer(targetPractice)}
+            >
               맞추기
             </button>
             <button
