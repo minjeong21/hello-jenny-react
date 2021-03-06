@@ -19,18 +19,18 @@
         "helpVideos": [
             {
                 "title": "be off 설명",
-                "link": "https://youtu.be/Q3cN-ufLtvs?t=139"
+                "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
             }
         ]
     },
     {
-        "situation": "실컷 놀고, 시간이 늦어서 집에 가야하는 상황",
+        "situation": "친구들이랑 놀고 있다가 시간이 늦었어요. \n당신은 친구들에게 이렇게 말해야합니다.",
         "related_images": [
             {
                 "link": "https://www.theplunge.com/wp-content/uploads/2018/06/first-year-of-marriage-who-do-you-hang-out-with-more-HEADER.jpg"
             }
         ],
-        "korText": "나 갈께",
+        "korText": "나 갈께.",
         "enTexts": [
             "I gotta go.",
             "I’m leaving now.",
@@ -46,7 +46,7 @@
         "helpVideos": [
             {
                 "title": "be off 설명",
-                "link": "https://youtu.be/Q3cN-ufLtvs?t=139"
+                "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
             }
         ]
     }
