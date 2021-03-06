@@ -9,42 +9,23 @@ import {
   Text,
   Footer,
   Grommet,
-  Header,
-  Menu,
   Image,
-  ResponsiveContext,
   Paragraph,
   Heading,
   Button,
   TextInput,
   Main,
+  Keyboard,
+  Grid,
 } from "grommet";
-import { SettingsOption } from "grommet-icons";
+import { Search, SettingsOption } from "grommet-icons";
 import styled from "styled-components";
+import Navigation from "../components/Navigation";
+import { defaultTheme } from "../theme";
 
 const StyledAnchor = styled(Anchor)`
   font-weight: 200;
 `;
-const theme = {
-  global: {
-    colors: {
-      brand: "#228BE6",
-    },
-    font: {
-      family: "Noto Sans KR",
-      size: "18px",
-      height: "20px",
-    },
-    panel: {
-      border: {
-        side: "horizontal",
-        size: "medium",
-        color: "#DADADA",
-        style: "dotted",
-      },
-    },
-  },
-};
 
 function App() {
   const [textInWrinting, setTextInWrinting] = useState("");
@@ -87,6 +68,7 @@ function App() {
 
     setVisibletryText(true);
     setVisibleIsCorrect(true);
+    setTextInWrinting("");
   };
 
   // 유저가 '정답보기' 버튼을 누른 경우
@@ -98,124 +80,130 @@ function App() {
 
   if (targetPractice) {
     return (
-      <Grommet theme={theme}>
-        <Header background="white" pad="medium" height="xsmall">
-          <Anchor href="https://tools.grommet.io/" label="영작연습소" />
-          <ResponsiveContext.Consumer>
-            {(size) =>
-              size === "small" ? (
-                <Box justify="end">
-                  <Menu
-                    a11yTitle="Navigation Menu"
-                    dropProps={{ align: { top: "bottom", right: "right" } }}
-                    icon={<SettingsOption color="brand" />}
-                    items={[
-                      {
-                        label: <Box pad="small">메뉴1</Box>,
-                        href: "#",
-                      },
-                      {
-                        label: <Box pad="small">메뉴2</Box>,
-                        href: "#",
-                      },
-                    ]}
-                  />
-                </Box>
-              ) : (
-                <Box justify="end" direction="row" gap="medium">
-                  <Anchor href="#" label="메뉴1" />
-                  <Anchor href="#" label="매뉴2" />
-                </Box>
-              )
-            }
-          </ResponsiveContext.Consumer>
-        </Header>
-
-        <Main pad="medium" flex direction="row">
-          <Box>
-            {/* 이미지  */}
-            {targetPractice.related_images ? (
+      <Grommet theme={defaultTheme}>
+        <Navigation />
+        <Main
+          pad="large"
+          align="center"
+          margin="0 auto"
+          height={{ min: "calc( 100vh - 144px)" }}
+        >
+          <Box tag="section">
+            <Grid columns={["1/2", "1/2"]}>
+              {/* 사진 섹션 */}
               <Box>
-                <Image src={targetPractice.related_images[0].link} />
+                {targetPractice.related_images ? (
+                  <Box
+                    background={{
+                      color: "lightgray",
+                      dark: true,
+                      image: `url(${targetPractice.related_images[0].link})`,
+                      repeat: "no-repeat",
+                      size: "cover",
+                      position: "center",
+                    }}
+                    width="large"
+                    height="medium"
+                  />
+                ) : null}
               </Box>
-            ) : null}
-          </Box>
-          <Box pad="small">
-            {/* 상황 설명 */}
-            <Paragraph>
-              {targetPractice.situation ? (
-                <Box
-                  style={{
-                    color: "gray",
-                    fontSize: "14px",
-                    whiteSpace: "pre",
-                    padding: "10px",
-                  }}
-                >
-                  {targetPractice.situation}
-                </Box>
-              ) : null}
-            </Paragraph>
-            <Heading>{targetPractice.korText}</Heading>
 
-            <Box>
-              <TextInput
-                placeholder="입력하기 ..."
-                id="english_input"
-                onChange={(e) => setTextInWrinting(e.target.value)}
-              />
-            </Box>
-            <Box>
-              {isCorrect || visibleAnswer ? (
-                <Button
-                  label="다음 문제"
-                  onClick={() => (window.location.href = `?index=${nextIndex}`)}
-                />
-              ) : (
-                <>
-                  <Box align="center" pad="medium">
+              {/* 문제 풀이 섹션 */}
+              <Box
+                pad="small"
+                background="#F1EAE5"
+                width="large"
+                height="medium"
+                flex
+                justify="center"
+              >
+                {targetPractice.situation ? (
+                  <Paragraph
+                    alignSelf="center"
+                    size="small"
+                    color={"#333333"}
+                    style={{ whiteSpace: "pre-line" }}
+                  >
+                    {targetPractice.situation}
+                  </Paragraph>
+                ) : null}
+
+                <Heading alignSelf="center" size="h3">
+                  {targetPractice.korText}
+                </Heading>
+
+                <Keyboard
+                  onEnter={() => compareAnswer(targetPractice, textInWrinting)}
+                >
+                  <TextInput
+                    reverse
+                    placeholder="입력하기 ..."
+                    id="english_input"
+                    icon={
+                      <Search
+                        onClick={() =>
+                          compareAnswer(targetPractice, textInWrinting)
+                        }
+                      />
+                    }
+                    onChange={(e) => setTextInWrinting(e.target.value)}
+                  />
+                </Keyboard>
+                <Box>
+                  {isCorrect || visibleAnswer ? (
                     <Button
-                      primary
-                      label={tryText ? "다시 도전!" : "정답 도전!"}
+                      label="다음 문제"
                       onClick={() =>
-                        compareAnswer(targetPractice, textInWrinting)
+                        (window.location.href = `?index=${nextIndex}`)
                       }
                     />
-                  </Box>
-
-                  {tryText ? (
-                    <Button
-                      primary
-                      label="정답보기"
-                      onClick={() => showAnswer(targetPractice)}
-                    />
-                  ) : null}
-                </>
-              )}
-            </Box>
-            {visibletryText ? <div>{tryText}</div> : null}
-            {visibleIsCorrect ? (
-              <>
-                <Box pad="small" gap="small">
-                  {isCorrect ? (
-                    <>맞았습니다!! 👏</>
                   ) : (
-                    <Box
-                      width="small"
-                      height={{ max: "small" }}
-                      background="linear-gradient(102.77deg, #865ED6 -9.18%, #18BAB9 209.09%)"
-                      round="small"
-                      align="center"
-                      justify="center"
-                      elevation="large"
-                      pad="small"
-                    >
-                      <Text>틀렸어요 😹</Text>
-                    </Box>
+                    <>
+                      <Box align="center" pad="medium">
+                        <Button
+                          primary
+                          label={tryText ? "다시 도전!" : "정답 도전!"}
+                          onClick={() =>
+                            compareAnswer(targetPractice, textInWrinting)
+                          }
+                        />
+                      </Box>
+
+                      {tryText ? (
+                        <Button
+                          primary
+                          label="정답보기"
+                          onClick={() => showAnswer(targetPractice)}
+                        />
+                      ) : null}
+                    </>
                   )}
                 </Box>
-              </>
-            ) : null}
+                {visibletryText ? <div>{tryText}</div> : null}
+                {visibleIsCorrect ? (
+                  <>
+                    <Box pad="small" gap="small">
+                      {isCorrect ? (
+                        <>맞았습니다!! 👏</>
+                      ) : (
+                        <Box
+                          width="small"
+                          height={{ max: "small" }}
+                          background="linear-gradient(102.77deg, #865ED6 -9.18%, #18BAB9 209.09%)"
+                          round="small"
+                          align="center"
+                          justify="center"
+                          elevation="large"
+                          pad="small"
+                        >
+                          <Text>틀렸어요 😹</Text>
+                        </Box>
+                      )}
+                    </Box>
+                  </>
+                ) : null}
+              </Box>
+            </Grid>
           </Box>
         </Main>
         {isCorrect || visibleAnswer ? (
@@ -281,29 +269,16 @@ function App() {
         ) : null}
 
         {/* footer: 사이트맵 */}
-        <Footer background="dark-1" pad="large">
-          <>
-            <Box gap="medium" key={0}>
-              <Text weight="bold" size="small">
-                {0}
-              </Text>
-              <Box>
-                {[1, 2, 3, 4].map((i) => (
-                  <FooterAnchor key={0}>name</FooterAnchor>
-                ))}
-              </Box>
-            </Box>
-          </>
-        </Footer>
+
         <Footer
           background="dark-2"
           pad={{ horizontal: "large", vertical: "small" }}
         >
           <Box direction="row" gap="small">
-            <Text alignSelf="center">grommet.io</Text>
+            <Text alignSelf="center">영작연습소</Text>
           </Box>
           <Text textAlign="center" size="small">
-            © 2019 Copyright
+            © 2021 Copyright
           </Text>
         </Footer>
       </Grommet>
