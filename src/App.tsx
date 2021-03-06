@@ -4,6 +4,41 @@ import practiceBundle from "./sample/practiceBundle.json";
 import queryString from "query-string";
 import { convertPlainText } from "./ManagerSentence";
 import { IPracticeBundle } from "./interface/IPracticeBundle";
+import {
+  Anchor,
+  Box,
+  Text,
+  Footer,
+  Grommet,
+  Header,
+  Menu,
+  Nav,
+  ResponsiveContext,
+  Paragraph,
+  Heading,
+} from "grommet";
+import { Download, SettingsOption } from "grommet-icons";
+
+const theme = {
+  global: {
+    colors: {
+      brand: "#228BE6",
+    },
+    font: {
+      family: "Noto Sans KR",
+      size: "18px",
+      height: "20px",
+    },
+    panel: {
+      border: {
+        side: "horizontal",
+        size: "medium",
+        color: "#DADADA",
+        style: "dotted",
+      },
+    },
+  },
+};
 
 function App() {
   const [textInWrinting, setTextInWrinting] = useState("");
@@ -57,153 +92,187 @@ function App() {
 
   if (targetPractice) {
     return (
-      <>
-        <nav>
-          <div>영작 연습소</div>
-        </nav>
-        <div className="App">
-          <header className="flex">
-            <article className="flex-center">
-              {/* 이미지  */}
-              {targetPractice.related_images ? (
-                <div>
-                  <img
-                    width="300"
-                    src={targetPractice.related_images[0].link}
+      <Grommet theme={theme}>
+        <Header background="light-4" pad="medium" height="xsmall">
+          <Anchor href="https://tools.grommet.io/" label="영작연습소" />
+          <ResponsiveContext.Consumer>
+            {(size) =>
+              size === "small" ? (
+                <Box justify="end">
+                  <Menu
+                    a11yTitle="Navigation Menu"
+                    dropProps={{ align: { top: "bottom", right: "right" } }}
+                    icon={<SettingsOption color="brand" />}
+                    items={[
+                      {
+                        label: <Box pad="small">메뉴1</Box>,
+                        href: "#",
+                      },
+                      {
+                        label: <Box pad="small">메뉴2</Box>,
+                        href: "#",
+                      },
+                    ]}
                   />
-                </div>
-              ) : null}
-            </article>
-            <article className="right-article flex-center">
-              {/* 상황 설명 */}
-              <div>
-                {targetPractice.situation ? (
-                  <div
-                    style={{
-                      color: "gray",
-                      fontSize: "14px",
-                      whiteSpace: "pre",
-                      padding: "10px",
-                    }}
-                  >
-                    {targetPractice.situation}
-                  </div>
-                ) : null}
-              </div>
-              <div>{targetPractice.korText}</div>
+                </Box>
+              ) : (
+                <Box justify="end" direction="row" gap="medium">
+                  <Anchor href="#" label="메뉴1" />
+                  <Anchor href="#" label="매뉴2" />
+                </Box>
+              )
+            }
+          </ResponsiveContext.Consumer>
+        </Header>
 
+        <Box
+          tag="header"
+          background="light-4"
+          pad="medium"
+          flex
+          direction="row"
+        >
+          <Box>
+            {/* 이미지  */}
+            {targetPractice.related_images ? (
               <div>
-                <input
-                  width="500"
-                  name="english_sentence"
-                  id="english_input"
-                  onChange={(e) => setTextInWrinting(e.target.value)}
-                />
+                <img src={targetPractice.related_images[0].link} />
               </div>
-              <div>
-                {isCorrect || visibleAnswer ? (
+            ) : null}
+          </Box>
+          <Box pad="small">
+            {/* 상황 설명 */}
+            <Paragraph>
+              {targetPractice.situation ? (
+                <Box
+                  style={{
+                    color: "gray",
+                    fontSize: "14px",
+                    whiteSpace: "pre",
+                    padding: "10px",
+                  }}
+                >
+                  {targetPractice.situation}
+                </Box>
+              ) : null}
+            </Paragraph>
+            <Heading>{targetPractice.korText}</Heading>
+
+            <Box>
+              <input
+                width="500"
+                name="english_sentence"
+                id="english_input"
+                onChange={(e) => setTextInWrinting(e.target.value)}
+              />
+            </Box>
+            <Box>
+              {isCorrect || visibleAnswer ? (
+                <button
+                  onClick={() => (window.location.href = `?index=${nextIndex}`)}
+                >
+                  다음 문제
+                </button>
+              ) : (
+                <>
                   <button
+                    className="btn-white"
                     onClick={() =>
-                      (window.location.href = `?index=${nextIndex}`)
+                      compareAnswer(targetPractice, textInWrinting)
                     }
                   >
-                    다음 문제
+                    {tryText ? "다시 도전!" : "정답 도전!"}
                   </button>
-                ) : (
-                  <>
+                  {tryText ? (
                     <button
                       className="btn-white"
-                      onClick={() =>
-                        compareAnswer(targetPractice, textInWrinting)
-                      }
+                      onClick={() => showAnswer(targetPractice)}
                     >
-                      {tryText ? "다시 도전!" : "정답 도전!"}
+                      정답보기
                     </button>
-                    {tryText ? (
-                      <button
-                        className="btn-white"
-                        onClick={() => showAnswer(targetPractice)}
-                      >
-                        정답보기
-                      </button>
-                    ) : null}
-                  </>
-                )}
-              </div>
-              {visibletryText ? <div>{tryText}</div> : null}
-              {visibleIsCorrect ? (
-                <>
-                  <div>
-                    {isCorrect ? <>맞았습니다!! 👏</> : <div>틀렸어요 😹</div>}
-                  </div>
-                  <div></div>
+                  ) : null}
                 </>
-              ) : null}
-            </article>
-          </header>
-          {isCorrect || visibleAnswer ? (
-            <>
-              <section className="flex">
-                <article>
-                  {/* 또 다른 표현 */}
-                  {targetPractice.enTexts.length > 1 ? (
-                    <div>
-                      <h3>또 다른 표현</h3>
-                      {targetPractice.enTexts.map((item, index) => {
-                        if (index > 0) {
-                          return <div>{item}</div>;
-                        }
-                      })}
-                    </div>
-                  ) : null}
-                </article>
-                <article>
-                  {/* 문제 해설 */}
-                  {targetPractice.helpGrammars ? (
-                    <div>
-                      {targetPractice.helpGrammars.map((item) => (
-                        <>
-                          <h3>{item.title}</h3>
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {item.description}
-                          </div>
-                        </>
-                      ))}
-                    </div>
-                  ) : null}
-                </article>
-              </section>
-            </>
-          ) : null}
-
-          {isCorrect || visibleAnswer ? (
-            <section>
-              {/* 영상 해설*/}
-              <article>
-                {targetPractice.helpVideos ? (
+              )}
+            </Box>
+            {visibletryText ? <div>{tryText}</div> : null}
+            {visibleIsCorrect ? (
+              <>
+                <div>
+                  {isCorrect ? <>맞았습니다!! 👏</> : <div>틀렸어요 😹</div>}
+                </div>
+                <div></div>
+              </>
+            ) : null}
+          </Box>
+        </Box>
+        {isCorrect || visibleAnswer ? (
+          <>
+            <Box tag="section" className="flex">
+              <Box>
+                {/* 또 다른 표현 */}
+                {targetPractice.enTexts.length > 1 ? (
                   <div>
-                    {targetPractice.helpVideos.map((item) => (
+                    <h3>또 다른 표현</h3>
+                    {targetPractice.enTexts.map((item, index) => {
+                      if (index > 0) {
+                        return <div>{item}</div>;
+                      }
+                    })}
+                  </div>
+                ) : null}
+              </Box>
+              <Box>
+                {/* 문제 해설 */}
+                {targetPractice.helpGrammars ? (
+                  <div>
+                    {targetPractice.helpGrammars.map((item) => (
                       <>
                         <h3>{item.title}</h3>
                         <div style={{ whiteSpace: "pre-line" }}>
-                          <iframe
-                            width="300"
-                            height="180"
-                            src={item.link}
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          ></iframe>
+                          {item.description}
                         </div>
                       </>
                     ))}
                   </div>
                 ) : null}
-              </article>
-            </section>
-          ) : null}
-        </div>
-      </>
+              </Box>
+            </Box>
+          </>
+        ) : null}
+
+        {isCorrect || visibleAnswer ? (
+          <Box tag="section">
+            {/* 영상 해설*/}
+            <Box>
+              {targetPractice.helpVideos ? (
+                <div>
+                  {targetPractice.helpVideos.map((item) => (
+                    <>
+                      <h3>{item.title}</h3>
+                      <div style={{ whiteSpace: "pre-line" }}>
+                        <iframe
+                          width="300"
+                          height="180"
+                          src={item.link}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    </>
+                  ))}
+                </div>
+              ) : null}
+            </Box>
+          </Box>
+        ) : null}
+
+        {/* footer: 사이트맵 */}
+        <Footer background="brand" pad="medium">
+          <Text>Copyright</Text>
+          <Anchor label="About" />
+        </Footer>
+      </Grommet>
     );
   } else {
     return (
