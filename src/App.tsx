@@ -12,13 +12,20 @@ import {
   Grommet,
   Header,
   Menu,
-  Nav,
+  Image,
   ResponsiveContext,
   Paragraph,
   Heading,
+  Button,
+  TextInput,
+  Main,
 } from "grommet";
 import { Download, SettingsOption } from "grommet-icons";
+import styled from "styled-components";
 
+const StyledAnchor = styled(Anchor)`
+  font-weight: 200;
+`;
 const theme = {
   global: {
     colors: {
@@ -93,7 +100,7 @@ function App() {
   if (targetPractice) {
     return (
       <Grommet theme={theme}>
-        <Header background="light-4" pad="medium" height="xsmall">
+        <Header background="white" pad="medium" height="xsmall">
           <Anchor href="https://tools.grommet.io/" label="영작연습소" />
           <ResponsiveContext.Consumer>
             {(size) =>
@@ -125,19 +132,13 @@ function App() {
           </ResponsiveContext.Consumer>
         </Header>
 
-        <Box
-          tag="header"
-          background="light-4"
-          pad="medium"
-          flex
-          direction="row"
-        >
+        <Main pad="medium" flex direction="row">
           <Box>
             {/* 이미지  */}
             {targetPractice.related_images ? (
-              <div>
-                <img src={targetPractice.related_images[0].link} />
-              </div>
+              <Box>
+                <Image src={targetPractice.related_images[0].link} />
+              </Box>
             ) : null}
           </Box>
           <Box pad="small">
@@ -159,37 +160,36 @@ function App() {
             <Heading>{targetPractice.korText}</Heading>
 
             <Box>
-              <input
-                width="500"
-                name="english_sentence"
+              <TextInput
+                placeholder="입력하기 ..."
                 id="english_input"
                 onChange={(e) => setTextInWrinting(e.target.value)}
               />
             </Box>
             <Box>
               {isCorrect || visibleAnswer ? (
-                <button
+                <Button
+                  label="다음 문제"
                   onClick={() => (window.location.href = `?index=${nextIndex}`)}
-                >
-                  다음 문제
-                </button>
+                />
               ) : (
                 <>
-                  <button
-                    className="btn-white"
-                    onClick={() =>
-                      compareAnswer(targetPractice, textInWrinting)
-                    }
-                  >
-                    {tryText ? "다시 도전!" : "정답 도전!"}
-                  </button>
+                  <Box align="center" pad="medium">
+                    <Button
+                      primary
+                      label={tryText ? "다시 도전!" : "정답 도전!"}
+                      onClick={() =>
+                        compareAnswer(targetPractice, textInWrinting)
+                      }
+                    />
+                  </Box>
+
                   {tryText ? (
-                    <button
-                      className="btn-white"
+                    <Button
+                      primary
+                      label="정답보기"
                       onClick={() => showAnswer(targetPractice)}
-                    >
-                      정답보기
-                    </button>
+                    />
                   ) : null}
                 </>
               )}
@@ -197,14 +197,28 @@ function App() {
             {visibletryText ? <div>{tryText}</div> : null}
             {visibleIsCorrect ? (
               <>
-                <div>
-                  {isCorrect ? <>맞았습니다!! 👏</> : <div>틀렸어요 😹</div>}
-                </div>
-                <div></div>
+                <Box pad="small" gap="small">
+                  {isCorrect ? (
+                    <>맞았습니다!! 👏</>
+                  ) : (
+                    <Box
+                      width="small"
+                      height={{ max: "small" }}
+                      background="linear-gradient(102.77deg, #865ED6 -9.18%, #18BAB9 209.09%)"
+                      round="small"
+                      align="center"
+                      justify="center"
+                      elevation="large"
+                      pad="small"
+                    >
+                      <Text>틀렸어요 😹</Text>
+                    </Box>
+                  )}
+                </Box>
               </>
             ) : null}
           </Box>
-        </Box>
+        </Main>
         {isCorrect || visibleAnswer ? (
           <>
             <Box tag="section" className="flex">
@@ -268,9 +282,30 @@ function App() {
         ) : null}
 
         {/* footer: 사이트맵 */}
-        <Footer background="brand" pad="medium">
-          <Text>Copyright</Text>
-          <Anchor label="About" />
+        <Footer background="dark-1" pad="large">
+          <>
+            <Box gap="medium" key={0}>
+              <Text weight="bold" size="small">
+                {0}
+              </Text>
+              <Box>
+                {[1, 2, 3, 4].map((i) => (
+                  <FooterAnchor key={0}>name</FooterAnchor>
+                ))}
+              </Box>
+            </Box>
+          </>
+        </Footer>
+        <Footer
+          background="dark-2"
+          pad={{ horizontal: "large", vertical: "small" }}
+        >
+          <Box direction="row" gap="small">
+            <Text alignSelf="center">grommet.io</Text>
+          </Box>
+          <Text textAlign="center" size="small">
+            © 2019 Copyright
+          </Text>
         </Footer>
       </Grommet>
     );
@@ -284,3 +319,7 @@ function App() {
 }
 
 export default App;
+
+const FooterAnchor = ({ ...rest }) => (
+  <StyledAnchor href="/" size="small" color="white" {...rest} />
+);
