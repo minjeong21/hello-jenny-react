@@ -18,7 +18,7 @@ export const CardColor = ({ practice, index }: IProps) => {
       key={"baba"}
       round={"0"}
       pad="small"
-      height=""
+      elevation="none"
     >
       <Box height="small" direction="row" justify="between">
         <Box>
@@ -61,11 +61,9 @@ export const CardColor = ({ practice, index }: IProps) => {
 
       <Box height="50px" direction="row" justify="between">
         <Box>
-          <Text size="small" weight="bold">
-            ✬✬✬
-          </Text>
+          <Text size="small">Level 1</Text>
         </Box>
-        <Text size="13px" weight="bold" color="#333333">
+        <Text size="13px" color="#333333">
           created by koo
         </Text>
       </Box>
