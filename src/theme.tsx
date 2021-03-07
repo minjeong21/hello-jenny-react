@@ -2,7 +2,7 @@ export const defaultTheme = {
   global: {
     colors: {
       brand: {
-        light: "#CD7B3D",
+        light: "#030303",
         dark: "#CD7B3D",
       },
       text: {

@@ -7,7 +7,6 @@ const Navigation = () => {
   return (
     <Grommet theme={defaultTheme}>
       <Header background="white" pad="medium" height="xsmall">
-        <Anchor href="/" label="영작연습소" color="#030303" />
         <ResponsiveContext.Consumer>
           {(size) =>
             size === "small" ? (
@@ -29,10 +28,18 @@ const Navigation = () => {
                 />
               </Box>
             ) : (
-              <Box justify="end" direction="row" gap="medium">
-                <Anchor href="#" label="랜덤 문제" />
-                <Anchor href="#" label="테마 문제" />
-              </Box>
+              <>
+                <Anchor
+                  href="/"
+                  label="영작연습소"
+                  color="#030303"
+                  className="font-gothic"
+                />
+                <Box justify="end" direction="row" gap="medium">
+                  <Anchor href="#" label="랜덤 문제" className="font-gothic" />
+                  <Anchor href="#" label="테마 문제" className="font-gothic" />
+                </Box>
+              </>
             )
           }
         </ResponsiveContext.Consumer>

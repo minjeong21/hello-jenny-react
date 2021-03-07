@@ -9,3 +9,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.font-gothic {
+  font-family: 'Noto Sans SC', source-code-pro, Menlo, Monaco, Consolas, 'Courier New' !important
+}

@@ -20,7 +20,7 @@ export const CardColor = ({ practice, index }: IProps) => {
       pad="small"
       elevation="none"
     >
-      <Box height="small" direction="row" justify="between">
+      <Box height="120px" direction="row" justify="between">
         <Box>
           <Text size="small" weight="normal" color="#333333">
             {practice.date}
@@ -47,14 +47,14 @@ export const CardColor = ({ practice, index }: IProps) => {
               size: "cover",
               position: "center",
             }}
-            width="80%"
-            height="medium"
+            width="90%"
+            height="300px"
           />
         </Box>
       ) : null}
 
-      <Box height="small" pad="medium" align="center">
-        <Text size="small" weight="bold">
+      <Box height="small" pad="18px" align="center">
+        <Text size="16px" weight="bold">
           {practice.korText}
         </Text>
       </Box>
