@@ -1,9 +1,9 @@
 [
     {
         "situation": "썸씽을 타는 중인 두 사람...",
-        "date": "2021-03-07",
+        "date": "07 March 2021",
         "type": [
-            "영화"
+            "Movie"
         ],
         "related_images": [
             {
@@ -16,7 +16,7 @@
         ],
         "related_videos": [
             {
-                "title": "American Psycho 영화의 한 장면",
+                "title": "American Psycho Movie의 한 장면",
                 "link": "https://www.youtube.com/embed/7PphbSFZWuU"
             }
         ]
@@ -24,9 +24,9 @@
     {
         "situation": "썸씽을 타는 두 남녀..",
         "type": [
-            "영화"
+            "Movie"
         ],
-        "date": "2021-03-07",
+        "date": "07 March 2021",
         "related_images": [
             {
                 "link": "https://scontent-gmp1-1.xx.fbcdn.net/v/t1.0-0/p526x395/155486103_5130629493675516_835247651111404202_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=730e14&_nc_ohc=JnBcYV34ulwAX_jqr5d&_nc_ht=scontent-gmp1-1.xx&tp=6&oh=396efc97f191a2786e51aeb239cb508d&oe=606B3C79"
@@ -43,7 +43,7 @@
         ],
         "related_videos": [
             {
-                "title": "American Psycho 영화의 한 장면",
+                "title": "American Psycho Movie의 한 장면",
                 "link": "https://www.youtube.com/embed/7PphbSFZWuU"
             }
         ]
@@ -51,7 +51,7 @@
     {
         "situation": "딸의 남친에게 인사하는 아빠",
         "type": [
-            "광고"
+            "Advertise"
         ],
         "date": "2021-03-07",
         "related_images": [
@@ -71,7 +71,7 @@
         ],
         "related_videos": [
             {
-                "title": "현대차 수퍼볼 광고",
+                "title": "현대차 수퍼볼 Advertise",
                 "link": "https://www.youtube.com/watch?v=KwUUdl22mkA"
             }
         ]
@@ -79,7 +79,7 @@
     {
         "situation": "젊은 CEO는 새로 오는 사장때문에 걱정이 많다",
         "type": [
-            "광고"
+            "Advertise"
         ],
         "date": "2021-03-06",
         "related_images": [
@@ -107,7 +107,7 @@
     {
         "situation": "친구들이랑 놀고 있다가 시간이 늦었어요. \n당신은 친구들에게 이렇게 말해야합니다.",
         "type": [
-            "유투브"
+            "Youtube"
         ],
         "date": "2021-03-06",
         "related_images": [
@@ -138,7 +138,7 @@
     {
         "situation": "친구랑 통화중인 당신, 내일은 휴가를 쓴 행복한 날입니다. 친구가 묻습니다. \"내일 출근하지?\" ",
         "type": [
-            "유투브"
+            "Youtube"
         ],
         "date": "2021-03-06",
         "related_images": [
@@ -168,7 +168,7 @@
     {
         "situation": "젊은 CEO는 새로 오는 사장때문에 걱정이 많다",
         "type": [
-            "영화"
+            "Movie"
         ],
         "date": "2021-03-06",
         "related_images": [
@@ -196,7 +196,7 @@
     {
         "situation": "친구들이랑 놀고 있다가 시간이 늦었어요. \n당신은 친구들에게 이렇게 말해야합니다.",
         "type": [
-            "유투브"
+            "Youtube"
         ],
         "date": "2021-03-06",
         "related_images": [
@@ -227,7 +227,7 @@
     {
         "situation": "친구랑 통화중인 당신, 내일은 휴가를 쓴 행복한 날입니다. 친구가 묻습니다. \"내일 출근하지?\" ",
         "type": [
-            "유투브"
+            "Youtube"
         ],
         "date": "2021-03-06",
         "related_images": [
