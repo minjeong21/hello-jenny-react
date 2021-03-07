@@ -1,6 +1,87 @@
 [
     {
+        "situation": "썸씽을 타는 중인 두 사람...",
+        "date": "2021-03-07",
+        "type": [
+            "영화"
+        ],
+        "related_images": [
+            {
+                "link": "https://scontent-gmp1-1.xx.fbcdn.net/v/t1.0-9/155451795_5130611877010611_6126733665966823775_n.jpg?_nc_cat=101&ccb=1-3&_nc_sid=730e14&_nc_ohc=rzM2mQ8vDMwAX9uxJvM&_nc_ht=scontent-gmp1-1.xx&oh=f85712ac2288507030bf79d094eb7d3a&oe=6068C964"
+            }
+        ],
+        "korText": "멋져 보이세요.",
+        "enTexts": [
+            "You look great."
+        ],
+        "related_videos": [
+            {
+                "title": "American Psycho 영화의 한 장면",
+                "link": "https://www.youtube.com/embed/7PphbSFZWuU"
+            }
+        ]
+    },
+    {
+        "situation": "썸씽을 타는 두 남녀..",
+        "type": [
+            "영화"
+        ],
+        "date": "2021-03-07",
+        "related_images": [
+            {
+                "link": "https://scontent-gmp1-1.xx.fbcdn.net/v/t1.0-0/p526x395/155486103_5130629493675516_835247651111404202_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=730e14&_nc_ohc=JnBcYV34ulwAX_jqr5d&_nc_ht=scontent-gmp1-1.xx&tp=6&oh=396efc97f191a2786e51aeb239cb508d&oe=606B3C79"
+            }
+        ],
+        "korText": "언제나 더 날씬질 수는 있어요.",
+        "enTexts": [
+            "You can always be thinner."
+        ],
+        "helpGrammars": [
+            {
+                "description": "thin: 날씬한"
+            }
+        ],
+        "related_videos": [
+            {
+                "title": "American Psycho 영화의 한 장면",
+                "link": "https://www.youtube.com/embed/7PphbSFZWuU"
+            }
+        ]
+    },
+    {
+        "situation": "딸의 남친에게 인사하는 아빠",
+        "type": [
+            "광고"
+        ],
+        "date": "2021-03-07",
+        "related_images": [
+            {
+                "link": "https://scontent-gmp1-1.xx.fbcdn.net/v/t1.0-0/s600x600/158363727_5130643300340802_6276585376639854651_n.jpg?_nc_cat=104&ccb=1-3&_nc_sid=730e14&_nc_ohc=ak24z0PlVKMAX-2FSeC&_nc_ht=scontent-gmp1-1.xx&tp=7&oh=da49cd77971f7dc925b1b326fc83a7fa&oe=6069A449"
+            }
+        ],
+        "korText": "내 새 차 가져가지 않을래?",
+        "enTexts": [
+            "Why don't you go ahead and take my new car."
+        ],
+        "helpGrammars": [
+            {
+                "title": "why don't you",
+                "description": "Why don't we \"~하는 게 어때?\" 제안하는 영어표현"
+            }
+        ],
+        "related_videos": [
+            {
+                "title": "현대차 수퍼볼 광고",
+                "link": "https://www.youtube.com/watch?v=KwUUdl22mkA"
+            }
+        ]
+    },
+    {
         "situation": "젊은 CEO는 새로 오는 사장때문에 걱정이 많다",
+        "type": [
+            "광고"
+        ],
+        "date": "2021-03-06",
         "related_images": [
             {
                 "link": "https://scontent-gmp1-1.xx.fbcdn.net/v/t1.0-9/156755583_5125765847495214_4707128912589550005_n.jpg?_nc_cat=110&ccb=1-3&_nc_sid=730e14&_nc_ohc=HLlbeW15-EoAX-D1eal&_nc_oc=AQm8J3iR2mjl8fBFhrxMtXcUD_valf91_MxuNsMK9Fh9HUyirPe9hI0qrcI6_doeVpc&_nc_ht=scontent-gmp1-1.xx&oh=b90a39e7859ce93c59751926f1a3b498&oe=60674C24"
@@ -16,84 +97,7 @@
                 "description": "be off: 붙었던 게 떨어진 것.\n일터에서 떨어져 있는다. = 쉬다!"
             }
         ],
-        "helpVideos": [
-            {
-                "title": "be off 설명",
-                "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
-            }
-        ]
-    },
-    {
-        "situation": "친구들이랑 놀고 있다가 시간이 늦었어요. \n당신은 친구들에게 집에 간다고 말해야 합니다",
-        "related_images": [
-            {
-                "link": "https://www.theplunge.com/wp-content/uploads/2018/06/first-year-of-marriage-who-do-you-hang-out-with-more-HEADER.jpg"
-            }
-        ],
-        "korText": "나 갈께.",
-        "enTexts": [
-            "I gotta go.",
-            "I’m leaving now.",
-            "I’m going.",
-            "I’m off."
-        ],
-        "helpGrammars": [
-            {
-                "title": "be off",
-                "description": "be off: 붙었던 게 떨어진 것.\n일터에서 떨어져 있는다. = 쉬다!"
-            }
-        ],
-        "helpVideos": [
-            {
-                "title": "be off 설명",
-                "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
-            }
-        ]
-    },
-    {
-        "situation": "친구랑 통화중인 당신, 내일은 휴가를 쓴 행복한 날입니다. 친구가 묻습니다. \"내일 출근하지?\" ",
-        "related_images": [
-            {
-                "link": "https://images.unsplash.com/photo-1598257006458-087169a1f08d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-            }
-        ],
-        "korText": "나 내일 쉬어",
-        "enTexts": [
-            "I’m off tomorrow.",
-            "I am off tomorrow.",
-            "tomorrw off."
-        ],
-        "helpGrammars": [
-            {
-                "title": "be off",
-                "description": "be off: 붙었던 게 떨어진 것.\n일터에서 떨어져 있는다. = 쉬다!"
-            }
-        ],
-        "helpVideos": [
-            {
-                "title": "be off 설명",
-                "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
-            }
-        ]
-    },
-    {
-        "situation": "젊은 CEO는 새로 오는 사장때문에 걱정이 많다",
-        "related_images": [
-            {
-                "link": "https://scontent-gmp1-1.xx.fbcdn.net/v/t1.0-9/156755583_5125765847495214_4707128912589550005_n.jpg?_nc_cat=110&ccb=1-3&_nc_sid=730e14&_nc_ohc=HLlbeW15-EoAX-D1eal&_nc_oc=AQm8J3iR2mjl8fBFhrxMtXcUD_valf91_MxuNsMK9Fh9HUyirPe9hI0qrcI6_doeVpc&_nc_ht=scontent-gmp1-1.xx&oh=b90a39e7859ce93c59751926f1a3b498&oe=60674C24"
-            }
-        ],
-        "korText": "곰곰히 생각했어요(하룻밤 생각해봤어요)",
-        "enTexts": [
-            "I slept on it."
-        ],
-        "helpGrammars": [
-            {
-                "title": "be off",
-                "description": "be off: 붙었던 게 떨어진 것.\n일터에서 떨어져 있는다. = 쉬다!"
-            }
-        ],
-        "helpVideos": [
+        "related_videos": [
             {
                 "title": "be off 설명",
                 "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
@@ -102,6 +106,10 @@
     },
     {
         "situation": "친구들이랑 놀고 있다가 시간이 늦었어요. \n당신은 친구들에게 이렇게 말해야합니다.",
+        "type": [
+            "유투브"
+        ],
+        "date": "2021-03-06",
         "related_images": [
             {
                 "link": "https://www.theplunge.com/wp-content/uploads/2018/06/first-year-of-marriage-who-do-you-hang-out-with-more-HEADER.jpg"
@@ -120,7 +128,7 @@
                 "description": "be off: 붙었던 게 떨어진 것.\n일터에서 떨어져 있는다. = 쉬다!"
             }
         ],
-        "helpVideos": [
+        "related_videos": [
             {
                 "title": "be off 설명",
                 "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
@@ -129,6 +137,10 @@
     },
     {
         "situation": "친구랑 통화중인 당신, 내일은 휴가를 쓴 행복한 날입니다. 친구가 묻습니다. \"내일 출근하지?\" ",
+        "type": [
+            "유투브"
+        ],
+        "date": "2021-03-06",
         "related_images": [
             {
                 "link": "https://images.unsplash.com/photo-1598257006458-087169a1f08d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
@@ -146,7 +158,7 @@
                 "description": "be off: 붙었던 게 떨어진 것.\n일터에서 떨어져 있는다. = 쉬다!"
             }
         ],
-        "helpVideos": [
+        "related_videos": [
             {
                 "title": "be off 설명",
                 "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
@@ -155,6 +167,10 @@
     },
     {
         "situation": "젊은 CEO는 새로 오는 사장때문에 걱정이 많다",
+        "type": [
+            "영화"
+        ],
+        "date": "2021-03-06",
         "related_images": [
             {
                 "link": "https://scontent-gmp1-1.xx.fbcdn.net/v/t1.0-9/156755583_5125765847495214_4707128912589550005_n.jpg?_nc_cat=110&ccb=1-3&_nc_sid=730e14&_nc_ohc=HLlbeW15-EoAX-D1eal&_nc_oc=AQm8J3iR2mjl8fBFhrxMtXcUD_valf91_MxuNsMK9Fh9HUyirPe9hI0qrcI6_doeVpc&_nc_ht=scontent-gmp1-1.xx&oh=b90a39e7859ce93c59751926f1a3b498&oe=60674C24"
@@ -170,7 +186,7 @@
                 "description": "be off: 붙었던 게 떨어진 것.\n일터에서 떨어져 있는다. = 쉬다!"
             }
         ],
-        "helpVideos": [
+        "related_videos": [
             {
                 "title": "be off 설명",
                 "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
@@ -179,6 +195,10 @@
     },
     {
         "situation": "친구들이랑 놀고 있다가 시간이 늦었어요. \n당신은 친구들에게 이렇게 말해야합니다.",
+        "type": [
+            "유투브"
+        ],
+        "date": "2021-03-06",
         "related_images": [
             {
                 "link": "https://www.theplunge.com/wp-content/uploads/2018/06/first-year-of-marriage-who-do-you-hang-out-with-more-HEADER.jpg"
@@ -197,7 +217,7 @@
                 "description": "be off: 붙었던 게 떨어진 것.\n일터에서 떨어져 있는다. = 쉬다!"
             }
         ],
-        "helpVideos": [
+        "related_videos": [
             {
                 "title": "be off 설명",
                 "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
@@ -206,6 +226,10 @@
     },
     {
         "situation": "친구랑 통화중인 당신, 내일은 휴가를 쓴 행복한 날입니다. 친구가 묻습니다. \"내일 출근하지?\" ",
+        "type": [
+            "유투브"
+        ],
+        "date": "2021-03-06",
         "related_images": [
             {
                 "link": "https://images.unsplash.com/photo-1598257006458-087169a1f08d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
@@ -223,7 +247,7 @@
                 "description": "be off: 붙었던 게 떨어진 것.\n일터에서 떨어져 있는다. = 쉬다!"
             }
         ],
-        "helpVideos": [
+        "related_videos": [
             {
                 "title": "be off 설명",
                 "link": "https://www.youtube.com/embed/Q3cN-ufLtvs?start=146"
