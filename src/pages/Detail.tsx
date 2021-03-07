@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import practiceBundle from "../sample/practiceBundle.json";
 import queryString from "query-string";
 import { convertPlainText } from "../ManagerSentence";
-import { IPracticeBundle } from "../interface/IPracticeBundle";
+import { IPractice } from "../interface/IPractice";
 import {
   Anchor,
   Box,
@@ -34,7 +34,7 @@ function App() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [visibleAnswer, setVisibleAnswer] = useState(false);
   const [visibleIsCorrect, setVisibleIsCorrect] = useState(false);
-  const [targetPractice, setTargetPractice] = useState<IPracticeBundle>();
+  const [targetPractice, setTargetPractice] = useState<IPractice>();
   const [nextIndex, setNextIndex] = useState(0);
 
   useEffect(() => {
@@ -53,10 +53,7 @@ function App() {
     setNextIndex(nextIndex);
   }, []);
 
-  const compareAnswer = (
-    targetPractice: IPracticeBundle,
-    textInWrinting: string
-  ) => {
+  const compareAnswer = (targetPractice: IPractice, textInWrinting: string) => {
     const correctPlainText = convertPlainText(targetPractice.enTexts[0]);
     const tryPlainText = convertPlainText(textInWrinting);
     if (correctPlainText === tryPlainText) {
@@ -72,7 +69,7 @@ function App() {
   };
 
   // 유저가 '정답보기' 버튼을 누른 경우
-  const showAnswer = (targetPractice: IPracticeBundle) => {
+  const showAnswer = (targetPractice: IPractice) => {
     setVisibleIsCorrect(false);
     setVisibleAnswer(true);
     setTryText(targetPractice.enTexts[0]);
@@ -245,9 +242,9 @@ function App() {
           <Box tag="section">
             {/* 영상 해설*/}
             <Box>
-              {targetPractice.helpVideos ? (
+              {targetPractice.related_videos ? (
                 <div>
-                  {targetPractice.helpVideos.map((item) => (
+                  {targetPractice.related_videos.map((item) => (
                     <>
                       <h3>{item.title}</h3>
                       <div style={{ whiteSpace: "pre-line" }}>
