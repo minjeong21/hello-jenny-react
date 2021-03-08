@@ -54,18 +54,20 @@ function App() {
   }, []);
 
   const compareAnswer = (targetPractice: IPractice, textInWrinting: string) => {
+    console.log(isCorrect, visibleAnswer, visibletryText, tryText);
     const correctPlainText = convertPlainText(targetPractice.enTexts[0]);
     const tryPlainText = convertPlainText(textInWrinting);
     if (correctPlainText === tryPlainText) {
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
+      const element: any = document.getElementById("english_input");
+      element.value = "";
     }
     setTryText(textInWrinting);
-
     setVisibletryText(true);
     setVisibleIsCorrect(true);
-    setTextInWrinting("");
+    // setTextInWrinting("");
   };
 
   // 유저가 '정답보기' 버튼을 누른 경우
@@ -85,7 +87,7 @@ function App() {
           margin="0 auto"
           height={{ min: "calc( 100vh - 144px)" }}
         >
-          <Box tag="section">
+          <Box tag="section" id="section-1">
             <Grid columns={["1/2", "1/2"]}>
               {/* 사진 섹션 */}
               <Box>
@@ -100,17 +102,16 @@ function App() {
                       position: "center",
                     }}
                     width="large"
-                    height="medium"
+                    height="100%"
                   />
                 ) : null}
               </Box>
 
               {/* 문제 풀이 섹션 */}
               <Box
-                pad="small"
+                pad="medium"
                 background="#F1EAE5"
                 width="large"
-                height="medium"
                 flex
                 justify="center"
               >
@@ -125,8 +126,8 @@ function App() {
                   </Paragraph>
                 ) : null}
 
-                <Heading alignSelf="center" size="h3">
-                  {targetPractice.korText}
+                <Heading alignSelf="center" size="h3" color="#3849a8">
+                  {targetPractice.kor_text}
                 </Heading>
 
                 <Keyboard
@@ -146,9 +147,36 @@ function App() {
                     onChange={(e) => setTextInWrinting(e.target.value)}
                   />
                 </Keyboard>
-                <Box>
+                {/* {visibletryText ? <div>{tryText}</div> : null} */}
+
+                <CorrectBox
+                  visibleIsCorrect={visibleIsCorrect}
+                  isCorrect={isCorrect}
+                  tryText={tryText}
+                />
+                {/* 유저가 정답보기 버튼을 눌렸을 때 보여주는 부분 */}
+                {/* <Box>
+                  {visibleAnswer && !isCorrect ? (
+                    <Box>
+                      <Box pad={{ top: "14px", bottom: "14px" }}>
+                        <Text weight="bold">이렇게 표현할 수 있어요.</Text>
+                      </Box>
+                      {targetPractice.enTexts.length > 1 ? (
+                        <Box>
+                          {targetPractice.enTexts.map((item, index) => {
+                            return <div>{item}</div>;
+                          })}
+                        </Box>
+                      ) : null}
+                    </Box>
+                  ) : null}
+                </Box> */}
+
+                <Box pad="small" margin={{ top: "14px", bottom: "small" }}>
+                  {/* 다음 문장 버튼 */}
                   {isCorrect || visibleAnswer ? (
                     <Button
+                      primary
                       label="다음 문제"
                       onClick={() =>
                         (window.location.href = `?index=${nextIndex}`)
@@ -156,115 +184,178 @@ function App() {
                     />
                   ) : (
                     <>
-                      <Box align="center" pad="medium">
-                        <Button
-                          primary
-                          label={tryText ? "다시 도전!" : "정답 도전!"}
-                          onClick={() =>
-                            compareAnswer(targetPractice, textInWrinting)
-                          }
-                        />
-                      </Box>
-
+                      {/* 유저가 도전 버튼을 눌렀으면? */}
                       {tryText ? (
-                        <Button
-                          primary
-                          label="정답보기"
-                          onClick={() => showAnswer(targetPractice)}
-                        />
-                      ) : null}
+                        <Box
+                          align="center"
+                          pad="medium"
+                          flex
+                          direction="row"
+                          justify="around"
+                        >
+                          <Button
+                            primary
+                            label={"다시 도전!"}
+                            onClick={() =>
+                              compareAnswer(targetPractice, textInWrinting)
+                            }
+                          />
+                          <Button
+                            primary
+                            label="정답보기"
+                            onClick={() => showAnswer(targetPractice)}
+                          />
+                        </Box>
+                      ) : (
+                        <Box align="center" pad="medium" flex direction="row">
+                          <Button
+                            margin="0 auto"
+                            primary
+                            label={"정답 도전!"}
+                            onClick={() =>
+                              compareAnswer(targetPractice, textInWrinting)
+                            }
+                          />
+                        </Box>
+                      )}
                     </>
                   )}
                 </Box>
-                {visibletryText ? <div>{tryText}</div> : null}
-                {visibleIsCorrect ? (
-                  <>
-                    <Box pad="small" gap="small">
-                      {isCorrect ? (
-                        <>맞았습니다!! 👏</>
-                      ) : (
-                        <Box
-                          width="small"
-                          height={{ max: "small" }}
-                          background="linear-gradient(102.77deg, #865ED6 -9.18%, #18BAB9 209.09%)"
-                          round="small"
-                          align="center"
-                          justify="center"
-                          elevation="large"
-                          pad="small"
-                        >
-                          <Text>틀렸어요 😹</Text>
-                        </Box>
-                      )}
-                    </Box>
-                  </>
-                ) : null}
               </Box>
             </Grid>
           </Box>
-        </Main>
-        {isCorrect || visibleAnswer ? (
-          <>
-            <Box tag="section" className="flex">
-              <Box>
-                {/* 또 다른 표현 */}
-                {targetPractice.enTexts.length > 1 ? (
-                  <div>
-                    <h3>또 다른 표현</h3>
-                    {targetPractice.enTexts.map((item, index) => {
-                      if (index > 0) {
-                        return <div>{item}</div>;
-                      }
-                    })}
-                  </div>
-                ) : null}
-              </Box>
-              <Box>
-                {/* 문제 해설 */}
-                {targetPractice.helpGrammars ? (
-                  <div>
-                    {targetPractice.helpGrammars.map((item) => (
-                      <>
-                        <h3>{item.title}</h3>
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {item.description}
-                        </div>
-                      </>
-                    ))}
-                  </div>
-                ) : null}
-              </Box>
-            </Box>
-          </>
-        ) : null}
-
-        {isCorrect || visibleAnswer ? (
-          <Box tag="section">
-            {/* 영상 해설*/}
-            <Box>
-              {targetPractice.related_videos ? (
-                <div>
-                  {targetPractice.related_videos.map((item) => (
+          <Box margin="medium" />
+          {visibleAnswer || isCorrect ? (
+            <Box tag="section" id="section-2">
+              <Grid columns={["1/2", "1/2"]}>
+                <Box
+                  tag="article"
+                  width="large"
+                  background="#F1EAE5"
+                  pad="medium"
+                >
+                  {isCorrect || visibleAnswer ? (
                     <>
-                      <h3>{item.title}</h3>
-                      <div style={{ whiteSpace: "pre-line" }}>
-                        <iframe
-                          width="300"
-                          height="180"
-                          src={item.link}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
-                      </div>
-                    </>
-                  ))}
-                </div>
-              ) : null}
-            </Box>
-          </Box>
-        ) : null}
+                      <Box tag="section" className="flex">
+                        {isCorrect ? (
+                          <Box pad={{ bottom: "medium" }}>
+                            {/* 또 다른 표현 */}
+                            {targetPractice.enTexts.length > 1 ? (
+                              <Box>
+                                <Box pad={{ bottom: "small" }}>
+                                  <Text weight="bold">
+                                    ⭐️&nbsp;&nbsp;또 다르게 표현할 수 있어요
+                                  </Text>
+                                </Box>
+                                {targetPractice.enTexts.map((item, index) => {
+                                  return (
+                                    <Box
+                                      pad={{ left: "7px", bottom: "7px" }}
+                                      key={index}
+                                    >
+                                      <Text>{item}</Text>
+                                    </Box>
+                                  );
+                                })}
+                              </Box>
+                            ) : null}
+                          </Box>
+                        ) : (
+                          <Box pad={{ bottom: "medium" }}>
+                            {/* 또 다른 표현 */}
+                            {targetPractice.enTexts.length > 0 ? (
+                              <Box>
+                                <Box pad={{ bottom: "small" }}>
+                                  <Text weight="bold">
+                                    ⭐️&nbsp;&nbsp;정답! 이렇게 표현할 수
+                                    있어요.
+                                  </Text>
+                                </Box>
+                                {targetPractice.enTexts.map((item, index) => {
+                                  return (
+                                    <Box
+                                      pad={{ left: "7px", bottom: "7px" }}
+                                      key={index}
+                                    >
+                                      <Text>{item}</Text>
+                                    </Box>
+                                  );
+                                })}
+                              </Box>
+                            ) : null}
+                          </Box>
+                        )}
 
+                        <Box>
+                          {/* 문제 해설 */}
+                          {targetPractice.related_descriptions ? (
+                            <div>
+                              {targetPractice.related_descriptions.map(
+                                (item) => (
+                                  <Box>
+                                    <Box pad={{ bottom: "small" }}>
+                                      <Text weight="bold">
+                                        📗&nbsp;&nbsp;{item.title}
+                                      </Text>
+                                    </Box>
+                                    <Box pad={{ left: "7px", bottom: "7px" }}>
+                                      <Text style={{ whiteSpace: "pre-line" }}>
+                                        {item.description}
+                                      </Text>
+                                    </Box>
+                                  </Box>
+                                )
+                              )}
+                            </div>
+                          ) : null}
+                        </Box>
+                      </Box>
+                    </>
+                  ) : null}
+                </Box>
+                <Box
+                  tag="article"
+                  width="large"
+                  background="linear-gradient(to bottom,#BFD0E6,#e8f2ff)"
+                  pad="small"
+                >
+                  {isCorrect || visibleAnswer ? (
+                    <Box tag="section">
+                      {/* 영상 해설*/}
+                      <Box>
+                        {targetPractice.related_videos ? (
+                          <div>
+                            {targetPractice.related_videos.map((item) => (
+                              <Box pad="small">
+                                <Box pad={{ bottom: "small" }}>
+                                  <Text weight="bold">
+                                    🎥&nbsp;&nbsp;{item.title}
+                                  </Text>
+                                </Box>
+                                <Box pad="medium">
+                                  <div className="video-container">
+                                    <iframe
+                                      width="560"
+                                      height="315"
+                                      src={item.link}
+                                      frameBorder="0"
+                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                      allowFullScreen
+                                    ></iframe>
+                                  </div>
+                                </Box>
+                              </Box>
+                            ))}
+                          </div>
+                        ) : null}
+                      </Box>
+                    </Box>
+                  ) : null}
+                </Box>
+              </Grid>
+            </Box>
+          ) : null}
+        </Main>
         {/* footer: 사이트맵 */}
 
         <Footer
@@ -294,3 +385,40 @@ export default App;
 const FooterAnchor = ({ ...rest }) => (
   <StyledAnchor href="/" size="small" color="white" {...rest} />
 );
+
+const CorrectBox = ({
+  visibleIsCorrect,
+  isCorrect,
+  tryText,
+}: {
+  visibleIsCorrect: boolean;
+  isCorrect: boolean;
+  tryText: string;
+}) => {
+  return (
+    <>
+      {visibleIsCorrect ? (
+        <>
+          <Box gap="small" pad={{ top: "medium" }}>
+            {isCorrect ? (
+              <>맞았습니다!! 👏</>
+            ) : (
+              <Box height={{ max: "small" }} round="small" justify="center">
+                <Box pad={{ bottom: "medium" }} direction="row">
+                  <Text>도전 문장 👉🏻 &nbsp;&nbsp;</Text>
+                  <Text weight="bold"> {tryText}</Text>
+                </Box>
+
+                <Box align="center">
+                  <Text weight="bold" color="#4b2491">
+                    아쉬워요. 다시 도전해주세요! 💪
+                  </Text>
+                </Box>
+              </Box>
+            )}
+          </Box>
+        </>
+      ) : null}
+    </>
+  );
+};
