@@ -55,7 +55,7 @@ export const CardColor = ({ practice, index }: IProps) => {
 
       <Box height="small" pad="18px" align="center">
         <Text size="16px" weight="bold">
-          {practice.korText}
+          {practice.kor_text}
         </Text>
       </Box>
 

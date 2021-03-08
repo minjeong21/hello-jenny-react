@@ -20,7 +20,7 @@ export const CardSimple = ({ practice, index }: IProps) => {
     >
       <Box>
         <Text size="small" weight="bold">
-          {practice.korText}
+          {practice.kor_text}
         </Text>
       </Box>
 
