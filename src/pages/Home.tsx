@@ -9,12 +9,42 @@ const Home = () => {
   return (
     <Grommet theme={defaultTheme}>
       <Navigation />
-      <Main align="stretch" pad="small">
-        <Grid rows="medium" columns={{ count: "fit", size: "25%" }}>
-          {practiceBundle.map((item, index) => (
-            <CardColor practice={item} index={index} />
-          ))}
-        </Grid>
+      <Main
+        align="stretch"
+        pad="medium"
+        width={{ max: "1360px" }}
+        margin="0 auto"
+      >
+        <ResponsiveContext.Consumer>
+          {(size) => {
+            console.log(size);
+            if (size === "small") {
+              return (
+                <Grid rows="medium" columns={{ count: "fit", size: "100%" }}>
+                  {practiceBundle.map((item, index) => (
+                    <CardColor practice={item} index={index} />
+                  ))}
+                </Grid>
+              );
+            } else if (size === "medium") {
+              return (
+                <Grid rows="medium" columns={{ count: "fit", size: "25%" }}>
+                  {practiceBundle.map((item, index) => (
+                    <CardColor practice={item} index={index} />
+                  ))}
+                </Grid>
+              );
+            } else {
+              return (
+                <Grid rows="medium" columns={{ count: "fit", size: "20%" }}>
+                  {practiceBundle.map((item, index) => (
+                    <CardColor practice={item} index={index} />
+                  ))}
+                </Grid>
+              );
+            }
+          }}
+        </ResponsiveContext.Consumer>
       </Main>
     </Grommet>
   );
