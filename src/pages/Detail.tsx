@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import practiceBundle from "../sample/practiceBundle.json";
 import queryString from "query-string";
-import { convertPlainText } from "../ManagerSentence";
+import {
+  compareAnswer,
+  convertPlainText,
+  getMatchedWordPercent,
+} from "../ManagerSentence";
 import { IPractice } from "../interface/IPractice";
 import {
   Anchor,
@@ -18,7 +22,7 @@ import {
   Keyboard,
   Grid,
 } from "grommet";
-import { Search, SettingsOption } from "grommet-icons";
+import { Play } from "grommet-icons";
 import styled from "styled-components";
 import Navigation from "../components/Navigation";
 import { defaultTheme } from "../theme";
@@ -34,8 +38,10 @@ function App() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [visibleAnswer, setVisibleAnswer] = useState(false);
   const [visibleIsCorrect, setVisibleIsCorrect] = useState(false);
+  const [hintNumber, setHintNumber] = useState(0);
   const [targetPractice, setTargetPractice] = useState<IPractice>();
   const [nextIndex, setNextIndex] = useState(0);
+  const [matchedPercent, setMatchedPercent] = useState(0);
 
   useEffect(() => {
     const parsed = queryString.parse(window.location.search);
@@ -53,28 +59,46 @@ function App() {
     setNextIndex(nextIndex);
   }, []);
 
-  const compareAnswer = (targetPractice: IPractice, textInWrinting: string) => {
-    console.log(isCorrect, visibleAnswer, visibletryText, tryText);
-    const correctPlainText = convertPlainText(targetPractice.enTexts[0]);
-    const tryPlainText = convertPlainText(textInWrinting);
-    if (correctPlainText === tryPlainText) {
-      setIsCorrect(true);
+  /** 도전하기 버튼 클릭 Event*/
+  const clickChallengeButton = (
+    targetPractice: IPractice,
+    textInWrinting: string
+  ) => {
+    const result = compareAnswer(targetPractice.english_texts, textInWrinting);
+
+    setIsCorrect(result.isCorrect);
+    const element: any = document.getElementById("english_input");
+    if (result.isCorrect) {
+      // 맞았을 때
+      element.setAttribute("readonly", true);
+      element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
     } else {
-      setIsCorrect(false);
-      const element: any = document.getElementById("english_input");
+      // 정답 틀렸을 때
       element.value = "";
+      const percent = getMatchedWordPercent(
+        result.bestMatchedText,
+        textInWrinting
+      );
+      setMatchedPercent(percent);
     }
+
     setTryText(textInWrinting);
     setVisibletryText(true);
     setVisibleIsCorrect(true);
     // setTextInWrinting("");
   };
 
+  const increaseHintNumber = () => {
+    if (hintNumber < 3) {
+      setHintNumber(hintNumber + 1);
+    }
+  };
+
   // 유저가 '정답보기' 버튼을 누른 경우
   const showAnswer = (targetPractice: IPractice) => {
     setVisibleIsCorrect(false);
     setVisibleAnswer(true);
-    setTryText(targetPractice.enTexts[0]);
+    setTryText(targetPractice.english_texts[0]);
   };
 
   if (targetPractice) {
@@ -127,20 +151,22 @@ function App() {
                 ) : null}
 
                 <Heading alignSelf="center" size="h3" color="#3849a8">
-                  {targetPractice.kor_text}
+                  {targetPractice.korean_text}
                 </Heading>
 
                 <Keyboard
-                  onEnter={() => compareAnswer(targetPractice, textInWrinting)}
+                  onEnter={() =>
+                    clickChallengeButton(targetPractice, textInWrinting)
+                  }
                 >
                   <TextInput
                     reverse
                     placeholder="입력하기 ..."
                     id="english_input"
                     icon={
-                      <Search
+                      <Play
                         onClick={() =>
-                          compareAnswer(targetPractice, textInWrinting)
+                          clickChallengeButton(targetPractice, textInWrinting)
                         }
                       />
                     }
@@ -154,25 +180,14 @@ function App() {
                   isCorrect={isCorrect}
                   tryText={tryText}
                 />
-                {/* 유저가 정답보기 버튼을 눌렸을 때 보여주는 부분 */}
-                {/* <Box>
-                  {visibleAnswer && !isCorrect ? (
-                    <Box>
-                      <Box pad={{ top: "14px", bottom: "14px" }}>
-                        <Text weight="bold">이렇게 표현할 수 있어요.</Text>
-                      </Box>
-                      {targetPractice.enTexts.length > 1 ? (
-                        <Box>
-                          {targetPractice.enTexts.map((item, index) => {
-                            return <div>{item}</div>;
-                          })}
-                        </Box>
-                      ) : null}
-                    </Box>
-                  ) : null}
-                </Box> */}
+                {!isCorrect ? (
+                  <HintBox
+                    hintNumber={hintNumber}
+                    matchedPercent={matchedPercent}
+                  />
+                ) : null}
 
-                <Box pad="small" margin={{ top: "14px", bottom: "small" }}>
+                <Box margin={{ top: "14px", bottom: "small" }}>
                   {/* 다음 문장 버튼 */}
                   {isCorrect || visibleAnswer ? (
                     <Button
@@ -188,7 +203,7 @@ function App() {
                       {tryText ? (
                         <Box
                           align="center"
-                          pad="medium"
+                          pad="small"
                           flex
                           direction="row"
                           justify="around"
@@ -197,8 +212,16 @@ function App() {
                             primary
                             label={"다시 도전!"}
                             onClick={() =>
-                              compareAnswer(targetPractice, textInWrinting)
+                              clickChallengeButton(
+                                targetPractice,
+                                textInWrinting
+                              )
                             }
+                          />
+                          <Button
+                            primary
+                            label={"힌트보기"}
+                            onClick={() => increaseHintNumber()}
                           />
                           <Button
                             primary
@@ -213,7 +236,10 @@ function App() {
                             primary
                             label={"정답 도전!"}
                             onClick={() =>
-                              compareAnswer(targetPractice, textInWrinting)
+                              clickChallengeButton(
+                                targetPractice,
+                                textInWrinting
+                              )
                             }
                           />
                         </Box>
@@ -240,30 +266,32 @@ function App() {
                         {isCorrect ? (
                           <Box pad={{ bottom: "medium" }}>
                             {/* 또 다른 표현 */}
-                            {targetPractice.enTexts.length > 1 ? (
+                            {targetPractice.english_texts.length > 1 ? (
                               <Box>
                                 <Box pad={{ bottom: "small" }}>
                                   <Text weight="bold">
                                     ⭐️&nbsp;&nbsp;또 다르게 표현할 수 있어요
                                   </Text>
                                 </Box>
-                                {targetPractice.enTexts.map((item, index) => {
-                                  return (
-                                    <Box
-                                      pad={{ left: "7px", bottom: "7px" }}
-                                      key={index}
-                                    >
-                                      <Text>{item}</Text>
-                                    </Box>
-                                  );
-                                })}
+                                {targetPractice.english_texts.map(
+                                  (item, index) => {
+                                    return (
+                                      <Box
+                                        pad={{ left: "7px", bottom: "7px" }}
+                                        key={index}
+                                      >
+                                        <Text>{item}</Text>
+                                      </Box>
+                                    );
+                                  }
+                                )}
                               </Box>
                             ) : null}
                           </Box>
                         ) : (
                           <Box pad={{ bottom: "medium" }}>
                             {/* 또 다른 표현 */}
-                            {targetPractice.enTexts.length > 0 ? (
+                            {targetPractice.english_texts.length > 0 ? (
                               <Box>
                                 <Box pad={{ bottom: "small" }}>
                                   <Text weight="bold">
@@ -271,16 +299,18 @@ function App() {
                                     있어요.
                                   </Text>
                                 </Box>
-                                {targetPractice.enTexts.map((item, index) => {
-                                  return (
-                                    <Box
-                                      pad={{ left: "7px", bottom: "7px" }}
-                                      key={index}
-                                    >
-                                      <Text>{item}</Text>
-                                    </Box>
-                                  );
-                                })}
+                                {targetPractice.english_texts.map(
+                                  (item, index) => {
+                                    return (
+                                      <Box
+                                        pad={{ left: "7px", bottom: "7px" }}
+                                        key={index}
+                                      >
+                                        <Text>{item}</Text>
+                                      </Box>
+                                    );
+                                  }
+                                )}
                               </Box>
                             ) : null}
                           </Box>
@@ -401,7 +431,11 @@ const CorrectBox = ({
         <>
           <Box gap="small" pad={{ top: "medium" }}>
             {isCorrect ? (
-              <>맞았습니다!! 👏</>
+              <Box align="center">
+                <Text weight="bold" color="#4b2491" size="large">
+                  Wow!! 맞았습니다!! 🎉
+                </Text>
+              </Box>
             ) : (
               <Box height={{ max: "small" }} round="small" justify="center">
                 <Box pad={{ bottom: "medium" }} direction="row">
@@ -418,6 +452,36 @@ const CorrectBox = ({
             )}
           </Box>
         </>
+      ) : null}
+    </>
+  );
+};
+
+const HintBox = ({
+  hintNumber,
+  matchedPercent,
+}: {
+  hintNumber: number;
+  matchedPercent: number;
+}) => {
+  return (
+    <>
+      {hintNumber > 0 ? (
+        <Box pad={{ bottom: "medium" }} direction="row">
+          <Text weight="bold"> {matchedPercent}% 맞췄습니다.</Text>
+        </Box>
+      ) : null}
+
+      {hintNumber > 1 ? (
+        <Box pad={{ bottom: "medium" }} direction="row">
+          <Text weight="bold"> hint 2번</Text>
+        </Box>
+      ) : null}
+
+      {hintNumber > 2 ? (
+        <Box pad={{ bottom: "medium" }} direction="row">
+          <Text weight="bold"> hint 3번</Text>
+        </Box>
       ) : null}
     </>
   );
