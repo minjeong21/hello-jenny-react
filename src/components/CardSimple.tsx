@@ -20,7 +20,7 @@ export const CardSimple = ({ practice, index }: IProps) => {
     >
       <Box>
         <Text size="small" weight="bold">
-          {practice.kor_text}
+          {practice.korean_text}
         </Text>
       </Box>
 
