@@ -14,6 +14,12 @@
         "enTexts": [
             "You look great."
         ],
+        "related_descriptions": [
+            {
+                "title": "단어",
+                "description": "look: ~해 보인다"
+            }
+        ],
         "related_videos": [
             {
                 "title": "American Psycho Movie의 한 장면",
@@ -38,6 +44,7 @@
         ],
         "related_descriptions": [
             {
+                "title": "단어",
                 "description": "thin: 날씬한"
             }
         ],
@@ -61,7 +68,7 @@
         ],
         "kor_text": "내 새 차 가져가지 않을래?",
         "enTexts": [
-            "Why don't you go ahead and take my new car."
+            "Why don't you take my new car?"
         ],
         "related_descriptions": [
             {
