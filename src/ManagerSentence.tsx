@@ -1,3 +1,6 @@
+import { IPractice } from "./interface/IPractice";
+import { IPracticeAT } from "./interface/IPracticeAT";
+
 const samePair = [
   {
     text1: "i'm",
@@ -91,4 +94,48 @@ export const compareAnswer = (english_texts: string[], tryText: string) => {
     correctText: correctText,
     bestMatchedText: bestMatchedText,
   };
+};
+
+export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
+  // 설명 분리
+  const related_descriptions: {
+    type: string;
+    title: string;
+    description: string;
+  }[] = [];
+
+  if (practiceAT.fields.related_desc) {
+    practiceAT.fields.related_desc.map((item) => {
+      const items = item.split("$");
+      related_descriptions.push({
+        type: items[0],
+        title: items[1],
+        description: items[2],
+      });
+    });
+  }
+
+  // 비디오 파트
+  const related_videos_result: { title: string; link: string }[] = [];
+  if (practiceAT.fields.related_videos) {
+    practiceAT.fields.related_videos.map((item) => {
+      const items = item.split("$");
+      related_videos_result.push({
+        title: items[0],
+        link: items[1],
+      });
+    });
+  }
+
+  const practice: IPractice = {
+    situation: practiceAT.fields.situation ? practiceAT.fields.situation : null,
+    publish_date: practiceAT.fields.publish_date,
+    source_type: practiceAT.fields.source_type,
+    korean_text: practiceAT.fields.korean_text,
+    english_texts: practiceAT.fields.english_texts.split("\n"),
+    related_descriptions,
+    related_videos: related_videos_result,
+    image_url: practiceAT.fields.image_url,
+  };
+  return practice;
 };

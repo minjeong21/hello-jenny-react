@@ -4,6 +4,7 @@ import queryString from "query-string";
 import {
   compareAnswer,
   convertPlainText,
+  convertPracticeATtoPractice,
   getMatchedWordPercent,
 } from "../ManagerSentence";
 import { IPractice } from "../interface/IPractice";
@@ -26,6 +27,7 @@ import { Play } from "grommet-icons";
 import styled from "styled-components";
 import Navigation from "../components/Navigation";
 import { defaultTheme } from "../theme";
+import { fetchPracticeByNumId } from "../apis/PracticeApi";
 
 const StyledAnchor = styled(Anchor)`
   font-weight: 200;
@@ -44,20 +46,25 @@ function App() {
   const [matchedPercent, setMatchedPercent] = useState(0);
 
   useEffect(() => {
-    const parsed = queryString.parse(window.location.search);
-    let targetIndex = Number(parsed.index);
-    if (
-      typeof targetIndex !== "number" ||
-      targetIndex >= practiceBundle.length
-    ) {
-      targetIndex = 0;
-    }
-    const targetPractice = practiceBundle[targetIndex];
-
-    setTargetPractice(targetPractice);
-    const nextIndex = (targetIndex + 1) % practiceBundle.length;
-    setNextIndex(nextIndex);
+    fetchPractice();
   }, []);
+
+  const fetchPractice = async () => {
+    const parsed = queryString.parse(window.location.search);
+    let numid = Number(parsed.numid);
+
+    const response = await fetchPracticeByNumId(numid);
+    // const targetPractice = practiceBundle[targetIndex];
+
+    // setTargetPractice(targetPractice);
+    // const nextIndex = (targetIndex + 1) % practiceBundle.length;
+    // setNextIndex(nextIndex);
+    console.log(response);
+    if (response && response.length > 0) {
+      const practice = convertPracticeATtoPractice(response[0]);
+      setTargetPractice(practice);
+    }
+  };
 
   /** 도전하기 버튼 클릭 Event*/
   const clickChallengeButton = (
@@ -115,12 +122,12 @@ function App() {
             <Grid columns={["1/2", "1/2"]}>
               {/* 사진 섹션 */}
               <Box>
-                {targetPractice.related_images ? (
+                {targetPractice.image_url ? (
                   <Box
                     background={{
                       color: "lightgray",
                       dark: true,
-                      image: `url(${targetPractice.related_images[0].link})`,
+                      image: `url(${targetPractice.image_url})`,
                       repeat: "no-repeat",
                       size: "cover",
                       position: "center",
@@ -193,9 +200,7 @@ function App() {
                     <Button
                       primary
                       label="다음 문제"
-                      onClick={() =>
-                        (window.location.href = `?index=${nextIndex}`)
-                      }
+                      onClick={() => alert("기능 준비 중입니다.")}
                     />
                   ) : (
                     <>

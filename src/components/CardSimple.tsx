@@ -1,15 +1,17 @@
 import React from "react";
-
 import { Card, Box, Text } from "grommet";
+import { convertPracticeATtoPractice } from "../ManagerSentence";
+import { IPracticeAT } from "../interface/IPracticeAT";
 import { IPractice } from "../interface/IPractice";
-import { cardBgColors } from "../theme";
 
 interface IProps {
-  practice: IPractice;
+  practiceAT: IPracticeAT;
   index: number;
 }
 
-export const CardSimple = ({ practice, index }: IProps) => {
+export const CardSimple = ({ practiceAT, index }: IProps) => {
+  const practice: IPractice = convertPracticeATtoPractice(practiceAT);
+
   return (
     <Card
       onClick={() => (window.location.href = `/practice?index=${index}`)}
@@ -28,25 +30,23 @@ export const CardSimple = ({ practice, index }: IProps) => {
 
       <Box height="50px" direction="row" justify="between">
         <Text size="13px" weight="bold" color="#333333">
-          {practice.date}
+          {practice.publish_date}
         </Text>
         <Box>
-          {practice.type && practice.type.length > 0
-            ? practice.type.map((item) => (
-                <Text size="small" weight="bold">
-                  {item}
-                </Text>
-              ))
-            : null}
+          {practice.source_type ? (
+            <Text size="small" weight="bold">
+              {practice.source_type}
+            </Text>
+          ) : null}
         </Box>
       </Box>
-      {practice.related_images ? (
+      {practice.image_url ? (
         <Box align="center">
           <Box
             background={{
               color: "lightgray",
               dark: true,
-              image: `url(${practice.related_images[0].link})`,
+              image: `url(${practice.image_url})`,
               opacity: 0.9,
               repeat: "no-repeat",
               size: "cover",

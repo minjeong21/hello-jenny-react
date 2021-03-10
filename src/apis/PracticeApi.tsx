@@ -29,3 +29,26 @@ export const fetchPractices = async () => {
       return error;
     });
 };
+
+export const fetchPracticeByNumId = async (numId: number) => {
+  return instance
+    .get("", {
+      params: {
+        view: "Default",
+        maxRecords: 1,
+        filterByFormula: `numid=${numId}`,
+      },
+    })
+    .then(function (response) {
+      if (response && response.data && response.data.records) {
+        return response.data.records;
+      } else {
+        return null;
+      }
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+      return error;
+    });
+};

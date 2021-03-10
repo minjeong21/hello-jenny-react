@@ -37,7 +37,12 @@ const Home = () => {
                 return (
                   <Grid rows="medium" columns={{ count: "fit", size: "100%" }}>
                     {practiceList.map((item, index) => (
-                      <CardColor practice={item} index={index} />
+                      <CardColor
+                        key={index}
+                        practiceAT={item}
+                        index={index}
+                        numid={item.fields.numid}
+                      />
                     ))}
                   </Grid>
                 );
@@ -45,7 +50,12 @@ const Home = () => {
                 return (
                   <Grid rows="medium" columns={{ count: "fit", size: "25%" }}>
                     {practiceList.map((item, index) => (
-                      <CardColor practice={item} index={index} key={index} />
+                      <CardColor
+                        key={index}
+                        practiceAT={item}
+                        index={index}
+                        numid={item.fields.numid}
+                      />
                     ))}
                   </Grid>
                 );
@@ -53,7 +63,12 @@ const Home = () => {
                 return (
                   <Grid rows="medium" columns={{ count: "fit", size: "20%" }}>
                     {practiceList.map((item, index) => (
-                      <CardColor practice={item} index={index} key={index} />
+                      <CardColor
+                        key={index}
+                        practiceAT={item}
+                        index={index}
+                        numid={item.fields.numid}
+                      />
                     ))}
                   </Grid>
                 );

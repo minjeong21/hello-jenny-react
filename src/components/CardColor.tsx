@@ -1,18 +1,21 @@
 import { Card, Box, Text } from "grommet";
 import { cardBgColors } from "../theme";
 import { IPracticeAT } from "../interface/IPracticeAT";
+import { IPractice } from "../interface/IPractice";
+import { convertPracticeATtoPractice } from "../ManagerSentence";
 
 interface IProps {
-  practice: IPracticeAT;
+  practiceAT: IPracticeAT;
   index: number;
+  numid: number;
 }
 
-export const CardColor = ({ practice, index }: IProps) => {
+export const CardColor = ({ practiceAT, index, numid }: IProps) => {
+  const practice: IPractice = convertPracticeATtoPractice(practiceAT);
+
   return (
     <Card
-      onClick={() =>
-        (window.location.href = `/practice?numid=${practice.fields.numid}`)
-      }
+      onClick={() => (window.location.href = `/practice?numid=${numid}`)}
       justify="between"
       background={cardBgColors[index]}
       key={"baba"}
@@ -23,23 +26,23 @@ export const CardColor = ({ practice, index }: IProps) => {
       <Box height="120px" direction="row" justify="between">
         <Box>
           <Text size="small" weight="normal" color="#333333">
-            {practice.fields.publish_date}
+            {practice.publish_date}
           </Text>
         </Box>
-        {practice.fields.source_type ? (
+        {practice.source_type ? (
           <Text size="small" weight="normal" color="#333333">
-            {practice.fields.source_type}
+            {practice.source_type}
           </Text>
         ) : null}
       </Box>
 
-      {practice.fields.image_url ? (
+      {practice.image_url ? (
         <Box pad="small" align="center">
           <Box
             background={{
               color: "lightgray",
               dark: true,
-              image: `url(${practice.fields.image_url})`,
+              image: `url(${practice.image_url})`,
               opacity: 0.9,
               repeat: "no-repeat",
               size: "cover",
@@ -53,7 +56,7 @@ export const CardColor = ({ practice, index }: IProps) => {
 
       <Box height="small" pad="18px" align="center">
         <Text size="16px" weight="bold">
-          {practice.fields.korean_text}
+          {practice.korean_text}
         </Text>
       </Box>
 
