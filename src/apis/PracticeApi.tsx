@@ -2,7 +2,7 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_AIRTABLE_PRACTICE_API,
-  timeout: 2000,
+  // timeout: 2000,
   headers: {
     Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
   },
@@ -13,7 +13,7 @@ export const fetchPractices = async () => {
     .get("", {
       params: {
         view: "Default",
-        maxRecords: 10,
+        maxRecords: 100,
       },
     })
     .then(function (response) {
