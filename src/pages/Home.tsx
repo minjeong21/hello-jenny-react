@@ -1,8 +1,8 @@
 import { Grommet, Box, Grid, Main, Text, ResponsiveContext } from "grommet";
 import React, { useEffect } from "react";
 import { defaultTheme, cardBgColors } from "../theme";
-import Navigation from "../components/Navigation";
-import { CardColor } from "../components/CardColor";
+import Navigation from "../components/organisms/Navigation";
+import { CardColor } from "../components/molecules/CardColor";
 import { fetchPractices } from "../apis/PracticeApi";
 import { useState } from "react";
 import { IPracticeAT } from "../interface/IPracticeAT";
@@ -17,7 +17,6 @@ const Home = () => {
   const fetchPracticeBundle = async () => {
     const response = await fetchPractices();
     setPracticeList(response);
-    console.log(response);
   };
 
   return (
@@ -32,7 +31,6 @@ const Home = () => {
         {practiceList && practiceList.length ? (
           <ResponsiveContext.Consumer>
             {(size) => {
-              console.log(size);
               if (size === "small") {
                 return (
                   <Grid rows="medium" columns={{ count: "fit", size: "100%" }}>
