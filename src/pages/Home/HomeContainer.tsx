@@ -1,11 +1,11 @@
 import { Grommet, Box, Grid, Main, Text, ResponsiveContext } from "grommet";
 import React, { useEffect } from "react";
-import { defaultTheme, cardBgColors } from "../theme";
-import Navigation from "../components/organisms/Navigation";
-import { CardColor } from "../components/molecules/CardColor";
-import { fetchPractices } from "../apis/PracticeApi";
+import { defaultTheme, cardBgColors } from "../../theme";
+import { CardColor } from "../../components/molecules/CardColor";
+import { fetchPractices } from "../../apis/PracticeApi";
 import { useState } from "react";
-import { IPracticeAT } from "../interface/IPracticeAT";
+import { IPracticeAT } from "../../interface/IPracticeAT";
+import TopBar from "../../components/organisms/TopBar";
 
 const Home = () => {
   const [practiceList, setPracticeList] = useState<IPracticeAT[]>();
@@ -21,7 +21,7 @@ const Home = () => {
 
   return (
     <Grommet theme={defaultTheme}>
-      <Navigation />
+      <TopBar />
       <Main
         align="stretch"
         pad="medium"

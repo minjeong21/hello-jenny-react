@@ -26,9 +26,9 @@ import {
 } from "grommet";
 import { Play } from "grommet-icons";
 import styled from "styled-components";
-import Navigation from "../../components/organisms/Navigation";
 import { defaultTheme } from "../../theme";
 import { fetchPracticeByNumId } from "../../apis/PracticeApi";
+import TopBar from "../../components/organisms/TopBar";
 
 const StyledAnchor = styled(Anchor)`
   font-weight: 200;
@@ -112,7 +112,7 @@ function App() {
   if (targetPractice) {
     return (
       <Grommet theme={defaultTheme}>
-        <Navigation />
+        <TopBar />
         <Main
           pad="large"
           align="center"
