@@ -1,14 +1,22 @@
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Grommet, Box, Grid, Main, Text, ResponsiveContext } from "grommet";
-import React, { useEffect } from "react";
 import { defaultTheme, cardBgColors } from "../../theme";
+
 import { CardColor } from "../../components/molecules/CardColor";
 import { fetchPractices } from "../../apis/PracticeApi";
-import { useState } from "react";
+
 import { IPracticeAT } from "../../interface/IPracticeAT";
 import TopBar from "../../components/organisms/TopBar";
+import {
+  generateRandomPath,
+  generateLevelPath,
+  generateThemePath,
+} from "../../properties/Path";
 
 const Home = () => {
   const [practiceList, setPracticeList] = useState<IPracticeAT[]>();
+  const history = useHistory();
 
   useEffect(() => {
     fetchPracticeBundle();
@@ -19,9 +27,29 @@ const Home = () => {
     setPracticeList(response);
   };
 
+  const list = [1, 2, 3, 4, 5, 6, 63, 7, 59];
+
+  const moveNextInLevel = (level: string) => {
+    const ranmdomNumber = Math.floor(Math.random() * 100) % list.length;
+    history.push(generateLevelPath(level, ranmdomNumber));
+  };
+
+  const moveNextInTheme = (theme: string) => {
+    const ranmdomNumber = Math.floor(Math.random() * 100) % list.length;
+    history.push(generateThemePath(theme, ranmdomNumber));
+  };
+  const moveNextRandom = () => {
+    const ranmdomNumber = Math.floor(Math.random() * 100) % list.length;
+    history.push(generateRandomPath(ranmdomNumber));
+  };
+
   return (
     <Grommet theme={defaultTheme}>
-      <TopBar />
+      <TopBar
+        moveNextRandom={moveNextRandom}
+        moveNextInLevel={moveNextInLevel}
+        moveNextInTheme={moveNextInTheme}
+      />
       <Main
         align="stretch"
         pad="medium"

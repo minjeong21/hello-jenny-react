@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import practiceBundle from "../../sample/practiceBundle.json";
 import queryString from "query-string";
 import {
@@ -34,7 +35,13 @@ const StyledAnchor = styled(Anchor)`
   font-weight: 200;
 `;
 
-function App() {
+interface ParamTypes {
+  numid?: string;
+  theme?: string;
+  level?: string;
+}
+function DetailContainer() {
+  let { numid, theme, level } = useParams<ParamTypes>();
   const [textInWrinting, setTextInWrinting] = useState("");
   const [tryText, setTryText] = useState("");
   const [visibletryText, setVisibletryText] = useState(false);
@@ -51,10 +58,7 @@ function App() {
   }, []);
 
   const fetchPractice = async () => {
-    const parsed = queryString.parse(window.location.search);
-    let numid = Number(parsed.numid);
-
-    const response = await fetchPracticeByNumId(numid);
+    const response = await fetchPracticeByNumId(Number(numid));
     // const targetPractice = practiceBundle[targetIndex];
 
     // setTargetPractice(targetPractice);
@@ -112,7 +116,11 @@ function App() {
   if (targetPractice) {
     return (
       <Grommet theme={defaultTheme}>
-        <TopBar />
+        <TopBar
+          moveNextRandom={() => alert("random")}
+          moveNextInLevel={() => alert("level")}
+          moveNextInTheme={() => alert("theme")}
+        />
         <Main
           pad="large"
           align="center"
@@ -579,7 +587,7 @@ function App() {
   }
 }
 
-export default App;
+export default DetailContainer;
 
 const FooterAnchor = ({ ...rest }) => (
   <StyledAnchor href="/" size="small" color="white" {...rest} />
