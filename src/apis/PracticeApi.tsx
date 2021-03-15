@@ -52,3 +52,49 @@ export const fetchPracticeByNumId = async (numId: number) => {
       return error;
     });
 };
+
+export const fetchPracticeByTheme = async (theme: string) => {
+  return instance
+    .get("", {
+      params: {
+        view: "Default",
+        maxRecords: 100,
+        filterByFormula: `{theme}='${theme}'`,
+      },
+    })
+    .then(function (response) {
+      if (response && response.data && response.data.records) {
+        return response.data.records;
+      } else {
+        return null;
+      }
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+      return error;
+    });
+};
+
+export const fetchPracticeByLevel = async (level: string) => {
+  return instance
+    .get("", {
+      params: {
+        view: "Default",
+        maxRecords: 100,
+        filterByFormula: `level=${level}`,
+      },
+    })
+    .then(function (response) {
+      if (response && response.data && response.data.records) {
+        return response.data.records;
+      } else {
+        return null;
+      }
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+      return error;
+    });
+};

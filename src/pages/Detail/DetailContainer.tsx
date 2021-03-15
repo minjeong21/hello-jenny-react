@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import practiceBundle from "../../sample/practiceBundle.json";
-import queryString from "query-string";
-import {
-  compareAnswer,
-  convertPlainText,
-  convertPracticeATtoPractice,
-  getMatchedWordPercent,
-} from "../../ManagerSentence";
-import { IPractice } from "../../interface/IPractice";
+import { useParams, useHistory } from "react-router-dom";
+import styled from "styled-components";
+import { Play } from "grommet-icons";
 import {
   Anchor,
   Box,
   Text,
   Footer,
   Grommet,
-  Image,
   Paragraph,
   Heading,
   Button,
@@ -25,11 +17,26 @@ import {
   Grid,
   ResponsiveContext,
 } from "grommet";
-import { Play } from "grommet-icons";
-import styled from "styled-components";
 import { defaultTheme } from "../../theme";
-import { fetchPracticeByNumId } from "../../apis/PracticeApi";
 import TopBar from "../../components/organisms/TopBar";
+import { IPractice } from "../../interface/IPractice";
+import { IPracticeAT } from "../../interface/IPracticeAT";
+import {
+  fetchPracticeByLevel,
+  fetchPracticeByNumId,
+  fetchPracticeByTheme,
+  fetchPractices,
+} from "../../apis/PracticeApi";
+import {
+  compareAnswer,
+  convertPracticeATtoPractice,
+  getMatchedWordPercent,
+} from "../../ManagerSentence";
+import {
+  generateLevelPath,
+  generateRandomPath,
+  generateThemePath,
+} from "../../properties/Path";
 
 const StyledAnchor = styled(Anchor)`
   font-weight: 200;
@@ -42,41 +49,134 @@ interface ParamTypes {
 }
 function DetailContainer() {
   let { numid, theme, level } = useParams<ParamTypes>();
+  const history = useHistory();
+  const [practiceList, setPracticeList] = useState<IPracticeAT[]>();
+  const [practice, setPractice] = useState<IPractice>();
   const [textInWrinting, setTextInWrinting] = useState("");
   const [tryText, setTryText] = useState("");
-  const [visibletryText, setVisibletryText] = useState(false);
+  const [hintNumber, setHintNumber] = useState(0);
+  const [matchedPercent, setMatchedPercent] = useState(0);
   const [isCorrect, setIsCorrect] = useState(false);
   const [visibleAnswer, setVisibleAnswer] = useState(false);
   const [visibleIsCorrect, setVisibleIsCorrect] = useState(false);
-  const [hintNumber, setHintNumber] = useState(0);
-  const [targetPractice, setTargetPractice] = useState<IPractice>();
-  const [nextIndex, setNextIndex] = useState(0);
-  const [matchedPercent, setMatchedPercent] = useState(0);
 
   useEffect(() => {
-    fetchPractice();
-  }, []);
+    if (numid) {
+      fetchPractice();
+    }
+    fetchPracticeBundle();
+  });
 
+  /**
+   * numid가 있는 경우, 해당 문제 가져오기
+   * */
   const fetchPractice = async () => {
     const response = await fetchPracticeByNumId(Number(numid));
-    // const targetPractice = practiceBundle[targetIndex];
-
-    // setTargetPractice(targetPractice);
-    // const nextIndex = (targetIndex + 1) % practiceBundle.length;
-    // setNextIndex(nextIndex);
+    console.log("fetchPractice");
     console.log(response);
     if (response && response.length > 0) {
       const practice = convertPracticeATtoPractice(response[0]);
-      setTargetPractice(practice);
+      setPractice(practice);
     }
   };
 
-  /** 도전하기 버튼 클릭 Event*/
+  /**
+   * theme 또는 레벨에 맞는 문제 리스트 가져오기 (100개까지)
+   * */
+  const fetchPracticeBundle = async () => {
+    let response = null;
+    if (theme) {
+      response = await fetchPracticeByTheme(theme);
+    } else if (level) {
+      response = await fetchPracticeByLevel(level);
+    } else {
+      response = await fetchPractices();
+    }
+    setPracticeList(response);
+    if (!numid) {
+      const atPractice = convertPracticeATtoPractice(response[0]);
+      setPractice(atPractice);
+    }
+    console.log(response);
+  };
+
+  /**
+   * 메뉴 클릭 이벤트. 랜덤 문제로 이동
+   * */
+  const moveRandomPractice = () => {
+    if (practiceList) {
+      const practicesLength = practiceList ? practiceList.length : 0;
+      const rNumber = Math.floor(Math.random() * 100) % practicesLength;
+      history.push(generateRandomPath(practiceList[rNumber].fields.numid));
+      const atPractice = convertPracticeATtoPractice(practiceList[rNumber]);
+      setPractice(atPractice);
+    } else {
+      alert("새로고침 후 다시 시도해주세요.");
+    }
+  };
+
+  /**
+   * 메뉴 클릭 이벤트. 래벨 문제로 이동
+   * */
+  const moveLevelPractice = (level: string) => {
+    window.location.href = generateLevelPath(level);
+  };
+
+  /**
+   * 메뉴 클릭 이벤트. 테마 문제로 이동
+   * */
+  const moveThemePractice = (theme: string) => {
+    history.push(generateThemePath(theme));
+  };
+
+  const moveNextPractice = () => {
+    // 리스트에서 지금 연습 문제가 몇 번째 index인지 찾고, 그 이후 순번으로 넘어가기.
+    let path = null;
+    if (practiceList && practice) {
+      let index = practiceList.findIndex(
+        (item) => item.fields.numid === practice.numid
+      );
+      if (index == practiceList.length - 1) {
+        alert("마지막 문제입니다.");
+        index = -1;
+      }
+
+      const NextNumId = practiceList[index + 1].fields.numid;
+
+      if (theme) {
+        path = generateThemePath(theme, NextNumId);
+      } else if (level) {
+        path = generateLevelPath(level, NextNumId);
+      } else {
+        path = generateRandomPath(NextNumId);
+      }
+      history.push(path);
+      // pageReloadEffect(practiceList[index + 1]);
+    } else {
+      alert("새로고침 후 다시 시도해주세요.");
+    }
+  };
+
+  const pageReloadEffect = (practiceAT: IPracticeAT) => {
+    const atPractice = convertPracticeATtoPractice(practiceAT);
+    setPractice(atPractice);
+    setTextInWrinting("");
+    setTryText("");
+    setHintNumber(0);
+    setMatchedPercent(0);
+    setIsCorrect(false);
+    setVisibleAnswer(false);
+    setVisibleIsCorrect(false);
+  };
+
+  /**
+   * 도전하기 버튼 클릭 Event
+   * */
   const clickChallengeButton = (
-    targetPractice: IPractice,
+    practice: IPractice,
     textInWrinting: string
   ) => {
-    const result = compareAnswer(targetPractice.english_texts, textInWrinting);
+    const result = compareAnswer(practice.english_texts, textInWrinting);
 
     setIsCorrect(result.isCorrect);
     const element: any = document.getElementById("english_input");
@@ -95,7 +195,6 @@ function DetailContainer() {
     }
 
     setTryText(textInWrinting);
-    setVisibletryText(true);
     setVisibleIsCorrect(true);
     // setTextInWrinting("");
   };
@@ -107,19 +206,19 @@ function DetailContainer() {
   };
 
   // 유저가 '정답보기' 버튼을 누른 경우
-  const showAnswer = (targetPractice: IPractice) => {
+  const showAnswer = (practice: IPractice) => {
     setVisibleIsCorrect(false);
     setVisibleAnswer(true);
-    setTryText(targetPractice.english_texts[0]);
+    setTryText(practice.english_texts[0]);
   };
 
-  if (targetPractice) {
+  if (practice) {
     return (
       <Grommet theme={defaultTheme}>
         <TopBar
-          moveNextRandom={() => alert("random")}
-          moveNextInLevel={() => alert("level")}
-          moveNextInTheme={() => alert("theme")}
+          moveRandomPractice={moveRandomPractice}
+          moveLevelPractice={moveLevelPractice}
+          moveThemePractice={moveThemePractice}
         />
         <Main
           pad="large"
@@ -136,12 +235,12 @@ function DetailContainer() {
                     <Box>
                       {/* 사진 섹션 */}
                       <Box>
-                        {targetPractice.image_url ? (
+                        {practice.image_url ? (
                           <Box
                             background={{
                               color: "lightgray",
                               dark: true,
-                              image: `url(${targetPractice.image_url})`,
+                              image: `url(${practice.image_url})`,
                               repeat: "no-repeat",
                               size: "cover",
                               position: "center",
@@ -160,24 +259,24 @@ function DetailContainer() {
                         flex
                         justify="center"
                       >
-                        {targetPractice.situation ? (
+                        {practice.situation ? (
                           <Paragraph
                             alignSelf="center"
                             size="small"
                             color={"#333333"}
                             style={{ whiteSpace: "pre-line" }}
                           >
-                            {targetPractice.situation}
+                            {practice.situation}
                           </Paragraph>
                         ) : null}
 
                         <Heading alignSelf="center" size="h3" color="#3849a8">
-                          {targetPractice.korean_text}
+                          {practice.korean_text}
                         </Heading>
 
                         <Keyboard
                           onEnter={() =>
-                            clickChallengeButton(targetPractice, textInWrinting)
+                            clickChallengeButton(practice, textInWrinting)
                           }
                         >
                           <TextInput
@@ -187,10 +286,7 @@ function DetailContainer() {
                             icon={
                               <Play
                                 onClick={() =>
-                                  clickChallengeButton(
-                                    targetPractice,
-                                    textInWrinting
-                                  )
+                                  clickChallengeButton(practice, textInWrinting)
                                 }
                               />
                             }
@@ -217,7 +313,7 @@ function DetailContainer() {
                             <Button
                               primary
                               label="다음 문제"
-                              onClick={() => alert("기능 준비 중입니다.")}
+                              onClick={moveNextPractice}
                             />
                           ) : (
                             <>
@@ -235,7 +331,7 @@ function DetailContainer() {
                                     label={"다시 도전!"}
                                     onClick={() =>
                                       clickChallengeButton(
-                                        targetPractice,
+                                        practice,
                                         textInWrinting
                                       )
                                     }
@@ -248,7 +344,7 @@ function DetailContainer() {
                                   <Button
                                     primary
                                     label="정답보기"
-                                    onClick={() => showAnswer(targetPractice)}
+                                    onClick={() => showAnswer(practice)}
                                   />
                                 </Box>
                               ) : (
@@ -264,7 +360,7 @@ function DetailContainer() {
                                     label={"정답 도전!"}
                                     onClick={() =>
                                       clickChallengeButton(
-                                        targetPractice,
+                                        practice,
                                         textInWrinting
                                       )
                                     }
@@ -282,12 +378,12 @@ function DetailContainer() {
                     <Grid columns={["1/2", "1/2"]}>
                       {/* 사진 섹션 */}
                       <Box>
-                        {targetPractice.image_url ? (
+                        {practice.image_url ? (
                           <Box
                             background={{
                               color: "lightgray",
                               dark: true,
-                              image: `url(${targetPractice.image_url})`,
+                              image: `url(${practice.image_url})`,
                               repeat: "no-repeat",
                               size: "cover",
                               position: "center",
@@ -306,24 +402,24 @@ function DetailContainer() {
                         flex
                         justify="center"
                       >
-                        {targetPractice.situation ? (
+                        {practice.situation ? (
                           <Paragraph
                             alignSelf="center"
                             size="small"
                             color={"#333333"}
                             style={{ whiteSpace: "pre-line" }}
                           >
-                            {targetPractice.situation}
+                            {practice.situation}
                           </Paragraph>
                         ) : null}
 
                         <Heading alignSelf="center" size="h3" color="#3849a8">
-                          {targetPractice.korean_text}
+                          {practice.korean_text}
                         </Heading>
 
                         <Keyboard
                           onEnter={() =>
-                            clickChallengeButton(targetPractice, textInWrinting)
+                            clickChallengeButton(practice, textInWrinting)
                           }
                         >
                           <TextInput
@@ -333,10 +429,7 @@ function DetailContainer() {
                             icon={
                               <Play
                                 onClick={() =>
-                                  clickChallengeButton(
-                                    targetPractice,
-                                    textInWrinting
-                                  )
+                                  clickChallengeButton(practice, textInWrinting)
                                 }
                               />
                             }
@@ -363,7 +456,7 @@ function DetailContainer() {
                             <Button
                               primary
                               label="다음 문제"
-                              onClick={() => alert("기능 준비 중입니다.")}
+                              onClick={moveNextPractice}
                             />
                           ) : (
                             <>
@@ -381,7 +474,7 @@ function DetailContainer() {
                                     label={"다시 도전!"}
                                     onClick={() =>
                                       clickChallengeButton(
-                                        targetPractice,
+                                        practice,
                                         textInWrinting
                                       )
                                     }
@@ -394,7 +487,7 @@ function DetailContainer() {
                                   <Button
                                     primary
                                     label="정답보기"
-                                    onClick={() => showAnswer(targetPractice)}
+                                    onClick={() => showAnswer(practice)}
                                   />
                                 </Box>
                               ) : (
@@ -410,7 +503,7 @@ function DetailContainer() {
                                     label={"정답 도전!"}
                                     onClick={() =>
                                       clickChallengeButton(
-                                        targetPractice,
+                                        practice,
                                         textInWrinting
                                       )
                                     }
@@ -443,32 +536,30 @@ function DetailContainer() {
                         {isCorrect ? (
                           <Box pad={{ bottom: "medium" }}>
                             {/* 또 다른 표현 */}
-                            {targetPractice.english_texts.length > 1 ? (
+                            {practice.english_texts.length > 1 ? (
                               <Box>
                                 <Box pad={{ bottom: "small" }}>
                                   <Text weight="bold">
                                     ⭐️&nbsp;&nbsp;또 다르게 표현할 수 있어요
                                   </Text>
                                 </Box>
-                                {targetPractice.english_texts.map(
-                                  (item, index) => {
-                                    return (
-                                      <Box
-                                        pad={{ left: "7px", bottom: "7px" }}
-                                        key={index}
-                                      >
-                                        <Text>{item}</Text>
-                                      </Box>
-                                    );
-                                  }
-                                )}
+                                {practice.english_texts.map((item, index) => {
+                                  return (
+                                    <Box
+                                      pad={{ left: "7px", bottom: "7px" }}
+                                      key={index}
+                                    >
+                                      <Text>{item}</Text>
+                                    </Box>
+                                  );
+                                })}
                               </Box>
                             ) : null}
                           </Box>
                         ) : (
                           <Box pad={{ bottom: "medium" }}>
                             {/* 또 다른 표현 */}
-                            {targetPractice.english_texts.length > 0 ? (
+                            {practice.english_texts.length > 0 ? (
                               <Box>
                                 <Box pad={{ bottom: "small" }}>
                                   <Text weight="bold">
@@ -476,18 +567,16 @@ function DetailContainer() {
                                     있어요.
                                   </Text>
                                 </Box>
-                                {targetPractice.english_texts.map(
-                                  (item, index) => {
-                                    return (
-                                      <Box
-                                        pad={{ left: "7px", bottom: "7px" }}
-                                        key={index}
-                                      >
-                                        <Text>{item}</Text>
-                                      </Box>
-                                    );
-                                  }
-                                )}
+                                {practice.english_texts.map((item, index) => {
+                                  return (
+                                    <Box
+                                      pad={{ left: "7px", bottom: "7px" }}
+                                      key={index}
+                                    >
+                                      <Text>{item}</Text>
+                                    </Box>
+                                  );
+                                })}
                               </Box>
                             ) : null}
                           </Box>
@@ -495,24 +584,22 @@ function DetailContainer() {
 
                         <Box>
                           {/* 문제 해설 */}
-                          {targetPractice.related_descriptions ? (
+                          {practice.related_descriptions ? (
                             <div>
-                              {targetPractice.related_descriptions.map(
-                                (item) => (
-                                  <Box>
-                                    <Box pad={{ bottom: "small" }}>
-                                      <Text weight="bold">
-                                        📗&nbsp;&nbsp;{item.title}
-                                      </Text>
-                                    </Box>
-                                    <Box pad={{ left: "7px", bottom: "7px" }}>
-                                      <Text style={{ whiteSpace: "pre-line" }}>
-                                        {item.description}
-                                      </Text>
-                                    </Box>
+                              {practice.related_descriptions.map((item) => (
+                                <Box>
+                                  <Box pad={{ bottom: "small" }}>
+                                    <Text weight="bold">
+                                      📗&nbsp;&nbsp;{item.title}
+                                    </Text>
                                   </Box>
-                                )
-                              )}
+                                  <Box pad={{ left: "7px", bottom: "7px" }}>
+                                    <Text style={{ whiteSpace: "pre-line" }}>
+                                      {item.description}
+                                    </Text>
+                                  </Box>
+                                </Box>
+                              ))}
                             </div>
                           ) : null}
                         </Box>
@@ -530,9 +617,9 @@ function DetailContainer() {
                     <Box tag="section">
                       {/* 영상 해설*/}
                       <Box>
-                        {targetPractice.related_videos ? (
+                        {practice.related_videos ? (
                           <div>
-                            {targetPractice.related_videos.map((item) => (
+                            {practice.related_videos.map((item) => (
                               <Box pad="small">
                                 <Box pad={{ bottom: "small" }}>
                                   <Text weight="bold">

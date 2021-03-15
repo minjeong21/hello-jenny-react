@@ -14,14 +14,14 @@ import { levelMenus, themeMenus } from "../../properties/Menu";
 
 // src/components/organisms/TopBar.tsx
 interface IProps {
-  moveNextRandom: () => void;
-  moveNextInTheme: (theme: string) => void;
-  moveNextInLevel: (level: string) => void;
+  moveRandomPractice: () => void;
+  moveLevelPractice: (theme: string) => void;
+  moveThemePractice: (level: string) => void;
 }
 const TopBar = ({
-  moveNextRandom,
-  moveNextInTheme,
-  moveNextInLevel,
+  moveRandomPractice,
+  moveLevelPractice,
+  moveThemePractice,
 }: IProps) => {
   return (
     <Grommet theme={defaultTheme}>
@@ -39,9 +39,9 @@ const TopBar = ({
                     a11yTitle="Navigation Menu"
                     dropProps={{ align: { top: "bottom", right: "right" } }}
                     items={getArrayMenuAll(
-                      moveNextRandom,
-                      moveNextInTheme,
-                      moveNextInLevel
+                      moveRandomPractice,
+                      moveLevelPractice,
+                      moveThemePractice
                     )}
                   />
                 </Box>
@@ -55,19 +55,19 @@ const TopBar = ({
                 </Anchor>
                 <Box justify="end" direction="row" gap="medium" align="center">
                   <Anchor
-                    onClick={moveNextRandom}
+                    onClick={moveRandomPractice}
                     label="랜덤 문제"
                     weight="normal"
                   />
                   <Menu
                     a11yTitle="Navigation Menu"
                     label="레벨별"
-                    items={getArrayMenu("level", moveNextInLevel)}
+                    items={getArrayMenu("level", moveLevelPractice)}
                   />
                   <Menu
                     a11yTitle="Navigation Menu"
                     label="테마별"
-                    items={getArrayMenu("theme", moveNextInTheme)}
+                    items={getArrayMenu("theme", moveThemePractice)}
                   />
                 </Box>
               </>

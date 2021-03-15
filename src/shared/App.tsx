@@ -9,7 +9,9 @@ class App extends Component {
         <Route exact path="/" component={Home} />
         <Route path="/random/:numid" component={Detail} />
         <Route path="/theme/:theme/:numid" component={Detail} />
+        <Route path="/theme/:theme" component={Detail} />
         <Route path="/level/:level/:numid" component={Detail} />
+        <Route path="/level/:level" component={Detail} />
       </Switch>
     );
   }

@@ -8,14 +8,20 @@ interface IProps {
   practiceAT: IPracticeAT;
   index: number;
   numid: number;
+  movePractice: (value: number) => void;
 }
 
-export const CardColor = ({ practiceAT, index, numid }: IProps) => {
+export const CardColor = ({
+  practiceAT,
+  index,
+  numid,
+  movePractice,
+}: IProps) => {
   const practice: IPractice = convertPracticeATtoPractice(practiceAT);
 
   return (
     <Card
-      onClick={() => (window.location.href = `/practice?numid=${numid}`)}
+      onClick={() => movePractice(numid)}
       justify="between"
       background={cardBgColors[index]}
       key={"baba"}

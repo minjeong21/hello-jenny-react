@@ -1,4 +1,5 @@
 export interface IPractice {
+  numid: number;
   publish_date: string; // 날짜
   source_type: string; // 자료 타입
   korean_text: string; //한글 문장.

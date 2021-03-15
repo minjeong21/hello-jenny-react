@@ -128,6 +128,7 @@ export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
   }
 
   const practice: IPractice = {
+    numid: practiceAT.fields.numid,
     situation: practiceAT.fields.situation ? practiceAT.fields.situation : null,
     publish_date: practiceAT.fields.publish_date,
     source_type: practiceAT.fields.source_type,

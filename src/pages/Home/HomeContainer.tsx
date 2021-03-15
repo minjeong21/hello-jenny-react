@@ -27,28 +27,32 @@ const Home = () => {
     setPracticeList(response);
   };
 
-  const list = [1, 2, 3, 4, 5, 6, 63, 7, 59];
-
-  const moveNextInLevel = (level: string) => {
-    const ranmdomNumber = Math.floor(Math.random() * 100) % list.length;
-    history.push(generateLevelPath(level, ranmdomNumber));
+  const moveLevelPractice = (level: string) => {
+    history.push(generateLevelPath(level));
   };
 
-  const moveNextInTheme = (theme: string) => {
-    const ranmdomNumber = Math.floor(Math.random() * 100) % list.length;
-    history.push(generateThemePath(theme, ranmdomNumber));
+  const moveThemePractice = (theme: string) => {
+    history.push(generateThemePath(theme));
   };
-  const moveNextRandom = () => {
-    const ranmdomNumber = Math.floor(Math.random() * 100) % list.length;
-    history.push(generateRandomPath(ranmdomNumber));
+  const moveRandomPractice = () => {
+    if (practiceList) {
+      const practicesLength = practiceList ? practiceList.length : 0;
+      const rNumber = Math.floor(Math.random() * 100) % practicesLength;
+      history.push(generateRandomPath(practiceList[rNumber].fields.numid));
+    } else {
+      alert("새로고침 후 다시 시도해주세요.");
+    }
+  };
+  const movePractice = (numid: number) => {
+    history.push(generateRandomPath(numid));
   };
 
   return (
     <Grommet theme={defaultTheme}>
       <TopBar
-        moveNextRandom={moveNextRandom}
-        moveNextInLevel={moveNextInLevel}
-        moveNextInTheme={moveNextInTheme}
+        moveRandomPractice={moveRandomPractice}
+        moveLevelPractice={moveLevelPractice}
+        moveThemePractice={moveThemePractice}
       />
       <Main
         align="stretch"
@@ -68,6 +72,7 @@ const Home = () => {
                         practiceAT={item}
                         index={index}
                         numid={item.fields.numid}
+                        movePractice={movePractice}
                       />
                     ))}
                   </Grid>
@@ -81,6 +86,7 @@ const Home = () => {
                         practiceAT={item}
                         index={index}
                         numid={item.fields.numid}
+                        movePractice={movePractice}
                       />
                     ))}
                   </Grid>
@@ -94,6 +100,7 @@ const Home = () => {
                         practiceAT={item}
                         index={index}
                         numid={item.fields.numid}
+                        movePractice={movePractice}
                       />
                     ))}
                   </Grid>
