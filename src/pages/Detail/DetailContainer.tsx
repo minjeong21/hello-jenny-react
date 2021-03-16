@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { Play } from "grommet-icons";
 import {
   Anchor,
   Box,
   Text,
-  Footer,
   Grommet,
   Paragraph,
   Heading,
@@ -17,6 +16,7 @@ import {
   Grid,
   ResponsiveContext,
 } from "grommet";
+import Footer from "../../components/organisms/Footer";
 import { defaultTheme } from "../../theme";
 import TopBar from "../../components/organisms/TopBar";
 import { IPractice } from "../../interface/IPractice";
@@ -37,6 +37,7 @@ import {
   generateRandomPath,
   generateThemePath,
 } from "../../properties/Path";
+import PracticeImage from "../../components/atoms/PracticeImage";
 
 const StyledAnchor = styled(Anchor)`
   font-weight: 200;
@@ -50,7 +51,9 @@ interface ParamTypes {
 function DetailContainer() {
   let { numid, theme, level } = useParams<ParamTypes>();
   const history = useHistory();
+  const location = useLocation();
   const [practiceList, setPracticeList] = useState<IPracticeAT[]>();
+  const [fetcedPractice, setFetcedPractice] = useState(false);
   const [practice, setPractice] = useState<IPractice>();
   const [textInWrinting, setTextInWrinting] = useState("");
   const [tryText, setTryText] = useState("");
@@ -61,6 +64,14 @@ function DetailContainer() {
   const [visibleIsCorrect, setVisibleIsCorrect] = useState(false);
 
   useEffect(() => {
+    setTextInWrinting("");
+    setTryText("");
+    setHintNumber(0);
+    setMatchedPercent(0);
+    setIsCorrect(false);
+    setVisibleAnswer(false);
+    setVisibleIsCorrect(false);
+    setFetcedPractice(false);
     if (numid) {
       fetchPractice();
     }
@@ -76,6 +87,7 @@ function DetailContainer() {
       const atPractice = convertPracticeATtoPractice(response[0]);
       setPractice(atPractice);
     }
+    setFetcedPractice(true);
   };
 
   /**
@@ -91,7 +103,8 @@ function DetailContainer() {
       response = await fetchPractices();
     }
     setPracticeList(response);
-    if (!numid) {
+
+    if (!numid && response && response.length > 0) {
       const atPractice = convertPracticeATtoPractice(response[0]);
       setPractice(atPractice);
     }
@@ -106,7 +119,7 @@ function DetailContainer() {
       const practicesLength = practiceList ? practiceList.length : 0;
       const rNumber = Math.floor(Math.random() * 100) % practicesLength;
       history.push(generateRandomPath(practiceList[rNumber].fields.numid));
-      //TODO: 동일 url이면 state 리셋 로직 추가, 다른 url이면 reload 로직 추가
+      window.location.reload();
       const atPractice = convertPracticeATtoPractice(practiceList[rNumber]);
       setPractice(atPractice);
     } else {
@@ -119,7 +132,7 @@ function DetailContainer() {
    * */
   const moveLevelPractice = (level: string) => {
     history.push(generateLevelPath(level));
-    //TODO: 동일 url이면 state 리셋 로직 추가, 다른 url이면 reload 로직 추가
+    window.location.reload();
   };
 
   /**
@@ -127,7 +140,7 @@ function DetailContainer() {
    * */
   const moveThemePractice = (theme: string) => {
     history.push(generateThemePath(theme));
-    //TODO: 동일 url이면 state 리셋 로직 추가, 다른 url이면 reload 로직 추가
+    window.location.reload();
   };
 
   const moveNextPractice = () => {
@@ -152,7 +165,7 @@ function DetailContainer() {
         path = generateRandomPath(NextNumId);
       }
       history.push(path);
-      // pageReloadEffect(practiceList[index + 1]);
+      pageReloadEffect(practiceList[index + 1]);
     } else {
       alert("새로고침 후 다시 시도해주세요.");
     }
@@ -160,14 +173,12 @@ function DetailContainer() {
 
   const pageReloadEffect = (practiceAT: IPracticeAT) => {
     const atPractice = convertPracticeATtoPractice(practiceAT);
-    setPractice(atPractice);
-    setTextInWrinting("");
-    setTryText("");
-    setHintNumber(0);
-    setMatchedPercent(0);
-    setIsCorrect(false);
-    setVisibleAnswer(false);
-    setVisibleIsCorrect(false);
+    try {
+      const element: any = document.getElementById("english_input");
+      element.element.value = "";
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   /**
@@ -213,7 +224,7 @@ function DetailContainer() {
     setTryText(practice.english_texts[0]);
   };
 
-  if (practice) {
+  if (practiceList && practiceList.length > 0) {
     return (
       <Grommet theme={defaultTheme}>
         <TopBar
@@ -221,383 +232,421 @@ function DetailContainer() {
           moveLevelPractice={moveLevelPractice}
           moveThemePractice={moveThemePractice}
         />
-        <Main
-          pad="large"
-          align="center"
-          margin="0 auto"
-          height={{ min: "calc( 100vh - 144px)" }}
-        >
-          <Box tag="section" id="section-1">
-            <ResponsiveContext.Consumer>
-              {(size) => {
-                console.log(size);
-                if (size === "small") {
-                  return (
-                    <Box>
-                      {/* 사진 섹션 */}
+
+        {practice ? (
+          <Main
+            pad="large"
+            align="center"
+            margin="0 auto"
+            height={{ min: "calc( 100vh - 144px)" }}
+          >
+            <Box tag="section" id="section-1">
+              <ResponsiveContext.Consumer>
+                {(size) => {
+                  console.log(size);
+                  if (size === "small") {
+                    return (
                       <Box>
                         {practice.image_url ? (
-                          <Box
-                            background={{
-                              color: "lightgray",
-                              dark: true,
-                              image: `url(${practice.image_url})`,
-                              repeat: "no-repeat",
-                              size: "cover",
-                              position: "center",
-                            }}
-                            width="large"
-                            height={{ min: "250px" }}
-                          />
-                        ) : null}
-                      </Box>
-
-                      {/* 문제 풀이 섹션 */}
-                      <Box
-                        pad="medium"
-                        background="#F1EAE5"
-                        width="large"
-                        flex
-                        justify="center"
-                      >
-                        {practice.situation ? (
-                          <Paragraph
-                            alignSelf="center"
-                            size="small"
-                            color={"#333333"}
-                            style={{ whiteSpace: "pre-line" }}
-                          >
-                            {practice.situation}
-                          </Paragraph>
+                          <PracticeImage imageUrl={practice.image_url} />
                         ) : null}
 
-                        <Heading alignSelf="center" size="h3" color="#3849a8">
-                          {practice.korean_text}
-                        </Heading>
-
-                        <Keyboard
-                          onEnter={() =>
-                            clickChallengeButton(practice, textInWrinting)
-                          }
+                        {/* 문제 풀이 섹션 */}
+                        <Box
+                          pad="medium"
+                          background="#F1EAE5"
+                          width="large"
+                          flex
+                          justify="center"
                         >
-                          <TextInput
-                            reverse
-                            placeholder="입력하기 ..."
-                            id="english_input"
-                            icon={
-                              <Play
-                                onClick={() =>
-                                  clickChallengeButton(practice, textInWrinting)
-                                }
-                              />
+                          {practice.situation ? (
+                            <Paragraph
+                              alignSelf="center"
+                              size="small"
+                              color={"#333333"}
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              {practice.situation}
+                            </Paragraph>
+                          ) : null}
+
+                          <Heading alignSelf="center" size="h3" color="#3849a8">
+                            {practice.korean_text}
+                          </Heading>
+
+                          <Keyboard
+                            onEnter={() =>
+                              clickChallengeButton(practice, textInWrinting)
                             }
-                            onChange={(e) => setTextInWrinting(e.target.value)}
-                          />
-                        </Keyboard>
-                        {/* {visibletryText ? <div>{tryText}</div> : null} */}
-
-                        <CorrectBox
-                          visibleIsCorrect={visibleIsCorrect}
-                          isCorrect={isCorrect}
-                          tryText={tryText}
-                        />
-                        {!isCorrect ? (
-                          <HintBox
-                            hintNumber={hintNumber}
-                            matchedPercent={matchedPercent}
-                          />
-                        ) : null}
-
-                        <Box margin={{ top: "14px", bottom: "small" }}>
-                          {/* 다음 문장 버튼 */}
-                          {isCorrect || visibleAnswer ? (
-                            <Button
-                              primary
-                              label="다음 문제"
-                              onClick={moveNextPractice}
+                          >
+                            <TextInput
+                              reverse
+                              placeholder="입력하기 ..."
+                              id="english_input"
+                              icon={
+                                <Play
+                                  onClick={() =>
+                                    clickChallengeButton(
+                                      practice,
+                                      textInWrinting
+                                    )
+                                  }
+                                />
+                              }
+                              onChange={(e) =>
+                                setTextInWrinting(e.target.value)
+                              }
                             />
-                          ) : (
-                            <>
-                              {/* 유저가 도전 버튼을 눌렀으면? */}
-                              {tryText ? (
-                                <Box
-                                  align="center"
-                                  pad="small"
-                                  flex
-                                  direction="row"
-                                  justify="around"
-                                >
-                                  <Button
-                                    primary
-                                    label={"다시 도전!"}
-                                    onClick={() =>
-                                      clickChallengeButton(
-                                        practice,
-                                        textInWrinting
-                                      )
-                                    }
-                                  />
-                                  <Button
-                                    primary
-                                    label={"힌트보기"}
-                                    onClick={() => increaseHintNumber()}
-                                  />
-                                  <Button
-                                    primary
-                                    label="정답보기"
-                                    onClick={() => showAnswer(practice)}
-                                  />
-                                </Box>
-                              ) : (
-                                <Box
-                                  align="center"
-                                  pad="medium"
-                                  flex
-                                  direction="row"
-                                >
-                                  <Button
-                                    margin="0 auto"
-                                    primary
-                                    label={"정답 도전!"}
-                                    onClick={() =>
-                                      clickChallengeButton(
-                                        practice,
-                                        textInWrinting
-                                      )
-                                    }
-                                  />
-                                </Box>
-                              )}
-                            </>
-                          )}
+                          </Keyboard>
+                          {/* {visibletryText ? <div>{tryText}</div> : null} */}
+
+                          <CorrectBox
+                            visibleIsCorrect={visibleIsCorrect}
+                            isCorrect={isCorrect}
+                            tryText={tryText}
+                          />
+                          {!isCorrect ? (
+                            <HintBox
+                              hintNumber={hintNumber}
+                              matchedPercent={matchedPercent}
+                            />
+                          ) : null}
+
+                          <Box margin={{ top: "14px", bottom: "small" }}>
+                            {/* 다음 문장 버튼 */}
+                            {isCorrect || visibleAnswer ? (
+                              <Button
+                                primary
+                                label="다음 문제"
+                                onClick={moveNextPractice}
+                              />
+                            ) : (
+                              <>
+                                {/* 유저가 도전 버튼을 눌렀으면? */}
+                                {tryText ? (
+                                  <Box
+                                    align="center"
+                                    pad="small"
+                                    flex
+                                    direction="row"
+                                    justify="around"
+                                  >
+                                    <Button
+                                      primary
+                                      label={"다시 도전!"}
+                                      onClick={() =>
+                                        clickChallengeButton(
+                                          practice,
+                                          textInWrinting
+                                        )
+                                      }
+                                    />
+                                    <Button
+                                      primary
+                                      label={"힌트보기"}
+                                      onClick={() => increaseHintNumber()}
+                                    />
+                                    <Button
+                                      primary
+                                      label="정답보기"
+                                      onClick={() => showAnswer(practice)}
+                                    />
+                                  </Box>
+                                ) : (
+                                  <Box
+                                    align="center"
+                                    pad="medium"
+                                    flex
+                                    direction="row"
+                                  >
+                                    <Button
+                                      margin="0 auto"
+                                      primary
+                                      label={"정답 도전!"}
+                                      onClick={() =>
+                                        clickChallengeButton(
+                                          practice,
+                                          textInWrinting
+                                        )
+                                      }
+                                    />
+                                  </Box>
+                                )}
+                              </>
+                            )}
+                          </Box>
                         </Box>
                       </Box>
-                    </Box>
-                  );
-                } else {
-                  return (
-                    <Grid columns={["1/2", "1/2"]}>
-                      {/* 사진 섹션 */}
-                      <Box>
-                        {practice.image_url ? (
-                          <Box
-                            background={{
-                              color: "lightgray",
-                              dark: true,
-                              image: `url(${practice.image_url})`,
-                              repeat: "no-repeat",
-                              size: "cover",
-                              position: "center",
-                            }}
-                            width="large"
-                            height="100%"
-                          />
-                        ) : null}
-                      </Box>
-
-                      {/* 문제 풀이 섹션 */}
-                      <Box
-                        pad="medium"
-                        background="#F1EAE5"
-                        width="large"
-                        flex
-                        justify="center"
-                      >
-                        {practice.situation ? (
-                          <Paragraph
-                            alignSelf="center"
-                            size="small"
-                            color={"#333333"}
-                            style={{ whiteSpace: "pre-line" }}
-                          >
-                            {practice.situation}
-                          </Paragraph>
-                        ) : null}
-
-                        <Heading alignSelf="center" size="h3" color="#3849a8">
-                          {practice.korean_text}
-                        </Heading>
-
-                        <Keyboard
-                          onEnter={() =>
-                            clickChallengeButton(practice, textInWrinting)
-                          }
-                        >
-                          <TextInput
-                            reverse
-                            placeholder="입력하기 ..."
-                            id="english_input"
-                            icon={
-                              <Play
-                                onClick={() =>
-                                  clickChallengeButton(practice, textInWrinting)
-                                }
-                              />
-                            }
-                            onChange={(e) => setTextInWrinting(e.target.value)}
-                          />
-                        </Keyboard>
-                        {/* {visibletryText ? <div>{tryText}</div> : null} */}
-
-                        <CorrectBox
-                          visibleIsCorrect={visibleIsCorrect}
-                          isCorrect={isCorrect}
-                          tryText={tryText}
-                        />
-                        {!isCorrect ? (
-                          <HintBox
-                            hintNumber={hintNumber}
-                            matchedPercent={matchedPercent}
-                          />
-                        ) : null}
-
-                        <Box margin={{ top: "14px", bottom: "small" }}>
-                          {/* 다음 문장 버튼 */}
-                          {isCorrect || visibleAnswer ? (
-                            <Button
-                              primary
-                              label="다음 문제"
-                              onClick={moveNextPractice}
-                            />
-                          ) : (
-                            <>
-                              {/* 유저가 도전 버튼을 눌렀으면? */}
-                              {tryText ? (
-                                <Box
-                                  align="center"
-                                  pad="small"
-                                  flex
-                                  direction="row"
-                                  justify="around"
-                                >
-                                  <Button
-                                    primary
-                                    label={"다시 도전!"}
-                                    onClick={() =>
-                                      clickChallengeButton(
-                                        practice,
-                                        textInWrinting
-                                      )
-                                    }
-                                  />
-                                  <Button
-                                    primary
-                                    label={"힌트보기"}
-                                    onClick={() => increaseHintNumber()}
-                                  />
-                                  <Button
-                                    primary
-                                    label="정답보기"
-                                    onClick={() => showAnswer(practice)}
-                                  />
-                                </Box>
-                              ) : (
-                                <Box
-                                  align="center"
-                                  pad="medium"
-                                  flex
-                                  direction="row"
-                                >
-                                  <Button
-                                    margin="0 auto"
-                                    primary
-                                    label={"정답 도전!"}
-                                    onClick={() =>
-                                      clickChallengeButton(
-                                        practice,
-                                        textInWrinting
-                                      )
-                                    }
-                                  />
-                                </Box>
-                              )}
-                            </>
-                          )}
-                        </Box>
-                      </Box>
-                    </Grid>
-                  );
-                }
-              }}
-            </ResponsiveContext.Consumer>
-          </Box>
-          <Box margin="medium" />
-          {visibleAnswer || isCorrect ? (
-            <Box tag="section" id="section-2">
-              <Grid columns={["1/2", "1/2"]}>
-                <Box
-                  tag="article"
-                  width="large"
-                  background="#F1EAE5"
-                  pad="medium"
-                >
-                  {isCorrect || visibleAnswer ? (
-                    <>
-                      <Box tag="section" className="flex">
-                        {isCorrect ? (
-                          <Box pad={{ bottom: "medium" }}>
-                            {/* 또 다른 표현 */}
-                            {practice.english_texts.length > 1 ? (
-                              <Box>
-                                <Box pad={{ bottom: "small" }}>
-                                  <Text weight="bold">
-                                    ⭐️&nbsp;&nbsp;또 다르게 표현할 수 있어요
-                                  </Text>
-                                </Box>
-                                {practice.english_texts.map((item, index) => {
-                                  return (
-                                    <Box
-                                      pad={{ left: "7px", bottom: "7px" }}
-                                      key={index}
-                                    >
-                                      <Text>{item}</Text>
-                                    </Box>
-                                  );
-                                })}
-                              </Box>
-                            ) : null}
-                          </Box>
-                        ) : (
-                          <Box pad={{ bottom: "medium" }}>
-                            {/* 또 다른 표현 */}
-                            {practice.english_texts.length > 0 ? (
-                              <Box>
-                                <Box pad={{ bottom: "small" }}>
-                                  <Text weight="bold">
-                                    ⭐️&nbsp;&nbsp;정답! 이렇게 표현할 수
-                                    있어요.
-                                  </Text>
-                                </Box>
-                                {practice.english_texts.map((item, index) => {
-                                  return (
-                                    <Box
-                                      pad={{ left: "7px", bottom: "7px" }}
-                                      key={index}
-                                    >
-                                      <Text>{item}</Text>
-                                    </Box>
-                                  );
-                                })}
-                              </Box>
-                            ) : null}
-                          </Box>
-                        )}
-
+                    );
+                  } else {
+                    return (
+                      <Grid columns={["1/2", "1/2"]}>
+                        {/* 사진 섹션 */}
                         <Box>
-                          {/* 문제 해설 */}
-                          {practice.related_descriptions ? (
-                            <div>
-                              {practice.related_descriptions.map((item) => (
+                          {practice.image_url ? (
+                            <Box
+                              background={{
+                                color: "lightgray",
+                                dark: true,
+                                image: `url(${practice.image_url})`,
+                                repeat: "no-repeat",
+                                size: "cover",
+                                position: "center",
+                              }}
+                              width="large"
+                              height="100%"
+                            />
+                          ) : null}
+                        </Box>
+
+                        {/* 문제 풀이 섹션 */}
+                        <Box
+                          pad="medium"
+                          background="#F1EAE5"
+                          width="large"
+                          flex
+                          justify="center"
+                        >
+                          {practice.situation ? (
+                            <Paragraph
+                              alignSelf="center"
+                              size="small"
+                              color={"#333333"}
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              {practice.situation}
+                            </Paragraph>
+                          ) : null}
+
+                          <Heading alignSelf="center" size="h3" color="#3849a8">
+                            {practice.korean_text}
+                          </Heading>
+
+                          <Keyboard
+                            onEnter={() =>
+                              clickChallengeButton(practice, textInWrinting)
+                            }
+                          >
+                            <TextInput
+                              reverse
+                              placeholder="입력하기 ..."
+                              id="english_input"
+                              icon={
+                                <Play
+                                  onClick={() =>
+                                    clickChallengeButton(
+                                      practice,
+                                      textInWrinting
+                                    )
+                                  }
+                                />
+                              }
+                              onChange={(e) =>
+                                setTextInWrinting(e.target.value)
+                              }
+                            />
+                          </Keyboard>
+                          {/* {visibletryText ? <div>{tryText}</div> : null} */}
+
+                          <CorrectBox
+                            visibleIsCorrect={visibleIsCorrect}
+                            isCorrect={isCorrect}
+                            tryText={tryText}
+                          />
+                          {!isCorrect ? (
+                            <HintBox
+                              hintNumber={hintNumber}
+                              matchedPercent={matchedPercent}
+                            />
+                          ) : null}
+
+                          <Box margin={{ top: "14px", bottom: "small" }}>
+                            {/* 다음 문장 버튼 */}
+                            {isCorrect || visibleAnswer ? (
+                              <Button
+                                primary
+                                label="다음 문제"
+                                onClick={moveNextPractice}
+                              />
+                            ) : (
+                              <>
+                                {/* 유저가 도전 버튼을 눌렀으면? */}
+                                {tryText ? (
+                                  <Box
+                                    align="center"
+                                    pad="small"
+                                    flex
+                                    direction="row"
+                                    justify="around"
+                                  >
+                                    <Button
+                                      primary
+                                      label={"다시 도전!"}
+                                      onClick={() =>
+                                        clickChallengeButton(
+                                          practice,
+                                          textInWrinting
+                                        )
+                                      }
+                                    />
+                                    <Button
+                                      primary
+                                      label={"힌트보기"}
+                                      onClick={() => increaseHintNumber()}
+                                    />
+                                    <Button
+                                      primary
+                                      label="정답보기"
+                                      onClick={() => showAnswer(practice)}
+                                    />
+                                  </Box>
+                                ) : (
+                                  <Box
+                                    align="center"
+                                    pad="medium"
+                                    flex
+                                    direction="row"
+                                  >
+                                    <Button
+                                      margin="0 auto"
+                                      primary
+                                      label={"정답 도전!"}
+                                      onClick={() =>
+                                        clickChallengeButton(
+                                          practice,
+                                          textInWrinting
+                                        )
+                                      }
+                                    />
+                                  </Box>
+                                )}
+                              </>
+                            )}
+                          </Box>
+                        </Box>
+                      </Grid>
+                    );
+                  }
+                }}
+              </ResponsiveContext.Consumer>
+            </Box>
+            <Box margin="medium" />
+            {visibleAnswer || isCorrect ? (
+              <Box tag="section" id="section-2">
+                <Grid columns={["1/2", "1/2"]}>
+                  <Box
+                    tag="article"
+                    width="large"
+                    background="#F1EAE5"
+                    pad="medium"
+                  >
+                    {isCorrect || visibleAnswer ? (
+                      <>
+                        <Box tag="section" className="flex">
+                          {isCorrect ? (
+                            <Box pad={{ bottom: "medium" }}>
+                              {/* 또 다른 표현 */}
+                              {practice.english_texts.length > 1 ? (
                                 <Box>
                                   <Box pad={{ bottom: "small" }}>
                                     <Text weight="bold">
-                                      📗&nbsp;&nbsp;{item.title}
+                                      ⭐️&nbsp;&nbsp;또 다르게 표현할 수 있어요
                                     </Text>
                                   </Box>
-                                  <Box pad={{ left: "7px", bottom: "7px" }}>
-                                    <Text style={{ whiteSpace: "pre-line" }}>
-                                      {item.description}
+                                  {practice.english_texts.map((item, index) => {
+                                    return (
+                                      <Box
+                                        pad={{ left: "7px", bottom: "7px" }}
+                                        key={index}
+                                      >
+                                        <Text>{item}</Text>
+                                      </Box>
+                                    );
+                                  })}
+                                </Box>
+                              ) : null}
+                            </Box>
+                          ) : (
+                            <Box pad={{ bottom: "medium" }}>
+                              {/* 또 다른 표현 */}
+                              {practice.english_texts.length > 0 ? (
+                                <Box>
+                                  <Box pad={{ bottom: "small" }}>
+                                    <Text weight="bold">
+                                      ⭐️&nbsp;&nbsp;정답! 이렇게 표현할 수
+                                      있어요.
                                     </Text>
+                                  </Box>
+                                  {practice.english_texts.map((item, index) => {
+                                    return (
+                                      <Box
+                                        pad={{ left: "7px", bottom: "7px" }}
+                                        key={index}
+                                      >
+                                        <Text>{item}</Text>
+                                      </Box>
+                                    );
+                                  })}
+                                </Box>
+                              ) : null}
+                            </Box>
+                          )}
+
+                          <Box>
+                            {/* 문제 해설 */}
+                            {practice.related_descriptions ? (
+                              <div>
+                                {practice.related_descriptions.map((item) => (
+                                  <Box>
+                                    <Box pad={{ bottom: "small" }}>
+                                      <Text weight="bold">
+                                        📗&nbsp;&nbsp;{item.title}
+                                      </Text>
+                                    </Box>
+                                    <Box pad={{ left: "7px", bottom: "7px" }}>
+                                      <Text style={{ whiteSpace: "pre-line" }}>
+                                        {item.description}
+                                      </Text>
+                                    </Box>
+                                  </Box>
+                                ))}
+                              </div>
+                            ) : null}
+                          </Box>
+                        </Box>
+                      </>
+                    ) : null}
+                  </Box>
+                  <Box
+                    tag="article"
+                    width="large"
+                    background="linear-gradient(to bottom,#BFD0E6,#e8f2ff)"
+                    pad="small"
+                  >
+                    {isCorrect || visibleAnswer ? (
+                      <Box tag="section">
+                        {/* 영상 해설*/}
+                        <Box>
+                          {practice.related_videos ? (
+                            <div>
+                              {practice.related_videos.map((item) => (
+                                <Box pad="small">
+                                  <Box pad={{ bottom: "small" }}>
+                                    <Text weight="bold">
+                                      🎥&nbsp;&nbsp;{item.title}
+                                    </Text>
+                                  </Box>
+                                  <Box pad="medium">
+                                    <div className="video-container">
+                                      <iframe
+                                        width="560"
+                                        height="315"
+                                        src={item.link}
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                      ></iframe>
+                                    </div>
                                   </Box>
                                 </Box>
                               ))}
@@ -605,72 +654,62 @@ function DetailContainer() {
                           ) : null}
                         </Box>
                       </Box>
-                    </>
-                  ) : null}
-                </Box>
-                <Box
-                  tag="article"
-                  width="large"
-                  background="linear-gradient(to bottom,#BFD0E6,#e8f2ff)"
-                  pad="small"
-                >
-                  {isCorrect || visibleAnswer ? (
-                    <Box tag="section">
-                      {/* 영상 해설*/}
-                      <Box>
-                        {practice.related_videos ? (
-                          <div>
-                            {practice.related_videos.map((item) => (
-                              <Box pad="small">
-                                <Box pad={{ bottom: "small" }}>
-                                  <Text weight="bold">
-                                    🎥&nbsp;&nbsp;{item.title}
-                                  </Text>
-                                </Box>
-                                <Box pad="medium">
-                                  <div className="video-container">
-                                    <iframe
-                                      width="560"
-                                      height="315"
-                                      src={item.link}
-                                      frameBorder="0"
-                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                      allowFullScreen
-                                    ></iframe>
-                                  </div>
-                                </Box>
-                              </Box>
-                            ))}
-                          </div>
-                        ) : null}
-                      </Box>
-                    </Box>
-                  ) : null}
-                </Box>
-              </Grid>
-            </Box>
-          ) : null}
-        </Main>
-        {/* footer: 사이트맵 */}
-
-        <Footer
-          background="dark-2"
-          pad={{ horizontal: "large", vertical: "small" }}
-        >
-          <Box direction="row" gap="small">
-            <Text alignSelf="center">영작연습소</Text>
-          </Box>
-          <Text textAlign="center" size="small">
-            © 2021 Copyright
-          </Text>
-        </Footer>
+                    ) : null}
+                  </Box>
+                </Grid>
+              </Box>
+            ) : null}
+          </Main>
+        ) : (
+          <>
+            {fetcedPractice ? (
+              <Box height="80vh" flex justify="center">
+                <Heading alignSelf="center">
+                  문장이 사라졌어요..
+                  <br />
+                  (어디갔을까...😭)
+                  <Button onClick={moveNextPractice}>다른 문제 풀어보기</Button>
+                </Heading>
+              </Box>
+            ) : (
+              <Box height="80vh" flex justify="center">
+                <Heading alignSelf="center">문장 불러오는 중...</Heading>
+              </Box>
+            )}
+          </>
+        )}
+        <Footer />
+      </Grommet>
+    );
+  } else if (practiceList) {
+    return (
+      <Grommet theme={defaultTheme}>
+        <TopBar
+          moveRandomPractice={moveRandomPractice}
+          moveLevelPractice={moveLevelPractice}
+          moveThemePractice={moveThemePractice}
+        />
+        <Box height="80vh" flex justify="center">
+          <Heading alignSelf="center">
+            아직 준비된 문제가 없습니다.. <br />
+            열심히 준비중이에요🤷🏻‍♀️
+          </Heading>
+        </Box>
+        <Footer />
       </Grommet>
     );
   } else {
     return (
-      <div className="App">
-        <header className="App-header">문장 불러오는 중...</header>
-      </div>
+      <Grommet theme={defaultTheme}>
+        <TopBar
+          moveRandomPractice={moveRandomPractice}
+          moveLevelPractice={moveLevelPractice}
+          moveThemePractice={moveThemePractice}
+        />
+        <Box height="80vh" flex justify="center">
+          <Heading alignSelf="center">문제 불러오는 중 🏃‍♀️</Heading>
+        </Box>
+      </Grommet>
     );
   }
 }

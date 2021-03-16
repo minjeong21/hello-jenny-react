@@ -38,7 +38,11 @@ const TopBar = ({
                   <Menu
                     a11yTitle="Navigation Menu"
                     dropProps={{ align: { top: "bottom", right: "right" } }}
-                    items={[]}
+                    items={getArrayMenuAll(
+                      moveRandomPractice,
+                      moveLevelPractice,
+                      moveThemePractice
+                    )}
                   />
                 </Box>
               </>
