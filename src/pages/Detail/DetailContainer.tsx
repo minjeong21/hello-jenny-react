@@ -65,18 +65,16 @@ function DetailContainer() {
       fetchPractice();
     }
     fetchPracticeBundle();
-  });
+  }, []);
 
   /**
    * numid가 있는 경우, 해당 문제 가져오기
    * */
   const fetchPractice = async () => {
     const response = await fetchPracticeByNumId(Number(numid));
-    console.log("fetchPractice");
-    console.log(response);
     if (response && response.length > 0) {
-      const practice = convertPracticeATtoPractice(response[0]);
-      setPractice(practice);
+      const atPractice = convertPracticeATtoPractice(response[0]);
+      setPractice(atPractice);
     }
   };
 
@@ -108,6 +106,7 @@ function DetailContainer() {
       const practicesLength = practiceList ? practiceList.length : 0;
       const rNumber = Math.floor(Math.random() * 100) % practicesLength;
       history.push(generateRandomPath(practiceList[rNumber].fields.numid));
+      //TODO: 동일 url이면 state 리셋 로직 추가, 다른 url이면 reload 로직 추가
       const atPractice = convertPracticeATtoPractice(practiceList[rNumber]);
       setPractice(atPractice);
     } else {
@@ -119,7 +118,8 @@ function DetailContainer() {
    * 메뉴 클릭 이벤트. 래벨 문제로 이동
    * */
   const moveLevelPractice = (level: string) => {
-    window.location.href = generateLevelPath(level);
+    history.push(generateLevelPath(level));
+    //TODO: 동일 url이면 state 리셋 로직 추가, 다른 url이면 reload 로직 추가
   };
 
   /**
@@ -127,6 +127,7 @@ function DetailContainer() {
    * */
   const moveThemePractice = (theme: string) => {
     history.push(generateThemePath(theme));
+    //TODO: 동일 url이면 state 리셋 로직 추가, 다른 url이면 reload 로직 추가
   };
 
   const moveNextPractice = () => {

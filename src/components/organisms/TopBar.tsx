@@ -38,11 +38,7 @@ const TopBar = ({
                   <Menu
                     a11yTitle="Navigation Menu"
                     dropProps={{ align: { top: "bottom", right: "right" } }}
-                    items={getArrayMenuAll(
-                      moveRandomPractice,
-                      moveLevelPractice,
-                      moveThemePractice
-                    )}
+                    items={[]}
                   />
                 </Box>
               </>
@@ -102,6 +98,8 @@ const getArrayMenu = (
   isSmallView?: boolean
 ) => {
   const menuList = type === "level" ? levelMenus : themeMenus;
+  console.log(type);
+  console.log(menuList);
   let resultMenu: { label: any; onClick: any }[] = [];
 
   if (isSmallView) {
@@ -125,8 +123,8 @@ const getArrayMenu = (
 
 const getArrayMenuAll = (
   moveNextRandom: any,
-  moveNextInTheme: (value: string) => void,
-  moveNextInLevel: (value: string) => void
+  moveLevelPractice: (value: string) => void,
+  moveThemePractice: (value: string) => void
 ) => {
   let resultMenu: { label: any; onClick: any }[] = [];
   resultMenu.push({
@@ -139,7 +137,7 @@ const getArrayMenuAll = (
     label: <Box pad="small">Level 문제</Box>,
     onClick: moveNextRandom,
   });
-  const levelMenus = getArrayMenu("level", moveNextInLevel, true);
+  const levelMenus = getArrayMenu("level", moveLevelPractice, true);
   levelMenus.map((item) => resultMenu.push(item));
 
   // 테마 문제
@@ -148,7 +146,7 @@ const getArrayMenuAll = (
     onClick: moveNextRandom,
   });
 
-  const themeMenus = getArrayMenu("theme", moveNextInTheme, true);
+  const themeMenus = getArrayMenu("theme", moveThemePractice, true);
   themeMenus.map((item) => resultMenu.push(item));
 
   return resultMenu;
