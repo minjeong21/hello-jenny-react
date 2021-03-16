@@ -38,7 +38,7 @@ import {
   generateThemePath,
 } from "../../properties/Path";
 import PracticeImage from "../../components/atoms/PracticeImage";
-import PracticeTryBox from "../../components/molecules/PracticeTryBox";
+import PracticeTryBox from "../../components/organisms/PracticeTryBox";
 
 const StyledAnchor = styled(Anchor)`
   font-weight: 200;

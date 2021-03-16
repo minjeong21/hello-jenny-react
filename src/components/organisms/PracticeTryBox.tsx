@@ -2,8 +2,8 @@ import { Play } from "grommet-icons";
 import { Box, Paragraph, Heading, Button, TextInput, Keyboard } from "grommet";
 import { IPractice } from "../../interface/IPractice";
 import React from "react";
-import CorrectBox from "./CorrectBox";
-import HintBox from "./HinBox";
+import CorrectBox from "../molecules/CorrectBox";
+import HintBox from "../molecules/HinBox";
 
 interface IProps {
   practice: IPractice;
