@@ -11,6 +11,10 @@ export interface IPracticeAT {
     related_desc?: string[];
     related_videos?: string[];
     tags?: string[];
+    themes?: string[];
+    hint1: string;
+    hint2: string;
+    level?: string;
   };
   createdTime: string;
 }

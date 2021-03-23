@@ -16,4 +16,8 @@ export interface IPractice {
     title?: string; //영상 자료 제목
     link?: string; // 영장 자료 링크
   }[];
+  themes?: string[];
+  hint1?: string | null;
+  hint2?: string | null;
+  level?: string | null;
 }

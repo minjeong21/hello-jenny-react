@@ -3,7 +3,7 @@ import {
   getUnMatchedWordCount,
   getMatchedWordPercent,
   compareAnswer,
-} from "./ManagerSentence";
+} from "./utils/ManagerSentence";
 
 // test('renders learn react link', () => {
 //   render(<App />);

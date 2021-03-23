@@ -1,5 +1,5 @@
-import { IPractice } from "./interface/IPractice";
-import { IPracticeAT } from "./interface/IPracticeAT";
+import { IPractice } from "../interface/IPractice";
+import { IPracticeAT } from "../interface/IPracticeAT";
 
 const samePair = [
   {
@@ -137,6 +137,10 @@ export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
     related_descriptions,
     related_videos: related_videos_result,
     image_url: practiceAT.fields.image_url,
+    themes: practiceAT.fields.themes,
+    hint1: practiceAT.fields.hint1 ? practiceAT.fields.hint1 : null,
+    hint2: practiceAT.fields.hint2 ? practiceAT.fields.hint2 : null,
+    level: practiceAT.fields.level ? practiceAT.fields.level : null,
   };
   return practice;
 };

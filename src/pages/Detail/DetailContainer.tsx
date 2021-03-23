@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { Play } from "grommet-icons";
 import {
   Anchor,
   Box,
-  Text,
   Grommet,
-  Paragraph,
   Heading,
   Button,
-  TextInput,
   Main,
-  Keyboard,
-  Grid,
   ResponsiveContext,
 } from "grommet";
 import Footer from "../../components/organisms/Footer";
-import { defaultTheme } from "../../theme";
 import TopBar from "../../components/organisms/TopBar";
 import { IPractice } from "../../interface/IPractice";
 import { IPracticeAT } from "../../interface/IPracticeAT";
@@ -31,16 +24,14 @@ import {
   compareAnswer,
   convertPracticeATtoPractice,
   getMatchedWordPercent,
-} from "../../ManagerSentence";
+} from "../../utils/ManagerSentence";
 import {
   generateLevelPath,
   generateRandomPath,
   generateThemePath,
 } from "../../properties/Path";
-import PracticeImage from "../../components/atoms/PracticeImage";
-import PracticeTryBox from "../../components/organisms/PracticeTryBox";
-import DescriptionSection from "../../components/organisms/DescriptionSection";
-
+import { defaultTheme } from "../../theme";
+import DetailPresenter from "./DetailPresenter";
 const StyledAnchor = styled(Anchor)`
   font-weight: 200;
 `;
@@ -77,6 +68,7 @@ function DetailContainer() {
    * */
   const fetchPractice = async () => {
     const response = await fetchPracticeByNumId(Number(numid));
+    console.log(response);
     if (response && response.length > 0) {
       const atPractice = convertPracticeATtoPractice(response[0]);
       setPractice(atPractice);
@@ -232,109 +224,25 @@ function DetailContainer() {
 
   if (practiceList && practiceList.length > 0) {
     return (
-      <Grommet theme={defaultTheme}>
-        <TopBar
-          moveRandomPractice={moveRandomPractice}
-          moveLevelPractice={moveLevelPractice}
-          moveThemePractice={moveThemePractice}
-        />
-
-        {practice ? (
-          <Main
-            pad="large"
-            align="center"
-            margin="0 auto"
-            height={{ min: "calc( 100vh - 144px)" }}
-          >
-            <Box tag="section" id="section-1">
-              <ResponsiveContext.Consumer>
-                {(size) => {
-                  console.log(size);
-                  if (size === "small") {
-                    return (
-                      <Box>
-                        {practice.image_url ? (
-                          <PracticeImage imageUrl={practice.image_url} />
-                        ) : null}
-
-                        {/* 문제 풀이 섹션 */}
-
-                        <PracticeTryBox
-                          practice={practice}
-                          textInWrinting={textInWrinting}
-                          visibleIsCorrect={visibleIsCorrect}
-                          isCorrect={isCorrect}
-                          tryText={tryText}
-                          hintNumber={hintNumber}
-                          matchedPercent={matchedPercent}
-                          visibleAnswer={visibleAnswer}
-                          clickChallengeButton={clickChallengeButton}
-                          setTextInWrinting={setTextInWrinting}
-                          moveNextPractice={moveNextPractice}
-                          increaseHintNumber={increaseHintNumber}
-                          showAnswer={showAnswer}
-                        />
-                      </Box>
-                    );
-                  } else {
-                    return (
-                      <Grid columns={["1/2", "1/2"]}>
-                        {/* 사진 섹션 */}
-                        {practice.image_url ? (
-                          <PracticeImage imageUrl={practice.image_url} />
-                        ) : null}
-
-                        {/* 문제 풀이 섹션 */}
-                        <PracticeTryBox
-                          practice={practice}
-                          textInWrinting={textInWrinting}
-                          visibleIsCorrect={visibleIsCorrect}
-                          isCorrect={isCorrect}
-                          tryText={tryText}
-                          hintNumber={hintNumber}
-                          matchedPercent={matchedPercent}
-                          visibleAnswer={visibleAnswer}
-                          clickChallengeButton={clickChallengeButton}
-                          setTextInWrinting={setTextInWrinting}
-                          moveNextPractice={moveNextPractice}
-                          increaseHintNumber={increaseHintNumber}
-                          showAnswer={showAnswer}
-                        />
-                      </Grid>
-                    );
-                  }
-                }}
-              </ResponsiveContext.Consumer>
-            </Box>
-            <Box margin="medium" />
-            {visibleAnswer || isCorrect ? (
-              <DescriptionSection
-                isCorrect={isCorrect}
-                visibleAnswer={visibleAnswer}
-                practice={practice}
-              />
-            ) : null}
-          </Main>
-        ) : (
-          <>
-            {fetcedPractice ? (
-              <Box height="80vh" flex justify="center">
-                <Heading alignSelf="center">
-                  문장이 사라졌어요..
-                  <br />
-                  (어디갔을까...😭)
-                  <Button onClick={moveNextPractice}>다른 문제 풀어보기</Button>
-                </Heading>
-              </Box>
-            ) : (
-              <Box height="80vh" flex justify="center">
-                <Heading alignSelf="center">문장 불러오는 중...</Heading>
-              </Box>
-            )}
-          </>
-        )}
-        <Footer />
-      </Grommet>
+      <DetailPresenter
+        moveRandomPractice={moveRandomPractice}
+        moveLevelPractice={moveLevelPractice}
+        moveThemePractice={moveThemePractice}
+        practice={practice}
+        textInWrinting={textInWrinting}
+        visibleIsCorrect={visibleIsCorrect}
+        isCorrect={isCorrect}
+        tryText={tryText}
+        hintNumber={hintNumber}
+        matchedPercent={matchedPercent}
+        visibleAnswer={visibleAnswer}
+        clickChallengeButton={clickChallengeButton}
+        setTextInWrinting={setTextInWrinting}
+        moveNextPractice={moveNextPractice}
+        increaseHintNumber={increaseHintNumber}
+        showAnswer={showAnswer}
+        fetcedPractice={fetcedPractice}
+      />
     );
   } else if (practiceList) {
     return (

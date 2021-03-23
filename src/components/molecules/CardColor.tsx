@@ -2,7 +2,7 @@ import { Card, Box, Text } from "grommet";
 import { cardBgColors } from "../../theme";
 import { IPracticeAT } from "../../interface/IPracticeAT";
 import { IPractice } from "../../interface/IPractice";
-import { convertPracticeATtoPractice } from "../../ManagerSentence";
+import { convertPracticeATtoPractice } from "../../utils/ManagerSentence";
 
 interface IProps {
   practiceAT: IPracticeAT;

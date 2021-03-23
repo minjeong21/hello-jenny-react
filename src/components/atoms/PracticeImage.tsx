@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Box } from "grommet";
+import styled from "styled-components";
+const Image = styled.div<{ src: any }>`
+  background-image: url(${(props) => props.src});
+  height: 205px;
+  width: 250px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 7px;
+`;
 interface IProps {
   imageUrl: string;
 }
 const PracticeImage = ({ imageUrl }: IProps) => {
   return (
-    <Box
-      background={{
-        color: "lightgray",
-        dark: true,
-        image: `url(${imageUrl})`,
-        repeat: "no-repeat",
-        size: "cover",
-        position: "center",
-      }}
-      width="large"
-      height={{ min: "250px" }}
-    />
+    <div>
+      <Image src={imageUrl} />
+    </div>
   );
 };
 
