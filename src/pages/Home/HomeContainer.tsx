@@ -121,8 +121,8 @@ const HeaderContent = () => {
         <Image src="/assets/header-rabit.png" width="300px" />
       </div>
       <div className="flex-2 flex flex-column justify-center pad-medium">
-        <div className="pre-line font-large font pad-bottom-xs">
-          {`따끈따근~ 새로운 문장이 도착했어요!\n같이 한번 풀어볼까요?? `}
+        <div className="pre-line font-large font pb-xs">
+          {`따끈따끈~ 새로운 문장이 도착했어요!\n같이 한번 풀어볼까요?? `}
         </div>
         <div className="font-small font-gray-3">
           오늘 문제를 모두 맞춘다면, 기분이 정말 좋을꺼에요!

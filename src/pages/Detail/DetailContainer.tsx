@@ -29,9 +29,14 @@ import {
   generateLevelPath,
   generateRandomPath,
   generateThemePath,
+  getNextRandomNum,
 } from "../../properties/Path";
 import { defaultTheme } from "../../theme";
 import DetailPresenter from "./DetailPresenter";
+import {
+  fetchAndSetPractice,
+  fetchAndSetPracticeList,
+} from "../../utils/ManagerPractice";
 const StyledAnchor = styled(Anchor)`
   font-weight: 200;
 `;
@@ -61,40 +66,17 @@ function DetailContainer() {
       fetchPractice();
     }
     fetchPracticeBundle();
-  }, []);
+  }, [level, theme, numid]);
 
   /**
    * numid가 있는 경우, 해당 문제 가져오기
    * */
   const fetchPractice = async () => {
-    const response = await fetchPracticeByNumId(Number(numid));
-    console.log(response);
-    if (response && response.length > 0) {
-      const atPractice = convertPracticeATtoPractice(response[0]);
-      setPractice(atPractice);
-    }
-    setFetcedPractice(true);
+    fetchAndSetPractice(numid, setPractice, setFetcedPractice);
   };
 
-  /**
-   * theme 또는 레벨에 맞는 문제 리스트 가져오기 (100개까지)
-   * */
   const fetchPracticeBundle = async () => {
-    let response = null;
-    if (theme) {
-      response = await fetchPracticeByTheme(theme);
-    } else if (level) {
-      response = await fetchPracticeByLevel(level);
-    } else {
-      response = await fetchPractices();
-    }
-    setPracticeList(response);
-
-    if (!numid && response && response.length > 0) {
-      const atPractice = convertPracticeATtoPractice(response[0]);
-      setPractice(atPractice);
-    }
-    console.log(response);
+    fetchAndSetPracticeList(theme, level, numid, setPracticeList, setPractice);
   };
 
   /**
@@ -102,11 +84,11 @@ function DetailContainer() {
    * */
   const moveRandomPractice = () => {
     if (practiceList) {
-      const practicesLength = practiceList ? practiceList.length : 0;
-      const rNumber = Math.floor(Math.random() * 100) % practicesLength;
-      history.push(generateRandomPath(practiceList[rNumber].fields.numid));
-      window.location.reload();
-      const atPractice = convertPracticeATtoPractice(practiceList[rNumber]);
+      const randomNumber = getNextRandomNum(practiceList);
+      history.push(generateRandomPath(randomNumber));
+      const atPractice = convertPracticeATtoPractice(
+        practiceList[randomNumber]
+      );
       setPractice(atPractice);
     } else {
       alert("새로고침 후 다시 시도해주세요.");
@@ -168,12 +150,6 @@ function DetailContainer() {
     setVisibleIsCorrect(false);
     setFetcedPractice(false);
     setPractice(atPractice);
-    try {
-      const element: any = document.getElementById("english_input");
-      element.element.value = "";
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   /**
