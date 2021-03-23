@@ -1,13 +1,19 @@
 import { Box, Text } from "grommet";
+import React from "react";
+import HintBox from "./HinBox";
 
 const CorrectBox = ({
   visibleIsCorrect,
   isCorrect,
   tryText,
+  hintNumber,
+  matchedPercent,
 }: {
   visibleIsCorrect: boolean;
   isCorrect: boolean;
   tryText: string;
+  hintNumber: number;
+  matchedPercent: number;
 }) => {
   return (
     <>
@@ -27,11 +33,10 @@ const CorrectBox = ({
                   <Text weight="bold"> {tryText}</Text>
                 </Box>
 
-                <Box align="center">
-                  <Text weight="bold" color="#4b2491">
-                    아쉬워요. 다시 도전해주세요! 💪
-                  </Text>
-                </Box>
+                <HintBox
+                  hintNumber={hintNumber}
+                  matchedPercent={matchedPercent}
+                />
               </Box>
             )}
           </Box>

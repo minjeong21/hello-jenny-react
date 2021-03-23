@@ -71,11 +71,9 @@ const PracticeTryBox = ({
         visibleIsCorrect={visibleIsCorrect}
         isCorrect={isCorrect}
         tryText={tryText}
+        hintNumber={hintNumber}
+        matchedPercent={matchedPercent}
       />
-      {!isCorrect ? (
-        <HintBox hintNumber={hintNumber} matchedPercent={matchedPercent} />
-      ) : null}
-
       <Box margin={{ top: "14px", bottom: "small" }}>
         {/* 다음 문장 버튼 */}
         {isCorrect || visibleAnswer ? (
