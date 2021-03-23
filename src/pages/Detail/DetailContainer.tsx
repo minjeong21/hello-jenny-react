@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import {
-  Anchor,
-  Box,
-  Grommet,
-  Heading,
-  Button,
-  Main,
-  ResponsiveContext,
-} from "grommet";
+import { Anchor, Box, Grommet, Heading } from "grommet";
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";
 import { IPractice } from "../../interface/IPractice";
@@ -53,20 +45,13 @@ function DetailContainer() {
   const [practiceList, setPracticeList] = useState<IPracticeAT[]>();
   const [fetcedPractice, setFetcedPractice] = useState(false);
   const [practice, setPractice] = useState<IPractice>();
-  const [textInWrinting, setTextInWrinting] = useState("");
-  const [tryText, setTryText] = useState("");
-  const [hintNumber, setHintNumber] = useState(0);
-  const [matchedPercent, setMatchedPercent] = useState(0);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [visibleAnswer, setVisibleAnswer] = useState(false);
-  const [visibleIsCorrect, setVisibleIsCorrect] = useState(false);
 
   useEffect(() => {
     if (numid) {
       fetchPractice();
     }
     fetchPracticeBundle();
-  }, [level, theme, numid]);
+  }, [level, theme]);
 
   /**
    * numid가 있는 경우, 해당 문제 가져오기
@@ -76,7 +61,7 @@ function DetailContainer() {
   };
 
   const fetchPracticeBundle = async () => {
-    fetchAndSetPracticeList(theme, level, numid, setPracticeList, setPractice);
+    fetchAndSetPracticeList(setPracticeList, setPractice, theme, level, numid);
   };
 
   /**
@@ -141,61 +126,8 @@ function DetailContainer() {
 
   const pageReloadEffect = (practiceAT: IPracticeAT) => {
     const atPractice = convertPracticeATtoPractice(practiceAT);
-    setTextInWrinting("");
-    setTryText("");
-    setHintNumber(0);
-    setMatchedPercent(0);
-    setIsCorrect(false);
-    setVisibleAnswer(false);
-    setVisibleIsCorrect(false);
     setFetcedPractice(false);
     setPractice(atPractice);
-  };
-
-  /**
-   * 도전하기 버튼 클릭 Event
-   * */
-  const clickChallengeButton = (
-    practice: IPractice,
-    textInWrinting: string
-  ) => {
-    const result = compareAnswer(practice.english_texts, textInWrinting);
-
-    setIsCorrect(result.isCorrect);
-    const element: any = document.getElementById("english_input");
-    if (result.isCorrect) {
-      // 맞았을 때
-      element.setAttribute("readonly", true);
-      element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
-    } else {
-      // 정답 틀렸을 때
-      element.value = "";
-      const percent = getMatchedWordPercent(
-        result.bestMatchedText,
-        textInWrinting
-      );
-      setMatchedPercent(percent);
-      if (hintNumber === 0) {
-        increaseHintNumber();
-      }
-    }
-
-    setTryText(textInWrinting);
-    setVisibleIsCorrect(true);
-    // setTextInWrinting("");
-  };
-
-  const increaseHintNumber = () => {
-    if (hintNumber < 3) {
-      setHintNumber(hintNumber + 1);
-    }
-  };
-
-  // 유저가 '정답보기' 버튼을 누른 경우
-  const showAnswer = (practice: IPractice) => {
-    setVisibleIsCorrect(false);
-    setVisibleAnswer(true);
-    setTryText(practice.english_texts[0]);
   };
 
   if (practiceList && practiceList.length > 0) {
@@ -204,19 +136,8 @@ function DetailContainer() {
         moveRandomPractice={moveRandomPractice}
         moveLevelPractice={moveLevelPractice}
         moveThemePractice={moveThemePractice}
-        practice={practice}
-        textInWrinting={textInWrinting}
-        visibleIsCorrect={visibleIsCorrect}
-        isCorrect={isCorrect}
-        tryText={tryText}
-        hintNumber={hintNumber}
-        matchedPercent={matchedPercent}
-        visibleAnswer={visibleAnswer}
-        clickChallengeButton={clickChallengeButton}
-        setTextInWrinting={setTextInWrinting}
         moveNextPractice={moveNextPractice}
-        increaseHintNumber={increaseHintNumber}
-        showAnswer={showAnswer}
+        practice={practice}
         fetcedPractice={fetcedPractice}
       />
     );

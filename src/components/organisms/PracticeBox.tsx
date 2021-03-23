@@ -1,18 +1,22 @@
 import { Play } from "grommet-icons";
 import { Paragraph, Heading, Button, TextInput, Keyboard } from "grommet";
 import { IPractice } from "../../interface/IPractice";
-import React from "react";
+import React, { useState } from "react";
 import CorrectBox from "../molecules/CorrectBox";
 import HintBox from "../molecules/HinBox";
 import PracticeImage from "../atoms/PracticeImage";
 import { convertThemesToMainTheme } from "../../properties/Theme";
 import styled from "styled-components";
+import {
+  compareAnswer,
+  getMatchedWordPercent,
+} from "../../utils/ManagerSentence";
 const Container = styled.div`
   textarea {
     border: 0.5px solid #333333;
     box-sizing: border-box;
     border-radius: 8px;
-    width: 50vw;
+    width: 100%;
     min-height: 80px;
     padding: 10px;
     caret-color: #f44483;
@@ -27,36 +31,81 @@ const Container = styled.div`
 
 interface IProps {
   practice: IPractice;
-  textInWrinting: string;
-  visibleIsCorrect: boolean;
-  isCorrect: boolean;
-  tryText: string;
-  hintNumber: number;
-  matchedPercent: number;
-  visibleAnswer: boolean;
-  clickChallengeButton: (practice: IPractice, value: string) => void;
-  setTextInWrinting: (e: any) => void;
   moveNextPractice: () => void;
-  increaseHintNumber: () => void;
-  showAnswer: (practice: IPractice) => void;
 }
 
-const PracticeBox = ({
-  practice,
-  textInWrinting,
-  clickChallengeButton,
-  setTextInWrinting,
-  visibleIsCorrect,
-  isCorrect,
-  tryText,
-  hintNumber,
-  matchedPercent,
-  visibleAnswer,
-  moveNextPractice,
-  increaseHintNumber,
-  showAnswer,
-}: IProps) => {
-  console.log(practice);
+// practice,
+// textInWrinting,
+// clickChallengeButton,
+// setTextInWrinting,
+// visibleIsCorrect,
+// isCorrect,
+// tryText,
+// hintNumber,
+// matchedPercent,
+// visibleAnswer,
+// moveNextPractice,
+// increaseHintNumber,
+// showAnswer,
+// }: IProps) => {
+// console.log(practice);
+
+function PracticeBox(props: IProps) {
+  const { practice } = props;
+  const [textInWrinting, setTextInWrinting] = useState("");
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [visibleAnswer, setVisibleAnswer] = useState(false);
+  const [visibleIsCorrect, setVisibleIsCorrect] = useState(false);
+
+  const [tryText, setTryText] = useState("");
+  const [hintNumber, setHintNumber] = useState(0);
+  const [matchedPercent, setMatchedPercent] = useState(0);
+
+  /**
+   * 도전하기 버튼 클릭 Event
+   * */
+  const clickChallengeButton = (
+    practice: IPractice,
+    textInWrinting: string
+  ) => {
+    const result = compareAnswer(practice.english_texts, textInWrinting);
+
+    setIsCorrect(result.isCorrect);
+    const element: any = document.getElementById("english_input");
+    if (result.isCorrect) {
+      // 맞았을 때
+      element.setAttribute("readonly", true);
+      element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
+    } else {
+      // 정답 틀렸을 때
+      element.value = "";
+      const percent = getMatchedWordPercent(
+        result.bestMatchedText,
+        textInWrinting
+      );
+      setMatchedPercent(percent);
+      if (hintNumber === 0) {
+        increaseHintNumber();
+      }
+    }
+
+    setTryText(textInWrinting);
+    setVisibleIsCorrect(true);
+    // setTextInWrinting("");
+  };
+
+  const increaseHintNumber = () => {
+    if (hintNumber < 3) {
+      setHintNumber(hintNumber + 1);
+    }
+  };
+  // 유저가 '정답보기' 버튼을 누른 경우
+  const showAnswer = (practice: IPractice) => {
+    setVisibleIsCorrect(false);
+    setVisibleAnswer(true);
+    setTryText(practice.english_texts[0]);
+  };
+
   return (
     <Container>
       <section className="flex">
@@ -70,11 +119,9 @@ const PracticeBox = ({
         <article className="pad-xs flex-2">
           <div className="flex justify-between">
             {/* theme */}
-            {practice.themes && practice.themes.length > 0 ? (
-              <div className=" font-body weigth-400 font-gray-2 pb-l">
-                {convertThemesToMainTheme(practice.themes)}
-              </div>
-            ) : null}
+            <div className=" font-body weigth-400 font-gray-2 pb-l">
+              {convertThemesToMainTheme(practice.themes)}
+            </div>
 
             {practice.level ? (
               <div className=" font-body weigth-400 font-gray-2 pb-l">
@@ -105,7 +152,11 @@ const PracticeBox = ({
         <div>
           {/* 다음 문장 버튼 */}
           {isCorrect || visibleAnswer ? (
-            <Button primary label="다음 문제" onClick={moveNextPractice} />
+            <Button
+              primary
+              label="다음 문제"
+              onClick={props.moveNextPractice}
+            />
           ) : (
             <>
               {/* 유저가 도전 버튼을 눌렀으면? */}
@@ -156,6 +207,6 @@ const PracticeBox = ({
       </section>
     </Container>
   );
-};
+}
 
 export default PracticeBox;

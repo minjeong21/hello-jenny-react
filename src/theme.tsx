@@ -10,9 +10,6 @@ export const defaultTheme = {
         light: "#000000",
       },
     },
-    font: {
-      size: "18px",
-    },
     panel: {
       border: {
         side: "horizontal",

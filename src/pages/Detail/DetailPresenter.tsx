@@ -19,39 +19,17 @@ interface IProps {
   moveRandomPractice: () => void;
   moveLevelPractice: (theme: string) => void;
   moveThemePractice: (level: string) => void;
-  practice: IPractice | undefined;
-  textInWrinting: string;
-  visibleIsCorrect: boolean;
-  isCorrect: boolean;
-  tryText: string;
-  hintNumber: number;
-  matchedPercent: number;
-  visibleAnswer: boolean;
-  clickChallengeButton: (practice: IPractice, value: string) => void;
-  setTextInWrinting: (e: any) => void;
   moveNextPractice: () => void;
-  increaseHintNumber: () => void;
-  showAnswer: (practice: IPractice) => void;
+  practice: IPractice | undefined;
   fetcedPractice: boolean;
 }
 const DetailPresenter = ({
   moveRandomPractice,
   moveLevelPractice,
   moveThemePractice,
-  practice,
-  textInWrinting,
-  visibleIsCorrect,
-  isCorrect,
-  tryText,
-  hintNumber,
-  matchedPercent,
-  visibleAnswer,
-  fetcedPractice,
-  clickChallengeButton,
-  setTextInWrinting,
   moveNextPractice,
-  increaseHintNumber,
-  showAnswer,
+  practice,
+  fetcedPractice,
 }: IProps) => {
   return (
     <Grommet theme={defaultTheme}>
@@ -71,18 +49,7 @@ const DetailPresenter = ({
                     <Box>
                       <PracticeBox
                         practice={practice}
-                        textInWrinting={textInWrinting}
-                        visibleIsCorrect={visibleIsCorrect}
-                        isCorrect={isCorrect}
-                        tryText={tryText}
-                        hintNumber={hintNumber}
-                        matchedPercent={matchedPercent}
-                        visibleAnswer={visibleAnswer}
-                        clickChallengeButton={clickChallengeButton}
-                        setTextInWrinting={setTextInWrinting}
                         moveNextPractice={moveNextPractice}
-                        increaseHintNumber={increaseHintNumber}
-                        showAnswer={showAnswer}
                       />
                     </Box>
                   );
@@ -91,32 +58,21 @@ const DetailPresenter = ({
                   return (
                     <PracticeBox
                       practice={practice}
-                      textInWrinting={textInWrinting}
-                      visibleIsCorrect={visibleIsCorrect}
-                      isCorrect={isCorrect}
-                      tryText={tryText}
-                      hintNumber={hintNumber}
-                      matchedPercent={matchedPercent}
-                      visibleAnswer={visibleAnswer}
-                      clickChallengeButton={clickChallengeButton}
-                      setTextInWrinting={setTextInWrinting}
                       moveNextPractice={moveNextPractice}
-                      increaseHintNumber={increaseHintNumber}
-                      showAnswer={showAnswer}
                     />
                   );
                 }
               }}
             </ResponsiveContext.Consumer>
           </Box>
-          <Box margin="medium" />
+          {/* <Box margin="medium" />
           {visibleAnswer || isCorrect ? (
             <DescriptionSection
               isCorrect={isCorrect}
               visibleAnswer={visibleAnswer}
               practice={practice}
             />
-          ) : null}
+          ) : null} */}
         </Main>
       ) : (
         <>

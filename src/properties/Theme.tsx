@@ -11,10 +11,12 @@ const themeMap = [
   { key: "movie", value: "🍿 영화 속 대사 " },
   { key: "song", value: "🎙 팝송 부르자 " },
 ];
-export const convertThemesToMainTheme = (themes: String[]) => {
+export const convertThemesToMainTheme = (themes: String[] | undefined) => {
   let theme: any = themeMap[0];
-  theme = themeMap.find(
-    (item) => item.key.toLowerCase() === themes[0].toLowerCase()
-  );
+  if (themes) {
+    theme = themeMap.find(
+      (item) => item.key.toLowerCase() === themes[0].toLowerCase()
+    );
+  }
   return theme.value;
 };

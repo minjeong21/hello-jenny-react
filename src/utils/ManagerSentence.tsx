@@ -144,3 +144,14 @@ export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
   };
   return practice;
 };
+
+/**
+ * 문장이 긴 경우 말줄임표
+ * */
+export const getEllipsis = (text: string, count: number) => {
+  if (text.length > count) {
+    return text.slice(0, count) + "...";
+  } else {
+    return text;
+  }
+};

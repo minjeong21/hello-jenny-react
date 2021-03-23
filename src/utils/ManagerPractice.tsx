@@ -10,11 +10,11 @@ import { convertPracticeATtoPractice } from "./ManagerSentence";
  * theme 또는 레벨에 맞는 문제 리스트 가져오기 (100개까지)
  * */
 export const fetchAndSetPracticeList = async (
-  theme: string | undefined,
-  level: string | undefined,
-  numid: string | undefined,
   setPracticeList: (list: any) => void,
-  setPractice: (value: any) => void
+  setPractice: (value: any) => void,
+  theme?: string | undefined,
+  level?: string | undefined,
+  numid?: string | undefined
 ) => {
   let response = null;
   if (theme) {
