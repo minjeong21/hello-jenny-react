@@ -1,6 +1,4 @@
 import React from "react";
-import { Footer as FooterBox } from "grommet";
-import { Box, Text } from "grommet";
 
 const Footer = () => {
   return (

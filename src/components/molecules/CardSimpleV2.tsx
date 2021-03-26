@@ -15,6 +15,7 @@ const Container = styled.div`
   cursor: pointer;
   .move-button {
     width: 100%;
+    box-sizing: border-box;
     background: #f4f4f4;
     border-radius: 6px;
     letter-spacing: -0.03em;
@@ -31,6 +32,7 @@ const PracticeImage = styled.div<{ src: string }>`
   background-size: cover;
   background-position: center;
   width: 100%;
+  box-sizing: border-box;
   height: 260px;
 `;
 

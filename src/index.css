@@ -39,6 +39,12 @@ code {
   display: flex;
 }
 
+.flex-colunm {
+  display: flex;
+  flex-direction: column;
+}
+
+
 .flex-1 {
   flex: 1
 }
@@ -78,6 +84,10 @@ code {
 
 
 /* Padding */
+.pad-xl {
+  padding: 36px;
+}
+
 .pad-l {
   padding: 24px;
 }
@@ -149,7 +159,6 @@ code {
 }
 
 
-
 .pt-l {
   padding-top: 24px;
 }
@@ -172,6 +181,32 @@ code {
 
 .pt-xxs {
   padding-top: 4px;
+}
+
+
+
+.pr-l {
+  padding-right: 24px;
+}
+
+.pr-m {
+  padding-right: 20px;
+}
+
+.pr-s {
+  padding-right: 16px;
+}
+
+.pr-xs {
+  padding-right: 8px;
+}
+
+.pr-sub-s {
+  padding-right: 12px;
+}
+
+.pr-xxs {
+  padding-right: 4px;
 }
 
 /* Font Size*/
@@ -341,4 +376,10 @@ code {
 /* Cursor*/
 .pointer {
   cursor: pointer;
+}
+
+
+/*  */
+.text-center {
+  text-align: center;
 }

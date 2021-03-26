@@ -25,65 +25,66 @@ const TopBar = ({
 }: IProps) => {
   return (
     <Grommet theme={defaultTheme}>
-      <Header background="white" pad={{ top: "medium" }} direction="column">
-        <ResponsiveContext.Consumer>
-          {(size) =>
-            size === "small" ? (
-              <>
-                <Anchor href="/" label="Hello, Jennie." color="#030303" />
-                <Anchor href="/">
-                  <Image src="/logo.png" width="120px" height="40px" />
-                </Anchor>
-                <Box justify="end" direction="row" gap="medium">
-                  <Menu
-                    a11yTitle="Navigation Menu"
-                    dropProps={{ align: { top: "bottom", right: "right" } }}
-                    items={getArrayMenuAll(
-                      moveRandomPractice,
-                      moveLevelPractice,
-                      moveThemePractice
-                    )}
-                  />
-                </Box>
-              </>
-            ) : (
-              <>
-                <Anchor href="/" margin="small">
-                  <Image src="/logo.svg" width="200px" />
-                </Anchor>
-                <Box
-                  justify="end"
-                  direction="row"
-                  gap="medium"
-                  align="center"
-                  color="#333333"
-                >
-                  <Box width="100px">
-                    <Anchor
-                      onClick={moveRandomPractice}
-                      label="Random"
-                      weight="normal"
-                      color="dark-1"
-                    />
-                  </Box>
-                  <Menu
-                    a11yTitle="Navigation Menu"
-                    label="Theme"
-                    items={getArrayMenu("theme", moveThemePractice)}
-                    color="dark-1"
-                  />
-                  <Menu
-                    a11yTitle="Navigation Menu"
-                    label="Level"
-                    items={getArrayMenu("level", moveLevelPractice)}
+      <ResponsiveContext.Consumer>
+        {(size) =>
+          size === "small" ? (
+            <Header background="white" pad={{ top: "medium" }} direction="row">
+              <Anchor href="/" margin="small">
+                <Image src="/logo.svg" width="200px" />
+              </Anchor>
+              <Box justify="end" direction="row" gap="medium">
+                <Menu
+                  a11yTitle="Navigation Menu"
+                  dropProps={{ align: { top: "bottom", right: "right" } }}
+                  items={getArrayMenuAll(
+                    moveRandomPractice,
+                    moveLevelPractice,
+                    moveThemePractice
+                  )}
+                />
+              </Box>
+            </Header>
+          ) : (
+            <Header
+              background="white"
+              pad={{ top: "medium" }}
+              direction="column"
+            >
+              <Anchor href="/" margin="small">
+                <Image src="/logo.svg" width="200px" />
+              </Anchor>
+              <Box
+                justify="end"
+                direction="row"
+                gap="medium"
+                align="center"
+                color="#333333"
+              >
+                <Box width="100px">
+                  <Anchor
+                    onClick={moveRandomPractice}
+                    label="Random"
+                    weight="normal"
                     color="dark-1"
                   />
                 </Box>
-              </>
-            )
-          }
-        </ResponsiveContext.Consumer>
-      </Header>
+                <Menu
+                  a11yTitle="Navigation Menu"
+                  label="Theme"
+                  items={getArrayMenu("theme", moveThemePractice)}
+                  color="dark-1"
+                />
+                <Menu
+                  a11yTitle="Navigation Menu"
+                  label="Level"
+                  items={getArrayMenu("level", moveLevelPractice)}
+                  color="dark-1"
+                />
+              </Box>
+            </Header>
+          )
+        }
+      </ResponsiveContext.Consumer>
     </Grommet>
   );
 };
@@ -111,8 +112,6 @@ const getArrayMenu = (
   isSmallView?: boolean
 ) => {
   const menuList = type === "level" ? levelMenus : themeMenus;
-  console.log(type);
-  console.log(menuList);
   let resultMenu: { label: any; onClick: any }[] = [];
 
   if (isSmallView) {

@@ -19,5 +19,6 @@ export interface IPractice {
   themes?: string[];
   hint1?: string | null;
   hint2?: string | null;
+  hint3?: string | null;
   level?: string | null;
 }

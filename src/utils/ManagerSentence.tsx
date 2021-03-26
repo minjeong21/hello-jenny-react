@@ -138,8 +138,9 @@ export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
     related_videos: related_videos_result,
     image_url: practiceAT.fields.image_url,
     themes: practiceAT.fields.themes,
-    hint1: practiceAT.fields.hint1 ? practiceAT.fields.hint1 : null,
-    hint2: practiceAT.fields.hint2 ? practiceAT.fields.hint2 : null,
+    hint1: practiceAT.fields.hint1 ? practiceAT.fields.hint1[0] : null,
+    hint2: practiceAT.fields.hint2 ? practiceAT.fields.hint2[0] : null,
+    hint3: practiceAT.fields.hint2 ? practiceAT.fields.hint3[0] : null,
     level: practiceAT.fields.level ? practiceAT.fields.level : null,
   };
   return practice;

@@ -48,6 +48,7 @@ const DetailPresenter = ({
                   return (
                     <Box>
                       <PracticeBox
+                        viewSize={size}
                         practice={practice}
                         moveNextPractice={moveNextPractice}
                       />
@@ -57,6 +58,7 @@ const DetailPresenter = ({
                   //  문제 풀이 섹션
                   return (
                     <PracticeBox
+                      viewSize={size}
                       practice={practice}
                       moveNextPractice={moveNextPractice}
                     />

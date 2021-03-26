@@ -21,7 +21,7 @@ const Container = styled.div`
   .list-section {
     padding-top: 70px;
     margin: 0 auto;
-    width: 860px;
+    max-width: 860px;
   }
   .section-box {
   }
@@ -44,130 +44,144 @@ const HomePresenter = ({
   }
   return (
     <Container>
-      <main>
-        {/* Header 토끼*/}
-        <HeaderSection />
-        {/* 문제 풀기 섹션 */}
-        <section className="bg-gray-6 pb-xl">
-          <div className="pad-l practice-box bg-white mb-l">
-            {practice ? (
-              <PracticeBox
-                practice={practice}
-                moveNextPractice={moveRandomPath}
-              />
-            ) : (
-              <div>스켈레톤</div>
-            )}
-          </div>
-        </section>
-      </main>
-      {/* 문제 리스트 */}
+      <ResponsiveContext.Consumer>
+        {(size) => {
+          return (
+            <>
+              <main>
+                {/* Header 토끼*/}
+                <HeaderSection viewSize={size} />
+                {/* 문제 풀기 섹션 */}
+                <section className="bg-gray-6 pb-xl">
+                  <div className="pad-l practice-box bg-white mb-l">
+                    {practice ? (
+                      <PracticeBox
+                        viewSize={size}
+                        practice={practice}
+                        moveNextPractice={moveRandomPath}
+                      />
+                    ) : (
+                      <div>스켈레톤</div>
+                    )}
+                  </div>
+                </section>
+              </main>
+              {/* 문제 리스트 */}
 
-      <section className="list-section">
-        <div className="font-large section-box">Lastest</div>
-        {practiceList && practiceList.length ? (
-          <PracticeList
-            practiceList={practiceList}
-            movePractice={movePractice}
-          />
-        ) : (
-          <Box>Loading...</Box>
-        )}
-      </section>
+              <section className="list-section">
+                <div className="font-large section-box px-l">Lastest</div>
+
+                {practiceList && practiceList.length ? (
+                  <PracticeList
+                    practiceList={practiceList}
+                    movePractice={movePractice}
+                    viewSize={size}
+                  />
+                ) : (
+                  <Box>Loading...</Box>
+                )}
+              </section>
+            </>
+          );
+        }}
+      </ResponsiveContext.Consumer>
     </Container>
   );
 };
 
-const HeaderSection = ({}) => {
+const HeaderSection = ({ viewSize }: { viewSize: string }) => {
+  const mainText = `따끈따끈~ 오늘의 문장이 도착했어요!\n같이 한번 풀어볼까요?? `;
+  const subText = "문제를 모두 맞춘다면, 기분 좋은 하루가 될꺼에요!!";
   return (
     <Box background="#faf8f8">
-      <ResponsiveContext.Consumer>
-        {(size) => {
-          return (
-            <header className={`${size === "small" ? `` : ``}`}>
-              <HeaderContent />
-            </header>
-          );
-        }}
-      </ResponsiveContext.Consumer>
+      <header>
+        <div
+          className={` pt-l margin-center ${
+            viewSize === "small" ? "flex-column" : "flex"
+          }`}
+        >
+          {viewSize === "small" ? (
+            <>
+              <div className="flex-1 text-center">
+                <Image src="/assets/header-rabit-bottom.png" width="200px" />
+              </div>
+              <div className="flex-2 flex flex-column justify-center pad-m">
+                <div className="pre-line font-large font pb-xs">{mainText}</div>
+                <div className="font-small font-gray-3">{subText}</div>
+              </div>
+              {/* 이미지 */}
+            </>
+          ) : (
+            <>
+              <div className="flex-2 flex flex-column justify-center pad-m">
+                <div className="pre-line font-large font pb-xs">{mainText}</div>
+                <div className="font-small font-gray-3">{subText}</div>
+              </div>
+              {/* 이미지 */}
+              <div className="flex-1">
+                <Image src="/assets/header-rabit3.png" width="300px" />
+              </div>
+            </>
+          )}
+          {/* Text */}
+        </div>
+      </header>
     </Box>
-  );
-};
-
-const HeaderContent = () => {
-  return (
-    <div className="flex pt-l margin-center ">
-      <div className="flex-1">
-        <Image src="/assets/header-rabit.png" width="250px" />
-      </div>
-      <div className="flex-2 flex flex-column justify-center pad-m">
-        <div className="pre-line font-large font pb-xs">
-          {`따끈따끈~ 오늘의 문장이 도착했어요!\n같이 한번 풀어볼까요?? `}
-        </div>
-        <div className="font-small font-gray-3">
-          오늘 문제를 모두 맞춘다면, 기분이 정말 좋을꺼에요!
-        </div>
-      </div>
-    </div>
   );
 };
 
 const PracticeList = ({
   practiceList,
   movePractice,
+  viewSize,
 }: {
   practiceList: IPracticeAT[];
   movePractice: (value: number) => void;
+  viewSize: string;
 }) => {
-  return (
-    <ResponsiveContext.Consumer>
-      {(size) => {
-        if (size === "small") {
-          return (
-            <div className="flex">
-              {practiceList.map((item, index) => (
-                <CardSimpleV2
-                  key={index}
-                  practiceAT={item}
-                  index={index}
-                  numid={item.fields.numid}
-                  movePractice={movePractice}
-                />
-              ))}
-            </div>
-          );
-        } else if (size === "medium") {
-          return (
-            <div className="flex">
-              {practiceList.map((item, index) => (
-                <CardSimpleV2
-                  key={index}
-                  practiceAT={item}
-                  index={index}
-                  numid={item.fields.numid}
-                  movePractice={movePractice}
-                />
-              ))}
-            </div>
-          );
-        } else {
-          return (
-            <div className="flex">
-              {practiceList.map((item, index) => (
-                <CardSimpleV2
-                  key={index}
-                  practiceAT={item}
-                  index={index}
-                  numid={item.fields.numid}
-                  movePractice={movePractice}
-                />
-              ))}
-            </div>
-          );
-        }
-      }}
-    </ResponsiveContext.Consumer>
-  );
+  if (viewSize === "small") {
+    return (
+      <div className="flex-column">
+        {practiceList.map((item, index) => (
+          <CardSimpleV2
+            key={index}
+            practiceAT={item}
+            index={index}
+            numid={item.fields.numid}
+            movePractice={movePractice}
+          />
+        ))}
+      </div>
+    );
+  } else if (viewSize === "medium") {
+    return (
+      <div className="flex">
+        {practiceList.map((item, index) => (
+          <CardSimpleV2
+            key={index}
+            practiceAT={item}
+            index={index}
+            numid={item.fields.numid}
+            movePractice={movePractice}
+          />
+        ))}
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex">
+        {practiceList.map((item, index) => (
+          <CardSimpleV2
+            key={index}
+            practiceAT={item}
+            index={index}
+            numid={item.fields.numid}
+            movePractice={movePractice}
+          />
+        ))}
+      </div>
+    );
+  }
 };
 
 export default HomePresenter;

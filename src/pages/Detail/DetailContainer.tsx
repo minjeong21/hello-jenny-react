@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { Anchor, Box, Grommet, Heading } from "grommet";
+import { Anchor, Box, Grommet, Heading, Image } from "grommet";
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";
 import { IPractice } from "../../interface/IPractice";
 import { IPracticeAT } from "../../interface/IPracticeAT";
-import {
-  fetchPracticeByLevel,
-  fetchPracticeByNumId,
-  fetchPracticeByTheme,
-  fetchPractices,
-} from "../../apis/PracticeApi";
-import {
-  compareAnswer,
-  convertPracticeATtoPractice,
-  getMatchedWordPercent,
-} from "../../utils/ManagerSentence";
+import { convertPracticeATtoPractice } from "../../utils/ManagerSentence";
 import {
   generateLevelPath,
   generateRandomPath,
@@ -166,9 +156,10 @@ function DetailContainer() {
           moveLevelPractice={moveLevelPractice}
           moveThemePractice={moveThemePractice}
         />
-        <Box height="80vh" flex justify="center">
-          <Heading alignSelf="center">문제 불러오는 중 🏃‍♀️</Heading>
-        </Box>
+        <div className="flex justify-center pad-xl">
+          <div>문제 불러오는 중!</div>
+          <Image src="/assets/header-rabit3.png" width="200px" />
+        </div>
       </Grommet>
     );
   }

@@ -38,9 +38,8 @@ const Home = () => {
   };
   const moveRandomPractice = () => {
     if (practiceList) {
-      const practicesLength = practiceList ? practiceList.length : 0;
-      const rNumber = Math.floor(Math.random() * 100) % practicesLength;
-      history.push(generateRandomPath(practiceList[rNumber].fields.numid));
+      const randomNumber = getNextRandomNum(practiceList);
+      history.push(generateRandomPath(practiceList[randomNumber].fields.numid));
     } else {
       alert("새로고침 후 다시 시도해주세요.");
     }

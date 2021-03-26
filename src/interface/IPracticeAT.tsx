@@ -14,6 +14,7 @@ export interface IPracticeAT {
     themes?: string[];
     hint1: string;
     hint2: string;
+    hint3: string;
     level?: string;
   };
   createdTime: string;
