@@ -1,11 +1,11 @@
 import { Box, Text, Grid } from "grommet";
-import { IPractice } from "../../interface/IPractice";
+import { IWriting } from "../../interface/IWriting";
 interface IProps {
   isCorrect: boolean;
   visibleAnswer: boolean;
-  practice: IPractice;
+  writing: IWriting;
 }
-const DescriptionSection = ({ isCorrect, visibleAnswer, practice }: IProps) => {
+const DescriptionSection = ({ isCorrect, visibleAnswer, writing }: IProps) => {
   return (
     <Box tag="section" id="section-2">
       <Grid columns={["1/2", "1/2"]}>
@@ -16,14 +16,14 @@ const DescriptionSection = ({ isCorrect, visibleAnswer, practice }: IProps) => {
                 {isCorrect ? (
                   <Box pad={{ bottom: "medium" }}>
                     {/* 또 다른 표현 */}
-                    {practice.english_texts.length > 1 ? (
+                    {writing.english_texts.length > 1 ? (
                       <Box>
                         <Box pad={{ bottom: "small" }}>
                           <Text weight="bold">
                             ⭐️&nbsp;&nbsp;또 다르게 표현할 수 있어요
                           </Text>
                         </Box>
-                        {practice.english_texts.map((item, index) => {
+                        {writing.english_texts.map((item, index) => {
                           return (
                             <Box
                               pad={{ left: "7px", bottom: "7px" }}
@@ -39,14 +39,14 @@ const DescriptionSection = ({ isCorrect, visibleAnswer, practice }: IProps) => {
                 ) : (
                   <Box pad={{ bottom: "medium" }}>
                     {/* 또 다른 표현 */}
-                    {practice.english_texts.length > 0 ? (
+                    {writing.english_texts.length > 0 ? (
                       <Box>
                         <Box pad={{ bottom: "small" }}>
                           <Text weight="bold">
                             ⭐️&nbsp;&nbsp;정답! 이렇게 표현할 수 있어요.
                           </Text>
                         </Box>
-                        {practice.english_texts.map((item, index) => {
+                        {writing.english_texts.map((item, index) => {
                           return (
                             <Box
                               pad={{ left: "7px", bottom: "7px" }}
@@ -63,9 +63,9 @@ const DescriptionSection = ({ isCorrect, visibleAnswer, practice }: IProps) => {
 
                 <Box>
                   {/* 문제 해설 */}
-                  {practice.related_descriptions ? (
+                  {writing.related_descriptions ? (
                     <div>
-                      {practice.related_descriptions.map((item) => (
+                      {writing.related_descriptions.map((item) => (
                         <Box>
                           <Box pad={{ bottom: "small" }}>
                             <Text weight="bold">
@@ -86,15 +86,13 @@ const DescriptionSection = ({ isCorrect, visibleAnswer, practice }: IProps) => {
             </>
           ) : null}
         </Box>
-        {practice.related_videos ? (
-          <VideoDescription practice={practice} />
-        ) : null}
+        {writing.related_videos ? <VideoDescription writing={writing} /> : null}
       </Grid>
     </Box>
   );
 };
 
-const VideoDescription = ({ practice }: { practice: IPractice }) => {
+const VideoDescription = ({ writing }: { writing: IWriting }) => {
   return (
     <Box
       tag="article"
@@ -105,9 +103,9 @@ const VideoDescription = ({ practice }: { practice: IPractice }) => {
       <Box tag="section">
         {/* 영상 해설*/}
         <Box>
-          {practice.related_videos ? (
+          {writing.related_videos ? (
             <div>
-              {practice.related_videos.map((item) => (
+              {writing.related_videos.map((item) => (
                 <Box pad="small">
                   <Box pad={{ bottom: "small" }}>
                     <Text weight="bold">🎥&nbsp;&nbsp;{item.title}</Text>

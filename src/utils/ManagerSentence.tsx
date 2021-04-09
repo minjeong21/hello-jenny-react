@@ -1,5 +1,5 @@
-import { IPractice } from "../interface/IPractice";
-import { IPracticeAT } from "../interface/IPracticeAT";
+import { IWriting } from "../interface/IWriting";
+import { IWritingAT } from "../interface/IWritingAT";
 
 const samePair = [
   {
@@ -96,7 +96,7 @@ export const compareAnswer = (english_texts: string[], tryText: string) => {
   };
 };
 
-export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
+export const convertWritingATtoWriting = (writingAT: IWritingAT) => {
   // 설명 분리
   let related_descriptions: {
     type: string;
@@ -104,8 +104,8 @@ export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
     description: string;
   }[] = [];
 
-  if (practiceAT.fields.related_desc) {
-    related_descriptions = practiceAT.fields.related_desc.map((item) => {
+  if (writingAT.fields.related_desc) {
+    related_descriptions = writingAT.fields.related_desc.map((item) => {
       const items = item.split("$");
       return {
         type: items[0],
@@ -117,8 +117,8 @@ export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
 
   // 비디오 파트
   const related_videos_result: { title: string; link: string }[] = [];
-  if (practiceAT.fields.related_videos) {
-    practiceAT.fields.related_videos.map((item) => {
+  if (writingAT.fields.related_videos) {
+    writingAT.fields.related_videos.map((item) => {
       const items = item.split("$");
       related_videos_result.push({
         title: items[0],
@@ -127,23 +127,23 @@ export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
     });
   }
 
-  const practice: IPractice = {
-    numid: practiceAT.fields.numid,
-    situation: practiceAT.fields.situation ? practiceAT.fields.situation : null,
-    publish_date: practiceAT.fields.publish_date,
-    source_type: practiceAT.fields.source_type,
-    korean_text: practiceAT.fields.korean_text,
-    english_texts: practiceAT.fields.english_texts.split("\n"),
+  const writing: IWriting = {
+    numid: writingAT.fields.numid,
+    situation: writingAT.fields.situation ? writingAT.fields.situation : null,
+    publish_date: writingAT.fields.publish_date,
+    source_type: writingAT.fields.source_type,
+    korean_text: writingAT.fields.korean_text,
+    english_texts: writingAT.fields.english_texts.split("\n"),
     related_descriptions,
     related_videos: related_videos_result,
-    image_url: practiceAT.fields.image_url,
-    themes: practiceAT.fields.themes,
-    hint1: practiceAT.fields.hint1 ? practiceAT.fields.hint1[0] : null,
-    hint2: practiceAT.fields.hint2 ? practiceAT.fields.hint2[0] : null,
-    hint3: practiceAT.fields.hint3 ? practiceAT.fields.hint3[0] : null,
-    level: practiceAT.fields.level ? practiceAT.fields.level : null,
+    image_url: writingAT.fields.image_url,
+    themes: writingAT.fields.themes,
+    hint1: writingAT.fields.hint1 ? writingAT.fields.hint1[0] : null,
+    hint2: writingAT.fields.hint2 ? writingAT.fields.hint2[0] : null,
+    hint3: writingAT.fields.hint3 ? writingAT.fields.hint3[0] : null,
+    level: writingAT.fields.level ? writingAT.fields.level : null,
   };
-  return practice;
+  return writing;
 };
 
 /**

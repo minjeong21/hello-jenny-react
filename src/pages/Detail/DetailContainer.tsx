@@ -3,9 +3,9 @@ import { useParams, useHistory } from "react-router-dom";
 import { Box, Grommet, Heading, Image } from "grommet";
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";
-import { IPractice } from "../../interface/IPractice";
-import { IPracticeAT } from "../../interface/IPracticeAT";
-import { convertPracticeATtoPractice } from "../../utils/ManagerSentence";
+import { IWriting } from "../../interface/IWriting";
+import { IWritingAT } from "../../interface/IWritingAT";
+import { convertWritingATtoWriting } from "../../utils/ManagerSentence";
 import {
   generateLevelPath,
   generateRandomPath,
@@ -15,9 +15,9 @@ import {
 import { defaultTheme } from "../../theme";
 import DetailPresenter from "./DetailPresenter";
 import {
-  fetchAndSetPractice,
-  fetchAndSetPracticeList,
-} from "../../utils/ManagerPractice";
+  fetchAndSetWriting,
+  fetchAndSetWritingList,
+} from "../../utils/ManagerWriting";
 
 interface ParamTypes {
   numid?: string;
@@ -27,40 +27,38 @@ interface ParamTypes {
 function DetailContainer() {
   let { numid, theme, level } = useParams<ParamTypes>();
   const history = useHistory();
-  const [practiceList, setPracticeList] = useState<IPracticeAT[]>();
-  const [fetcedPractice, setFetcedPractice] = useState(false);
-  const [practice, setPractice] = useState<IPractice>();
+  const [writingList, setWritingList] = useState<IWritingAT[]>();
+  const [fetcedWriting, setFetcedWriting] = useState(false);
+  const [writing, setWriting] = useState<IWriting>();
 
   // TODO: Wraning 처리 (React Hook useEffect has missing dependencies)
   useEffect(() => {
     if (numid) {
-      fetchPractice();
+      fetchWriting();
     }
-    fetchPracticeBundle();
+    fetchWritingBundle();
   }, [level, theme]);
 
   /**
    * numid가 있는 경우, 해당 문제 가져오기
    * */
-  const fetchPractice = async () => {
-    fetchAndSetPractice(numid, setPractice, setFetcedPractice);
+  const fetchWriting = async () => {
+    fetchAndSetWriting(numid, setWriting, setFetcedWriting);
   };
 
-  const fetchPracticeBundle = async () => {
-    fetchAndSetPracticeList(setPracticeList, setPractice, theme, level, numid);
+  const fetchWritingBundle = async () => {
+    fetchAndSetWritingList(setWritingList, setWriting, theme, level, numid);
   };
 
   /**
    * 메뉴 클릭 이벤트. 랜덤 문제로 이동
    * */
-  const moveRandomPractice = () => {
-    if (practiceList) {
-      const randomNumber = getNextRandomNum(practiceList);
+  const moveRandomWriting = () => {
+    if (writingList) {
+      const randomNumber = getNextRandomNum(writingList);
       history.push(generateRandomPath(randomNumber));
-      const atPractice = convertPracticeATtoPractice(
-        practiceList[randomNumber]
-      );
-      setPractice(atPractice);
+      const atWriting = convertWritingATtoWriting(writingList[randomNumber]);
+      setWriting(atWriting);
     } else {
       alert("새로고침 후 다시 시도해주세요.");
     }
@@ -69,7 +67,7 @@ function DetailContainer() {
   /**
    * 메뉴 클릭 이벤트. 래벨 문제로 이동
    * */
-  const moveLevelPractice = (level: string) => {
+  const moveLevelWriting = (level: string) => {
     history.push(generateLevelPath(level));
     window.location.reload();
   };
@@ -77,24 +75,24 @@ function DetailContainer() {
   /**
    * 메뉴 클릭 이벤트. 테마 문제로 이동
    * */
-  const moveThemePractice = (theme: string) => {
+  const moveThemeWriting = (theme: string) => {
     history.push(generateThemePath(theme));
     window.location.reload();
   };
 
-  const moveNextPractice = () => {
+  const moveNextWriting = () => {
     // 리스트에서 지금 연습 문제가 몇 번째 index인지 찾고, 그 이후 순번으로 넘어가기.
     let path = null;
-    if (practiceList && practice) {
-      let index = practiceList.findIndex(
-        (item) => item.fields.numid === practice.numid
+    if (writingList && writing) {
+      let index = writingList.findIndex(
+        (item) => item.fields.numid === writing.numid
       );
-      if (index === practiceList.length - 1) {
+      if (index === writingList.length - 1) {
         alert("마지막 문제입니다.");
         index = -1;
       }
 
-      const NextNumId = practiceList[index + 1].fields.numid;
+      const NextNumId = writingList[index + 1].fields.numid;
 
       if (theme) {
         path = generateThemePath(theme, NextNumId);
@@ -104,36 +102,36 @@ function DetailContainer() {
         path = generateRandomPath(NextNumId);
       }
       history.push(path);
-      pageReloadEffect(practiceList[index + 1]);
+      pageReloadEffect(writingList[index + 1]);
     } else {
       alert("새로고침 후 다시 시도해주세요.");
     }
   };
 
-  const pageReloadEffect = (practiceAT: IPracticeAT) => {
-    const atPractice = convertPracticeATtoPractice(practiceAT);
-    setFetcedPractice(false);
-    setPractice(atPractice);
+  const pageReloadEffect = (writingAT: IWritingAT) => {
+    const atWriting = convertWritingATtoWriting(writingAT);
+    setFetcedWriting(false);
+    setWriting(atWriting);
   };
 
-  if (practiceList && practiceList.length > 0) {
+  if (writingList && writingList.length > 0) {
     return (
       <DetailPresenter
-        moveRandomPractice={moveRandomPractice}
-        moveLevelPractice={moveLevelPractice}
-        moveThemePractice={moveThemePractice}
-        moveNextPractice={moveNextPractice}
-        practice={practice}
-        fetcedPractice={fetcedPractice}
+        moveRandomWriting={moveRandomWriting}
+        moveLevelWriting={moveLevelWriting}
+        moveThemeWriting={moveThemeWriting}
+        moveNextWriting={moveNextWriting}
+        writing={writing}
+        fetcedWriting={fetcedWriting}
       />
     );
-  } else if (practiceList) {
+  } else if (writingList) {
     return (
       <Grommet theme={defaultTheme}>
         <TopBar
-          moveRandomPractice={moveRandomPractice}
-          moveLevelPractice={moveLevelPractice}
-          moveThemePractice={moveThemePractice}
+          moveRandomWriting={moveRandomWriting}
+          moveLevelWriting={moveLevelWriting}
+          moveThemeWriting={moveThemeWriting}
         />
         <Box height="80vh" flex justify="center">
           <Heading alignSelf="center">
@@ -148,9 +146,9 @@ function DetailContainer() {
     return (
       <Grommet theme={defaultTheme}>
         <TopBar
-          moveRandomPractice={moveRandomPractice}
-          moveLevelPractice={moveLevelPractice}
-          moveThemePractice={moveThemePractice}
+          moveRandomWriting={moveRandomWriting}
+          moveLevelWriting={moveLevelWriting}
+          moveThemeWriting={moveThemeWriting}
         />
         <div className="flex justify-center pad-xl">
           <div>문제 불러오는 중!</div>

@@ -1,5 +1,5 @@
 import { generatePath } from "react-router";
-import { IPracticeAT } from "../interface/IPracticeAT";
+import { IWritingAT } from "../interface/IWritingAT";
 
 const LEVEL_PATH_WITH_NUMID = "/level/:level/:numid";
 const LEVEL_PATH = "/level/:level";
@@ -35,7 +35,7 @@ export const generateRandomPath = (numid: number) => {
   });
 };
 
-export const getNextRandomNum = (practiceList: IPracticeAT[]) => {
-  const randomNumber = Math.floor(Math.random() * 100) % practiceList.length;
+export const getNextRandomNum = (writingList: IWritingAT[]) => {
+  const randomNumber = Math.floor(Math.random() * 100) % writingList.length;
   return randomNumber;
 };

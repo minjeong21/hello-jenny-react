@@ -1,13 +1,13 @@
 import { Box, ResponsiveContext, Image } from "grommet";
-import PracticeBox from "../../components/organisms/PracticeBox";
+import WritingBox from "../../components/organisms/WritingBox";
 import CardSimpleV2 from "../../components/molecules/CardSimpleV2";
-import { IPracticeAT } from "../../interface/IPracticeAT";
-import { IPractice } from "../../interface/IPractice";
+import { IWritingAT } from "../../interface/IWritingAT";
+import { IWriting } from "../../interface/IWriting";
 import styled from "styled-components";
 
 const Container = styled.div`
   padding-bottom: 80px;
-  .practice-box {
+  .writing-box {
     max-width: 860px;
     margin: 0 auto;
   }
@@ -28,19 +28,19 @@ const Container = styled.div`
 `;
 
 interface IProps {
-  practice?: IPractice;
-  practiceList?: IPracticeAT[];
+  writing?: IWriting;
+  writingList?: IWritingAT[];
   moveRandomPath: () => void;
-  movePractice: (numid: number) => void;
+  moveWriting: (numid: number) => void;
 }
 const HomePresenter = ({
-  practice,
-  practiceList,
+  writing,
+  writingList,
   moveRandomPath,
-  movePractice,
+  moveWriting,
 }: IProps) => {
-  if (practiceList) {
-    practiceList = practiceList.slice(1, 4);
+  if (writingList) {
+    writingList = writingList.slice(1, 4);
   }
   return (
     <Container>
@@ -53,12 +53,12 @@ const HomePresenter = ({
                 <HeaderSection viewSize={size} />
                 {/* 문제 풀기 섹션 */}
                 <section className="bg-gray-6 pb-xl">
-                  <div className="pad-l practice-box bg-white mb-l">
-                    {practice ? (
-                      <PracticeBox
+                  <div className="pad-l writing-box bg-white mb-l">
+                    {writing ? (
+                      <WritingBox
                         viewSize={size}
-                        practice={practice}
-                        moveNextPractice={moveRandomPath}
+                        writing={writing}
+                        moveNextWriting={moveRandomPath}
                       />
                     ) : (
                       <div>스켈레톤</div>
@@ -71,10 +71,10 @@ const HomePresenter = ({
               <section className="list-section">
                 <div className="font-large section-box px-l">Lastest</div>
 
-                {practiceList && practiceList.length ? (
-                  <PracticeList
-                    practiceList={practiceList}
-                    movePractice={movePractice}
+                {writingList && writingList.length ? (
+                  <WritingList
+                    writingList={writingList}
+                    moveWriting={moveWriting}
                     viewSize={size}
                   />
                 ) : (
@@ -130,25 +130,25 @@ const HeaderSection = ({ viewSize }: { viewSize: string }) => {
   );
 };
 
-const PracticeList = ({
-  practiceList,
-  movePractice,
+const WritingList = ({
+  writingList,
+  moveWriting,
   viewSize,
 }: {
-  practiceList: IPracticeAT[];
-  movePractice: (value: number) => void;
+  writingList: IWritingAT[];
+  moveWriting: (value: number) => void;
   viewSize: string;
 }) => {
   if (viewSize === "small") {
     return (
       <div className="flex-column">
-        {practiceList.map((item, index) => (
+        {writingList.map((item, index) => (
           <CardSimpleV2
             key={index}
-            practiceAT={item}
+            writingAT={item}
             index={index}
             numid={item.fields.numid}
-            movePractice={movePractice}
+            moveWriting={moveWriting}
           />
         ))}
       </div>
@@ -156,13 +156,13 @@ const PracticeList = ({
   } else if (viewSize === "medium") {
     return (
       <div className="flex">
-        {practiceList.map((item, index) => (
+        {writingList.map((item, index) => (
           <CardSimpleV2
             key={index}
-            practiceAT={item}
+            writingAT={item}
             index={index}
             numid={item.fields.numid}
-            movePractice={movePractice}
+            moveWriting={moveWriting}
           />
         ))}
       </div>
@@ -170,13 +170,13 @@ const PracticeList = ({
   } else {
     return (
       <div className="flex">
-        {practiceList.map((item, index) => (
+        {writingList.map((item, index) => (
           <CardSimpleV2
             key={index}
-            practiceAT={item}
+            writingAT={item}
             index={index}
             numid={item.fields.numid}
-            movePractice={movePractice}
+            moveWriting={moveWriting}
           />
         ))}
       </div>

@@ -11,7 +11,7 @@ interface IProps {
   imageUrl: string;
   size: string | null;
 }
-const PracticeImage = ({ imageUrl, size }: IProps) => {
+const WritingImage = ({ imageUrl, size }: IProps) => {
   return (
     <div>
       {size ? <Image src={imageUrl} size={size} /> : <Image src={imageUrl} />}
@@ -19,4 +19,4 @@ const PracticeImage = ({ imageUrl, size }: IProps) => {
   );
 };
 
-export default PracticeImage;
+export default WritingImage;

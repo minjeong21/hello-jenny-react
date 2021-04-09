@@ -1,4 +1,4 @@
-export interface IPracticeAT {
+export interface IWritingAT {
   id: string;
   fields: {
     numid: number;

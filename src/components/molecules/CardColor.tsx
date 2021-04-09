@@ -1,27 +1,22 @@
 import { Card, Box, Text } from "grommet";
 import { cardBgColors } from "../../theme";
-import { IPracticeAT } from "../../interface/IPracticeAT";
-import { IPractice } from "../../interface/IPractice";
-import { convertPracticeATtoPractice } from "../../utils/ManagerSentence";
+import { IWritingAT } from "../../interface/IWritingAT";
+import { IWriting } from "../../interface/IWriting";
+import { convertWritingATtoWriting } from "../../utils/ManagerSentence";
 
 interface IProps {
-  practiceAT: IPracticeAT;
+  writingAT: IWritingAT;
   index: number;
   numid: number;
-  movePractice: (value: number) => void;
+  moveWriting: (value: number) => void;
 }
 
-export const CardColor = ({
-  practiceAT,
-  index,
-  numid,
-  movePractice,
-}: IProps) => {
-  const practice: IPractice = convertPracticeATtoPractice(practiceAT);
+export const CardColor = ({ writingAT, index, numid, moveWriting }: IProps) => {
+  const writing: IWriting = convertWritingATtoWriting(writingAT);
 
   return (
     <Card
-      onClick={() => movePractice(numid)}
+      onClick={() => moveWriting(numid)}
       justify="between"
       background={cardBgColors[index]}
       key={"baba"}
@@ -32,23 +27,23 @@ export const CardColor = ({
       <Box height="120px" direction="row" justify="between">
         <Box>
           <Text size="small" weight="normal" color="#333333">
-            {practice.publish_date}
+            {writing.publish_date}
           </Text>
         </Box>
-        {practice.source_type ? (
+        {writing.source_type ? (
           <Text size="small" weight="normal" color="#333333">
-            {practice.source_type}
+            {writing.source_type}
           </Text>
         ) : null}
       </Box>
 
-      {practice.image_url ? (
+      {writing.image_url ? (
         <Box pad="small" align="center">
           <Box
             background={{
               color: "lightgray",
               dark: true,
-              image: `url(${practice.image_url})`,
+              image: `url(${writing.image_url})`,
               opacity: 0.9,
               repeat: "no-repeat",
               size: "cover",
@@ -62,7 +57,7 @@ export const CardColor = ({
 
       <Box height="small" pad="18px" align="center">
         <Text size="16px" weight="bold">
-          {practice.korean_text}
+          {writing.korean_text}
         </Text>
       </Box>
 

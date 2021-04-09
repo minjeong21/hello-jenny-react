@@ -8,28 +8,28 @@ const instance = axios.create({
   // },
 });
 
-export const fetchPractices = async () => {
+export const fetchWritings = async () => {
   return instance.get("/list/").catch(function (error) {
     console.log(error);
     return error;
   });
 };
 
-export const fetchPracticeByNumId = async (id: number) => {
-  return instance.get(`/practice/${id}/`).catch(function (error) {
+export const fetchWritingByNumId = async (id: number) => {
+  return instance.get(`/writing/${id}/`).catch(function (error) {
     console.log(error);
     return error;
   });
 };
 
-export const fetchPracticeByTheme = async (theme: string) => {
+export const fetchWritingByTheme = async (theme: string) => {
   return instance.get(`/pracitce/theme/${theme}/list/`).catch(function (error) {
     console.log(error);
     return error;
   });
 };
 
-export const fetchPracticeByLevel = async (level: string) => {
+export const fetchWritingByLevel = async (level: string) => {
   return instance.get(`/pracitce/level/${level}/list/`).catch(function (error) {
     console.log(error);
     return error;

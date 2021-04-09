@@ -1,6 +1,6 @@
-import { IPractice } from "../../interface/IPractice";
+import { IWriting } from "../../interface/IWriting";
 import { useEffect, useState } from "react";
-import PracticeImage from "../atoms/PracticeImage";
+import WritingImage from "../atoms/WritingImage";
 import { convertThemesToMainTheme } from "../../properties/Theme";
 import styled from "styled-components";
 import {
@@ -27,13 +27,13 @@ const Container = styled.div`
 `;
 
 interface IProps {
-  practice: IPractice;
+  writing: IWriting;
   viewSize: string;
-  moveNextPractice: () => void;
+  moveNextWriting: () => void;
 }
 
-function PracticeBox(props: IProps) {
-  const { practice } = props;
+function WritingBox(props: IProps) {
+  const { writing } = props;
   const [textInWrinting, setTextInWrinting] = useState("");
   const [isCorrect, setIsCorrect] = useState(false);
   const [visibleAnswer, setVisibleAnswer] = useState(false);
@@ -54,23 +54,20 @@ function PracticeBox(props: IProps) {
     setVisibleSecondHint(false);
     setVisibleThirdHint(false);
     setMatchedPercent(0);
-  }, [practice]);
+  }, [writing]);
 
   /**
    * 도전하기 버튼 클릭 Event
    * */
-  const clickChallengeButton = (
-    practice: IPractice,
-    textInWrinting: string
-  ) => {
-    const result = compareAnswer(practice.english_texts, textInWrinting);
+  const clickChallengeButton = (writing: IWriting, textInWrinting: string) => {
+    const result = compareAnswer(writing.english_texts, textInWrinting);
     setIsCorrect(result.isCorrect);
     const element: any = document.getElementById("english_input");
     if (result.isCorrect) {
       // 맞았을 때
       element.setAttribute("readonly", true);
       element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
-      showAnswer(practice);
+      showAnswer(writing);
     } else {
       // 정답 틀렸을 때
       const percent = getMatchedWordPercent(
@@ -87,10 +84,10 @@ function PracticeBox(props: IProps) {
   };
 
   // 유저가 '정답보기' 버튼을 누른 경우
-  const showAnswer = (practice: IPractice) => {
+  const showAnswer = (writing: IWriting) => {
     setVisibleIsCorrect(false);
     setVisibleAnswer(true);
-    setTryText(practice.english_texts[0]);
+    setTryText(writing.english_texts[0]);
   };
 
   return (
@@ -102,9 +99,9 @@ function PracticeBox(props: IProps) {
       >
         {/* 왼쪽 이미지 */}
         <div className="pad-xs ">
-          {practice.image_url ? (
-            <PracticeImage
-              imageUrl={practice.image_url}
+          {writing.image_url ? (
+            <WritingImage
+              imageUrl={writing.image_url}
               size={props.viewSize === "small" ? "100%" : null}
             />
           ) : null}
@@ -114,24 +111,24 @@ function PracticeBox(props: IProps) {
           <div className="flex justify-between">
             {/* theme */}
             <div className=" font-body weigth-400 font-gray-2 pb-l">
-              {convertThemesToMainTheme(practice.themes)}
+              {convertThemesToMainTheme(writing.themes)}
             </div>
 
             {/* Level */}
-            {practice.level ? (
+            {writing.level ? (
               <div className=" font-body weigth-400 font-gray-2 pb-l">
-                <Level levelNumber={practice.level} />
+                <Level levelNumber={writing.level} />
               </div>
             ) : null}
           </div>
-          {practice.situation ? (
+          {writing.situation ? (
             <div className="font-body weigth-400 font-gray-3 pb-xxs pt-xxs">
-              {practice.situation}
+              {writing.situation}
             </div>
           ) : null}
 
           <div className="font-large weigth-700 font-gray-1 pb-m">
-            {practice.korean_text}
+            {writing.korean_text}
           </div>
 
           <input
@@ -161,7 +158,7 @@ function PracticeBox(props: IProps) {
                 {visibleAnswer ? (
                   <button
                     className="btn-primary"
-                    onClick={props.moveNextPractice}
+                    onClick={props.moveNextWriting}
                   >
                     다음 문제!
                   </button>
@@ -169,7 +166,7 @@ function PracticeBox(props: IProps) {
                   <button
                     className="btn-primary"
                     onClick={() =>
-                      clickChallengeButton(practice, textInWrinting)
+                      clickChallengeButton(writing, textInWrinting)
                     }
                   >
                     다시 도전!
@@ -180,7 +177,7 @@ function PracticeBox(props: IProps) {
               <div className="text-right pt-s">
                 <button
                   className="btn-primary font-body weight-700"
-                  onClick={() => clickChallengeButton(practice, textInWrinting)}
+                  onClick={() => clickChallengeButton(writing, textInWrinting)}
                 >
                   정답 도전!
                 </button>
@@ -193,25 +190,25 @@ function PracticeBox(props: IProps) {
               <>
                 <div>
                   <div className="pt-l">
-                    {practice.hint1 ? (
+                    {writing.hint1 ? (
                       <div className="flex pb-l">
                         <div className="font-small font-gray-2 pr-l">hint1</div>
 
                         {visibleFirstHint ? (
                           <div className="font-small font-gray-1">
-                            {practice.hint1}
+                            {writing.hint1}
                           </div>
                         ) : null}
                       </div>
                     ) : null}
 
-                    {practice.hint2 ? (
+                    {writing.hint2 ? (
                       <div className="flex pb-l">
                         <div className="font-small font-gray-2 pr-l">hint2</div>
                         {visibleSecondHint ? (
                           <div className="font-small font-gray-1">
                             {" "}
-                            {practice.hint2}
+                            {writing.hint2}
                           </div>
                         ) : (
                           <button
@@ -224,13 +221,13 @@ function PracticeBox(props: IProps) {
                       </div>
                     ) : null}
 
-                    {practice.hint3 ? (
+                    {writing.hint3 ? (
                       <div className="flex pb-l">
                         <div className="font-small font-gray-2 pr-l">hint3</div>
 
                         {visibleThirdHint ? (
                           <div className="font-small font-gray-1">
-                            {practice.hint3}
+                            {writing.hint3}
                           </div>
                         ) : (
                           <button
@@ -248,12 +245,12 @@ function PracticeBox(props: IProps) {
                       <div className="font-small font-gray-2 pr-l">정답</div>
                       {visibleAnswer ? (
                         <div className="font-small font-gray-1">
-                          {practice.english_texts[0]}
+                          {writing.english_texts[0]}
                         </div>
                       ) : (
                         <button
                           className="btn"
-                          onClick={() => showAnswer(practice)}
+                          onClick={() => showAnswer(writing)}
                         >
                           확인
                         </button>
@@ -270,4 +267,4 @@ function PracticeBox(props: IProps) {
   );
 }
 
-export default PracticeBox;
+export default WritingBox;

@@ -1,36 +1,36 @@
 import { Box, Grommet, Heading, Button, ResponsiveContext } from "grommet";
 import { defaultTheme } from "../../theme";
-import PracticeBox from "../../components/organisms/PracticeBox";
+import WritingBox from "../../components/organisms/WritingBox";
 
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";
-import { IPractice } from "../../interface/IPractice";
+import { IWriting } from "../../interface/IWriting";
 
 interface IProps {
-  moveRandomPractice: () => void;
-  moveLevelPractice: (theme: string) => void;
-  moveThemePractice: (level: string) => void;
-  moveNextPractice: () => void;
-  practice: IPractice | undefined;
-  fetcedPractice: boolean;
+  moveRandomWriting: () => void;
+  moveLevelWriting: (theme: string) => void;
+  moveThemeWriting: (level: string) => void;
+  moveNextWriting: () => void;
+  writing: IWriting | undefined;
+  fetcedWriting: boolean;
 }
 const DetailPresenter = ({
-  moveRandomPractice,
-  moveLevelPractice,
-  moveThemePractice,
-  moveNextPractice,
-  practice,
-  fetcedPractice,
+  moveRandomWriting,
+  moveLevelWriting,
+  moveThemeWriting,
+  moveNextWriting,
+  writing,
+  fetcedWriting,
 }: IProps) => {
   return (
     <Grommet theme={defaultTheme}>
       <TopBar
-        moveRandomPractice={moveRandomPractice}
-        moveLevelPractice={moveLevelPractice}
-        moveThemePractice={moveThemePractice}
+        moveRandomWriting={moveRandomWriting}
+        moveLevelWriting={moveLevelWriting}
+        moveThemeWriting={moveThemeWriting}
       />
 
-      {practice ? (
+      {writing ? (
         <main>
           <ResponsiveContext.Consumer>
             {(size) => (
@@ -40,10 +40,10 @@ const DetailPresenter = ({
                   size === "small" ? "pad-xs" : "pad-l"
                 }`}
               >
-                <PracticeBox
+                <WritingBox
                   viewSize={size}
-                  practice={practice}
-                  moveNextPractice={moveNextPractice}
+                  writing={writing}
+                  moveNextWriting={moveNextWriting}
                 />
               </section>
             )}
@@ -53,19 +53,19 @@ const DetailPresenter = ({
             <DescriptionSection
               isCorrect={isCorrect}
               visibleAnswer={visibleAnswer}
-              practice={practice}
+              writing={writing}
             />
           ) : null} */}
         </main>
       ) : (
         <>
-          {fetcedPractice ? (
+          {fetcedWriting ? (
             <Box height="80vh" flex justify="center">
               <Heading alignSelf="center">
                 문장이 사라졌어요..
                 <br />
                 (어디갔을까...😭)
-                <Button onClick={moveNextPractice}>다른 문제 풀어보기</Button>
+                <Button onClick={moveNextWriting}>다른 문제 풀어보기</Button>
               </Heading>
             </Box>
           ) : (

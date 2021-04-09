@@ -1,7 +1,7 @@
-import { IPracticeAT } from "../../interface/IPracticeAT";
-import { IPractice } from "../../interface/IPractice";
+import { IWritingAT } from "../../interface/IWritingAT";
+import { IWriting } from "../../interface/IWriting";
 import {
-  convertPracticeATtoPractice,
+  convertWritingATtoWriting,
   getEllipsis,
 } from "../../utils/ManagerSentence";
 import { convertThemesToMainTheme } from "../../properties/Theme";
@@ -22,7 +22,7 @@ const Container = styled.div`
   }
 `;
 
-const PracticeImage = styled.div<{ src: string }>`
+const WritingImage = styled.div<{ src: string }>`
   background-image: url(${(props) => props.src});
   border-radius: 6px;
   opacity: 0.9;
@@ -34,34 +34,34 @@ const PracticeImage = styled.div<{ src: string }>`
 `;
 
 interface IProps {
-  practiceAT: IPracticeAT;
+  writingAT: IWritingAT;
   index: number;
   numid: number;
-  movePractice: (value: number) => void;
+  moveWriting: (value: number) => void;
 }
 
-const CardSimpleV2 = ({ practiceAT, index, numid, movePractice }: IProps) => {
-  const practice: IPractice = convertPracticeATtoPractice(practiceAT);
+const CardSimpleV2 = ({ writingAT, index, numid, moveWriting }: IProps) => {
+  const writing: IWriting = convertWritingATtoWriting(writingAT);
 
   return (
-    <Container onClick={() => movePractice(numid)}>
+    <Container onClick={() => moveWriting(numid)}>
       <div className="pad-m">
         <div className="pb-xs">
-          {practice.image_url ? (
-            <PracticeImage className="image" src={practice.image_url} />
+          {writing.image_url ? (
+            <WritingImage className="image" src={writing.image_url} />
           ) : null}
         </div>
 
         <div className="flex justify-between pb-xs font-small">
           <div className="font-gray-2 ">
-            {convertThemesToMainTheme(practice.themes)}
+            {convertThemesToMainTheme(writing.themes)}
           </div>
-          <Level levelNumber={practice.level} />
+          <Level levelNumber={writing.level} />
         </div>
 
         <div>
           <div className="font-body font-bold pb-l ellipsis">
-            {getEllipsis(practice.korean_text, 60)}
+            {getEllipsis(writing.korean_text, 60)}
           </div>
         </div>
         <div className="move-button font-small pointer">

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Grommet } from "grommet";
 import { defaultTheme } from "../../theme";
-import { IPracticeAT } from "../../interface/IPracticeAT";
+import { IWritingAT } from "../../interface/IWritingAT";
 import TopBar from "../../components/organisms/TopBar";
 import Footer from "../../components/organisms/Footer";
 import {
@@ -11,45 +11,45 @@ import {
   generateThemePath,
   getNextRandomNum,
 } from "../../properties/Path";
-import { fetchAndSetPracticeList } from "../../utils/ManagerPractice";
-import { IPractice } from "../../interface/IPractice";
+import { fetchAndSetWritingList } from "../../utils/ManagerWriting";
+import { IWriting } from "../../interface/IWriting";
 import HomePresenter from "./HomePresenter";
 
 const Home = () => {
-  const [practiceList, setPracticeList] = useState<IPracticeAT[]>();
-  const [practice, setPractice] = useState<IPractice>();
+  const [writingList, setWritingList] = useState<IWritingAT[]>();
+  const [writing, setWriting] = useState<IWriting>();
   const history = useHistory();
 
   useEffect(() => {
-    fetchPracticeBundle();
+    fetchWritingBundle();
   }, []);
 
-  const fetchPracticeBundle = async () => {
-    fetchAndSetPracticeList(setPracticeList, setPractice);
+  const fetchWritingBundle = async () => {
+    fetchAndSetWritingList(setWritingList, setWriting);
   };
 
-  const moveLevelPractice = (level: string) => {
+  const moveLevelWriting = (level: string) => {
     history.push(generateLevelPath(level));
   };
 
-  const moveThemePractice = (theme: string) => {
+  const moveThemeWriting = (theme: string) => {
     history.push(generateThemePath(theme));
   };
-  const moveRandomPractice = () => {
-    if (practiceList) {
-      const randomNumber = getNextRandomNum(practiceList);
-      history.push(generateRandomPath(practiceList[randomNumber].fields.numid));
+  const moveRandomWriting = () => {
+    if (writingList) {
+      const randomNumber = getNextRandomNum(writingList);
+      history.push(generateRandomPath(writingList[randomNumber].fields.numid));
     } else {
       alert("새로고침 후 다시 시도해주세요.");
     }
   };
-  const movePractice = (numid: number) => {
+  const moveWriting = (numid: number) => {
     history.push(generateRandomPath(numid));
   };
   const moveRandomPath = () => {
     let randomNumber = 0;
-    if (practiceList) {
-      randomNumber = getNextRandomNum(practiceList);
+    if (writingList) {
+      randomNumber = getNextRandomNum(writingList);
     }
 
     history.push(generateRandomPath(randomNumber));
@@ -58,15 +58,15 @@ const Home = () => {
   return (
     <Grommet theme={defaultTheme}>
       <TopBar
-        moveRandomPractice={moveRandomPractice}
-        moveLevelPractice={moveLevelPractice}
-        moveThemePractice={moveThemePractice}
+        moveRandomWriting={moveRandomWriting}
+        moveLevelWriting={moveLevelWriting}
+        moveThemeWriting={moveThemeWriting}
       />
       <HomePresenter
-        practice={practice}
-        practiceList={practiceList}
+        writing={writing}
+        writingList={writingList}
         moveRandomPath={moveRandomPath}
-        movePractice={movePractice}
+        moveWriting={moveWriting}
       />
       <Footer />
     </Grommet>

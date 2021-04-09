@@ -14,14 +14,14 @@ import { Menu as MenuIcon } from "grommet-icons/icons";
 
 // src/components/organisms/TopBar.tsx
 interface IProps {
-  moveRandomPractice: () => void;
-  moveLevelPractice: (theme: string) => void;
-  moveThemePractice: (level: string) => void;
+  moveRandomWriting: () => void;
+  moveLevelWriting: (theme: string) => void;
+  moveThemeWriting: (level: string) => void;
 }
 const TopBar = ({
-  moveRandomPractice,
-  moveLevelPractice,
-  moveThemePractice,
+  moveRandomWriting,
+  moveLevelWriting,
+  moveThemeWriting,
 }: IProps) => {
   return (
     <Grommet theme={defaultTheme}>
@@ -38,9 +38,9 @@ const TopBar = ({
                   a11yTitle=" Menu"
                   dropProps={{ align: { top: "bottom", right: "right" } }}
                   items={getArrayMenuAll(
-                    moveRandomPractice,
-                    moveLevelPractice,
-                    moveThemePractice
+                    moveRandomWriting,
+                    moveLevelWriting,
+                    moveThemeWriting
                   )}
                 />
               </Box>
@@ -63,7 +63,7 @@ const TopBar = ({
               >
                 <Box width="100px">
                   <Anchor
-                    onClick={moveRandomPractice}
+                    onClick={moveRandomWriting}
                     label="Random"
                     weight="normal"
                     color="dark-1"
@@ -72,13 +72,13 @@ const TopBar = ({
                 <Menu
                   a11yTitle="Navigation Menu"
                   label="Theme"
-                  items={getArrayMenu("theme", moveThemePractice)}
+                  items={getArrayMenu("theme", moveThemeWriting)}
                   color="dark-1"
                 />
                 <Menu
                   a11yTitle="Navigation Menu"
                   label="Level"
-                  items={getArrayMenu("level", moveLevelPractice)}
+                  items={getArrayMenu("level", moveLevelWriting)}
                   color="dark-1"
                 />
               </Box>
@@ -136,8 +136,8 @@ const getArrayMenu = (
 
 const getArrayMenuAll = (
   moveNextRandom: any,
-  moveLevelPractice: (value: string) => void,
-  moveThemePractice: (value: string) => void
+  moveLevelWriting: (value: string) => void,
+  moveThemeWriting: (value: string) => void
 ) => {
   let resultMenu: { label: any; onClick: any }[] = [];
   resultMenu.push({
@@ -150,7 +150,7 @@ const getArrayMenuAll = (
     label: <Box pad="small">Level 문제</Box>,
     onClick: moveNextRandom,
   });
-  const levelMenus = getArrayMenu("level", moveLevelPractice, true);
+  const levelMenus = getArrayMenu("level", moveLevelWriting, true);
   levelMenus.map((item) => resultMenu.push(item));
 
   // 테마 문제
@@ -159,7 +159,7 @@ const getArrayMenuAll = (
     onClick: moveNextRandom,
   });
 
-  const themeMenus = getArrayMenu("theme", moveThemePractice, true);
+  const themeMenus = getArrayMenu("theme", moveThemeWriting, true);
   themeMenus.map((item) => resultMenu.push(item));
 
   return resultMenu;

@@ -1,4 +1,4 @@
-export interface IPractice {
+export interface IWriting {
   numid: number;
   publish_date: string; // 날짜
   source_type: string; // 자료 타입
