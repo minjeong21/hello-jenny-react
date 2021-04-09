@@ -60,7 +60,7 @@ function WritingBox(props: IProps) {
    * 도전하기 버튼 클릭 Event
    * */
   const clickChallengeButton = (writing: IWriting, textInWrinting: string) => {
-    const result = compareAnswer(writing.english_texts, textInWrinting);
+    const result = compareAnswer(writing.alternative_en_texts, textInWrinting);
     setIsCorrect(result.isCorrect);
     const element: any = document.getElementById("english_input");
     if (result.isCorrect) {
@@ -87,7 +87,7 @@ function WritingBox(props: IProps) {
   const showAnswer = (writing: IWriting) => {
     setVisibleIsCorrect(false);
     setVisibleAnswer(true);
-    setTryText(writing.english_texts[0]);
+    setTryText(writing.main_en_text);
   };
 
   return (
@@ -128,7 +128,7 @@ function WritingBox(props: IProps) {
           ) : null}
 
           <div className="font-large weigth-700 font-gray-1 pb-m">
-            {writing.korean_text}
+            {writing.kr_text}
           </div>
 
           <input
@@ -245,7 +245,7 @@ function WritingBox(props: IProps) {
                       <div className="font-small font-gray-2 pr-l">정답</div>
                       {visibleAnswer ? (
                         <div className="font-small font-gray-1">
-                          {writing.english_texts[0]}
+                          {writing.main_en_text}
                         </div>
                       ) : (
                         <button

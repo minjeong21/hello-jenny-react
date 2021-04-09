@@ -7,28 +7,18 @@ import TopBar from "../../components/organisms/TopBar";
 import { IWriting } from "../../interface/IWriting";
 
 interface IProps {
-  moveRandomWriting: () => void;
-  moveLevelWriting: (theme: string) => void;
-  moveThemeWriting: (level: string) => void;
   moveNextWriting: () => void;
   writing: IWriting | undefined;
   fetcedWriting: boolean;
 }
 const DetailPresenter = ({
-  moveRandomWriting,
-  moveLevelWriting,
-  moveThemeWriting,
-  moveNextWriting,
   writing,
   fetcedWriting,
+  moveNextWriting,
 }: IProps) => {
   return (
     <Grommet theme={defaultTheme}>
-      <TopBar
-        moveRandomWriting={moveRandomWriting}
-        moveLevelWriting={moveLevelWriting}
-        moveThemeWriting={moveThemeWriting}
-      />
+      <TopBar />
 
       {writing ? (
         <main>

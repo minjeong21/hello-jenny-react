@@ -16,14 +16,14 @@ const DescriptionSection = ({ isCorrect, visibleAnswer, writing }: IProps) => {
                 {isCorrect ? (
                   <Box pad={{ bottom: "medium" }}>
                     {/* 또 다른 표현 */}
-                    {writing.english_texts.length > 1 ? (
+                    {writing.alternative_en_texts.length > 0 ? (
                       <Box>
                         <Box pad={{ bottom: "small" }}>
                           <Text weight="bold">
                             ⭐️&nbsp;&nbsp;또 다르게 표현할 수 있어요
                           </Text>
                         </Box>
-                        {writing.english_texts.map((item, index) => {
+                        {writing.alternative_en_texts.map((item, index) => {
                           return (
                             <Box
                               pad={{ left: "7px", bottom: "7px" }}
@@ -39,31 +39,35 @@ const DescriptionSection = ({ isCorrect, visibleAnswer, writing }: IProps) => {
                 ) : (
                   <Box pad={{ bottom: "medium" }}>
                     {/* 또 다른 표현 */}
-                    {writing.english_texts.length > 0 ? (
-                      <Box>
-                        <Box pad={{ bottom: "small" }}>
-                          <Text weight="bold">
-                            ⭐️&nbsp;&nbsp;정답! 이렇게 표현할 수 있어요.
-                          </Text>
-                        </Box>
-                        {writing.english_texts.map((item, index) => {
-                          return (
+                    <Box>
+                      <Box pad={{ bottom: "small" }}>
+                        <Text weight="bold">
+                          ⭐️&nbsp;&nbsp;정답! 이렇게 표현할 수 있어요.
+                        </Text>
+                      </Box>
+                      <Box pad={{ left: "7px", bottom: "7px" }}>
+                        <Text>{writing.main_en_text}</Text>
+                      </Box>
+                      );
+                      {writing.alternative_en_texts.length > 0 && (
+                        <>
+                          {writing.alternative_en_texts.map((item, index) => (
                             <Box
                               pad={{ left: "7px", bottom: "7px" }}
                               key={index}
                             >
                               <Text>{item}</Text>
                             </Box>
-                          );
-                        })}
-                      </Box>
-                    ) : null}
+                          ))}
+                        </>
+                      )}
+                    </Box>
                   </Box>
                 )}
 
-                <Box>
-                  {/* 문제 해설 */}
-                  {writing.related_descriptions ? (
+                {/* 문제 해설 */}
+                {/* <Box>
+                  {writing.hin ? (
                     <div>
                       {writing.related_descriptions.map((item) => (
                         <Box>
@@ -81,54 +85,14 @@ const DescriptionSection = ({ isCorrect, visibleAnswer, writing }: IProps) => {
                       ))}
                     </div>
                   ) : null}
-                </Box>
+                </Box> */}
               </Box>
             </>
           ) : null}
         </Box>
-        {writing.related_videos ? <VideoDescription writing={writing} /> : null}
       </Grid>
     </Box>
   );
 };
 
-const VideoDescription = ({ writing }: { writing: IWriting }) => {
-  return (
-    <Box
-      tag="article"
-      width="large"
-      background="linear-gradient(to bottom,#BFD0E6,#e8f2ff)"
-      pad="small"
-    >
-      <Box tag="section">
-        {/* 영상 해설*/}
-        <Box>
-          {writing.related_videos ? (
-            <div>
-              {writing.related_videos.map((item) => (
-                <Box pad="small">
-                  <Box pad={{ bottom: "small" }}>
-                    <Text weight="bold">🎥&nbsp;&nbsp;{item.title}</Text>
-                  </Box>
-                  <Box pad="medium">
-                    <div className="video-container">
-                      <iframe
-                        width="560"
-                        height="315"
-                        src={item.link}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
-                    </div>
-                  </Box>
-                </Box>
-              ))}
-            </div>
-          ) : null}
-        </Box>
-      </Box>
-    </Box>
-  );
-};
 export default DescriptionSection;

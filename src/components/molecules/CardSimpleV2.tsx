@@ -1,9 +1,5 @@
-import { IWritingAT } from "../../interface/IWritingAT";
 import { IWriting } from "../../interface/IWriting";
-import {
-  convertWritingATtoWriting,
-  getEllipsis,
-} from "../../utils/ManagerSentence";
+import { getEllipsis } from "../../utils/ManagerSentence";
 import { convertThemesToMainTheme } from "../../properties/Theme";
 import Level from "../atoms/Level";
 import styled from "styled-components";
@@ -34,17 +30,15 @@ const WritingImage = styled.div<{ src: string }>`
 `;
 
 interface IProps {
-  writingAT: IWritingAT;
+  writing: IWriting;
   index: number;
-  numid: number;
+  id: number;
   moveWriting: (value: number) => void;
 }
 
-const CardSimpleV2 = ({ writingAT, index, numid, moveWriting }: IProps) => {
-  const writing: IWriting = convertWritingATtoWriting(writingAT);
-
+const CardSimpleV2 = ({ writing, index, id, moveWriting }: IProps) => {
   return (
-    <Container onClick={() => moveWriting(numid)}>
+    <Container onClick={() => moveWriting(id)}>
       <div className="pad-m">
         <div className="pb-xs">
           {writing.image_url ? (
@@ -61,7 +55,7 @@ const CardSimpleV2 = ({ writingAT, index, numid, moveWriting }: IProps) => {
 
         <div>
           <div className="font-body font-bold pb-l ellipsis">
-            {getEllipsis(writing.korean_text, 60)}
+            {getEllipsis(writing.kr_text, 60)}
           </div>
         </div>
         <div className="move-button font-small pointer">

@@ -16,7 +16,7 @@ const Container = styled.div<{ fontColor: string; bgColor: string }>`
 `;
 
 interface IProps {
-  levelNumber?: string | null | undefined;
+  levelNumber?: number;
 }
 
 const getColors = (level: number) => {

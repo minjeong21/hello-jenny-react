@@ -1,5 +1,4 @@
 import { IWriting } from "../interface/IWriting";
-import { IWritingAT } from "../interface/IWritingAT";
 
 const samePair = [
   {
@@ -66,26 +65,35 @@ export const getMatchedWordPercent = (correctText: string, tryText: string) => {
 };
 
 /** 정답 후보 문장에서 정답이 있는지 확인하고 object로 리턴 */
-export const compareAnswer = (english_texts: string[], tryText: string) => {
+export const compareAnswer = (
+  alternative_en_texts: string[],
+  tryText: string
+) => {
   let isCorrect = false;
   let correctText = "";
   let bestMatchedText = "";
   let lestUnMatchedCount = 100;
 
-  for (let i = 0; i < english_texts.length; i++) {
-    const unMatchedCount = getUnMatchedWordCount(english_texts[i], tryText);
+  for (let i = 0; i < alternative_en_texts.length; i++) {
+    const unMatchedCount = getUnMatchedWordCount(
+      alternative_en_texts[i],
+      tryText
+    );
 
-    if (getUnMatchedWordCount(english_texts[i], tryText) < lestUnMatchedCount) {
+    if (
+      getUnMatchedWordCount(alternative_en_texts[i], tryText) <
+      lestUnMatchedCount
+    ) {
       lestUnMatchedCount = unMatchedCount;
-      bestMatchedText = english_texts[i];
+      bestMatchedText = alternative_en_texts[i];
     }
 
-    const correctPlainText = convertPlainText(english_texts[i]);
+    const correctPlainText = convertPlainText(alternative_en_texts[i]);
     const tryPlainText = convertPlainText(tryText);
 
     if (correctPlainText === tryPlainText) {
       isCorrect = true;
-      correctText = english_texts[i];
+      correctText = alternative_en_texts[i];
       break;
     }
   }
@@ -94,56 +102,6 @@ export const compareAnswer = (english_texts: string[], tryText: string) => {
     correctText: correctText,
     bestMatchedText: bestMatchedText,
   };
-};
-
-export const convertWritingATtoWriting = (writingAT: IWritingAT) => {
-  // 설명 분리
-  let related_descriptions: {
-    type: string;
-    title: string;
-    description: string;
-  }[] = [];
-
-  if (writingAT.fields.related_desc) {
-    related_descriptions = writingAT.fields.related_desc.map((item) => {
-      const items = item.split("$");
-      return {
-        type: items[0],
-        title: items[1],
-        description: items[2],
-      };
-    });
-  }
-
-  // 비디오 파트
-  const related_videos_result: { title: string; link: string }[] = [];
-  if (writingAT.fields.related_videos) {
-    writingAT.fields.related_videos.map((item) => {
-      const items = item.split("$");
-      related_videos_result.push({
-        title: items[0],
-        link: items[1],
-      });
-    });
-  }
-
-  const writing: IWriting = {
-    numid: writingAT.fields.numid,
-    situation: writingAT.fields.situation ? writingAT.fields.situation : null,
-    publish_date: writingAT.fields.publish_date,
-    source_type: writingAT.fields.source_type,
-    korean_text: writingAT.fields.korean_text,
-    english_texts: writingAT.fields.english_texts.split("\n"),
-    related_descriptions,
-    related_videos: related_videos_result,
-    image_url: writingAT.fields.image_url,
-    themes: writingAT.fields.themes,
-    hint1: writingAT.fields.hint1 ? writingAT.fields.hint1[0] : null,
-    hint2: writingAT.fields.hint2 ? writingAT.fields.hint2[0] : null,
-    hint3: writingAT.fields.hint3 ? writingAT.fields.hint3[0] : null,
-    level: writingAT.fields.level ? writingAT.fields.level : null,
-  };
-  return writing;
 };
 
 /**

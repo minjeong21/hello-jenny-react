@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Anchor,
   Box,
@@ -8,21 +10,50 @@ import {
   ResponsiveContext,
   Text,
 } from "grommet";
+import {
+  generateRandomPath,
+  generateLevelPath,
+  generateThemePath,
+  getNextRandomNum,
+} from "properties/Path";
+import { IWriting } from "interface/IWriting";
 import { defaultTheme } from "../../theme";
 import { levelMenus, themeMenus } from "../../properties/Menu";
 import { Menu as MenuIcon } from "grommet-icons/icons";
+import { fetchMainWritingList } from "apis/WritingApi";
 
-// src/components/organisms/TopBar.tsx
-interface IProps {
-  moveRandomWriting: () => void;
-  moveLevelWriting: (theme: string) => void;
-  moveThemeWriting: (level: string) => void;
-}
-const TopBar = ({
-  moveRandomWriting,
-  moveLevelWriting,
-  moveThemeWriting,
-}: IProps) => {
+const TopBar = ({ writingList }: { writingList?: IWriting[] }) => {
+  const history = useHistory();
+  const [thisWritingList, setThisWritingList] = useState<IWriting[]>([]);
+
+  useEffect(() => {
+    if (writingList) {
+      setThisWritingList(writingList);
+    } else {
+      fetchWritingList();
+    }
+  }, []);
+
+  const fetchWritingList = async () => {
+    const writingList = await fetchMainWritingList();
+    setThisWritingList(writingList);
+  };
+
+  const moveLevelWriting = (level: string) => {
+    history.push(generateLevelPath(level));
+  };
+
+  const moveThemeWriting = (theme: string) => {
+    history.push(generateThemePath(theme));
+  };
+  const moveRandomWriting = () => {
+    if (thisWritingList) {
+      const randomNumber = getNextRandomNum(thisWritingList.length);
+      history.push(generateRandomPath(thisWritingList[randomNumber].id));
+    } else {
+      alert("새로고침 후 다시 시도해주세요.");
+    }
+  };
   return (
     <Grommet theme={defaultTheme}>
       <ResponsiveContext.Consumer>

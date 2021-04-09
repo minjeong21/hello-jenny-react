@@ -1,2 +1,2 @@
-export { default as Home } from "./Home/HomeContainer";
+export { default as Home } from "./Home/Home";
 export { default as Detail } from "./Detail/DetailContainer";
