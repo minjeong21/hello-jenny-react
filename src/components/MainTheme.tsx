@@ -11,12 +11,22 @@ const themeMap = [
   { key: "movie", value: "🍿 영화 속 대사 " },
   { key: "song", value: "🎙 팝송 부르자 " },
 ];
-export const convertThemesToMainTheme = (themes: String[] | undefined) => {
-  let theme: any = themeMap[0];
-  if (themes) {
-    theme = themeMap.find(
-      (item) => item.key.toLowerCase() === themes[0].toLowerCase()
-    );
-  }
-  return theme.value;
+export const MainTheme = ({ themes }: { themes: string[] }) => {
+  const convertThemesToMainTheme = (themes: String[]) => {
+    let theme: any = themeMap[0];
+    if (themes) {
+      theme = themeMap.find(
+        (item) => item.key.toLowerCase() === themes[0].toLowerCase()
+      );
+    }
+    return theme.value;
+  };
+
+  return (
+    <div className=" font-body weigth-400 font-gray-2 pb-l">
+      {convertThemesToMainTheme(themes)}
+    </div>
+  );
 };
+
+export default MainTheme;

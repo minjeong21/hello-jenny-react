@@ -1,8 +1,8 @@
 import { IWriting } from "../../interface/IWriting";
 import { getEllipsis } from "../../utils/ManagerSentence";
-import { convertThemesToMainTheme } from "../../properties/Theme";
 import Level from "../atoms/Level";
 import styled from "styled-components";
+import MainTheme from "components/MainTheme";
 const Container = styled.div`
   flex: 1;
   cursor: pointer;
@@ -47,9 +47,7 @@ const CardSimpleV2 = ({ writing, index, id, moveWriting }: IProps) => {
         </div>
 
         <div className="flex justify-between pb-xs font-small">
-          <div className="font-gray-2 ">
-            {convertThemesToMainTheme(writing.themes)}
-          </div>
+          <MainTheme themes={writing.themes} />
           <Level levelNumber={writing.level} />
         </div>
 

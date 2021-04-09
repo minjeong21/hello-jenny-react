@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { generateRandomPath, getNextRandomNum } from "properties/Path";
 import { fetchMainWritingList } from "apis/WritingApi";
 import { IWriting } from "interface/IWriting";
-import WritingBox from "components/organisms/WritingBox";
+import WritingBox from "components/WritingBox";
 import TopBar from "components/organisms/TopBar";
 import Footer from "components/organisms/Footer";
 import HeaderSection from "./HeaderSection";
@@ -41,15 +41,26 @@ const Home = () => {
   const history = useHistory();
 
   useEffect(() => {
-    fetchWritingList();
+    fetchWritingList().then((list) => {
+      if (list.length > 0) {
+        const writing = list[0];
+        console.log(writing);
+        setWriting(writing);
+      }
+    });
   }, []);
 
   const fetchWritingList = async () => {
     const writingList = await fetchMainWritingList();
-    setWritingList(writingList);
-    setWriting(writingList[0]);
+    if (writingList) {
+      setWritingList(writingList);
+      return writingList;
+    } else {
+      return [];
+    }
   };
-  const moveRandomPath = () => {
+
+  const moveNextRandomWriting = () => {
     let randomNumber = 0;
     if (writingList) {
       randomNumber = getNextRandomNum(writingList.length);
@@ -78,7 +89,7 @@ const Home = () => {
                         <WritingBox
                           viewSize={size}
                           writing={writing}
-                          moveNextWriting={moveRandomPath}
+                          moveNextWriting={moveNextRandomWriting}
                         />
                       ) : (
                         <div>스켈레톤</div>

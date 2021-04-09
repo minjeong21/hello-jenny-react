@@ -1,6 +1,6 @@
 import { Box, Grommet, Heading, Button, ResponsiveContext } from "grommet";
 import { defaultTheme } from "../../theme";
-import WritingBox from "../../components/organisms/WritingBox";
+import WritingBox from "../../components/WritingBox";
 
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";

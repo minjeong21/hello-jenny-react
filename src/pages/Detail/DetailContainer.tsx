@@ -122,7 +122,7 @@ function DetailContainer() {
         <TopBar />
         <div className="flex justify-center pad-xl">
           <div>문제 불러오는 중!</div>
-          <Image src="/assets/header-rabit3.png" width="200px" />
+          <Image src="/assets/header-rabit.png" width="200px" />
         </div>
       </Grommet>
     );
