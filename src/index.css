@@ -253,7 +253,6 @@ code {
 }
 
 
-
 /* Border Color */
 .border-gray-1 {
   border-color: #111111;
@@ -302,6 +301,10 @@ code {
 
 .bg-white {
   background-color: white;
+}
+
+.bg-lightpink {
+  background-color: #FAEFF4;
 }
 
 /* Margin */
@@ -392,4 +395,12 @@ code {
 
 .max-width {
   max-width: 860px;
+}
+
+
+
+/* Border */
+
+.radius-10 {
+  border-radius: 10;
 }
