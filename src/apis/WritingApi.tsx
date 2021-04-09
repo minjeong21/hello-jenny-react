@@ -8,30 +8,42 @@ const instance = axios.create({
   // },
 });
 
-export const fetchWritings = async () => {
-  return instance.get("/list/").catch(function (error) {
-    console.log(error);
-    return error;
-  });
+export const fetchMainWritingList = async () => {
+  return instance
+    .get("/writing/list/")
+    .then((response) => response.data)
+    .catch(function (error) {
+      console.log(error);
+      return error;
+    });
 };
 
 export const fetchWritingByNumId = async (id: number) => {
-  return instance.get(`/writing/${id}/`).catch(function (error) {
-    console.log(error);
-    return error;
-  });
+  return instance
+    .get(`/writing/${id}/`)
+    .then((response) => response.data)
+    .catch(function (error) {
+      console.log(error);
+      return error;
+    });
 };
 
 export const fetchWritingByTheme = async (theme: string) => {
-  return instance.get(`/pracitce/theme/${theme}/list/`).catch(function (error) {
-    console.log(error);
-    return error;
-  });
+  return instance
+    .get(`/pracitce/theme/${theme}/list/`)
+    .then((response) => response.data)
+    .catch(function (error) {
+      console.log(error);
+      return error;
+    });
 };
 
 export const fetchWritingByLevel = async (level: string) => {
-  return instance.get(`/pracitce/level/${level}/list/`).catch(function (error) {
-    console.log(error);
-    return error;
-  });
+  return instance
+    .get(`/pracitce/level/${level}/list/`)
+    .then((response) => response.data)
+    .catch(function (error) {
+      console.log(error);
+      return error;
+    });
 };
