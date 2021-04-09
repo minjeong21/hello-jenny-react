@@ -140,7 +140,7 @@ export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
     themes: practiceAT.fields.themes,
     hint1: practiceAT.fields.hint1 ? practiceAT.fields.hint1[0] : null,
     hint2: practiceAT.fields.hint2 ? practiceAT.fields.hint2[0] : null,
-    hint3: practiceAT.fields.hint2 ? practiceAT.fields.hint3[0] : null,
+    hint3: practiceAT.fields.hint3 ? practiceAT.fields.hint3[0] : null,
     level: practiceAT.fields.level ? practiceAT.fields.level : null,
   };
   return practice;

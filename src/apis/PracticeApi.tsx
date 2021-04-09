@@ -59,7 +59,7 @@ export const fetchPracticeByTheme = async (theme: string) => {
       params: {
         view: "Default",
         maxRecords: 100,
-        filterByFormula: `{theme}='${theme}'`,
+        filterByFormula: `{themes}='${theme}'`,
       },
     })
     .then(function (response) {

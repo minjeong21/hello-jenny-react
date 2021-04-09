@@ -11,6 +11,7 @@ import {
 } from "grommet";
 import { defaultTheme } from "../../theme";
 import { levelMenus, themeMenus } from "../../properties/Menu";
+import { Menu as MenuIcon } from "grommet-icons/icons";
 
 // src/components/organisms/TopBar.tsx
 interface IProps {
@@ -34,7 +35,8 @@ const TopBar = ({
               </Anchor>
               <Box justify="end" direction="row" gap="medium">
                 <Menu
-                  a11yTitle="Navigation Menu"
+                  icon={<MenuIcon />}
+                  a11yTitle=" Menu"
                   dropProps={{ align: { top: "bottom", right: "right" } }}
                   items={getArrayMenuAll(
                     moveRandomPractice,

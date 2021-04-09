@@ -98,10 +98,12 @@ function PracticeBox(props: IProps) {
   return (
     <Container>
       <section
-        className={`${props.viewSize == "small" ? "flex-column" : "flex"}`}
+        className={`${
+          props.viewSize == "small" ? "flex-column small-view" : "flex"
+        }`}
       >
         {/* 왼쪽 이미지 */}
-        <div className="pad-xs flex-1">
+        <div className="pad-xs ">
           {practice.image_url ? (
             <PracticeImage
               imageUrl={practice.image_url}
@@ -110,7 +112,7 @@ function PracticeBox(props: IProps) {
           ) : null}
         </div>
         {/* 오른쪽 섹션 */}
-        <article className="pad-xs flex-2">
+        <article className="pad-xs flex-1 solving-article">
           <div className="flex justify-between">
             {/* theme */}
             <div className=" font-body weigth-400 font-gray-2 pb-l">

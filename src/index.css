@@ -383,3 +383,13 @@ code {
 .text-center {
   text-align: center;
 }
+
+
+/* Width */
+.width-100 {
+  width: 100%;
+}
+
+.max-width {
+  max-width: 860px;
+}

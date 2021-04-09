@@ -40,33 +40,23 @@ const DetailPresenter = ({
       />
 
       {practice ? (
-        <Main pad="large" align="center" margin="0 auto">
-          <Box tag="section" id="section-1">
-            <ResponsiveContext.Consumer>
-              {(size) => {
-                if (size === "small") {
-                  return (
-                    <Box>
-                      <PracticeBox
-                        viewSize={size}
-                        practice={practice}
-                        moveNextPractice={moveNextPractice}
-                      />
-                    </Box>
-                  );
-                } else {
-                  //  문제 풀이 섹션
-                  return (
-                    <PracticeBox
-                      viewSize={size}
-                      practice={practice}
-                      moveNextPractice={moveNextPractice}
-                    />
-                  );
-                }
-              }}
-            </ResponsiveContext.Consumer>
-          </Box>
+        <main>
+          <ResponsiveContext.Consumer>
+            {(size) => (
+              <section
+                id="section-1"
+                className={`max-width margin-center ${
+                  size === "small" ? "pad-xs" : "pad-l"
+                }`}
+              >
+                <PracticeBox
+                  viewSize={size}
+                  practice={practice}
+                  moveNextPractice={moveNextPractice}
+                />
+              </section>
+            )}
+          </ResponsiveContext.Consumer>
           {/* <Box margin="medium" />
           {visibleAnswer || isCorrect ? (
             <DescriptionSection
@@ -75,7 +65,7 @@ const DetailPresenter = ({
               practice={practice}
             />
           ) : null} */}
-        </Main>
+        </main>
       ) : (
         <>
           {fetcedPractice ? (
