@@ -98,20 +98,20 @@ export const compareAnswer = (english_texts: string[], tryText: string) => {
 
 export const convertPracticeATtoPractice = (practiceAT: IPracticeAT) => {
   // 설명 분리
-  const related_descriptions: {
+  let related_descriptions: {
     type: string;
     title: string;
     description: string;
   }[] = [];
 
   if (practiceAT.fields.related_desc) {
-    practiceAT.fields.related_desc.map((item) => {
+    related_descriptions = practiceAT.fields.related_desc.map((item) => {
       const items = item.split("$");
-      related_descriptions.push({
+      return {
         type: items[0],
         title: items[1],
         description: items[2],
-      });
+      };
     });
   }
 

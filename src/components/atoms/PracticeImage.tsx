@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 const Image = styled.div<{ src: string; size?: string }>`
   background-image: url(${(props) => props.src});

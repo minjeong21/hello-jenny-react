@@ -1,6 +1,3 @@
-import React from "react";
-import { Card, Box, Text } from "grommet";
-import { cardBgColors } from "../../theme";
 import { IPracticeAT } from "../../interface/IPracticeAT";
 import { IPractice } from "../../interface/IPractice";
 import {

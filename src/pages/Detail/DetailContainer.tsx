@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useHistory, useLocation } from "react-router-dom";
-import styled from "styled-components";
-import { Anchor, Box, Grommet, Heading, Image } from "grommet";
+import { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { Box, Grommet, Heading, Image } from "grommet";
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";
 import { IPractice } from "../../interface/IPractice";
@@ -19,9 +18,6 @@ import {
   fetchAndSetPractice,
   fetchAndSetPracticeList,
 } from "../../utils/ManagerPractice";
-const StyledAnchor = styled(Anchor)`
-  font-weight: 200;
-`;
 
 interface ParamTypes {
   numid?: string;
@@ -31,11 +27,11 @@ interface ParamTypes {
 function DetailContainer() {
   let { numid, theme, level } = useParams<ParamTypes>();
   const history = useHistory();
-  const location = useLocation();
   const [practiceList, setPracticeList] = useState<IPracticeAT[]>();
   const [fetcedPractice, setFetcedPractice] = useState(false);
   const [practice, setPractice] = useState<IPractice>();
 
+  // TODO: Wraning 처리 (React Hook useEffect has missing dependencies)
   useEffect(() => {
     if (numid) {
       fetchPractice();
@@ -93,7 +89,7 @@ function DetailContainer() {
       let index = practiceList.findIndex(
         (item) => item.fields.numid === practice.numid
       );
-      if (index == practiceList.length - 1) {
+      if (index === practiceList.length - 1) {
         alert("마지막 문제입니다.");
         index = -1;
       }
@@ -166,7 +162,3 @@ function DetailContainer() {
 }
 
 export default DetailContainer;
-
-const FooterAnchor = ({ ...rest }) => (
-  <StyledAnchor href="/" size="small" color="white" {...rest} />
-);

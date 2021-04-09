@@ -1,4 +1,4 @@
-import { Box, Grid, Main, ResponsiveContext, Header, Image } from "grommet";
+import { Box, ResponsiveContext, Image } from "grommet";
 import PracticeBox from "../../components/organisms/PracticeBox";
 import CardSimpleV2 from "../../components/molecules/CardSimpleV2";
 import { IPracticeAT } from "../../interface/IPracticeAT";

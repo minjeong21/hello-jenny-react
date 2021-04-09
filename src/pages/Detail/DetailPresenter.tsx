@@ -1,15 +1,6 @@
-import React from "react";
-import {
-  Box,
-  Grommet,
-  Heading,
-  Button,
-  Main,
-  ResponsiveContext,
-} from "grommet";
+import { Box, Grommet, Heading, Button, ResponsiveContext } from "grommet";
 import { defaultTheme } from "../../theme";
 import PracticeBox from "../../components/organisms/PracticeBox";
-import DescriptionSection from "../../components/organisms/DescriptionSection";
 
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";

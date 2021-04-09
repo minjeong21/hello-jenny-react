@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Grommet } from "grommet";
 import { defaultTheme } from "../../theme";
@@ -11,7 +11,6 @@ import {
   generateThemePath,
   getNextRandomNum,
 } from "../../properties/Path";
-import { Detail } from "..";
 import { fetchAndSetPracticeList } from "../../utils/ManagerPractice";
 import { IPractice } from "../../interface/IPractice";
 import HomePresenter from "./HomePresenter";

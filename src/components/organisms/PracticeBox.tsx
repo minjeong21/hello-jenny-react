@@ -1,7 +1,5 @@
-import { Play } from "grommet-icons";
-import { Button, Keyboard } from "grommet";
 import { IPractice } from "../../interface/IPractice";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PracticeImage from "../atoms/PracticeImage";
 import { convertThemesToMainTheme } from "../../properties/Theme";
 import styled from "styled-components";
@@ -99,7 +97,7 @@ function PracticeBox(props: IProps) {
     <Container>
       <section
         className={`${
-          props.viewSize == "small" ? "flex-column small-view" : "flex"
+          props.viewSize === "small" ? "flex-column small-view" : "flex"
         }`}
       >
         {/* 왼쪽 이미지 */}
