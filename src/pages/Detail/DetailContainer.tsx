@@ -42,7 +42,7 @@ function DetailContainer() {
     } else {
       fetchWritingList();
     }
-  }, []);
+  }, [id, theme, level]);
 
   const fetchWriting = async (id: number) => {
     const fetchedWriting = await fetchWritingByNumId(id);
@@ -103,7 +103,7 @@ function DetailContainer() {
         fetcedWriting={fetcedWriting}
       />
     );
-  } else if (writingList && writingList.length == 0) {
+  } else if (writingList && writingList.length === 0) {
     return (
       <Grommet theme={defaultTheme}>
         <TopBar />

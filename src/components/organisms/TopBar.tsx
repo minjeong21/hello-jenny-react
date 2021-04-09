@@ -32,7 +32,7 @@ const TopBar = ({ writingList }: { writingList?: IWriting[] }) => {
     } else {
       fetchWritingList();
     }
-  }, []);
+  }, [writingList]);
 
   const fetchWritingList = async () => {
     const writingList = await fetchMainWritingList();

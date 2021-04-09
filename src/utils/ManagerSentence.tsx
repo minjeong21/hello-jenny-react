@@ -1,28 +1,3 @@
-import { IWriting } from "../interface/IWriting";
-
-const samePair = [
-  {
-    text1: "i'm",
-    text2: "i am",
-  },
-  {
-    text1: "you're",
-    text2: "you are",
-  },
-  {
-    text1: "they're",
-    text2: "they are",
-  },
-  {
-    text1: "gotta",
-    text2: "got to",
-  },
-  {
-    text1: "wanna",
-    text2: "want to",
-  },
-];
-
 export const convertPlainText = (text: string) => {
   // 앞 뒤 공백 제거. 모두 소문자로 변형.
   let convertedText = text.trim().toLowerCase();

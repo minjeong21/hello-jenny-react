@@ -37,7 +37,6 @@ function WritingBox(props: IProps) {
   const [textInWrinting, setTextInWrinting] = useState("");
   const [isCorrect, setIsCorrect] = useState(false);
   const [visibleAnswer, setVisibleAnswer] = useState(false);
-  const [visibleIsCorrect, setVisibleIsCorrect] = useState(false);
   const [tryText, setTryText] = useState("");
   const [visibleFirstHint, setVisibleFirstHint] = useState(false);
   const [visibleSecondHint, setVisibleSecondHint] = useState(false);
@@ -49,7 +48,6 @@ function WritingBox(props: IProps) {
     setTryText("");
     setIsCorrect(false);
     setVisibleAnswer(false);
-    setVisibleIsCorrect(false);
     setVisibleFirstHint(false);
     setVisibleSecondHint(false);
     setVisibleThirdHint(false);
@@ -79,13 +77,11 @@ function WritingBox(props: IProps) {
     }
 
     setTryText(textInWrinting);
-    setVisibleIsCorrect(true);
     // setTextInWrinting("");
   };
 
   // 유저가 '정답보기' 버튼을 누른 경우
   const showAnswer = (writing: IWriting) => {
-    setVisibleIsCorrect(false);
     setVisibleAnswer(true);
     setTryText(writing.main_en_text);
   };
