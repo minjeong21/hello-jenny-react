@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Grommet, Box, ResponsiveContext, Image } from "grommet";
-import WritingBox from "components/organisms/WritingBox";
+import { Grommet, Box, ResponsiveContext } from "grommet";
 import { defaultTheme } from "theme";
-import TopBar from "components/organisms/TopBar";
-import Footer from "components/organisms/Footer";
-import WritingList from "./WritingList";
+import styled from "styled-components";
 import { generateRandomPath, getNextRandomNum } from "properties/Path";
 import { fetchMainWritingList } from "apis/WritingApi";
 import { IWriting } from "interface/IWriting";
-import styled from "styled-components";
+import WritingBox from "components/organisms/WritingBox";
+import TopBar from "components/organisms/TopBar";
+import Footer from "components/organisms/Footer";
+import HeaderSection from "./HeaderSection";
+
+import WritingList from "./WritingList";
 
 const Container = styled.div`
   padding-bottom: 80px;
@@ -44,7 +46,6 @@ const Home = () => {
 
   const fetchWritingList = async () => {
     const writingList = await fetchMainWritingList();
-    console.log(writingList);
     setWritingList(writingList);
     setWriting(writingList[0]);
   };
@@ -110,44 +111,4 @@ const Home = () => {
   );
 };
 
-const HeaderSection = ({ viewSize }: { viewSize: string }) => {
-  const mainText = `따끈따끈~ 오늘의 문장이 도착했어요!\n같이 한번 풀어볼까요?? `;
-  const subText = "문제를 모두 맞춘다면, 기분 좋은 하루가 될꺼에요!!";
-  return (
-    <Box background="#faf8f8">
-      <header>
-        <div
-          className={` pt-l margin-center ${
-            viewSize === "small" ? "flex-column" : "flex"
-          }`}
-        >
-          {viewSize === "small" ? (
-            <>
-              <div className="flex-1 text-center">
-                <Image src="/assets/header-rabit-bottom.png" width="200px" />
-              </div>
-              <div className="flex-2 flex flex-column justify-center pad-m">
-                <div className="pre-line font-large font pb-xs">{mainText}</div>
-                <div className="font-small font-gray-3">{subText}</div>
-              </div>
-              {/* 이미지 */}
-            </>
-          ) : (
-            <>
-              <div className="flex-2 flex flex-column justify-center pad-m">
-                <div className="pre-line font-large font pb-xs">{mainText}</div>
-                <div className="font-small font-gray-3">{subText}</div>
-              </div>
-              {/* 이미지 */}
-              <div className="flex-1">
-                <Image src="/assets/header-rabit3.png" width="300px" />
-              </div>
-            </>
-          )}
-          {/* Text */}
-        </div>
-      </header>
-    </Box>
-  );
-};
 export default Home;
