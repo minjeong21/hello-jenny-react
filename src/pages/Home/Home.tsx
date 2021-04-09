@@ -6,12 +6,7 @@ import { defaultTheme } from "theme";
 import TopBar from "components/organisms/TopBar";
 import Footer from "components/organisms/Footer";
 import WritingList from "./WritingList";
-import {
-  generateRandomPath,
-  generateLevelPath,
-  generateThemePath,
-  getNextRandomNum,
-} from "properties/Path";
+import { generateRandomPath, getNextRandomNum } from "properties/Path";
 import { fetchMainWritingList } from "apis/WritingApi";
 import { IWriting } from "interface/IWriting";
 import styled from "styled-components";

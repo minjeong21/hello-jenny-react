@@ -28,7 +28,7 @@ export const fetchWritingByNumId = async (id: number) => {
     });
 };
 
-export const fetchWritingByTheme = async (theme: string) => {
+export const fetchWritingListByTheme = async (theme: string) => {
   return instance
     .get(`/pracitce/theme/${theme}/list/`)
     .then((response) => response.data)
@@ -38,7 +38,7 @@ export const fetchWritingByTheme = async (theme: string) => {
     });
 };
 
-export const fetchWritingByLevel = async (level: string) => {
+export const fetchWritingListByLevel = async (level: number) => {
   return instance
     .get(`/pracitce/level/${level}/list/`)
     .then((response) => response.data)

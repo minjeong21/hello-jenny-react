@@ -8,18 +8,24 @@ import {
   generateLevelPath,
   generateRandomPath,
   generateThemePath,
-  getNextRandomNum,
 } from "../../properties/Path";
 import { defaultTheme } from "../../theme";
 import DetailPresenter from "./DetailPresenter";
+import {
+  fetchMainWritingList,
+  fetchWritingListByLevel,
+  fetchWritingByNumId,
+  fetchWritingListByTheme,
+} from "apis/WritingApi";
 
 interface ParamTypes {
-  numid?: string;
+  id?: string;
   theme?: string;
   level?: string;
 }
+
 function DetailContainer() {
-  let { numid, theme, level } = useParams<ParamTypes>();
+  let { id, theme, level } = useParams<ParamTypes>();
   const history = useHistory();
   const [writingList, setWritingList] = useState<IWriting[]>();
   const [fetcedWriting, setFetcedWriting] = useState(false);
@@ -27,50 +33,35 @@ function DetailContainer() {
 
   // TODO: Wraning 처리 (React Hook useEffect has missing dependencies)
   useEffect(() => {
-    if (numid) {
-      fetchWriting();
-    }
-    fetchWritingBundle();
-  }, [level, theme]);
-
-  /**
-   * numid가 있는 경우, 해당 문제 가져오기
-   * */
-  const fetchWriting = async () => {
-    // fetchAndSetWriting(numid, setWriting, setFetcedWriting);
-  };
-
-  const fetchWritingBundle = async () => {
-    // fetchAndSetWritingList(setWritingList, setWriting, theme, level, numid);
-  };
-
-  /**
-   * 메뉴 클릭 이벤트. 랜덤 문제로 이동
-   * */
-  const moveRandomWriting = () => {
-    if (writingList) {
-      const randomNumber = getNextRandomNum(writingList.length);
-      history.push(generateRandomPath(randomNumber));
-      setWriting(writingList[randomNumber]);
+    if (id) {
+      fetchWriting(Number(id));
+    } else if (theme) {
+      fetchThemeWritingList(theme);
+    } else if (level) {
+      fetchLevelWritingList(Number(level));
     } else {
-      alert("새로고침 후 다시 시도해주세요.");
+      fetchWritingList();
     }
+  }, []);
+
+  const fetchWriting = async (id: number) => {
+    const fetchedWriting = await fetchWritingByNumId(id);
+    setWriting(fetchedWriting);
   };
 
-  /**
-   * 메뉴 클릭 이벤트. 래벨 문제로 이동
-   * */
-  const moveLevelWriting = (level: string) => {
-    history.push(generateLevelPath(level));
-    window.location.reload();
+  const fetchThemeWritingList = async (theme: string) => {
+    const list = await fetchWritingListByTheme(theme);
+    setWritingList(list);
   };
 
-  /**
-   * 메뉴 클릭 이벤트. 테마 문제로 이동
-   * */
-  const moveThemeWriting = (theme: string) => {
-    history.push(generateThemePath(theme));
-    window.location.reload();
+  const fetchLevelWritingList = async (level: number) => {
+    const list = await fetchWritingListByLevel(level);
+    setWritingList(list);
+  };
+
+  const fetchWritingList = async () => {
+    const fetchedList = await fetchMainWritingList();
+    setWritingList(fetchedList);
   };
 
   const moveNextWriting = () => {
@@ -104,7 +95,7 @@ function DetailContainer() {
     setWriting(writing);
   };
 
-  if (writingList && writingList.length > 0) {
+  if (writing) {
     return (
       <DetailPresenter
         moveNextWriting={moveNextWriting}
@@ -112,7 +103,7 @@ function DetailContainer() {
         fetcedWriting={fetcedWriting}
       />
     );
-  } else if (writingList) {
+  } else if (writingList && writingList.length == 0) {
     return (
       <Grommet theme={defaultTheme}>
         <TopBar />
