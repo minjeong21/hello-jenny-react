@@ -1,6 +1,6 @@
 import React from "react";
 import CardSimpleV2 from "../../components/molecules/CardSimpleV2";
-import { IWriting } from "../../interface/IWriting";
+import IWriting from "../../interface/IWriting";
 
 const WritingList = ({
   writingList,

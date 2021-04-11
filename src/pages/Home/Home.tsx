@@ -5,7 +5,7 @@ import { defaultTheme } from "theme";
 import styled from "styled-components";
 import { generateRandomPath, getNextRandomNum } from "properties/Path";
 import { fetchMainWritingList } from "apis/WritingApi";
-import { IWriting } from "interface/IWriting";
+import IWriting from "interface/IWriting";
 import WritingBox from "components/WritingBox";
 import TopBar from "components/organisms/TopBar";
 import Footer from "components/organisms/Footer";

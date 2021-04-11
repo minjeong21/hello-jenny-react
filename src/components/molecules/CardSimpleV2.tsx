@@ -1,4 +1,4 @@
-import { IWriting } from "../../interface/IWriting";
+import IWriting from "../../interface/IWriting";
 import { getEllipsis } from "../../utils/ManagerSentence";
 import Level from "../atoms/Level";
 import styled from "styled-components";

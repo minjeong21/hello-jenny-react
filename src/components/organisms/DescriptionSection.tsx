@@ -1,5 +1,5 @@
 import { Box, Text, Grid } from "grommet";
-import { IWriting } from "../../interface/IWriting";
+import IWriting from "../../interface/IWriting";
 interface IProps {
   isCorrect: boolean;
   visibleAnswer: boolean;

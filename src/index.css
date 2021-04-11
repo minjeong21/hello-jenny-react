@@ -1,3 +1,9 @@
+@import "https: //cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
+
+input {
+  border: solid 1px;
+}
+
 body {
   margin: 0;
   /* font-family: 'Noto Serif KR', serif; */
@@ -69,12 +75,20 @@ code {
   justify-content: space-between;
 }
 
+.justify-end {
+  justify-content: flex-end;
+}
+
 .flex-column {
   flex-direction: column;
 }
 
 .flex-row {
   flex-direction: row;
+}
+
+.align-center {
+  align-self: center;
 }
 
 /* White Space */
@@ -338,6 +352,31 @@ code {
   margin-bottom: 4px;
 }
 
+.mr-l {
+  margin-right: 24px;
+}
+
+.mr-m {
+  margin-right: 20px;
+}
+
+.mr-s {
+  margin-right: 16px;
+}
+
+.mr-xs {
+  margin-right: 8px;
+}
+
+.mr-sub-s {
+  margin-right: 12px;
+}
+
+.mr-xxs {
+  margin-right: 4px;
+}
+
+
 
 /* Font Weight */
 .weigth-bold {
@@ -365,6 +404,14 @@ code {
   color: white;
   border: 0px;
   background: #F44483;
+  border-radius: 6px;
+  padding: 10px 40px;
+}
+
+.btn-white {
+  color: #ff005b;
+  border: 0px;
+  background: #ffecf3;
   border-radius: 6px;
   padding: 10px 40px;
 }

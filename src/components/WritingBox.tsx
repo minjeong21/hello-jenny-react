@@ -1,14 +1,33 @@
-import { IWriting } from "../interface/IWriting";
 import { useEffect, useState } from "react";
 import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
 import MainTheme from "components/MainTheme";
 import { compareAnswer, getMatchedWordPercent } from "utils/ManagerSentence";
 import Level from "components/atoms/Level";
+import IWriting from "interface/IWriting";
 import WritingForm from "components/WritingForm";
-import HelpJennySection from "components/HelpJennySection";
+import {
+  DialogHint,
+  DialogJenny,
+  DialogAnswer,
+  DialogCorrect,
+  DialogWrong,
+} from "components/Dialog";
+import DialogButtons from "components/DialogButtons";
 
-const Container = styled.div``;
+const Container = styled.div`
+  input {
+    width: 100%;
+    padding: 10px;
+  }
+
+  #explain-section {
+    max-height: 200px;
+    scrollbar-color: yellow;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+`;
 
 interface IProps {
   writing: IWriting;
@@ -16,56 +35,106 @@ interface IProps {
   moveNextWriting: () => void;
 }
 
-function WritingBox(props: IProps) {
+const WritingBox = (props: IProps) => {
   const { writing } = props;
+  const [dialogType, setDialogType] = useState("help");
   const [textInWrinting, setTextInWrinting] = useState("");
-  const [callHelp, setCallHelp] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [tryText, setTryText] = useState("");
-  const [matchedPercent, setMatchedPercent] = useState(0);
+  const [userCentence, setUserCentence] = useState("");
+  const [hintCount, setHintCount] = useState(0);
+  const [dialogList, setDialogList] = useState<
+    { type: string; element: JSX.Element }[]
+  >([]);
 
   useEffect(() => {
     setTextInWrinting("");
-    setTryText("");
-    setMatchedPercent(0);
+    setUserCentence("");
   }, []);
 
   const onClickHelpJenny = () => {
-    setCallHelp((prev) => !prev);
+    setDialogType("help");
+    appendDialog("open", <DialogJenny />);
   };
 
+  const onClickShowAnswer = () => {
+    setUserCentence(textInWrinting);
+    const Dialog = (
+      <DialogAnswer userCentence={userCentence} answer={writing.main_en_text} />
+    );
+
+    setDialogType("answer");
+    appendDialog("answer", Dialog);
+  };
   /**
    * 도전하기 버튼 클릭 Event
    * */
   const onSubmitChallenge = (event: any) => {
     event.preventDefault();
+    let Dialog = null;
+
     const result = compareAnswer(writing.alternative_en_texts, textInWrinting);
     console.log(textInWrinting);
     console.log(result);
-    setIsCorrect(result.isCorrect);
+
     const element: any = document.getElementById("english_input");
     if (result.isCorrect) {
       // 맞았을 때
       element.setAttribute("readonly", true);
       element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
-      showAnswer(writing);
+
+      setDialogType("correct");
+      Dialog = (
+        <DialogCorrect writing={writing} userCentence={textInWrinting} />
+      );
     } else {
       // 정답 틀렸을 때
       const percent = getMatchedWordPercent(
         result.bestMatchedText,
         textInWrinting
       );
-      setMatchedPercent(percent);
+      setDialogType("wrong");
+      Dialog = <DialogWrong writing={writing} userCentence={textInWrinting} />;
     }
-
-    setTryText(textInWrinting);
-    setTextInWrinting("");
+    appendDialog("hint", Dialog);
   };
 
-  // 유저가 '정답보기' 버튼을 누른 경우
-  const showAnswer = (writing: IWriting) => {
-    setTryText(writing.main_en_text);
+  const appendDialog = (type: string, element: JSX.Element) => {
+    setDialogList((prev) => [...prev, { type, element }]);
+    setTimeout(() => {
+      var dialogSection = document.getElementById("explain-section");
+      console.log(dialogSection);
+
+      if (dialogSection) {
+        dialogSection.scrollTop = dialogSection.scrollHeight;
+      }
+    }, 500);
   };
+
+  const onClickShowHint = () => {
+    let talkText = "";
+
+    setHintCount(hintCount + 1);
+    switch (hintCount) {
+      case 0:
+        talkText = "첫번째 힌트야";
+        break;
+      case 1:
+        talkText = "두번째 힌트야";
+        break;
+      case 2:
+        talkText = "마지막 힌트야";
+    }
+    const Dialog = (
+      <DialogHint talkText={talkText} hint={writing.hints[hintCount].hint} />
+    );
+    setDialogType("hint");
+    appendDialog("hint", Dialog);
+  };
+
+  console.log(
+    hintCount,
+    writing.hints.length - 1,
+    hintCount >= writing.hints.length - 1
+  );
 
   return (
     <Container>
@@ -77,8 +146,14 @@ function WritingBox(props: IProps) {
         {/* 왼쪽 이미지 */}
         <div className="pad-xs ">
           <article className="pad-xs flex-1 solving-article">
-            <div className="flex">
-              <WritingImage imageUrl={writing.image_url} size={null} />
+            <div
+              className={`${
+                props.viewSize === "small" ? "flex-column" : "flex"
+              }`}
+            >
+              <div className="pad-m">
+                <WritingImage imageUrl={writing.image_url} size={null} />
+              </div>
               {/* 설명 */}
               <div>
                 <div className="flex justify-between">
@@ -105,15 +180,28 @@ function WritingBox(props: IProps) {
               </div>
             </div>
           </article>
-          <HelpJennySection
-            writing={writing}
-            callHelp={callHelp}
-            moveNextWriting={props.moveNextWriting}
-          />
+          <section id="explain-section">
+            <div>
+              {dialogList.map((dialog, index) => (
+                <div key={index}>{dialog.element}</div>
+              ))}
+            </div>
+          </section>
+          <section>
+            {dialogList.length > 0 && (
+              <DialogButtons
+                type={dialogType}
+                isLastHint={hintCount >= writing.hints.length - 1}
+                onShowHint={onClickShowHint}
+                showAnswer={onClickShowAnswer}
+                moveNextWriting={props.moveNextWriting}
+              />
+            )}
+          </section>
         </div>
       </section>
     </Container>
   );
-}
+};
 
 export default WritingBox;

@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { Box, Grommet, Heading, Image } from "grommet";
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";
-import { IWriting } from "../../interface/IWriting";
+import IWriting from "../../interface/IWriting";
 import {
   generateLevelPath,
   generateRandomPath,

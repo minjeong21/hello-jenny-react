@@ -1,4 +1,4 @@
-export interface IWriting {
+export default interface IWriting {
   id: number;
   level: number;
   publish_date: string;
@@ -9,20 +9,10 @@ export interface IWriting {
   situation?: string;
   themes: string[];
   image_url: string;
-  hint1: {
+  hints: {
     id: number;
     title: string;
     hint: string;
-  };
-  hint2: {
-    id: number;
-    title: string;
-    hint: string;
-  };
-  hint3: {
-    id: number;
-    title: string;
-    hint: string;
-  };
+  }[];
   created: string;
 }

@@ -16,7 +16,7 @@ import {
   generateThemePath,
   getNextRandomNum,
 } from "properties/Path";
-import { IWriting } from "interface/IWriting";
+import IWriting from "interface/IWriting";
 import { defaultTheme } from "../../theme";
 import { levelMenus, themeMenus } from "../../properties/Menu";
 import { Menu as MenuIcon } from "grommet-icons/icons";

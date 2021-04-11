@@ -21,7 +21,7 @@ const WritingForm = ({
 
       {/* 버튼 그룹 */}
       <div className="flex">
-        <div className="text-right pt-s">
+        <div className="text-right pt-s mr-xs">
           <input
             type="submit"
             className="btn-primary font-body weight-700"

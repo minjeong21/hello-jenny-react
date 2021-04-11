@@ -4,7 +4,7 @@ import WritingBox from "../../components/WritingBox";
 
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";
-import { IWriting } from "../../interface/IWriting";
+import IWriting from "../../interface/IWriting";
 
 interface IProps {
   moveNextWriting: () => void;
@@ -30,11 +30,11 @@ const DetailPresenter = ({
                   size === "small" ? "pad-xs" : "pad-l"
                 }`}
               >
-                <WritingBox
+                {/* <WritingBox
                   viewSize={size}
                   writing={writing}
                   moveNextWriting={moveNextWriting}
-                />
+                /> */}
               </section>
             )}
           </ResponsiveContext.Consumer>
