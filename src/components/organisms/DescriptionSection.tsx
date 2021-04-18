@@ -16,14 +16,14 @@ const DescriptionSection = ({ isCorrect, visibleAnswer, writing }: IProps) => {
                 {isCorrect ? (
                   <Box pad={{ bottom: "medium" }}>
                     {/* 또 다른 표현 */}
-                    {writing.alternative_en_texts.length > 0 ? (
+                    {writing.alter_sentences.length > 0 ? (
                       <Box>
                         <Box pad={{ bottom: "small" }}>
                           <Text weight="bold">
                             ⭐️&nbsp;&nbsp;또 다르게 표현할 수 있어요
                           </Text>
                         </Box>
-                        {writing.alternative_en_texts.map((item, index) => {
+                        {writing.alter_sentences.map((item, index) => {
                           return (
                             <Box
                               pad={{ left: "7px", bottom: "7px" }}
@@ -46,12 +46,12 @@ const DescriptionSection = ({ isCorrect, visibleAnswer, writing }: IProps) => {
                         </Text>
                       </Box>
                       <Box pad={{ left: "7px", bottom: "7px" }}>
-                        <Text>{writing.main_en_text}</Text>
+                        <Text>{writing.en_sentence}</Text>
                       </Box>
                       );
-                      {writing.alternative_en_texts.length > 0 && (
+                      {writing.alter_sentences.length > 0 && (
                         <>
-                          {writing.alternative_en_texts.map((item, index) => (
+                          {writing.alter_sentences.map((item, index) => (
                             <Box
                               pad={{ left: "7px", bottom: "7px" }}
                               key={index}

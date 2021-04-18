@@ -40,35 +40,28 @@ export const getMatchedWordPercent = (correctText: string, tryText: string) => {
 };
 
 /** 정답 후보 문장에서 정답이 있는지 확인하고 object로 리턴 */
-export const compareAnswer = (
-  alternative_en_texts: string[],
-  tryText: string
-) => {
+export const compareAnswer = (alter_sentences: string[], tryText: string) => {
   let isCorrect = false;
   let correctText = "";
   let bestMatchedText = "";
   let lestUnMatchedCount = 100;
 
-  for (let i = 0; i < alternative_en_texts.length; i++) {
-    const unMatchedCount = getUnMatchedWordCount(
-      alternative_en_texts[i],
-      tryText
-    );
+  for (let i = 0; i < alter_sentences.length; i++) {
+    const unMatchedCount = getUnMatchedWordCount(alter_sentences[i], tryText);
 
     if (
-      getUnMatchedWordCount(alternative_en_texts[i], tryText) <
-      lestUnMatchedCount
+      getUnMatchedWordCount(alter_sentences[i], tryText) < lestUnMatchedCount
     ) {
       lestUnMatchedCount = unMatchedCount;
-      bestMatchedText = alternative_en_texts[i];
+      bestMatchedText = alter_sentences[i];
     }
 
-    const correctPlainText = convertPlainText(alternative_en_texts[i]);
+    const correctPlainText = convertPlainText(alter_sentences[i]);
     const tryPlainText = convertPlainText(tryText);
 
     if (correctPlainText === tryPlainText) {
       isCorrect = true;
-      correctText = alternative_en_texts[i];
+      correctText = alter_sentences[i];
       break;
     }
   }

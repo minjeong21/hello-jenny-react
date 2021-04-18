@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_MOCK_SERVER_API,
+  baseURL: process.env.REACT_APP_DFR_API,
   timeout: 5000,
   // headers: {
   //   Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
@@ -10,7 +10,7 @@ const instance = axios.create({
 
 export const fetchMainWritingList = async () => {
   return instance
-    .get("/writing/list/")
+    .get("/brief/")
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);

@@ -41,20 +41,16 @@ const Home = () => {
   const history = useHistory();
 
   useEffect(() => {
-    fetchWritingList().then((list) => {
-      if (list.length > 0) {
-        const writing = list[0];
-        console.log(writing);
-        setWriting(writing);
-      }
-    });
+    fetchWritingList();
   }, []);
 
   const fetchWritingList = async () => {
-    const writingList = await fetchMainWritingList();
-    if (writingList) {
-      setWritingList(writingList);
-      return writingList;
+    const response = await fetchMainWritingList();
+    console.log(response);
+    if (response) {
+      setWritingList(response.list);
+      setWriting(response.req);
+      console.log(response.req);
     } else {
       return [];
     }

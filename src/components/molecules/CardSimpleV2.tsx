@@ -53,7 +53,7 @@ const CardSimpleV2 = ({ writing, index, id, moveWriting }: IProps) => {
 
         <div>
           <div className="font-body font-bold pb-l ellipsis">
-            {getEllipsis(writing.kr_text, 60)}
+            {getEllipsis(writing.kr_sentence, 60)}
           </div>
         </div>
         <div className="move-button font-small pointer">

@@ -58,7 +58,7 @@ const WritingBox = (props: IProps) => {
   const onClickShowAnswer = () => {
     setUserCentence(textInWrinting);
     const Dialog = (
-      <DialogAnswer userCentence={userCentence} answer={writing.main_en_text} />
+      <DialogAnswer userCentence={userCentence} answer={writing.en_sentence} />
     );
 
     setDialogType("answer");
@@ -71,7 +71,7 @@ const WritingBox = (props: IProps) => {
     event.preventDefault();
     let Dialog = null;
 
-    const result = compareAnswer(writing.alternative_en_texts, textInWrinting);
+    const result = compareAnswer(writing.alter_sentences, textInWrinting);
     console.log(textInWrinting);
     console.log(result);
 
@@ -124,7 +124,10 @@ const WritingBox = (props: IProps) => {
         talkText = "마지막 힌트야";
     }
     const Dialog = (
-      <DialogHint talkText={talkText} hint={writing.hints[hintCount].hint} />
+      <DialogHint
+        talkText={talkText}
+        hint={writing.hints[hintCount].description}
+      />
     );
     setDialogType("hint");
     appendDialog("hint", Dialog);
@@ -168,7 +171,7 @@ const WritingBox = (props: IProps) => {
                 )}
 
                 <div className="font-large weigth-700 font-gray-1 pb-m">
-                  {writing.kr_text}
+                  {writing.kr_sentence}
                 </div>
 
                 <WritingForm

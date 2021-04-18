@@ -66,7 +66,7 @@ export const DialogCorrect = ({
         <div className="">
           <div>와~ 맞췄구나. 정말 대단하다! 대단한 내 친구 뿌듯해! 💕</div>
           <div className="font-small font-gray-2 pr-l">
-            정답문장 : {writing.main_en_text}
+            정답문장 : {writing.en_sentence}
           </div>
           <div className="font-small font-gray-2 pr-l">
             도전 문장 : {userCentence}

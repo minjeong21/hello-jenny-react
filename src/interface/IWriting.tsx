@@ -1,18 +1,20 @@
 export default interface IWriting {
+  form: string;
+  kr_sentence: string;
+  en_sentence: string;
+  alter_sentences: string[];
+  first_word: string;
   id: number;
   level: number;
   publish_date: string;
 
-  kr_text: string;
-  main_en_text: string;
-  alternative_en_texts: string[];
   situation?: string;
-  themes: string[];
+  themes: { display_name: string; name: string; id: number }[];
   image_url: string;
   hints: {
     id: number;
-    title: string;
-    hint: string;
+    name: string;
+    description: string;
+    type: string;
   }[];
-  created: string;
 }
