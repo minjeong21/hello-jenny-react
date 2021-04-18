@@ -1,8 +1,8 @@
 import { Box, Image } from "grommet";
 const HeaderSection = ({ viewSize }: { viewSize: string }) => {
-  const mainText = `Hello, I’m Jenny!\n나랑 친구가 되어줄래?`;
+  const mainText = `나랑 영어공부 할래? 내가 도와줄께!!`;
   const subText =
-    "나랑 친구가 되면, 네가 영어로 글을 쓸 수 있게 만들어줄께 !! \n어려울것 같아? 걱정마!\n내 힌트는 너를 영어 천재로 만들어 줄거야! ";
+    "나는 힌트 왕이거든! \n내 힌트는 너를 영어 천재로 만들어 줄거야! ";
   return (
     <Box background="#faf8f8">
       <header>
