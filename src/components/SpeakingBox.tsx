@@ -41,6 +41,14 @@ interface IProps {
   moveNextWriting: () => void;
 }
 
+const sentenceList = [{
+                      'korean' : '현주는 노는 것을 좋아한다.',
+                      'english' : 'Hyunju likes playing.'
+                      }, {
+                        'korean' : '현주는 공부를 싫어한다.',
+                        'english' : 'Hyunju hates studying.'
+                      }]
+
 const SpeakingBox = (props: IProps) => {
   const { writing } = props;
   const [dialogType, setDialogType] = useState("help");
@@ -51,6 +59,7 @@ const SpeakingBox = (props: IProps) => {
     { type: string; element: JSX.Element }[]
   >([]);
   const [infoSentence, setInfoSentence] = useState('화이팅');
+  const [korSentence, setKorSentence] = useState('5초씩 5개의 한글 문장이 주어질 거에요. 영어로 말해보세요 :)');
   const [isStart, setIsStart] = useState(false);
   const [remainTime, setRemainTime] = useState(10);
 
@@ -137,6 +146,7 @@ const SpeakingBox = (props: IProps) => {
   const startOnClick = () => {
     setIsStart(true);
     setInfoSentence('아래 문장을 영어로 말해보세요.');
+    setKorSentence(sentenceList[0].korean);
   }
 
 
@@ -204,7 +214,7 @@ const SpeakingBox = (props: IProps) => {
 
                 <div className="font-large weigth-700 font-gray-1 pb-m" style={{wordBreak:"keep-all"}}>
                   {/* {writing.kr_sentence} */}
-                  5초씩 5개의 한글 문장이 주어질 거에요. 영어로 말해보세요 :)
+                  {korSentence}
                 </div>
                 {/* writingform 있던 자리 */}
                 <div className="text-right pt-s mr-xs">
