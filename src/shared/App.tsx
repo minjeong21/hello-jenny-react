@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
-import { Home, Detail } from "../pages";
+import { Home, Detail, Speaking } from "../pages";
 
 class App extends Component {
   render() {
@@ -12,6 +12,7 @@ class App extends Component {
         <Route path="/theme/:theme" component={Detail} />
         <Route path="/level/:level/:id" component={Detail} />
         <Route path="/level/:level" component={Detail} />
+        <Route path="/speaking" component={Speaking} />
       </Switch>
     );
   }
