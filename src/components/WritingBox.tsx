@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
 import MainTheme from "components/MainTheme";
-import { compareAnswer, getMatchedWordPercent } from "utils/ManagerSentence";
+import WritingManager from "utils/WritingManager";
 import Level from "components/atoms/Level";
-import IWriting from "interface/IWriting";
+import FilterNavigation from "components/molecules/FilterNavigation";
 import WritingForm from "components/WritingForm";
 import {
   DialogHint,
@@ -30,13 +30,14 @@ const Container = styled.div`
 `;
 
 interface IProps {
-  writing: IWriting;
+  writingManager: WritingManager;
   viewSize: string;
   moveNextWriting: () => void;
 }
 
 const WritingBox = (props: IProps) => {
-  const { writing } = props;
+  const { writingManager } = props;
+  const [writing, setWriting] = useState(writingManager.getWriting());
   const [dialogType, setDialogType] = useState("help");
   const [textInWrinting, setTextInWrinting] = useState("");
   const [userCentence, setUserCentence] = useState("");
@@ -71,7 +72,10 @@ const WritingBox = (props: IProps) => {
     event.preventDefault();
     let Dialog = null;
 
-    const result = compareAnswer(writing.alter_sentences, textInWrinting);
+    const result = writingManager.compareAnswer(
+      writing.alter_sentences,
+      textInWrinting
+    );
     console.log(textInWrinting);
     console.log(result);
 
@@ -87,10 +91,7 @@ const WritingBox = (props: IProps) => {
       );
     } else {
       // 정답 틀렸을 때
-      const percent = getMatchedWordPercent(
-        result.bestMatchedText,
-        textInWrinting
-      );
+      const percent = writingManager.getMatchedWordPercent(textInWrinting);
       setDialogType("wrong");
       Dialog = <DialogWrong writing={writing} userCentence={textInWrinting} />;
     }
@@ -109,26 +110,25 @@ const WritingBox = (props: IProps) => {
     }, 500);
   };
 
-  const onClickShowHint = () => {
-    let talkText = "";
-
-    setHintCount(hintCount + 1);
-    switch (hintCount) {
-      case 0:
-        talkText = "첫번째 힌트야";
-        break;
-      case 1:
-        talkText = "두번째 힌트야";
-        break;
-      case 2:
-        talkText = "마지막 힌트야";
-    }
+  const onShowSubjective = () => {
     const Dialog = (
       <DialogHint
-        talkText={talkText}
-        hint={writing.hints[hintCount].description}
+        talkText={"주어 힌트는 여기있어!"}
+        hint={writingManager.getSubjective()}
       />
     );
+    writingManager.increaseHintNumber();
+    setDialogType("hint");
+    appendDialog("hint", Dialog);
+  };
+  const onShowHint = () => {
+    const Dialog = (
+      <DialogHint
+        talkText={writingManager.getHintTitle()}
+        hint={writingManager.getHintByNumber()}
+      />
+    );
+    writingManager.increaseHintNumber();
     setDialogType("hint");
     appendDialog("hint", Dialog);
   };
@@ -141,6 +141,8 @@ const WritingBox = (props: IProps) => {
 
   return (
     <Container>
+      <FilterNavigation />
+
       <section
         className={`${
           props.viewSize === "small" ? "flex-column small-view" : "flex"
@@ -194,10 +196,11 @@ const WritingBox = (props: IProps) => {
             {dialogList.length > 0 && (
               <DialogButtons
                 type={dialogType}
-                isLastHint={hintCount >= writing.hints.length - 1}
-                onShowHint={onClickShowHint}
+                isLastHint={writingManager.hasMoreHint()}
+                onShowHint={onShowHint}
                 showAnswer={onClickShowAnswer}
                 moveNextWriting={props.moveNextWriting}
+                onShowSubjective={onShowSubjective}
               />
             )}
           </section>

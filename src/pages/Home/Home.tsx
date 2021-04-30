@@ -5,6 +5,7 @@ import { defaultTheme } from "theme";
 import styled from "styled-components";
 import { generateRandomPath, getNextRandomNum } from "properties/Path";
 import { fetchMainWritingList } from "apis/WritingApi";
+import WritingManager from "utils/WritingManager";
 import IWriting from "interface/IWriting";
 import WritingBox from "components/WritingBox";
 import TopBar from "components/organisms/TopBar";
@@ -37,7 +38,7 @@ const Container = styled.div`
 
 const Home = () => {
   const [writingList, setWritingList] = useState<IWriting[]>();
-  const [writing, setWriting] = useState<IWriting>();
+  const [writingManager, setWritingManager] = useState<WritingManager>();
   const history = useHistory();
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const Home = () => {
     console.log(response);
     if (response) {
       setWritingList(response.list);
-      setWriting(response.req);
+      setWritingManager(new WritingManager(response.req));
       console.log(response.req);
     } else {
       return [];
@@ -81,10 +82,10 @@ const Home = () => {
                   {/* 문제 풀기 섹션 */}
                   <section className="bg-gray-6 pb-xl">
                     <div className="pad-l writing-box bg-white mb-l">
-                      {writing ? (
+                      {writingManager ? (
                         <WritingBox
                           viewSize={size}
-                          writing={writing}
+                          writingManager={writingManager}
                           moveNextWriting={moveNextRandomWriting}
                         />
                       ) : (

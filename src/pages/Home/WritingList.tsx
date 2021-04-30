@@ -1,6 +1,7 @@
 import React from "react";
 import CardSimpleV2 from "../../components/molecules/CardSimpleV2";
 import IWriting from "../../interface/IWriting";
+import WritingManager from "utils/WritingManager";
 
 const WritingList = ({
   writingList,
@@ -17,7 +18,7 @@ const WritingList = ({
         {writingList.map((item, index) => (
           <CardSimpleV2
             key={index}
-            writing={item}
+            writingManager={new WritingManager(item)}
             index={index}
             id={item.id}
             moveWriting={moveWriting}
@@ -31,7 +32,7 @@ const WritingList = ({
         {writingList.map((item, index) => (
           <CardSimpleV2
             key={index}
-            writing={item}
+            writingManager={new WritingManager(item)}
             index={index}
             id={item.id}
             moveWriting={moveWriting}
@@ -45,7 +46,7 @@ const WritingList = ({
         {writingList.map((item, index) => (
           <CardSimpleV2
             key={index}
-            writing={item}
+            writingManager={new WritingManager(item)}
             index={index}
             id={item.id}
             moveWriting={moveWriting}

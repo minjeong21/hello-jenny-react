@@ -1,5 +1,4 @@
-import IWriting from "../../interface/IWriting";
-import { getEllipsis } from "../../utils/ManagerSentence";
+import WritingManager from "../../utils/WritingManager";
 import Level from "../atoms/Level";
 import styled from "styled-components";
 import MainTheme from "components/MainTheme";
@@ -30,13 +29,14 @@ const WritingImage = styled.div<{ src: string }>`
 `;
 
 interface IProps {
-  writing: IWriting;
+  writingManager: WritingManager;
   index: number;
   id: number;
   moveWriting: (value: number) => void;
 }
 
-const CardSimpleV2 = ({ writing, index, id, moveWriting }: IProps) => {
+const CardSimpleV2 = ({ writingManager, index, id, moveWriting }: IProps) => {
+  const writing = writingManager.getWriting();
   return (
     <Container onClick={() => moveWriting(id)}>
       <div className="pad-m">
@@ -53,7 +53,7 @@ const CardSimpleV2 = ({ writing, index, id, moveWriting }: IProps) => {
 
         <div>
           <div className="font-body font-bold pb-l ellipsis">
-            {getEllipsis(writing.kr_sentence, 60)}
+            {writingManager.getEllipsis()}
           </div>
         </div>
         <div className="move-button font-small pointer">
