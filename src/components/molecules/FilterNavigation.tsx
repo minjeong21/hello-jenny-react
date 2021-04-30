@@ -1,17 +1,32 @@
 import styled from "styled-components";
+import {
+  generateRandomPath,
+  generateLevelPath,
+  generateThemePath,
+  getNextRandomNum,
+} from "utils/Path";
 const Navgation = styled.ul`
-  li {
+  a {
     width: 100px;
+    cursor: pointer;
   }
 `;
 
-const FilterNavigation = () => {
+const FilterNavigation = ({ id }: { id: number }) => {
   return (
     <Navgation className="flex">
-      <li>랜덤</li>
-      <li>테마</li>
-      <li>레벨</li>
-      <li>형식</li>
+      <a href="#" onClick={() => generateRandomPath(id)}>
+        랜덤
+      </a>
+      <a href="#" onClick={() => alert("aa")}>
+        테마
+      </a>
+      <a href="#" onClick={() => alert("aa")}>
+        레벨
+      </a>
+      <a href="#" onClick={() => alert("aa")}>
+        형식
+      </a>
     </Navgation>
   );
 };

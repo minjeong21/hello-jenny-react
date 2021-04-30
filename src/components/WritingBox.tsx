@@ -141,7 +141,7 @@ const WritingBox = (props: IProps) => {
 
   return (
     <Container>
-      <FilterNavigation />
+      <FilterNavigation id={writing.id} />
 
       <section
         className={`${
