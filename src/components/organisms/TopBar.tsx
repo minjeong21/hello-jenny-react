@@ -77,13 +77,9 @@ const TopBar = ({ writingList }: { writingList?: IWriting[] }) => {
               </Box>
             </Header>
           ) : (
-            <Header
-              background="white"
-              pad={{ top: "medium" }}
-              direction="column"
-            >
+            <Header background="white" pad={{ top: "medium" }}>
               <Anchor href="/" margin="small">
-                <Image src="/logo.svg" width="200px" />
+                <Image src="/logo.png" width="200px" />
               </Anchor>
               <Box
                 justify="end"
