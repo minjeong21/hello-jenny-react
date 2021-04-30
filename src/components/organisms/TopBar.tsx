@@ -20,7 +20,6 @@ import IWriting from "interface/IWriting";
 import { defaultTheme } from "../../theme";
 import { levelMenus, themeMenus } from "../../properties/Menu";
 import { Menu as MenuIcon } from "grommet-icons/icons";
-import { fetchMainWritingList } from "apis/WritingApi";
 
 const TopBar = ({ writingList }: { writingList?: IWriting[] }) => {
   const history = useHistory();
@@ -29,15 +28,8 @@ const TopBar = ({ writingList }: { writingList?: IWriting[] }) => {
   useEffect(() => {
     if (writingList) {
       setThisWritingList(writingList);
-    } else {
-      fetchWritingList();
     }
   }, [writingList]);
-
-  const fetchWritingList = async () => {
-    const writingList = await fetchMainWritingList();
-    setThisWritingList(writingList);
-  };
 
   const moveLevelWriting = (level: string) => {
     history.push(generateLevelPath(level));
