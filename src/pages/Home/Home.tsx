@@ -49,9 +49,8 @@ const Home = () => {
     const response = await fetchMainWritingList();
     console.log(response);
     if (response) {
-      setWritingList(response.list);
-      setWritingManager(new WritingManager(response.req));
-      console.log(response.req);
+      setWritingList(response.writings);
+      setWritingManager(new WritingManager(response.rep_writing));
     } else {
       return [];
     }
