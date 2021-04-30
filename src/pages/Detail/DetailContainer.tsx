@@ -8,7 +8,7 @@ import {
   generateLevelPath,
   generateRandomPath,
   generateThemePath,
-} from "../../properties/Path";
+} from "../../utils/Path";
 import { defaultTheme } from "../../theme";
 import DetailPresenter from "./DetailPresenter";
 import {

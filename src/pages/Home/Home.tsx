@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Grommet, Box, ResponsiveContext } from "grommet";
 import { defaultTheme } from "theme";
 import styled from "styled-components";
-import { generateRandomPath, getNextRandomNum } from "properties/Path";
+import { generateRandomPath, getNextRandomNum } from "utils/Path";
 import { fetchMainWritingList } from "apis/WritingApi";
 import WritingManager from "utils/WritingManager";
 import IWriting from "interface/IWriting";

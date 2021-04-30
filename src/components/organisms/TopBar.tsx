@@ -15,7 +15,7 @@ import {
   generateLevelPath,
   generateThemePath,
   getNextRandomNum,
-} from "properties/Path";
+} from "utils/Path";
 import IWriting from "interface/IWriting";
 import { defaultTheme } from "../../theme";
 import { levelMenus, themeMenus } from "../../properties/Menu";
