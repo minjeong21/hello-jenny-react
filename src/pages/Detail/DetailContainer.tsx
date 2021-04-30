@@ -9,10 +9,10 @@ import {
   generateRandomPath,
   generateThemePath,
 } from "../../utils/Path";
+import WritingManager from "utils/WritingManager";
 import { defaultTheme } from "../../theme";
 import DetailPresenter from "./DetailPresenter";
 import {
-  fetchMainWritingList,
   fetchWritingListByLevel,
   fetchWritingByNumId,
   fetchWritingListByTheme,
@@ -29,7 +29,7 @@ function DetailContainer() {
   const history = useHistory();
   const [writingList, setWritingList] = useState<IWriting[]>();
   const [fetcedWriting, setFetcedWriting] = useState(false);
-  const [writing, setWriting] = useState<IWriting>();
+  const [writingManager, setWritingManager] = useState<WritingManager>();
 
   // TODO: Wraning 처리 (React Hook useEffect has missing dependencies)
   useEffect(() => {
@@ -39,14 +39,12 @@ function DetailContainer() {
       fetchThemeWritingList(theme);
     } else if (level) {
       fetchLevelWritingList(Number(level));
-    } else {
-      fetchWritingList();
     }
   }, [id, theme, level]);
 
   const fetchWriting = async (id: number) => {
-    const fetchedWriting = await fetchWritingByNumId(id);
-    setWriting(fetchedWriting);
+    const writing = await fetchWritingByNumId(id);
+    setWritingManager(new WritingManager(writing.data));
   };
 
   const fetchThemeWritingList = async (theme: string) => {
@@ -59,47 +57,38 @@ function DetailContainer() {
     setWritingList(list);
   };
 
-  const fetchWritingList = async () => {
-    const fetchedList = await fetchMainWritingList();
-    setWritingList(fetchedList);
-  };
-
   const moveNextWriting = () => {
     // 리스트에서 지금 연습 문제가 몇 번째 index인지 찾고, 그 이후 순번으로 넘어가기.
-    let path = null;
-    if (writingList && writing) {
-      let index = writingList.findIndex((item) => item.id === writing.id);
-      if (index === writingList.length - 1) {
-        alert("마지막 문제입니다.");
-        index = -1;
-      }
-
-      const NextNumId = writingList[index + 1].id;
-
-      if (theme) {
-        path = generateThemePath(theme, NextNumId);
-      } else if (level) {
-        path = generateLevelPath(level, NextNumId);
-      } else {
-        path = generateRandomPath(NextNumId);
-      }
-      history.push(path);
-      pageReloadEffect(writingList[index + 1]);
-    } else {
-      alert("새로고침 후 다시 시도해주세요.");
-    }
+    // let path = null;
+    // let index = writingList.findIndex((item) => item.id === writing.id);
+    // if (index === writingList.length - 1) {
+    //   alert("마지막 문제입니다.");
+    //   index = -1;
+    //   const NextNumId = writingList[index + 1].id;
+    //   if (theme) {
+    //     path = generateThemePath(theme, NextNumId);
+    //   } else if (level) {
+    //     path = generateLevelPath(level, NextNumId);
+    //   } else {
+    //     path = generateRandomPath(NextNumId);
+    //   }
+    //   history.push(path);
+    //   pageReloadEffect(writingList[index + 1]);
+    // } else {
+    //   alert("새로고침 후 다시 시도해주세요.");
+    // }
   };
 
   const pageReloadEffect = (writing: IWriting) => {
-    setFetcedWriting(false);
-    setWriting(writing);
+    // setFetcedWriting(false);
+    // setWriting(writing);
   };
 
-  if (writing) {
+  if (writingManager) {
     return (
       <DetailPresenter
         moveNextWriting={moveNextWriting}
-        writing={writing}
+        writingManager={writingManager}
         fetcedWriting={fetcedWriting}
       />
     );

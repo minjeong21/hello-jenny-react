@@ -1,26 +1,27 @@
 import { Box, Grommet, Heading, Button, ResponsiveContext } from "grommet";
 import { defaultTheme } from "../../theme";
-import WritingBox from "../../components/WritingBox";
 
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";
 import IWriting from "../../interface/IWriting";
+import WritingBox from "components/WritingBox";
+import WritingManager from "utils/WritingManager";
 
 interface IProps {
   moveNextWriting: () => void;
-  writing: IWriting | undefined;
+  writingManager: WritingManager;
   fetcedWriting: boolean;
 }
 const DetailPresenter = ({
-  writing,
+  writingManager,
   fetcedWriting,
   moveNextWriting,
 }: IProps) => {
+  console.log(writingManager);
   return (
     <Grommet theme={defaultTheme}>
       <TopBar />
-
-      {writing ? (
+      {writingManager ? (
         <main>
           <ResponsiveContext.Consumer>
             {(size) => (
@@ -30,11 +31,11 @@ const DetailPresenter = ({
                   size === "small" ? "pad-xs" : "pad-l"
                 }`}
               >
-                {/* <WritingBox
+                <WritingBox
                   viewSize={size}
-                  writing={writing}
+                  writingManager={writingManager}
                   moveNextWriting={moveNextWriting}
-                /> */}
+                />
               </section>
             )}
           </ResponsiveContext.Consumer>
