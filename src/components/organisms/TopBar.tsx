@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  Anchor,
-  Box,
-  Grommet,
-  Header,
-  Menu,
-  Image,
-  ResponsiveContext,
-  Text,
-} from "grommet";
+
 import {
   generateRandomPath,
   generateLevelPath,
@@ -17,9 +8,7 @@ import {
   getNextRandomNum,
 } from "utils/Path";
 import IWriting from "interface/IWriting";
-import { defaultTheme } from "../../theme";
 import { levelMenus, themeMenus } from "../../properties/Menu";
-import { Menu as MenuIcon } from "grommet-icons/icons";
 
 const TopBar = ({ writingList }: { writingList?: IWriting[] }) => {
   const history = useHistory();
@@ -47,65 +36,18 @@ const TopBar = ({ writingList }: { writingList?: IWriting[] }) => {
     }
   };
   return (
-    <Grommet theme={defaultTheme}>
-      <ResponsiveContext.Consumer>
-        {(size) =>
-          size === "small" ? (
-            <Header background="white" pad={{ top: "medium" }} direction="row">
-              <Anchor href="/" margin="small">
-                <Image src="/logo.svg" width="200px" />
-              </Anchor>
-              <Box justify="end" direction="row" gap="medium">
-                <Menu
-                  icon={<MenuIcon />}
-                  a11yTitle=" Menu"
-                  dropProps={{ align: { top: "bottom", right: "right" } }}
-                  items={getArrayMenuAll(
-                    moveRandomWriting,
-                    moveLevelWriting,
-                    moveThemeWriting
-                  )}
-                />
-              </Box>
-            </Header>
-          ) : (
-            <Header background="white" pad={{ top: "medium" }}>
-              <Anchor href="/" margin="small">
-                <Image src="/logo.png" width="200px" />
-              </Anchor>
-              <Box
-                justify="end"
-                direction="row"
-                gap="medium"
-                align="center"
-                color="#333333"
-              >
-                <Box width="100px">
-                  <Anchor
-                    onClick={moveRandomWriting}
-                    label="Random"
-                    weight="normal"
-                    color="dark-1"
-                  />
-                </Box>
-                <Menu
-                  a11yTitle="Navigation Menu"
-                  label="Theme"
-                  items={getArrayMenu("theme", moveThemeWriting)}
-                  color="dark-1"
-                />
-                <Menu
-                  a11yTitle="Navigation Menu"
-                  label="Level"
-                  items={getArrayMenu("level", moveLevelWriting)}
-                  color="dark-1"
-                />
-              </Box>
-            </Header>
-          )
-        }
-      </ResponsiveContext.Consumer>
-    </Grommet>
+    <header>
+      <a href="/">
+        <img src="/logo.png" width="200px" />
+      </a>
+      <div>
+        <div>
+          <a onClick={moveRandomWriting}>Random</a>
+        </div>
+        {/* getArrayMenu("theme", moveThemeWriting) */}
+        {/* getArrayMenu("level", moveLevelWriting) */}
+      </div>
+    </header>
   );
 };
 
@@ -117,12 +59,12 @@ const MenuLabel = ({
   isSmallView?: boolean;
 }) => {
   return (
-    <Box pad={{ left: "4px", right: "4px" }}>
-      <Text size="small">
+    <div>
+      <div>
         {isSmallView ? "> " : null}
         {text}
-      </Text>
-    </Box>
+      </div>
+    </div>
   );
 };
 
@@ -160,13 +102,13 @@ const getArrayMenuAll = (
 ) => {
   let resultMenu: { label: any; onClick: any }[] = [];
   resultMenu.push({
-    label: <Box pad="small">랜덤 문제</Box>,
+    label: <div>랜덤 문제</div>,
     onClick: moveNextRandom,
   });
 
   // 레벨 문제
   resultMenu.push({
-    label: <Box pad="small">Level 문제</Box>,
+    label: <div>Level 문제</div>,
     onClick: moveNextRandom,
   });
   const levelMenus = getArrayMenu("level", moveLevelWriting, true);
@@ -174,7 +116,7 @@ const getArrayMenuAll = (
 
   // 테마 문제
   resultMenu.push({
-    label: <Box pad="small">테마 문제</Box>,
+    label: <div>테마 문제</div>,
     onClick: moveNextRandom,
   });
 
@@ -185,3 +127,23 @@ const getArrayMenuAll = (
 };
 
 export default TopBar;
+
+{
+  /* <header background="white" pad={{ top: "medium" }} direction="row">
+<a href="/" margin="small">
+  <Image src="/logo.svg" width="200px" />
+</a>
+<div justify="end" direction="row" gap="medium">
+  <Menu
+    icon={<MenuIcon />}
+    a11yTitle=" Menu"
+    dropProps={{ align: { top: "bottom", right: "right" } }}
+    items={getArrayMenuAll(
+      moveRandomWriting,
+      moveLevelWriting,
+      moveThemeWriting
+    )}
+  />
+</div>
+</header> */
+}

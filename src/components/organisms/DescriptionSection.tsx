@@ -1,4 +1,3 @@
-import { Box, Text, Grid } from "grommet";
 import IWriting from "../../interface/IWriting";
 interface IProps {
   isCorrect: boolean;
@@ -7,91 +6,83 @@ interface IProps {
 }
 const DescriptionSection = ({ isCorrect, visibleAnswer, writing }: IProps) => {
   return (
-    <Box tag="section" id="section-2">
-      <Grid columns={["1/2", "1/2"]}>
-        <Box tag="article" width="large" background="#F1EAE5" pad="medium">
+    <section id="section-2">
+      <div>
+        <article>
           {isCorrect || visibleAnswer ? (
             <>
-              <Box tag="section" className="flex">
+              <div className="flex">
                 {isCorrect ? (
-                  <Box pad={{ bottom: "medium" }}>
+                  <div>
                     {/* 또 다른 표현 */}
                     {writing.alter_sentences.length > 0 ? (
-                      <Box>
-                        <Box pad={{ bottom: "small" }}>
-                          <Text weight="bold">
-                            ⭐️&nbsp;&nbsp;또 다르게 표현할 수 있어요
-                          </Text>
-                        </Box>
+                      <div>
+                        <div>
+                          <span>⭐️&nbsp;&nbsp;또 다르게 표현할 수 있어요</span>
+                        </div>
                         {writing.alter_sentences.map((item, index) => {
                           return (
-                            <Box
-                              pad={{ left: "7px", bottom: "7px" }}
-                              key={index}
-                            >
-                              <Text>{item}</Text>
-                            </Box>
+                            <div key={index}>
+                              <span>{item}</span>
+                            </div>
                           );
                         })}
-                      </Box>
+                      </div>
                     ) : null}
-                  </Box>
+                  </div>
                 ) : (
-                  <Box pad={{ bottom: "medium" }}>
+                  <div>
                     {/* 또 다른 표현 */}
-                    <Box>
-                      <Box pad={{ bottom: "small" }}>
-                        <Text weight="bold">
+                    <div>
+                      <div>
+                        <span>
                           ⭐️&nbsp;&nbsp;정답! 이렇게 표현할 수 있어요.
-                        </Text>
-                      </Box>
-                      <Box pad={{ left: "7px", bottom: "7px" }}>
-                        <Text>{writing.en_sentence}</Text>
-                      </Box>
+                        </span>
+                      </div>
+                      <div>
+                        <span>{writing.en_sentence}</span>
+                      </div>
                       );
                       {writing.alter_sentences.length > 0 && (
                         <>
                           {writing.alter_sentences.map((item, index) => (
-                            <Box
-                              pad={{ left: "7px", bottom: "7px" }}
-                              key={index}
-                            >
-                              <Text>{item}</Text>
-                            </Box>
+                            <div key={index}>
+                              <span>{item}</span>
+                            </div>
                           ))}
                         </>
                       )}
-                    </Box>
-                  </Box>
+                    </div>
+                  </div>
                 )}
 
                 {/* 문제 해설 */}
-                {/* <Box>
+                {/* <div>
                   {writing.hin ? (
                     <div>
                       {writing.related_descriptions.map((item) => (
-                        <Box>
-                          <Box pad={{ bottom: "small" }}>
-                            <Text weight="bold">
+                        <div>
+                          <div pad={{ bottom: "small" }}>
+                            <span weight="bold">
                               📗&nbsp;&nbsp;{item.title}
-                            </Text>
-                          </Box>
-                          <Box pad={{ left: "7px", bottom: "7px" }}>
-                            <Text style={{ whiteSpace: "pre-line" }}>
+                            </span>
+                          </div>
+                          <div pad={{ left: "7px", bottom: "7px" }}>
+                            <span style={{ whiteSpace: "pre-line" }}>
                               {item.description}
-                            </Text>
-                          </Box>
-                        </Box>
+                            </span>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   ) : null}
-                </Box> */}
-              </Box>
+                </div> */}
+              </div>
             </>
           ) : null}
-        </Box>
-      </Grid>
-    </Box>
+        </article>
+      </div>
+    </section>
   );
 };
 

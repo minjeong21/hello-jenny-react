@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { Box, Grommet, Heading, Image } from "grommet";
 import Footer from "../../components/organisms/Footer";
 import TopBar from "../../components/organisms/TopBar";
 import IWriting from "../../interface/IWriting";
@@ -94,26 +93,26 @@ function DetailContainer() {
     );
   } else if (writingList && writingList.length === 0) {
     return (
-      <Grommet theme={defaultTheme}>
+      <div>
         <TopBar />
-        <Box height="80vh" flex justify="center">
-          <Heading alignSelf="center">
+        <div>
+          <h3>
             아직 준비된 문제가 없습니다.. <br />
             열심히 준비중이에요🤷🏻‍♀️
-          </Heading>
-        </Box>
+          </h3>
+        </div>
         <Footer />
-      </Grommet>
+      </div>
     );
   } else {
     return (
-      <Grommet theme={defaultTheme}>
+      <div>
         <TopBar />
         <div className="flex justify-center pad-xl">
           <div>문제 불러오는 중!</div>
-          <Image src="/assets/header-rabit.png" width="200px" />
+          <img src="/assets/header-rabit.png" width="200px" />
         </div>
-      </Grommet>
+      </div>
     );
   }
 }

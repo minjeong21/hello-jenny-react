@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Grommet, Box, ResponsiveContext } from "grommet";
-import { defaultTheme } from "theme";
 import styled from "styled-components";
 import { generateRandomPath, getNextRandomNum } from "utils/Path";
 import { fetchMainWritingList } from "apis/WritingApi";
@@ -68,53 +66,49 @@ const Home = () => {
     history.push(generateRandomPath(numid));
   };
   return (
-    <Grommet theme={defaultTheme}>
+    <main>
       <TopBar />
       <Container>
-        <ResponsiveContext.Consumer>
-          {(size) => {
-            return (
-              <>
-                <main>
-                  {/* Header 토끼*/}
-                  <HeaderSection viewSize={size} />
-                  {/* 문제 풀기 섹션 */}
-                  <section className="bg-gray-6 pb-xl">
-                    <div className="pad-l writing-box bg-white mb-l">
-                      {writingManager ? (
-                        <WritingBox
-                          viewSize={size}
-                          writingManager={writingManager}
-                          moveNextWriting={moveNextRandomWriting}
-                        />
-                      ) : (
-                        <div>스켈레톤</div>
-                      )}
-                    </div>
-                  </section>
-                </main>
-                {/* 문제 리스트 */}
+        return (
+        <>
+          <main>
+            {/* Header 토끼*/}
+            <HeaderSection viewSize={"large"} />
+            {/* 문제 풀기 섹션 */}
+            <section className="bg-gray-6 pb-xl">
+              <div className="pad-l writing-box bg-white mb-l">
+                {writingManager ? (
+                  <WritingBox
+                    viewSize={"large"}
+                    writingManager={writingManager}
+                    moveNextWriting={moveNextRandomWriting}
+                  />
+                ) : (
+                  <div>스켈레톤</div>
+                )}
+              </div>
+            </section>
+          </main>
+          {/* 문제 리스트 */}
 
-                <section className="list-section">
-                  <div className="font-large section-box px-l">Lastest</div>
+          <section className="list-section">
+            <div className="font-large section-box px-l">Lastest</div>
 
-                  {writingList && writingList.length ? (
-                    <WritingList
-                      writingList={writingList}
-                      moveWriting={moveWriting}
-                      viewSize={size}
-                    />
-                  ) : (
-                    <Box>Loading...</Box>
-                  )}
-                </section>
-              </>
-            );
-          }}
-        </ResponsiveContext.Consumer>
+            {writingList && writingList.length ? (
+              <WritingList
+                writingList={writingList}
+                moveWriting={moveWriting}
+                viewSize={"large"}
+              />
+            ) : (
+              <div>Loading...</div>
+            )}
+          </section>
+        </>
+        );
       </Container>
       <Footer />
-    </Grommet>
+    </main>
   );
 };
 
