@@ -4,11 +4,13 @@ interface IProps {
   onShowHint: () => void;
   showAnswer: () => void;
   moveNextWriting: () => void;
+  onShowSubjective: () => void;
 }
 
 const DialogButtons = ({
   type,
   isLastHint,
+  onShowSubjective,
   onShowHint,
   showAnswer,
   moveNextWriting,
@@ -18,6 +20,9 @@ const DialogButtons = ({
     case "help":
       return (
         <div className="flex justify-end">
+          <button className="btn-white mr-s" onClick={onShowSubjective}>
+            첫단어 힌트
+          </button>
           <button className="btn-white mr-s" onClick={onShowHint}>
             힌트 보여줘
           </button>
