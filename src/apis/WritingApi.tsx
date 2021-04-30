@@ -10,7 +10,7 @@ const instance = axios.create({
 
 export const fetchMainWritingList = async () => {
   return instance
-    .get("/brief/")
+    .get("/recap/")
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);
