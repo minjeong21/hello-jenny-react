@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import Footer from "../../components/organisms/Footer";
-import TopNavigation from "../../components/organisms/TopNavigation";
-import IWriting from "../../interface/IWriting";
+import Footer from "../components/organisms/Footer";
+import TopNavigation from "../components/organisms/TopNavigation";
+import IWriting from "../interface/IWriting";
 import WritingManager from "utils/WritingManager";
-import { defaultTheme } from "../../theme";
-import DetailPresenter from "./DetailPresenter";
+import { defaultTheme } from "../theme";
+import WritingBox from "components/WritingBox";
 import {
   fetchWritingListByLevel,
   fetchWritingByNumId,
@@ -18,7 +18,7 @@ interface ParamTypes {
   level?: string;
 }
 
-function DetailContainer() {
+const Detail = () => {
   let { id, theme, level } = useParams<ParamTypes>();
   const history = useHistory();
   const [writings, setWritings] = useState<IWriting[]>();
@@ -75,12 +75,47 @@ function DetailContainer() {
 
   if (writingManager && writings) {
     return (
-      <DetailPresenter
-        moveNextWriting={moveNextWriting}
-        writingManager={writingManager}
-        writings={writings}
-        fetcedWriting={fetcedWriting}
-      />
+      <div>
+        {writingManager ? (
+          <main>
+            <section id="section-1" className={`max-width margin-center`}>
+              <WritingBox
+                viewSize={"large"}
+                writings={writings}
+                writingManager={writingManager}
+                moveNextWriting={moveNextWriting}
+              />
+            </section>
+            )
+            {/* <Box margin="medium" />
+          {visibleAnswer || isCorrect ? (
+            <DescriptionSection
+              isCorrect={isCorrect}
+              visibleAnswer={visibleAnswer}
+              writing={writing}
+            />
+          ) : null} */}
+          </main>
+        ) : (
+          <>
+            {fetcedWriting ? (
+              <div>
+                <h3>
+                  문장이 사라졌어요..
+                  <br />
+                  (어디갔을까...😭)
+                  <button onClick={moveNextWriting}>다른 문제 풀어보기</button>
+                </h3>
+              </div>
+            ) : (
+              <div>
+                <h3>문장 불러오는 중...</h3>
+              </div>
+            )}
+          </>
+        )}
+        <Footer />
+      </div>
     );
   } else if (writings && writings.length === 0) {
     return (
@@ -104,6 +139,6 @@ function DetailContainer() {
       </div>
     );
   }
-}
+};
 
-export default DetailContainer;
+export default Detail;
