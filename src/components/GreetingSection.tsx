@@ -1,4 +1,4 @@
-const HeaderSection = ({ viewSize }: { viewSize: string }) => {
+const GreetingSection = ({ viewSize }: { viewSize: string }) => {
   const mainText = `나랑 영어공부 할래? 내가 도와줄께!!`;
   const subText =
     "나는 힌트 왕이거든! \n내 힌트는 너를 영어 천재로 만들어 줄거야! ";
@@ -45,4 +45,4 @@ const HeaderSection = ({ viewSize }: { viewSize: string }) => {
     </div>
   );
 };
-export default HeaderSection;
+export default GreetingSection;
