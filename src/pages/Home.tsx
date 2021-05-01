@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import WritingBox from "components/WritingBox";
-import TopNavigation from "components/organisms/TopNavigation";
 import Footer from "components/organisms/Footer";
-import HeaderSection from "./HeaderSection";
+import HeaderSection from "../components/GreetingSection";
 import WritingManager from "utils/WritingManager";
 import IWriting from "interface/IWriting";
 
-import WritingList from "./WritingList";
+import WritingList from "components/WritingList";
 import PathManager from "utils/PathManager";
 import { useHistory } from "react-router";
 
