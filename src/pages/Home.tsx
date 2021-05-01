@@ -77,7 +77,6 @@ const Home = ({ writings, manager }: IProps) => {
               <WritingList
                 writingList={writings}
                 moveWriting={moveNextRandomWriting}
-                viewSize={"large"}
               />
             ) : (
               <div>Loading...</div>
