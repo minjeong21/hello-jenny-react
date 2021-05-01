@@ -80,7 +80,6 @@ const Detail = () => {
           <main>
             <section id="section-1" className={`max-width margin-center`}>
               <WritingBox
-                viewSize={"large"}
                 writings={writings}
                 writingManager={writingManager}
                 moveNextWriting={moveNextWriting}

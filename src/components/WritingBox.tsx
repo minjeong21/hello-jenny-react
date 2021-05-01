@@ -21,19 +21,11 @@ const Container = styled.div`
     width: 100%;
     padding: 10px;
   }
-
-  #explain-section {
-    max-height: 200px;
-    scrollbar-color: yellow;
-    overflow-y: auto;
-    margin-bottom: 10px;
-  }
 `;
 
 interface IProps {
   writingManager: WritingManager;
   writings: IWriting[];
-  viewSize: string;
   moveNextWriting: () => void;
 }
 
@@ -145,19 +137,11 @@ const WritingBox = (props: IProps) => {
     <Container>
       <FilterNavigation id={writing.id} writings={props.writings} />
 
-      <section
-        className={`${
-          props.viewSize === "small" ? "flex-column small-view" : "flex"
-        }`}
-      >
+      <section className="dynamic">
         {/* 왼쪽 이미지 */}
         <div className="pad-xs ">
           <article className="pad-xs flex-1 solving-article">
-            <div
-              className={`${
-                props.viewSize === "small" ? "flex-column" : "flex"
-              }`}
-            >
+            <div className={`dynamic-flex`}>
               <div className="pad-m">
                 <WritingImage imageUrl={writing.image_url} size={null} />
               </div>

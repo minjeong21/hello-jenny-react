@@ -39,31 +39,24 @@ interface IProps {
 const Home = ({ writings, manager }: IProps) => {
   const pathMaanger = new PathManager(useHistory());
 
-  const moveNextRandomWriting = () => {
-    if (writings) {
-      pathMaanger.goRandomPath(writings);
-    }
-  };
-
   return (
     <main>
       <Container>
         <>
           <main>
             {/* Header 토끼*/}
-            <HeaderSection viewSize={"large"} />
+            <HeaderSection />
             {/* 문제 풀기 섹션 */}
             <section className="bg-gray-6 pb-xl">
               <div className="pad-l writing-box bg-white mb-l">
                 {manager && writings ? (
                   <WritingBox
-                    viewSize={"large"}
                     writingManager={manager}
                     writings={writings}
-                    moveNextWriting={moveNextRandomWriting}
+                    moveNextWriting={() => pathMaanger.goRandomPath(writings)}
                   />
                 ) : (
-                  <div>스켈레톤</div>
+                  <div>Loading...</div>
                 )}
               </div>
             </section>
@@ -76,7 +69,7 @@ const Home = ({ writings, manager }: IProps) => {
             {writings && writings.length ? (
               <WritingList
                 writingList={writings}
-                moveWriting={moveNextRandomWriting}
+                moveWriting={() => pathMaanger.goRandomPath(writings)}
               />
             ) : (
               <div>Loading...</div>
