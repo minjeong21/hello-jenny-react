@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { generateRandomPath, getNextRandomNum } from "utils/Path";
-import { fetchMainWritingList } from "apis/WritingApi";
-import WritingManager from "utils/WritingManager";
-import IWriting from "interface/IWriting";
 import WritingBox from "components/WritingBox";
-import TopBar from "components/organisms/TopBar";
+import TopNavigation from "components/organisms/TopNavigation";
 import Footer from "components/organisms/Footer";
 import HeaderSection from "./HeaderSection";
+import WritingManager from "utils/WritingManager";
+import IWriting from "interface/IWriting";
 
 import WritingList from "./WritingList";
+import PathManager from "utils/PathManager";
+import { useHistory } from "react-router";
 
 const Container = styled.div`
   padding-bottom: 80px;
@@ -34,42 +33,23 @@ const Container = styled.div`
   }
 `;
 
-const Home = () => {
-  const [writingList, setWritingList] = useState<IWriting[]>();
-  const [writingManager, setWritingManager] = useState<WritingManager>();
-  const history = useHistory();
+interface IProps {
+  writings: IWriting[] | null;
+  manager: WritingManager | null;
+}
 
-  useEffect(() => {
-    fetchWritingList();
-  }, []);
-
-  const fetchWritingList = async () => {
-    const response = await fetchMainWritingList();
-    console.log(response);
-    if (response) {
-      setWritingList(response.writings);
-      setWritingManager(new WritingManager(response.rep_writing));
-    } else {
-      return [];
-    }
-  };
+const Home = ({ writings, manager }: IProps) => {
+  const pathMaanger = new PathManager(useHistory());
 
   const moveNextRandomWriting = () => {
-    let randomNumber = 0;
-    if (writingList) {
-      randomNumber = getNextRandomNum(writingList.length);
+    if (writings) {
+      pathMaanger.goRandomPath(writings);
     }
-    history.push(generateRandomPath(randomNumber));
   };
 
-  const moveWriting = (numid: number) => {
-    history.push(generateRandomPath(numid));
-  };
   return (
     <main>
-      <TopBar />
       <Container>
-        return (
         <>
           <main>
             {/* Header 토끼*/}
@@ -77,10 +57,11 @@ const Home = () => {
             {/* 문제 풀기 섹션 */}
             <section className="bg-gray-6 pb-xl">
               <div className="pad-l writing-box bg-white mb-l">
-                {writingManager ? (
+                {manager && writings ? (
                   <WritingBox
                     viewSize={"large"}
-                    writingManager={writingManager}
+                    writingManager={manager}
+                    writings={writings}
                     moveNextWriting={moveNextRandomWriting}
                   />
                 ) : (
@@ -94,10 +75,10 @@ const Home = () => {
           <section className="list-section">
             <div className="font-large section-box px-l">Lastest</div>
 
-            {writingList && writingList.length ? (
+            {writings && writings.length ? (
               <WritingList
-                writingList={writingList}
-                moveWriting={moveWriting}
+                writingList={writings}
+                moveWriting={moveNextRandomWriting}
                 viewSize={"large"}
               />
             ) : (

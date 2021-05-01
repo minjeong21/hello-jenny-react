@@ -1,27 +1,30 @@
 import Footer from "../../components/organisms/Footer";
-import TopBar from "../../components/organisms/TopBar";
+import TopNavigation from "../../components/organisms/TopNavigation";
 import WritingBox from "components/WritingBox";
 import WritingManager from "utils/WritingManager";
+import IWriting from "interface/IWriting";
 
 interface IProps {
   moveNextWriting: () => void;
   writingManager: WritingManager;
   fetcedWriting: boolean;
+  writings: IWriting[];
 }
 const DetailPresenter = ({
   writingManager,
+  writings,
   fetcedWriting,
   moveNextWriting,
 }: IProps) => {
   console.log(writingManager);
   return (
     <div>
-      <TopBar />
       {writingManager ? (
         <main>
           <section id="section-1" className={`max-width margin-center`}>
             <WritingBox
               viewSize={"large"}
+              writings={writings}
               writingManager={writingManager}
               moveNextWriting={moveNextWriting}
             />

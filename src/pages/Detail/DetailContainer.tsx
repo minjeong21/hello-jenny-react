@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Footer from "../../components/organisms/Footer";
-import TopBar from "../../components/organisms/TopBar";
+import TopNavigation from "../../components/organisms/TopNavigation";
 import IWriting from "../../interface/IWriting";
-import {
-  generateLevelPath,
-  generateRandomPath,
-  generateThemePath,
-} from "../../utils/Path";
 import WritingManager from "utils/WritingManager";
 import { defaultTheme } from "../../theme";
 import DetailPresenter from "./DetailPresenter";
@@ -26,7 +21,7 @@ interface ParamTypes {
 function DetailContainer() {
   let { id, theme, level } = useParams<ParamTypes>();
   const history = useHistory();
-  const [writingList, setWritingList] = useState<IWriting[]>();
+  const [writings, setWritings] = useState<IWriting[]>();
   const [fetcedWriting, setFetcedWriting] = useState(false);
   const [writingManager, setWritingManager] = useState<WritingManager>();
 
@@ -48,12 +43,12 @@ function DetailContainer() {
 
   const fetchThemeWritingList = async (theme: string) => {
     const list = await fetchWritingListByTheme(theme);
-    setWritingList(list);
+    setWritings(list);
   };
 
   const fetchLevelWritingList = async (level: number) => {
     const list = await fetchWritingListByLevel(level);
-    setWritingList(list);
+    setWritings(list);
   };
 
   const moveNextWriting = () => {
@@ -78,23 +73,18 @@ function DetailContainer() {
     // }
   };
 
-  const pageReloadEffect = (writing: IWriting) => {
-    // setFetcedWriting(false);
-    // setWriting(writing);
-  };
-
-  if (writingManager) {
+  if (writingManager && writings) {
     return (
       <DetailPresenter
         moveNextWriting={moveNextWriting}
         writingManager={writingManager}
+        writings={writings}
         fetcedWriting={fetcedWriting}
       />
     );
-  } else if (writingList && writingList.length === 0) {
+  } else if (writings && writings.length === 0) {
     return (
       <div>
-        <TopBar />
         <div>
           <h3>
             아직 준비된 문제가 없습니다.. <br />
@@ -107,7 +97,6 @@ function DetailContainer() {
   } else {
     return (
       <div>
-        <TopBar />
         <div className="flex justify-center pad-xl">
           <div>문제 불러오는 중!</div>
           <img src="/assets/header-rabit.png" width="200px" />

@@ -14,6 +14,7 @@ import {
   DialogWrong,
 } from "components/Dialog";
 import DialogButtons from "components/DialogButtons";
+import IWriting from "interface/IWriting";
 
 const Container = styled.div`
   input {
@@ -31,6 +32,7 @@ const Container = styled.div`
 
 interface IProps {
   writingManager: WritingManager;
+  writings: IWriting[];
   viewSize: string;
   moveNextWriting: () => void;
 }
@@ -141,7 +143,7 @@ const WritingBox = (props: IProps) => {
 
   return (
     <Container>
-      <FilterNavigation id={writing.id} />
+      <FilterNavigation id={writing.id} writings={props.writings} />
 
       <section
         className={`${

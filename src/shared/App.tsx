@@ -1,20 +1,42 @@
-import React, { Component } from "react";
+import React, { Component, useContext, useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Home, Detail } from "../pages";
+import { fetchRecapWritings } from "apis/WritingApi";
+import WritingManager from "utils/WritingManager";
+import IWriting from "interface/IWriting";
+import TopNavigation from "components/organisms/TopNavigation";
+const App = () => {
+  const [writings, setWritings] = useState<IWriting[]>();
+  const [writingManager, setWritingManager] = useState<WritingManager>();
 
-class App extends Component {
-  render() {
-    return (
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/random/:id" component={Detail} />
-        <Route path="/theme/:theme/:id" component={Detail} />
-        <Route path="/theme/:theme" component={Detail} />
-        <Route path="/level/:level/:id" component={Detail} />
-        <Route path="/level/:level" component={Detail} />
-      </Switch>
-    );
-  }
-}
+  useEffect(() => {
+    fetchRecapWriting();
+  }, []);
+
+  const fetchRecapWriting = async () => {
+    const response = await fetchRecapWritings();
+    if (response) {
+      setWritings(response.writings);
+      setWritingManager(new WritingManager(response.rep_writing));
+    } else {
+      return [];
+    }
+  };
+
+  return (
+    <Switch>
+      <Route exact path="/">
+        <>
+          <TopNavigation writings={writings ? writings : null} />
+          <Home
+            writings={writings ? writings : null}
+            manager={writingManager ? writingManager : null}
+          />
+        </>
+      </Route>
+      <Route path="/writing" component={Detail} />
+    </Switch>
+  );
+};
 
 export default App;
