@@ -8,7 +8,17 @@ const instance = axios.create({
   // },
 });
 
-export const fetchMainWritingList = async () => {
+export const fetchRecapWritings = async () => {
+  return instance
+    .get("/recap/")
+    .then((response) => response.data)
+    .catch(function (error) {
+      console.log(error);
+      return error;
+    });
+};
+
+export const fetch = async () => {
   return instance
     .get("/recap/")
     .then((response) => response.data)
