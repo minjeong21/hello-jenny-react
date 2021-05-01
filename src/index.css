@@ -1,4 +1,6 @@
 @import "https: //cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
+@import "./tailwind.css";
+
 
 input {
   border: solid 1px;
