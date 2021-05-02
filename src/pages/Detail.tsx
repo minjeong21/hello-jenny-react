@@ -17,8 +17,9 @@ interface ParamTypes {
   level?: string;
 }
 
-const Detail = () => {
+const Detail = ({ manager }: { manager?: WritingManager }) => {
   let { id, theme, level } = useParams<ParamTypes>();
+  console.log(id, theme, level);
   const history = useHistory();
   const [writings, setWritings] = useState<IWriting[]>();
   const [fetcedWriting, setFetcedWriting] = useState(false);
@@ -32,9 +33,13 @@ const Detail = () => {
       fetchThemeWritingList(theme);
     } else if (level) {
       fetchLevelWritingList(Number(level));
+    } else {
+      setWritingManager(manager);
     }
+    console.log(writingManager);
   }, [id, theme, level]);
 
+  console.log();
   const fetchWriting = async (id: number) => {
     const writing = await fetchWritingByNumId(id);
     setWritingManager(new WritingManager(writing.data));
@@ -72,14 +77,13 @@ const Detail = () => {
     // }
   };
 
-  if (writingManager && writings) {
+  if (writingManager) {
     return (
       <div>
         {writingManager ? (
           <main>
             <section id="section-1" className={`max-width margin-center`}>
               <WritingBox
-                writings={writings}
                 writingManager={writingManager}
                 moveNextWriting={moveNextWriting}
               />

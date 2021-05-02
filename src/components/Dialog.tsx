@@ -88,7 +88,7 @@ export const DialogWrong = ({
   return (
     <>
       <DialogBase>
-        <div className="bg-primary-1">
+        <div>
           <div>앗 아쉽다! 조금만 더 도전해보자!</div>
           <div className="flex">
             <div className="flex pb-l">
@@ -100,5 +100,13 @@ export const DialogWrong = ({
         </div>
       </DialogBase>
     </>
+  );
+};
+
+export const DialogUser = ({ text }: { text: string }) => {
+  return (
+    <div className="text-right">
+      <div className="bg-yellow-100 p-2 rounded-lg ml-4">{text}</div>
+    </div>
   );
 };

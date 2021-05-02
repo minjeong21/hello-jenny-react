@@ -35,12 +35,12 @@ const WritingForm = ({
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
           </span>
-          <input
-            type="button"
+          <button
             className="bg-yellow-400 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded"
-            value="도와줘 제니"
-            onClick={onClickHelpJenny}
-          />
+            onClick={(e) => onClickHelpJenny(e)}
+          >
+            도와줘 제니
+          </button>
         </div>
       </div>
     </form>

@@ -48,19 +48,12 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
             />
           </div>
           <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
-            <li>
+            <li className="self-center">
               <a
-                href="#"
-                className="flex md:inline-flex p-4 items-center hover:bg-gray-50"
+                onClick={moveRandomWriting}
+                className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
               >
-                <span>
-                  <a
-                    onClick={moveRandomWriting}
-                    className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
-                  >
-                    랜덤 영작
-                  </a>
-                </span>
+                랜덤 영작
               </a>
             </li>
 

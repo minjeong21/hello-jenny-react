@@ -1,5 +1,5 @@
 import React, { Component, useContext, useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useParams } from "react-router-dom";
 import { Home, Detail } from "../pages";
 import { fetchRecapWritings } from "apis/WritingApi";
 import WritingManager from "utils/WritingManager";
@@ -34,7 +34,18 @@ const App = () => {
           />
         </>
       </Route>
-      <Route path="/writing" component={Detail} />
+      <Route path="/writing/:id/:theme">
+        <TopNavigation writings={writings ? writings : null} />
+        <Detail />
+      </Route>
+      <Route exact path="/writing/:id/">
+        <TopNavigation writings={writings ? writings : null} />
+        <Detail />
+      </Route>
+      <Route path="/writing">
+        <TopNavigation writings={writings ? writings : null} />
+        <Detail manager={writingManager} />
+      </Route>
     </Switch>
   );
 };

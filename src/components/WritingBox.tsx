@@ -12,6 +12,7 @@ import {
   DialogAnswer,
   DialogCorrect,
   DialogWrong,
+  DialogUser,
 } from "components/Dialog";
 import DialogButtons from "components/DialogButtons";
 import IWriting from "interface/IWriting";
@@ -25,17 +26,15 @@ const Container = styled.div`
 
 interface IProps {
   writingManager: WritingManager;
-  writings: IWriting[];
   moveNextWriting: () => void;
 }
 
 const WritingBox = (props: IProps) => {
+  const [dialogType, setDialogType] = useState("help");
   const { writingManager } = props;
   const [writing, setWriting] = useState(writingManager.getWriting());
-  const [dialogType, setDialogType] = useState("help");
   const [textInWrinting, setTextInWrinting] = useState("");
   const [userCentence, setUserCentence] = useState("");
-  const [hintCount, setHintCount] = useState(0);
   const [dialogList, setDialogList] = useState<
     { type: string; element: JSX.Element }[]
   >([]);
@@ -45,20 +44,13 @@ const WritingBox = (props: IProps) => {
     setUserCentence("");
   }, []);
 
-  const onClickHelpJenny = () => {
+  const onClickHelpJenny = (event: any) => {
+    event.preventDefault();
+
     setDialogType("help");
-    appendDialog("open", <DialogJenny />);
+    appendDialog("jenny", <DialogJenny />);
   };
 
-  const onClickShowAnswer = () => {
-    setUserCentence(textInWrinting);
-    const Dialog = (
-      <DialogAnswer userCentence={userCentence} answer={writing.en_sentence} />
-    );
-
-    setDialogType("answer");
-    appendDialog("answer", Dialog);
-  };
   /**
    * 도전하기 버튼 클릭 Event
    * */
@@ -66,6 +58,7 @@ const WritingBox = (props: IProps) => {
     event.preventDefault();
     let Dialog = null;
 
+    console.log(writing);
     const result = writingManager.compareAnswer(
       writing.alter_sentences ? writing.alter_sentences : [],
       textInWrinting
@@ -89,7 +82,7 @@ const WritingBox = (props: IProps) => {
       setDialogType("wrong");
       Dialog = <DialogWrong writing={writing} userCentence={textInWrinting} />;
     }
-    appendDialog("hint", Dialog);
+    appendDialog("jenny", Dialog);
   };
 
   const appendDialog = (type: string, element: JSX.Element) => {
@@ -104,29 +97,15 @@ const WritingBox = (props: IProps) => {
     }, 500);
   };
 
-  const onShowSubjective = () => {
+  const onShowAnswer = () => {
+    setUserCentence(textInWrinting);
     const Dialog = (
-      <DialogHint
-        talkText={"주어 힌트는 여기있어!"}
-        hint={writingManager.getSubjective()}
-      />
+      <DialogAnswer userCentence={userCentence} answer={writing.en_sentence} />
     );
-    writingManager.increaseHintNumber();
-    setDialogType("hint");
-    appendDialog("hint", Dialog);
-  };
-  const onShowHint = () => {
-    const Dialog = (
-      <DialogHint
-        talkText={writingManager.getHintTitle()}
-        hint={writingManager.getHintByNumber()}
-      />
-    );
-    writingManager.increaseHintNumber();
-    setDialogType("hint");
-    appendDialog("hint", Dialog);
-  };
 
+    setDialogType("answer");
+    appendDialog("jenny", Dialog);
+  };
   return (
     <Container className="bg-white p-4 rounded-lg shadow-sm">
       <FilterNavigation />
@@ -162,39 +141,128 @@ const WritingBox = (props: IProps) => {
           />
         </div>
       </div>
-
-      <section className="dynamic">
-        {/* 왼쪽 이미지 */}
-        <div className="pad-xs ">
-          <article className="pad-xs flex-1 solving-article">
-            <div className={`dynamic-flex`}>
-              <div className="pad-m"></div>
-              {/* 설명 */}
-            </div>
-          </article>
-          <section id="explain-section">
-            <div>
-              {dialogList.map((dialog, index) => (
-                <div key={index}>{dialog.element}</div>
-              ))}
-            </div>
-          </section>
-          <section>
-            {dialogList.length > 0 && (
-              <DialogButtons
-                type={dialogType}
-                isLastHint={writingManager.hasMoreHint()}
-                onShowHint={onShowHint}
-                showAnswer={onClickShowAnswer}
-                moveNextWriting={props.moveNextWriting}
-                onShowSubjective={onShowSubjective}
-              />
-            )}
-          </section>
-        </div>
-      </section>
+      <DialogBox
+        writingManager={writingManager}
+        appendDialog={appendDialog}
+        moveNextWriting={props.moveNextWriting}
+        onShowAnswer={onShowAnswer}
+        setDialogType={setDialogType}
+        dialogList={dialogList}
+        dialogType={dialogType}
+      />
     </Container>
   );
 };
 
 export default WritingBox;
+
+interface IPropss {
+  writingManager: WritingManager;
+  appendDialog: any;
+  moveNextWriting: () => void;
+  onShowAnswer: () => void;
+  setDialogType: any;
+  dialogList: { type: string; element: JSX.Element }[];
+  dialogType: string;
+}
+const DialogBox = ({
+  writingManager,
+  appendDialog,
+  moveNextWriting,
+  onShowAnswer,
+  setDialogType,
+  dialogType,
+  dialogList,
+}: IPropss) => {
+  const [hintCount, setHintCount] = useState(0);
+
+  const onShowSubjective = () => {
+    const Dialog = (
+      <DialogHint
+        talkText={"주어 힌트는 여기있어!"}
+        hint={writingManager.getSubjective()}
+      />
+    );
+    writingManager.increaseHintNumber();
+    setDialogType("hint");
+    appendDialog("jenny", Dialog);
+  };
+
+  const onShowHint = () => {
+    const Dialog = (
+      <DialogHint
+        talkText={writingManager.getHintTitle()}
+        hint={writingManager.getHintByNumber()}
+      />
+    );
+    writingManager.increaseHintNumber();
+    setDialogType("hint");
+    appendDialog("user", <DialogUser text={"힌트 보여줘!"} />);
+    appendDialog("jenny", Dialog);
+  };
+
+  const BUTTON_ACTION = {
+    HELP: [
+      {
+        text: "첫단어 힌트",
+        onClick: onShowSubjective,
+      },
+      { text: "힌트!", onClick: onShowHint },
+      { text: "정답을 알려줘!", onClick: onShowAnswer },
+      { text: "다음 문제 줄래?", onClick: moveNextWriting },
+    ],
+    HINT_LAST: [
+      { text: "정답을 알려줘!", onClick: onShowAnswer },
+      { text: "다음 문제 줄래?", onClick: moveNextWriting },
+    ],
+    HINT_NOT_LAST: [
+      { text: "힌트.", onClick: onShowHint },
+      { text: "정답", onClick: onShowAnswer },
+      { text: "다음 문제", onClick: moveNextWriting },
+    ],
+    ANSWER: [
+      { text: "문장 설명", onClick: () => alert("준비중인 기능이야") },
+      { text: "다시", onClick: () => window.location.reload() },
+      { text: "다음 문제", onClick: moveNextWriting },
+    ],
+    WRONG: [
+      { text: "힌트.", onClick: onShowHint },
+      { text: "다시", onClick: () => window.location.reload() },
+      { text: "다음 문제", onClick: moveNextWriting },
+    ],
+    CORRECT: [
+      { text: "문장 설명", onClick: () => alert("준비중인 기능이야") },
+      { text: "다음 문제", onClick: moveNextWriting },
+    ],
+  };
+
+  return (
+    <section>
+      {/* 왼쪽 이미지 */}
+      <div className="pad-xs ">
+        <article className="pad-xs flex-1 solving-article">
+          <div className={`dynamic-flex`}>
+            <div className="pad-m"></div>
+            {/* 설명 */}
+          </div>
+        </article>
+        <section id="explain-section relative">
+          <div>
+            {dialogList.map((dialog, index) => (
+              <div key={index}>{dialog.element}</div>
+            ))}
+          </div>
+        </section>
+        <section>
+          {dialogList.length > 0 && (
+            <DialogButtons
+              type={dialogType}
+              isLastHint={writingManager.hasMoreHint()}
+              buttonActions={BUTTON_ACTION}
+            />
+          )}
+        </section>
+      </div>
+    </section>
+  );
+};

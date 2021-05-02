@@ -42,7 +42,6 @@ const Home = ({ writings, manager }: IProps) => {
             {manager && writings ? (
               <WritingBox
                 writingManager={manager}
-                writings={writings}
                 moveNextWriting={() => pathMaanger.goRandomPath(writings)}
               />
             ) : (

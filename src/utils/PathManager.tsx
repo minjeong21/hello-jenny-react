@@ -6,7 +6,7 @@ const LEVEL_PATH_WITH_NUMID = "/level/:level/:numid";
 const LEVEL_PATH = "/level/:level";
 const THEME_PATH_WITH_NUMID = "/theme/:theme/:numid";
 const THEME_PATH = "/theme/:theme";
-const RANDOM_PATH = "/random/:numid";
+const RANDOM_PATH = "/writing/:numid";
 const WRITING_BASE_PATH = "/writing";
 
 class MovePath {
