@@ -67,7 +67,7 @@ const WritingBox = (props: IProps) => {
     let Dialog = null;
 
     const result = writingManager.compareAnswer(
-      writing.alter_sentences,
+      writing.alter_sentences ? writing.alter_sentences : [],
       textInWrinting
     );
     console.log(textInWrinting);
@@ -127,15 +127,9 @@ const WritingBox = (props: IProps) => {
     appendDialog("hint", Dialog);
   };
 
-  console.log(
-    hintCount,
-    writing.hints.length - 1,
-    hintCount >= writing.hints.length - 1
-  );
-
   return (
     <Container className="bg-white p-4 rounded-lg shadow-sm">
-      <FilterNavigation id={writing.id} writings={props.writings} />
+      <FilterNavigation />
       {/* <!-- A marketing page card built entirely with utility classes --> */}
       <div className="md:flex">
         <div className="md:flex-shrink-0">

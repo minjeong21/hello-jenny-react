@@ -16,6 +16,7 @@ const WritingForm = ({
         placeholder="영작하기"
         height="500"
         id="english_input"
+        required
         value={textInWrinting}
         onChange={(e) => setTextInWrinting(e.target.value)}
       />
