@@ -1,7 +1,6 @@
 @import "https: //cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
 @import "./tailwind.css";
 
-
 input {
   border: solid 1px;
 }
@@ -51,22 +50,6 @@ code {
   flex-direction: column;
 }
 
-
-.flex-1 {
-  flex: 1
-}
-
-.flex-2 {
-  flex: 2
-}
-
-.flex-3 {
-  flex: 3
-}
-
-.flex-4 {
-  flex: 4
-}
 
 .justify-center {
   justify-content: center;
