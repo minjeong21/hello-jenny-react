@@ -4,7 +4,6 @@ import Footer from "../components/organisms/Footer";
 import TopNavigation from "../components/organisms/TopNavigation";
 import IWriting from "../interface/IWriting";
 import WritingManager from "utils/WritingManager";
-import { defaultTheme } from "../theme";
 import WritingBox from "components/WritingBox";
 import {
   fetchWritingListByLevel,
