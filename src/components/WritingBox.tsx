@@ -134,41 +134,48 @@ const WritingBox = (props: IProps) => {
   );
 
   return (
-    <Container>
+    <Container className="bg-white p-4 rounded-lg shadow-sm">
       <FilterNavigation id={writing.id} writings={props.writings} />
+      {/* <!-- A marketing page card built entirely with utility classes --> */}
+      <div className="md:flex">
+        <div className="md:flex-shrink-0">
+          <WritingImage imageUrl={writing.image_url} size={null} />
+        </div>
+        <div className="mt-4 md:mt-0 md:ml-6 flex-1">
+          <div>
+            <div className="uppercase tracking-wide text-sm">
+              <div className="flex justify-between pb-6">
+                <div className="text-gray-500">
+                  {writing.themes[0].display_name.toLowerCase()}
+                </div>
+                <Level levelNumber={writing.level} />
+              </div>
+            </div>
+
+            {writing.situation && (
+              <p className="mt-2 text-gray-400 text-sm">{writing.situation}</p>
+            )}
+            <div className="block mt-1 text-lg leading-tight font-semibold text-gray-900 font-bold pb-3">
+              {writing.kr_sentence}
+            </div>
+          </div>
+
+          <WritingForm
+            setTextInWrinting={setTextInWrinting}
+            onSubmitChallenge={onSubmitChallenge}
+            textInWrinting={textInWrinting}
+            onClickHelpJenny={onClickHelpJenny}
+          />
+        </div>
+      </div>
 
       <section className="dynamic">
         {/* 왼쪽 이미지 */}
         <div className="pad-xs ">
           <article className="pad-xs flex-1 solving-article">
             <div className={`dynamic-flex`}>
-              <div className="pad-m">
-                <WritingImage imageUrl={writing.image_url} size={null} />
-              </div>
+              <div className="pad-m"></div>
               {/* 설명 */}
-              <div>
-                <div className="flex justify-between">
-                  <MainTheme themes={writing.themes} />
-                  <Level levelNumber={writing.level} />
-                </div>
-
-                {writing.situation && (
-                  <div className="font-body weigth-400 font-gray-3 pb-xxs pt-xxs">
-                    {writing.situation}
-                  </div>
-                )}
-
-                <div className="font-large weigth-700 font-gray-1 pb-m">
-                  {writing.kr_sentence}
-                </div>
-
-                <WritingForm
-                  setTextInWrinting={setTextInWrinting}
-                  onSubmitChallenge={onSubmitChallenge}
-                  textInWrinting={textInWrinting}
-                  onClickHelpJenny={onClickHelpJenny}
-                />
-              </div>
             </div>
           </article>
           <section id="explain-section">

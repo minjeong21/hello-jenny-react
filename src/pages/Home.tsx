@@ -21,14 +21,6 @@ const Container = styled.div`
     margin: 0 auto;
     line-height: 1.3;
   }
-
-  .list-section {
-    padding-top: 70px;
-    margin: 0 auto;
-    max-width: 860px;
-  }
-  .section-box {
-  }
 `;
 
 interface IProps {
@@ -40,43 +32,40 @@ const Home = ({ writings, manager }: IProps) => {
   const pathMaanger = new PathManager(useHistory());
 
   return (
-    <main>
+    <main className="bg-gray-100">
       <Container>
         <>
-          <main>
-            {/* Header 토끼*/}
-            <HeaderSection />
-            {/* 문제 풀기 섹션 */}
-            <section className="bg-gray-6 pb-xl">
-              <div className="pad-l writing-box bg-white mb-l">
-                {manager && writings ? (
-                  <WritingBox
-                    writingManager={manager}
-                    writings={writings}
-                    moveNextWriting={() => pathMaanger.goRandomPath(writings)}
-                  />
-                ) : (
-                  <div>Loading...</div>
-                )}
-              </div>
-            </section>
-          </main>
-          {/* 문제 리스트 */}
-
-          <section className="list-section">
-            <div className="font-large section-box px-l">Lastest</div>
-
-            {writings && writings.length ? (
-              <WritingList
-                writingList={writings}
-                moveWriting={() => pathMaanger.goRandomPath(writings)}
+          {/* Header 토끼*/}
+          <HeaderSection />
+          {/* 문제 풀기 섹션 */}
+          <section className="bg-gray-6 pb-xl ">
+            {manager && writings ? (
+              <WritingBox
+                writingManager={manager}
+                writings={writings}
+                moveNextWriting={() => pathMaanger.goRandomPath(writings)}
               />
             ) : (
               <div>Loading...</div>
             )}
           </section>
+          {/* 문제 리스트 */}
+
+          <div className="bg-white mt-12 border-t">
+            <section className="py-20">
+              <div className="text-2xl pb-5">Lastest</div>
+
+              {writings && writings.length ? (
+                <WritingList
+                  writingList={writings}
+                  moveWriting={() => pathMaanger.goRandomPath(writings)}
+                />
+              ) : (
+                <div>Loading...</div>
+              )}
+            </section>
+          </div>
         </>
-        );
       </Container>
       <Footer />
     </main>

@@ -1,10 +1,7 @@
+import IWriting from "interface/IWriting";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import {
-  generateRandomPath,
-  generateLevelPath,
-  generateThemePath,
-  getNextRandomNum,
-} from "utils/Path";
+import PathManager from "utils/PathManager";
 const Navgation = styled.ul`
   a {
     width: 100px;
@@ -12,21 +9,41 @@ const Navgation = styled.ul`
   }
 `;
 
-const FilterNavigation = ({ id }: { id: number }) => {
+const FilterNavigation = ({
+  id,
+  writings,
+}: {
+  id: number;
+  writings: IWriting[];
+}) => {
   return (
     <Navgation className="flex">
-      <a href="#" onClick={() => generateRandomPath(id)}>
-        랜덤
-      </a>
-      <a href="#" onClick={() => alert("aa")}>
-        테마
-      </a>
-      <a href="#" onClick={() => alert("aa")}>
-        레벨
-      </a>
-      <a href="#" onClick={() => alert("aa")}>
-        형식
-      </a>
+      <div className="w-full pb-3">
+        <div className="inline-block mr-2 mt-2">
+          <button
+            type="button"
+            className="focus:outline-none text-blue-600 text-sm py-2 px-4 rounded-md border border-blue-600 hover:bg-blue-50"
+          >
+            모든 형식
+          </button>
+        </div>
+        <div className="inline-block mr-2 mt-2">
+          <button
+            type="button"
+            className="focus:outline-none text-gray-600 text-sm py-2 px-4 rounded-md border border-gray-600 hover:bg-gray-50"
+          >
+            제니모드
+          </button>
+        </div>
+        <div className="inline-block mr-2 mt-2">
+          <button
+            type="button"
+            className="focus:outline-none text-green-600 text-sm py-2 px-4 rounded-md border border-green-600 hover:bg-green-50"
+          >
+            테마변경
+          </button>
+        </div>
+      </div>
     </Navgation>
   );
 };

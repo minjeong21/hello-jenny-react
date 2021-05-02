@@ -1,3 +1,3 @@
-export const HOME_GREETING_HEADING = `나랑 영어공부 할래? 내가 도와줄께!!`;
+export const HOME_GREETING_HEADING = `안녕! 나는 제니야, \n나랑 영어 공부할래?`;
 export const HOME_GREETING_DESC =
-  "나는 힌트 왕이거든! \n내 힌트는 너를 영어 천재로 만들어 줄거야! ";
+  "\n어려울것 같아? 걱정마! \n힌트와 함께라면 게임처럼 즐거울꺼야! \n 네가 영어로 글을 쓸 수 있게 만들어줄께!  ";

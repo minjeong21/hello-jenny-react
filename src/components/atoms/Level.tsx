@@ -52,7 +52,7 @@ const Level = ({ levelNumber }: IProps) => {
   const { fontColor, bgColor } = getColors(level);
 
   return (
-    <div className=" font-body weigth-400 font-gray-2 pb-l">
+    <div className="font-medium text-gray-500 pb-l">
       <Container fontColor={fontColor} bgColor={bgColor}>
         <div className="text">{`LV. ${level}`}</div>
       </Container>

@@ -11,7 +11,7 @@ const WritingList = ({
   moveWriting: (value: number) => void;
 }) => {
   return (
-    <div className="flex">
+    <div className="md:flex">
       {writingList.map((item, index) => (
         <CardSimpleV2
           key={index}

@@ -11,9 +11,7 @@ export const levelMenus = [
 ];
 export const themeMenus = [
   { text: "친구만들기 🙋🏻‍♀️", value: "friend" },
-  { text: "애인 만들기 💕", value: "love" },
   { text: "비즈니스 영어 👔", value: "business" },
-  { text: "초등학생 영어 🧚🏻‍♂️", value: "elementary" },
-  { text: "영화 속 대사 🍿", value: "movie" },
-  { text: "팝송 부르자 🎙", value: "song" },
+  { text: "영화 속 명대사 🍿", value: "movie" },
+  { text: "노랫 속 가사 🎙", value: "music" },
 ];
