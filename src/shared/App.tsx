@@ -1,21 +1,59 @@
-import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
-import { Home, Detail, Speaking } from "../pages";
+import React, { Component, useContext, useEffect, useState } from "react";
+import { Route, Switch, useParams } from "react-router-dom";
+import { Home, Detail,Speaking } from "../pages";
+import { fetchRecapWritings } from "apis/WritingApi";
+import WritingManager from "utils/WritingManager";
+import IWriting from "interface/IWriting";
+import TopNavigation from "components/organisms/TopNavigation";
+import Footer from "components/organisms/Footer";
+const App = () => {
+  const [writings, setWritings] = useState<IWriting[]>();
+  const [writingManager, setWritingManager] = useState<WritingManager>();
 
-class App extends Component {
-  render() {
-    return (
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/random/:id" component={Detail} />
-        <Route path="/theme/:theme/:id" component={Detail} />
-        <Route path="/theme/:theme" component={Detail} />
-        <Route path="/level/:level/:id" component={Detail} />
-        <Route path="/level/:level" component={Detail} />
-        <Route path="/speaking" component={Speaking} />
-      </Switch>
-    );
-  }
-}
+  useEffect(() => {
+    fetchRecapWriting();
+  }, []);
+
+  const fetchRecapWriting = async () => {
+    const response = await fetchRecapWritings();
+    if (response) {
+      setWritings(response.writings);
+      setWritingManager(new WritingManager(response.rep_writing));
+    } else {
+      return [];
+    }
+  };
+
+  return (
+    <Switch>
+      <Route exact path="/">
+        <TopNavigation writings={writings ? writings : null} />
+        <Home
+          writings={writings ? writings : null}
+          manager={writingManager ? writingManager : null}
+        />
+        <Footer />
+      </Route>
+      <Route path="/writing/:id/:theme/">
+        <TopNavigation writings={writings ? writings : null} />
+        <Detail />
+
+        <Footer />
+      </Route>
+      <Route exact path="/writing/:id/">
+        <TopNavigation writings={writings ? writings : null} />
+        <Detail />
+
+        <Footer />
+      </Route>
+      <Route path="/writing*(/+)">
+        <TopNavigation writings={writings ? writings : null} />
+        <Detail manager={writingManager} />
+        <Footer />
+      </Route>
+      <Route path="/speaking" component={Speaking} />
+    </Switch>
+  );
+};
 
 export default App;

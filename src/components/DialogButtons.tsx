@@ -1,116 +1,70 @@
+interface ButtonAction {
+  text: string;
+  onClick: () => void;
+}
+
 interface IProps {
   type: string;
   isLastHint: boolean;
-  onShowHint: () => void;
-  showAnswer: () => void;
-  moveNextWriting: () => void;
+  buttonActions: {
+    HELP: ButtonAction[];
+    HINT_LAST: ButtonAction[];
+    HINT_NOT_LAST: ButtonAction[];
+    ANSWER: ButtonAction[];
+    WRONG: ButtonAction[];
+    CORRECT: ButtonAction[];
+  };
 }
 
-const DialogButtons = ({
-  type,
-  isLastHint,
-  onShowHint,
-  showAnswer,
-  moveNextWriting,
-}: IProps) => {
-  console.log(isLastHint);
+const DialogButtons = ({ type, isLastHint, buttonActions }: IProps) => {
+  let buttons = buttonActions.HELP;
+
   switch (type) {
     case "help":
-      return (
-        <div className="flex justify-end">
-          <button className="btn-white mr-s" onClick={onShowHint}>
-            힌트 보여줘
-          </button>
-          <button className="btn-white mr-s" onClick={showAnswer}>
-            정답을 알려줘!
-          </button>
-          <button className="btn-white mr-s" onClick={moveNextWriting}>
-            다음 문제 줄래?
-          </button>
-        </div>
-      );
-    case "hint":
-      return (
-        <>
-          {isLastHint ? (
-            <div className="flex justify-end">
-              <button className="btn-white mr-s" onClick={showAnswer}>
-                정답을 알려줘!
-              </button>
-              <button className="btn-white mr-s" onClick={moveNextWriting}>
-                다음 문제 줄래?
-              </button>
-            </div>
-          ) : (
-            <div className="flex justify-end">
-              <button className="btn-white mr-s" onClick={onShowHint}>
-                힌트 more..
-              </button>
-              <button className="btn-white mr-s" onClick={showAnswer}>
-                정답을 알려줘!
-              </button>
-              <button className="btn-white mr-s" onClick={moveNextWriting}>
-                다음 문제 줄래?
-              </button>
-            </div>
-          )}
-        </>
-      );
-    case "answer":
-      return (
-        <div className="flex justify-end">
-          {!isLastHint && (
-            <button
-              className="btn-white mr-s"
-              onClick={() => alert("준비중인 기능이야")}
-            >
-              문장 설명해줘
-            </button>
-          )}
+      buttons = buttonActions.HELP;
+      break;
 
-          <button
-            className="btn-white mr-s"
-            onClick={() => window.location.reload()}
-          >
-            다시 풀래!
-          </button>
-          <button className="btn-white mr-s" onClick={moveNextWriting}>
-            다음 문제 줄래?
-          </button>
-        </div>
-      );
+    case "hint":
+      buttons = isLastHint
+        ? buttonActions.HINT_LAST
+        : buttonActions.HINT_NOT_LAST;
+      break;
+    case "answer":
+      buttons = buttonActions.ANSWER;
+      break;
     case "wrong":
-      return (
-        <div className="flex justify-end">
-          {!isLastHint && (
-            <button className="btn-white mr-s" onClick={onShowHint}>
-              힌트 보여줘
-            </button>
-          )}
-          <button className="btn-white mr-s" onClick={moveNextWriting}>
-            다음 문제 풀래
-          </button>
-        </div>
-      );
+      buttons = buttonActions.WRONG;
+      break;
+
     case "correct":
-      return (
-        <div className="flex justify-end">
-          {!isLastHint && (
-            <button
-              className="btn-white mr-s"
-              onClick={() => alert("준비중인 기능이야")}
-            >
-              문장 설명해줘
-            </button>
-          )}
-          <button className="btn-white mr-s" onClick={moveNextWriting}>
-            다음 문제 풀래
-          </button>
-        </div>
-      );
+      buttons = buttonActions.CORRECT;
+      break;
     default:
-      return <></>;
+      buttons = buttonActions.HELP;
   }
+
+  return (
+    <div className="flex justify-end">
+      {buttons.map((item) => (
+        <SmallButton text={item.text} onClick={item.onClick} />
+      ))}
+    </div>
+  );
 };
 
 export default DialogButtons;
+
+const SmallButton = ({
+  onClick,
+  text,
+}: {
+  onClick: () => void;
+  text: string;
+}) => (
+  <button
+    onClick={onClick}
+    className="focus:outline-none text-blue-600 text-sm py-1 px-2 rounded-md border border-blue-600 hover:bg-blue-50 ml-1"
+  >
+    {text}
+  </button>
+);

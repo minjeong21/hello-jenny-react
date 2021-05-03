@@ -3,11 +3,7 @@ export const MainTheme = ({
 }: {
   themes: { display_name: string; name: string; id: number }[];
 }) => {
-  return (
-    <div className=" font-body weigth-400 font-gray-2 pb-l">
-      {themes[0].display_name.toLowerCase()}
-    </div>
-  );
+  return <div className="font-medium text-gray-500 pb-l"></div>;
 };
 
 export default MainTheme;

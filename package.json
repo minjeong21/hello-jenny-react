@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.1.1",
+    "@heroicons/react": "^1.0.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -14,8 +16,6 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7",
     "axios": "^0.21.1",
-    "grommet": "^2.16.3",
-    "grommet-icons": "^4.5.0",
     "mobx": "^6.1.8",
     "mobx-react": "^7.1.0",
     "query-string": "^6.14.1",
@@ -25,6 +25,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "styled-components": "^5.2.1",
+    "tailwindcss": "^2.1.2",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
@@ -35,6 +36,7 @@
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
     "deploy": "aws s3 sync --cache-control 'max-age=604800' --exclude '*.html' --exclude '*/index.js' build/ s3://english-training/ && aws s3 sync --cache-control 'no-cache' build/ s3://english-training/",
+    "deploy:alpha": "aws s3 sync --cache-control 'max-age=604800' --exclude '*.html' --exclude '*/index.js' build/ s3://hello-jenny-alpha/ && aws s3 sync --cache-control 'no-cache' build/ s3://hello-jenny-alpha/",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
