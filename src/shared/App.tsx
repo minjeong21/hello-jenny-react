@@ -5,6 +5,7 @@ import { fetchRecapWritings } from "apis/WritingApi";
 import WritingManager from "utils/WritingManager";
 import IWriting from "interface/IWriting";
 import TopNavigation from "components/organisms/TopNavigation";
+import Footer from "components/organisms/Footer";
 const App = () => {
   const [writings, setWritings] = useState<IWriting[]>();
   const [writingManager, setWritingManager] = useState<WritingManager>();
@@ -26,25 +27,29 @@ const App = () => {
   return (
     <Switch>
       <Route exact path="/">
-        <>
-          <TopNavigation writings={writings ? writings : null} />
-          <Home
-            writings={writings ? writings : null}
-            manager={writingManager ? writingManager : null}
-          />
-        </>
+        <TopNavigation writings={writings ? writings : null} />
+        <Home
+          writings={writings ? writings : null}
+          manager={writingManager ? writingManager : null}
+        />
+        <Footer />
       </Route>
-      <Route path="/writing/:id/:theme">
+      <Route path="/writing/:id/:theme/">
         <TopNavigation writings={writings ? writings : null} />
         <Detail />
+
+        <Footer />
       </Route>
       <Route exact path="/writing/:id/">
         <TopNavigation writings={writings ? writings : null} />
         <Detail />
+
+        <Footer />
       </Route>
-      <Route path="/writing">
+      <Route path="/writing*(/+)">
         <TopNavigation writings={writings ? writings : null} />
         <Detail manager={writingManager} />
+        <Footer />
       </Route>
     </Switch>
   );

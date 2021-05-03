@@ -71,7 +71,6 @@ const Home = ({ writings, manager }: IProps) => {
           </div>
         </>
       </Container>
-      <Footer />
     </main>
   );
 };
