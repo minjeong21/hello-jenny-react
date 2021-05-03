@@ -204,35 +204,35 @@ const DialogBox = ({
   const BUTTON_ACTION = {
     HELP: [
       {
-        text: "첫단어 힌트",
+        text: "👍첫단어 힌트",
         onClick: onShowSubjective,
       },
-      { text: "힌트!", onClick: onShowHint },
-      { text: "정답을 알려줘!", onClick: onShowAnswer },
-      { text: "다음 문제 줄래?", onClick: moveNextWriting },
+      { text: "🙋🏻‍♀️힌트", onClick: onShowHint },
+      { text: "🍰정답 알려줘", onClick: onShowAnswer },
+      { text: "🤞🏻다음 문제 풀래", onClick: moveNextWriting },
     ],
     HINT_LAST: [
-      { text: "정답을 알려줘!", onClick: onShowAnswer },
-      { text: "다음 문제 줄래?", onClick: moveNextWriting },
+      { text: "🍰정답 알려줘", onClick: onShowAnswer },
+      { text: "🤞🏻다음 문제 풀래", onClick: moveNextWriting },
     ],
     HINT_NOT_LAST: [
-      { text: "힌트.", onClick: onShowHint },
-      { text: "정답", onClick: onShowAnswer },
-      { text: "다음 문제", onClick: moveNextWriting },
+      { text: "🙋🏻‍♀️힌트", onClick: onShowHint },
+      { text: "🍰정답 알려줘", onClick: onShowAnswer },
+      { text: "🤞🏻다음 문제 풀래", onClick: moveNextWriting },
     ],
     ANSWER: [
-      { text: "문장 설명", onClick: () => alert("준비중인 기능이야") },
-      { text: "다시", onClick: () => window.location.reload() },
-      { text: "다음 문제", onClick: moveNextWriting },
+      { text: "👨‍🏫설명해줘", onClick: () => alert("준비중인 기능이야") },
+      { text: "🕺다시 풀래", onClick: () => window.location.reload() },
+      { text: "🤞🏻다음 문제 풀래", onClick: moveNextWriting },
     ],
     WRONG: [
-      { text: "힌트.", onClick: onShowHint },
-      { text: "다시", onClick: () => window.location.reload() },
-      { text: "다음 문제", onClick: moveNextWriting },
+      { text: "🙋🏻‍♀️힌트", onClick: onShowHint },
+      { text: "😎다시 풀래", onClick: () => window.location.reload() },
+      { text: "👊🏻다음 문제 풀래", onClick: moveNextWriting },
     ],
     CORRECT: [
-      { text: "문장 설명", onClick: () => alert("준비중인 기능이야") },
-      { text: "다음 문제", onClick: moveNextWriting },
+      { text: "문장 설명👨‍🏫", onClick: () => alert("준비중인 기능이야") },
+      { text: "다음 문제 풀래😎", onClick: moveNextWriting },
     ],
   };
 
