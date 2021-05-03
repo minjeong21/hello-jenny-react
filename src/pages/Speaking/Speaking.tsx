@@ -35,9 +35,31 @@ const Container = styled.div`
   }
 `;
 
+const nullValue = {
+  form: "string",
+  kr_sentence: "string",
+  en_sentence: "string",
+  alter_sentences: [],
+  first_word: "string",
+  id: 1,
+  level: 1,
+  publish_date: "string",
+
+  situation: "string",
+  themes: [{ display_name: "🙋‍♀️ 친구 만들기", name: "🙋‍♀️ 친구 만들기", id: 1 }],
+  image_url: "string",
+  hints: [{
+    id: 1,
+    name: "string",
+    description: "string",
+    type: "string",
+  }],
+}
+
 const Speaking = () => {
   const [writingList, setWritingList] = useState<IWriting[]>();
   const [writing, setWriting] = useState<IWriting>();
+  const [speaking, setSpeaking] = useState<IWriting>(nullValue);
 
   const history = useHistory();
 
@@ -91,7 +113,12 @@ const Speaking = () => {
                           moveNextWriting={moveNextRandomWriting}
                         />
                       ) : (
-                        <div>스켈레톤</div>
+                        <SpeakingBox
+                          viewSize={size}
+                          writing={speaking}
+                          moveNextWriting={moveNextRandomWriting}
+                        />
+                        // <div>스켈레톤</div>
                       )}
                     </div>
                   </section>
