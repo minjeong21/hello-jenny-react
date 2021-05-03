@@ -5,13 +5,13 @@ const GreetingSection = () => {
   const { width } = useWindowSize();
 
   return (
-    <div>
+    <div className="bg-main">
       <div className=" justify-center  md:flex pt-10">
         <div className="flex-shrink-0">
           <img src="/assets/quokka.png" width="300px" />
         </div>
 
-        <div className="bg-pink-100 fit-h p-6 rounded-lg  shadow-lg self-center">
+        <div className="bg-green-100 fit-h p-6 rounded-lg  shadow-lg self-center">
           <h4 className="text-3xl text-gray-900 leading-tight whitespace-pre-line pb-3 font-semibold">
             {HOME_GREETING_HEADING}
           </h4>

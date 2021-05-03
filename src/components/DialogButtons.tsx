@@ -63,7 +63,7 @@ const SmallButton = ({
 }) => (
   <button
     onClick={onClick}
-    className="focus:outline-none text-blue-600 text-sm py-2 px-4 rounded-md border border-blue-600 hover:bg-blue-50"
+    className="focus:outline-none text-blue-600 text-sm py-1 px-2 rounded-md border border-blue-600 hover:bg-blue-50 ml-1"
   >
     {text}
   </button>

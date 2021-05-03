@@ -21,6 +21,11 @@ const Container = styled.div`
     margin: 0 auto;
     line-height: 1.3;
   }
+  .bg-main {
+    background-image: url(/assets/bg-main3.jpg);
+    background-size: cover;
+    background-position: center 80%;
+  }
 `;
 
 interface IProps {
@@ -32,13 +37,13 @@ const Home = ({ writings, manager }: IProps) => {
   const pathMaanger = new PathManager(useHistory());
 
   return (
-    <main className="bg-gray-100">
+    <main className="pt-20">
       <Container>
         <>
           {/* Header 토끼*/}
           <HeaderSection />
           {/* 문제 풀기 섹션 */}
-          <section className="bg-gray-6 pb-xl ">
+          <section className="pt-12 ">
             {manager && writings ? (
               <WritingBox
                 writingManager={manager}

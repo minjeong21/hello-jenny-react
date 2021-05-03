@@ -35,17 +35,19 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
   };
 
   return (
-    <Container>
+    <Container className="absolute top-0 w-full">
       <div className="p-4 bg-white min-h-screen md:min-h-0 border-b ">
         <nav className="flex px-4 items-center relative">
           <div className="text-lg font-bold md:py-0 py-4">
-            <img
-              src="/logo.png"
-              width="200"
-              height="100"
-              alt="Hello Jenny Logo"
-              title="Hello Jenny Logo"
-            />
+            <a href="/">
+              <img
+                src="/logo2.png"
+                width="200"
+                height="100"
+                alt="Hello Jenny Logo"
+                title="Hello Jenny Logo"
+              />
+            </a>
           </div>
           <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
             <li className="self-center">

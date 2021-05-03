@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import Footer from "../components/organisms/Footer";
-import TopNavigation from "../components/organisms/TopNavigation";
 import IWriting from "../interface/IWriting";
 import WritingManager from "utils/WritingManager";
 import WritingBox from "components/WritingBox";
+import styled from "styled-components";
 import {
   fetchWritingListByLevel,
   fetchWritingByNumId,
@@ -17,12 +16,13 @@ interface ParamTypes {
   level?: string;
 }
 
+const Main = styled.main`
+  min-height: calc(100vh - 45px);
+`;
 const Detail = ({ manager }: { manager?: WritingManager }) => {
   let { id, theme, level } = useParams<ParamTypes>();
   console.log(id, theme, level);
-  const history = useHistory();
   const [writings, setWritings] = useState<IWriting[]>();
-  const [fetcedWriting, setFetcedWriting] = useState(false);
   const [writingManager, setWritingManager] = useState<WritingManager>();
 
   // TODO: Wraning 처리 (React Hook useEffect has missing dependencies)
@@ -55,92 +55,29 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
     setWritings(list);
   };
 
-  const moveNextWriting = () => {
-    // 리스트에서 지금 연습 문제가 몇 번째 index인지 찾고, 그 이후 순번으로 넘어가기.
-    // let path = null;
-    // let index = writingList.findIndex((item) => item.id === writing.id);
-    // if (index === writingList.length - 1) {
-    //   alert("마지막 문제입니다.");
-    //   index = -1;
-    //   const NextNumId = writingList[index + 1].id;
-    //   if (theme) {
-    //     path = generateThemePath(theme, NextNumId);
-    //   } else if (level) {
-    //     path = generateLevelPath(level, NextNumId);
-    //   } else {
-    //     path = generateRandomPath(NextNumId);
-    //   }
-    //   history.push(path);
-    //   pageReloadEffect(writingList[index + 1]);
-    // } else {
-    //   alert("새로고침 후 다시 시도해주세요.");
-    // }
-  };
+  const moveNextWriting = () => {};
 
-  if (writingManager) {
-    return (
-      <div>
-        {writingManager ? (
-          <main>
-            <section id="section-1" className={`max-width margin-center`}>
-              <WritingBox
-                writingManager={writingManager}
-                moveNextWriting={moveNextWriting}
-              />
-            </section>
-            )
-            {/* <Box margin="medium" />
-          {visibleAnswer || isCorrect ? (
-            <DescriptionSection
-              isCorrect={isCorrect}
-              visibleAnswer={visibleAnswer}
-              writing={writing}
-            />
-          ) : null} */}
-          </main>
-        ) : (
-          <>
-            {fetcedWriting ? (
-              <div>
-                <h3>
-                  문장이 사라졌어요..
-                  <br />
-                  (어디갔을까...😭)
-                  <button onClick={moveNextWriting}>다른 문제 풀어보기</button>
-                </h3>
-              </div>
-            ) : (
-              <div>
-                <h3>문장 불러오는 중...</h3>
-              </div>
-            )}
-          </>
-        )}
-        <Footer />
-      </div>
-    );
-  } else if (writings && writings.length === 0) {
-    return (
-      <div>
+  return (
+    <Main className=" pt-20">
+      {writingManager ? (
+        <section id="section-1" className="pt-20">
+          <WritingBox
+            writingManager={writingManager}
+            moveNextWriting={moveNextWriting}
+          />
+        </section>
+      ) : (
         <div>
-          <h3>
-            아직 준비된 문제가 없습니다.. <br />
-            열심히 준비중이에요🤷🏻‍♀️
-          </h3>
+          <div>
+            <div className="flex justify-center pad-xl">
+              <div>문제 불러오는 중!</div>
+              <img src="/assets/small-quokka.png" width="200px" />
+            </div>
+          </div>
         </div>
-        <Footer />
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <div className="flex justify-center pad-xl">
-          <div>문제 불러오는 중!</div>
-          <img src="/assets/header-rabit.png" width="200px" />
-        </div>
-      </div>
-    );
-  }
+      )}
+    </Main>
+  );
 };
 
 export default Detail;
