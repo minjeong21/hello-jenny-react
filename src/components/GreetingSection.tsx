@@ -8,7 +8,7 @@ const GreetingSection = () => {
     <div>
       <div className=" justify-center  md:flex pt-10">
         <div className="flex-shrink-0">
-          <img src="/assets/header-rabit.png" width="250px" />
+          <img src="/assets/quokka.png" width="300px" />
         </div>
 
         <div className="bg-pink-100 fit-h p-6 rounded-lg  shadow-lg self-center">
