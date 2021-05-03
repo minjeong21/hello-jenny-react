@@ -23,6 +23,12 @@ code {
   font-family: 'Noto Sans SC', source-code-pro, Menlo, Monaco, Consolas, 'Courier New' !important
 }
 
+.font-quite {
+  font-family: 'Gamja Flower', cursive;
+  letter-spacing: -1px;
+
+}
+
 .video-container {
   position: relative;
   padding-bottom: 56.25%;

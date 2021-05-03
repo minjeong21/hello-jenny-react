@@ -60,7 +60,13 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
   return (
     <Main className=" pt-20">
       {writingManager ? (
-        <section id="section-1" className="pt-20">
+        <section className="py-20 ">
+          <div className="flex justify-end">
+            <div className="flex bg-green-100 fit-h self-center p-2 rounded  font-quite">
+              할 수 있따~ 포기하지 말아요~
+            </div>
+            <img src="/assets/small-quokka-left.png" width="50px" />
+          </div>
           <WritingBox
             writingManager={writingManager}
             moveNextWriting={moveNextWriting}
@@ -69,9 +75,9 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
       ) : (
         <div>
           <div>
-            <div className="flex justify-center pad-xl">
-              <div>문제 불러오는 중!</div>
-              <img src="/assets/small-quokka.png" width="200px" />
+            <div className="pt-24 flex flex-col items-center">
+              <div>잠시만요!</div>
+              <img src="/assets/small-quokka.png" width="100px" />
             </div>
           </div>
         </div>

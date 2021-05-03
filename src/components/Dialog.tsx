@@ -12,7 +12,7 @@ export const DialogHint = ({
   return (
     <DialogBase>
       <div className="">
-        <div>{talkText}</div>
+        <div className="font-quite">{talkText}</div>
         <div className="flex">
           <div className="flex pb-l">
             <div className="font-small text-gray-500 pr-12">{hint}</div>
@@ -26,7 +26,7 @@ export const DialogHint = ({
 export const DialogJenny = () => {
   return (
     <DialogBase>
-      <div>나 왔어~ 뭐 필요해? </div>
+      <div className="font-quite">저 왔어요~ 뭘 도와드릴까요? </div>
     </DialogBase>
   );
 };
@@ -41,7 +41,7 @@ export const DialogAnswer = ({
   return (
     <DialogBase>
       <div className="">
-        <div>정답 문장은 여기있단다.... </div>
+        <div className="font-quite">정답은 이거에요! 잘하셨어요! </div>
         <div>
           <div className="font-small text-gray-500 pr-12">
             정답 문장: {answer}
@@ -89,7 +89,7 @@ export const DialogWrong = ({
     <>
       <DialogBase>
         <div>
-          <div>앗 아쉽다! 조금만 더 도전해보자!</div>
+          <div>앗 아쉬워요, 조금만 더 도전해봐요.</div>
           <div className="flex">
             <div className="flex pb-l">
               <div className="font-small text-gray-500 pr-12">
