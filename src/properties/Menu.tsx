@@ -1,4 +1,4 @@
-export const levelMenus = [
+export const LEVEL_MENU = [
   {
     text: "아주 짧아요 👶",
     value: "1",
@@ -9,7 +9,7 @@ export const levelMenus = [
   { text: "도전 난이도 문장 😎 ", value: "5" },
   { text: "관용어 문장 🤩 ", value: "6" },
 ];
-export const themeMenus = [
+export const THEME_MENU = [
   { text: "친구만들기 🙋🏻‍♀️", value: "friend" },
   { text: "비즈니스 영어 👔", value: "business" },
   { text: "영화 속 명대사 🍿", value: "movie" },

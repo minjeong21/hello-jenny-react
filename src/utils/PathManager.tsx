@@ -7,6 +7,7 @@ const LEVEL_PATH = "/level/:level";
 const THEME_PATH_WITH_NUMID = "/theme/:theme/:numid";
 const THEME_PATH = "/theme/:theme";
 const RANDOM_PATH = "/writing/:numid";
+const SPEACKING_PATH = "/speaking/:numid";
 const WRITING_BASE_PATH = "/writing";
 
 class MovePath {
@@ -56,6 +57,14 @@ class MovePath {
     this.history.push(
       generatePath(RANDOM_PATH, {
         numid: randomId,
+      })
+    );
+  };
+
+  goSpeaking = (numid: number) => {
+    this.history.push(
+      generatePath(SPEACKING_PATH, {
+        numid: numid,
       })
     );
   };

@@ -2,9 +2,7 @@ import { Popover, Transition, Menu } from "@headlessui/react";
 import PathManager from "utils/PathManager";
 import IWriting from "interface/IWriting";
 import { useHistory } from "react-router-dom";
-import { levelMenus, themeMenus } from "../../properties/Menu";
-import { Fragment } from "react";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import { LEVEL_MENU, THEME_MENU } from "../../properties/Menu";
 import styled from "styled-components";
 const Container = styled.nav`
   @media only screen and (min-width: 768px) {
@@ -27,6 +25,14 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
   const pathManager = new PathManager(useHistory());
 
   const moveRandomWriting = () => {
+    if (writings) {
+      pathManager.goRandomPath(writings);
+    } else {
+      alert("새로고침 후 다시 시도해주세요.");
+    }
+  };
+
+  const goSpeaking = () => {
     if (writings) {
       pathManager.goRandomPath(writings);
     } else {
@@ -74,7 +80,7 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
                 </svg>
               </a>
               <ul className="child transition duration-300 md:absolute top-full right-0 md:w-48 bg-white md:rounded-b ">
-                {themeMenus.map((theme, index) => (
+                {THEME_MENU.map((theme, index) => (
                   <li key={index}>
                     <a
                       onClick={() => pathManager.goThemePath(theme.value)}
@@ -102,7 +108,7 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
                 </svg>
               </a>
               <ul className="child transition duration-300 md:absolute top-full right-0 md:w-48 bg-white md:rounded-b ">
-                {levelMenus.map((item, index) => (
+                {LEVEL_MENU.map((item, index) => (
                   <li key={index}>
                     <a
                       onClick={() => pathManager.goThemePath(item.value)}
@@ -114,16 +120,16 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
                 ))}
               </ul>
             </li>
+
+            <li className="self-center">
+              <a
+                onClick={() => pathManager.goSpeaking(1)}
+                className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
+              >
+                스피킹 연습
+              </a>
+            </li>
           </ul>
-          <div className="ml-auto md:hidden text-gray-500 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5 fill-current"
-              viewBox="0 0 24 24"
-            >
-              <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" />
-            </svg>
-          </div>
         </nav>
       </div>
     </Container>

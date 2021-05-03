@@ -1,6 +1,6 @@
 import React, { Component, useContext, useEffect, useState } from "react";
 import { Route, Switch, useParams } from "react-router-dom";
-import { Home, Detail,Speaking } from "../pages";
+import { Home, Detail, Speaking } from "../pages";
 import { fetchRecapWritings } from "apis/WritingApi";
 import WritingManager from "utils/WritingManager";
 import IWriting from "interface/IWriting";
@@ -51,7 +51,14 @@ const App = () => {
         <Detail manager={writingManager} />
         <Footer />
       </Route>
-      <Route path="/speaking" component={Speaking} />
+      <Route path="/speaking/:id*(/+)">
+        <TopNavigation writings={writings ? writings : null} />
+        <Speaking
+          manager={writingManager ? writingManager : null}
+          writings={writings ? writings : null}
+        />
+        <Footer />
+      </Route>
     </Switch>
   );
 };
