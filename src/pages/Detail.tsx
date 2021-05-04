@@ -1,14 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import IWriting from "../interface/IWriting";
+import { useParams } from "react-router-dom";
 import WritingManager from "utils/WritingManager";
 import WritingBox from "components/WritingBox";
 import styled from "styled-components";
-import {
-  fetchWritingListByLevel,
-  fetchWritingByNumId,
-  fetchWritingListByTheme,
-} from "apis/WritingApi";
+import { fetchWritingByNumId } from "apis/WritingApi";
 
 interface ParamTypes {
   id?: string;
@@ -21,8 +16,6 @@ const Main = styled.main`
 `;
 const Detail = ({ manager }: { manager?: WritingManager }) => {
   let { id, theme, level } = useParams<ParamTypes>();
-  console.log(id, theme, level);
-  const [writings, setWritings] = useState<IWriting[]>();
   const [writingManager, setWritingManager] = useState<WritingManager>();
 
   // TODO: Wraning 처리 (React Hook useEffect has missing dependencies)
@@ -30,29 +23,18 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
     if (id) {
       fetchWriting(Number(id));
     } else if (theme) {
-      fetchThemeWritingList(theme);
+      // fetchThemeWritingList(theme);
     } else if (level) {
-      fetchLevelWritingList(Number(level));
+      // fetchLevelWritingList(Number(level));
     } else {
       setWritingManager(manager);
     }
     console.log(writingManager);
-  }, [id, theme, level]);
+  }, [id, theme, level, manager, writingManager]);
 
-  console.log();
   const fetchWriting = async (id: number) => {
     const writing = await fetchWritingByNumId(id);
     setWritingManager(new WritingManager(writing.data));
-  };
-
-  const fetchThemeWritingList = async (theme: string) => {
-    const list = await fetchWritingListByTheme(theme);
-    setWritings(list);
-  };
-
-  const fetchLevelWritingList = async (level: number) => {
-    const list = await fetchWritingListByLevel(level);
-    setWritings(list);
   };
 
   const moveNextWriting = () => {};
@@ -65,7 +47,11 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
             <div className="flex bg-green-100 fit-h self-center p-2 rounded  font-quite">
               할 수 있따~ 포기하지 말아요~
             </div>
-            <img src="/assets/small-quokka-left.png" width="50px" />
+            <img
+              src="/assets/small-quokka-left.png"
+              width="50px"
+              alt="quokka"
+            />
           </div>
           <WritingBox
             writingManager={writingManager}
@@ -77,7 +63,7 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
           <div>
             <div className="pt-24 flex flex-col items-center">
               <div>잠시만요!</div>
-              <img src="/assets/small-quokka.png" width="100px" />
+              <img src="/assets/small-quokka.png" width="100px" alt="quokka" />
             </div>
           </div>
         </div>

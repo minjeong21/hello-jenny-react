@@ -1,5 +1,4 @@
 import IWriting from "interface/IWriting";
-import { useHistory } from "react-router-dom";
 import { generatePath } from "react-router";
 
 const LEVEL_PATH_WITH_NUMID = "/level/:level/:numid";
@@ -39,7 +38,7 @@ class MovePath {
     return this.history.push(generatePath(WRITING_BASE_PATH));
   };
 
-  goThemePath = (theme: string, numid?: number) => {
+  getThemePath = (theme: string, numid?: number) => {
     const path = numid
       ? generatePath(THEME_PATH_WITH_NUMID, {
           theme: theme,
@@ -48,7 +47,8 @@ class MovePath {
       : generatePath(THEME_PATH, {
           theme: theme,
         });
-    this.history.push(path);
+    return path;
+    // this.history.push(path);
   };
 
   goRandomPath = (writings: IWriting[]) => {
@@ -61,12 +61,10 @@ class MovePath {
     );
   };
 
-  goSpeaking = (numid: number) => {
-    this.history.push(
-      generatePath(SPEACKING_PATH, {
-        numid: numid,
-      })
-    );
+  getSpeakingPath = (numid: number) => {
+    return generatePath(SPEACKING_PATH, {
+      numid: numid,
+    });
   };
 }
 

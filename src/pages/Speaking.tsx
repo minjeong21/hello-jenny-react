@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import PathManager from "utils/PathManager";
 import IWriting from "interface/IWriting";
 import SpeakingBox from "components/SpeakingBox";
-import TopNavigation from "components/organisms/TopNavigation";
-import Footer from "components/organisms/Footer";
 import WritingManager from "utils/WritingManager";
 // import HeaderSection from "./HeaderSection";
 
@@ -33,39 +28,12 @@ const Container = styled.div`
   }
 `;
 
-const nullValue = {
-  form: "string",
-  kr_sentence: "string",
-  en_sentence: "string",
-  alter_sentences: [],
-  first_word: "string",
-  id: 1,
-  level: 1,
-  publish_date: "string",
-
-  situation: "string",
-  themes: [{ display_name: "🙋‍♀️ 친구 만들기", name: "🙋‍♀️ 친구 만들기", id: 1 }],
-  image_url: "string",
-  hints: [
-    {
-      id: 1,
-      name: "string",
-      description: "string",
-      type: "string",
-    },
-  ],
-};
-
 interface IProps {
   writings: IWriting[] | null;
   manager: WritingManager | null;
 }
 
 const Speaking = ({ manager, writings }: IProps) => {
-  const [speaking, setSpeaking] = useState<IWriting>(nullValue);
-  const pathManager = new PathManager(useHistory());
-  const history = useHistory();
-
   const moveNextSpeacking = () => {};
   return (
     <main className="pt-24">

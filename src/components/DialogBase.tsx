@@ -8,13 +8,12 @@ const Container = styled.div`
     border-right: 20px solid rgb(189, 236, 203);
     border-bottom: 10px solid transparent;
   }
-  
 `;
 const DialogBase = ({ children }: { children: any }) => {
   return (
     <Container className="flex m-1">
       <div>
-        <img src="/assets/small-quokka.png" width="50" />
+        <img src="/assets/small-quokka.png" width="50" alt="avatar" />
       </div>
       <div className="relative self-center">
         <div className="absolute triangle-left left-0 "></div>

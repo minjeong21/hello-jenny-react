@@ -1,6 +1,5 @@
 import React from "react";
 import DialogBase from "components/DialogBase";
-import IWriting from "interface/IWriting";
 
 export const DialogHint = ({
   talkText,

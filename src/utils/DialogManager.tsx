@@ -1,11 +1,9 @@
-import IWriting from "interface/IWriting";
 import {
   DialogHint,
   DialogJenny,
   DialogAnswer,
   DialogCorrect,
   DialogWrong,
-  DialogUser,
 } from "components/Dialog";
 import WritingManager from "./WritingManager";
 class DialogManager {

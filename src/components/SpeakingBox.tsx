@@ -2,18 +2,8 @@ import { useEffect, useState } from "react";
 import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
 import MainTheme from "components/MainTheme";
-import WritingManager from "utils/WritingManager";
 import Level from "components/atoms/Level";
 import IWriting from "interface/IWriting";
-import WritingForm from "components/WritingForm";
-import {
-  DialogHint,
-  DialogJenny,
-  DialogAnswer,
-  DialogCorrect,
-  DialogWrong,
-} from "components/Dialog";
-import { start } from "node:repl";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 const Container = styled.div`
@@ -102,13 +92,7 @@ const sentenceList = [
 
 const SpeakingBox = (props: IProps) => {
   const { writing } = props;
-  const [dialogType, setDialogType] = useState("help");
-  const [textInWrinting, setTextInWrinting] = useState("");
-  const [userCentence, setUserCentence] = useState("");
-  const [hintCount, setHintCount] = useState(0);
-  const [dialogList, setDialogList] = useState<
-    { type: string; element: JSX.Element }[]
-  >([]);
+
   const [infoSentence, setInfoSentence] = useState("화이팅");
   const [korSentence, setKorSentence] = useState(
     "5초씩 5개의 한글 문장이 주어질 거에요. 영어로 말해보세요 :)"
@@ -126,23 +110,7 @@ const SpeakingBox = (props: IProps) => {
     false,
   ]);
 
-  useEffect(() => {
-    setTextInWrinting("");
-    setUserCentence("");
-  }, []);
-
-  // async function timerReset() {
-  //   var tempRemainTime = remainTime
-
-  //   if(tempRemainTime == 1){
-  //     tempRemainTime = 10
-  //     await setRemainTime(10)
-  //     console.log("안돼나여")
-  //     console.log(remainTime)
-  //   }
-  // }
-
-  // timerReset();
+  useEffect(() => {}, []);
 
   const startOnClick = () => {
     setIsStart(true);
@@ -233,7 +201,7 @@ const SpeakingBox = (props: IProps) => {
                           if (remainingTime) {
                             setRemainTime(remainingTime);
                             setIsNext(true);
-                            if (remainingTime == 1) {
+                            if (remainingTime === 1) {
                               setTimeout(function () {
                                 setRemainTime(10);
                                 setIsStart(false);
@@ -281,13 +249,6 @@ const SpeakingBox = (props: IProps) => {
                 </div>
               </div>
             </article>
-            <section id="explain-section">
-              <div>
-                {dialogList.map((dialog, index) => (
-                  <div key={index}>{dialog.element}</div>
-                ))}
-              </div>
-            </section>
           </div>
         ) : (
           <div className="w-full p-6 rounded">

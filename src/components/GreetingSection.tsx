@@ -1,14 +1,11 @@
 import { HOME_GREETING_DESC, HOME_GREETING_HEADING } from "properties/Text";
-import useWindowSize from "utils/useWindowSize";
 
 const GreetingSection = () => {
-  const { width } = useWindowSize();
-
   return (
     <div className="bg-main">
       <div className=" justify-center  md:flex pt-10">
         <div className="flex-shrink-0">
-          <img src="/assets/quokka.png" width="300px" />
+          <img src="/assets/quokka.png" width="300px" alt="quokka character" />
         </div>
 
         <div className="bg-green-100 fit-h p-6 rounded-lg  shadow-lg self-center">

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import WritingBox from "components/WritingBox";
-import Footer from "components/organisms/Footer";
 import HeaderSection from "../components/GreetingSection";
 import WritingManager from "utils/WritingManager";
 import IWriting from "interface/IWriting";

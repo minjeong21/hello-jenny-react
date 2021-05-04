@@ -1,7 +1,7 @@
 import { Popover, Transition, Menu } from "@headlessui/react";
 import PathManager from "utils/PathManager";
 import IWriting from "interface/IWriting";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { LEVEL_MENU, THEME_MENU } from "../../properties/Menu";
 import styled from "styled-components";
 const Container = styled.nav`
@@ -57,17 +57,17 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
           </div>
           <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
             <li className="self-center">
-              <a
+              <button
                 onClick={moveRandomWriting}
                 className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
               >
                 랜덤 영작
-              </a>
+              </button>
             </li>
 
             <li className="relative parent">
-              <a
-                href="#"
+              <button
+                onClick={moveRandomWriting}
                 className="flex justify-between md:inline-flex p-4 items-center hover:bg-gray-50 space-x-2"
               >
                 <span>테마로 영작</span>
@@ -78,16 +78,16 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
                 >
                   <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
                 </svg>
-              </a>
+              </button>
               <ul className="child transition duration-300 md:absolute top-full right-0 md:w-48 bg-white md:rounded-b ">
                 {THEME_MENU.map((theme, index) => (
                   <li key={index}>
-                    <a
-                      onClick={() => pathManager.goThemePath(theme.value)}
+                    <Link
+                      to={pathManager.getThemePath(theme.value)}
                       className="flex px-4 py-3 hover:bg-gray-50"
                     >
                       {theme.text}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -111,7 +111,7 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
                 {LEVEL_MENU.map((item, index) => (
                   <li key={index}>
                     <a
-                      onClick={() => pathManager.goThemePath(item.value)}
+                      onClick={() => pathManager.getThemePath(item.value)}
                       className="flex px-4 py-3 hover:bg-gray-50"
                     >
                       {item.text}
@@ -122,12 +122,12 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
             </li>
 
             <li className="self-center">
-              <a
-                onClick={() => pathManager.goSpeaking(1)}
+              <Link
+                to={pathManager.getSpeakingPath(1)}
                 className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
               >
                 스피킹 연습
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

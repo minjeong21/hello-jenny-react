@@ -1,5 +1,5 @@
-import React, { Component, useContext, useEffect, useState } from "react";
-import { Route, Switch, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Switch } from "react-router-dom";
 import { Home, Detail, Speaking } from "../pages";
 import { fetchRecapWritings } from "apis/WritingApi";
 import WritingManager from "utils/WritingManager";

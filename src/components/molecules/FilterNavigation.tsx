@@ -1,15 +1,10 @@
-import IWriting from "interface/IWriting";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import PathManager from "utils/PathManager";
 const Navgation = styled.ul`
   a {
     width: 100px;
     cursor: pointer;
   }
 `;
-
-interface Props {}
 const FilterNavigation = () => {
   return (
     <Navgation className="flex">

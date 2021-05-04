@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function useWindowSize() {
-  const mobileViewSize = 680;
   const isSSR = typeof window !== "undefined";
   const [windowSize, setWindowSize] = React.useState({
     width: isSSR ? 1200 : window.innerWidth,

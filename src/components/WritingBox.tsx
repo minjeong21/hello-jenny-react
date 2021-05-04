@@ -21,17 +21,17 @@ interface IProps {
 
 const WritingBox = (props: IProps) => {
   const { writingManager } = props;
-  const [dialogManager, setDialogManager] = useState(
+  const [dialogManager] = useState<DialogManager>(
     new DialogManager(writingManager)
   );
-  const [writing, setWriting] = useState(writingManager.getWriting());
+  const [writing] = useState(writingManager.getWriting());
   const [textInWrinting, setTextInWrinting] = useState("");
   const [userCentence, setUserCentence] = useState("");
   const [currentDialogType, setCurrentDialogType] = useState("");
 
   useEffect(() => {
     setTextInWrinting("");
-    setUserCentence("");
+    setUserCentence("setUserCentence");
   }, []);
 
   const onClickHelpJenny = (event: any) => {
@@ -46,7 +46,6 @@ const WritingBox = (props: IProps) => {
    * */
   const onSubmitChallenge = (event: any) => {
     event.preventDefault();
-    let Dialog = null;
 
     const result = writingManager.compareAnswer(
       writing.alter_sentences ? writing.alter_sentences : [],

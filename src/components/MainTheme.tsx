@@ -3,10 +3,12 @@ export const MainTheme = ({
 }: {
   themes: { display_name: string; name: string; id: number }[];
 }) => {
+  const targetThemes = themes.length > 2 ? themes.splice(0, 2) : themes;
+
   return (
     <div className="flex">
-      {themes.map((theme) => (
-        <div className="text-sm text-gray-500 pb-1 pr-1">
+      {targetThemes.map((theme, index) => (
+        <div key={index} className="text-sm text-gray-500 pb-1 pr-1 flex-wrap">
           {theme.display_name}
         </div>
       ))}
