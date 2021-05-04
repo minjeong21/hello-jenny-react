@@ -9,10 +9,10 @@ const GreetingSection = () => {
         </div>
 
         <div className="bg-green-100 fit-h p-6 rounded-lg  shadow-lg self-center">
-          <h4 className="text-3xl text-gray-900 leading-tight whitespace-pre-line pb-3 font-semibold font-quite">
+          <h4 className="text-3xl text-gray-900 leading-tight whitespace-pre-line pb-3 font-semibold font-cute">
             {HOME_GREETING_HEADING}
           </h4>
-          <p className="text-base text-gray-600 leading-normal whitespace-pre-line font-quite">
+          <p className="text-base text-gray-600 leading-normal whitespace-pre-line font-cute">
             {HOME_GREETING_DESC}
           </p>
         </div>

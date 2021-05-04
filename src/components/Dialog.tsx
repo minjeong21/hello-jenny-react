@@ -11,7 +11,7 @@ export const DialogHint = ({
   return (
     <DialogBase>
       <div className="">
-        <div className="font-quite pb-2">{talkText}</div>
+        <div className="font-cute pb-2">{talkText}</div>
         <div className="flex">
           <div className="flex pb-l">
             <div className="font-small text-purple-700 pr-12 whitespace-pre-line">
@@ -27,7 +27,7 @@ export const DialogHint = ({
 export const DialogJenny = () => {
   return (
     <DialogBase>
-      <div className="font-quite pb-2">저 왔어요~ 뭘 도와드릴까요? </div>
+      <div className="font-cute pb-2">저 왔어요~ 뭘 도와드릴까요? </div>
     </DialogBase>
   );
 };
@@ -42,7 +42,7 @@ export const DialogAnswer = ({
   return (
     <DialogBase>
       <div className="">
-        <div className="font-quite pb-2">정답은 이거에요! 잘하셨어요! </div>
+        <div className="font-cute pb-2">정답은 이거에요! 잘하셨어요! </div>
         <div>
           <div className="font-small text-purple-700 pr-12 whitespace-pre-line">
             정답 문장: {answer}
@@ -94,7 +94,7 @@ export const DialogWrong = ({
     <>
       <DialogBase>
         <div>
-          <div className="font-quite pb-2">
+          <div className="font-cute pb-2">
             앗 아쉬워요, {percent}% 단어가 맞았어요.💕 (
             <span className="text-blue-700">&nbsp;파랑이 맞는 단어</span>,{" "}
             <span className="text-pink-600">빨강이 틀린 단어에요.</span>)

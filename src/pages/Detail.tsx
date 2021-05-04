@@ -44,7 +44,7 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
       {writingManager ? (
         <section className="py-20 ">
           <div className="flex justify-end">
-            <div className="flex bg-green-100 fit-h self-center p-2 rounded  font-quite">
+            <div className="flex bg-green-100 fit-h self-center p-2 rounded  font-cute">
               할 수 있따~ 포기하지 말아요~
             </div>
             <img
