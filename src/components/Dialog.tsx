@@ -56,10 +56,10 @@ export const DialogAnswer = ({
 };
 
 export const DialogCorrect = ({
-  writing,
+  answerCentence,
   userCentence,
 }: {
-  writing: IWriting;
+  answerCentence: string;
   userCentence: string;
 }) => {
   return (
@@ -68,7 +68,7 @@ export const DialogCorrect = ({
         <div className="">
           <div>와~ 맞췄구나. 정말 대단하다! 대단한 내 친구 뿌듯해! 💕</div>
           <div className="font-small text-gray-500 pr-12">
-            정답문장 : {writing.en_sentence}
+            정답문장 : {answerCentence}
           </div>
           <div className="font-small text-gray-500 pr-12">
             도전 문장 : {userCentence}
@@ -79,23 +79,24 @@ export const DialogCorrect = ({
   );
 };
 export const DialogWrong = ({
-  writing,
+  percent,
+  answerCentence,
   userCentence,
 }: {
-  writing: IWriting;
+  percent: number;
+  answerCentence: string;
   userCentence: string;
 }) => {
   return (
     <>
       <DialogBase>
         <div>
-          <div>앗 아쉬워요, 조금만 더 도전해봐요.</div>
-          <div className="flex">
-            <div className="flex pb-l">
-              <div className="font-small text-gray-500 pr-12">
-                도전 문장: {userCentence}
-              </div>
-            </div>
+          <div>앗 아쉬워요, {percent}%. 맞췄어요 💕</div>
+          <div className="font-small text-gray-500 pr-12">
+            정답문장 : {answerCentence}
+          </div>
+          <div className="font-small text-gray-500 pr-12">
+            도전 문장 : {userCentence}
           </div>
         </div>
       </DialogBase>

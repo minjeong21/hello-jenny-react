@@ -2,16 +2,11 @@ import IWriting from "interface/IWriting";
 
 export default class WritingManager {
   writing: IWriting;
-  hintCount: number;
 
   constructor(writing: IWriting) {
     this.writing = writing;
-    this.hintCount = 0;
   }
 
-  hasMoreHint = () => {
-    return this.writing.hints.length === this.hintCount;
-  };
   getWriting = () => {
     return this.writing;
   };
@@ -107,27 +102,21 @@ export default class WritingManager {
     return firstWord;
   };
 
-  getHintByNumber = () => {
-    return this.writing.hints[this.hintCount].description;
-  };
-  getHintTitle = () => {
-    switch (this.hintCount) {
-      case 0:
-        return "첫번째 힌트야";
-      default:
-        return "다음 힌트는!";
-    }
-  };
-
-  increaseHintNumber = () => {
-    this.hintCount += 1;
-  };
-
   getEllipsis = () => {
     if (this.writing.kr_sentence.length > 60) {
       return this.writing.kr_sentence.slice(0, 60) + "...";
     } else {
       return this.writing.kr_sentence;
     }
+  };
+  getAnswerCentence = () => {
+    return this.writing.en_sentence;
+  };
+
+  getHintByNumber = (number: number) => {
+    return this.writing.hints[number];
+  };
+  getHintSize = () => {
+    return this.writing.hints.length;
   };
 }

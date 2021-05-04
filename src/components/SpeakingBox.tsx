@@ -13,7 +13,6 @@ import {
   DialogCorrect,
   DialogWrong,
 } from "components/Dialog";
-import DialogButtons from "components/DialogButtons";
 import { start } from "node:repl";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 

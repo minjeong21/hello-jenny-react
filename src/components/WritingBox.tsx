@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
-import MainTheme from "components/MainTheme";
 import WritingManager from "utils/WritingManager";
 import Level from "components/atoms/Level";
 import FilterNavigation from "components/molecules/FilterNavigation";
 import WritingForm from "components/WritingForm";
-import {
-  DialogHint,
-  DialogJenny,
-  DialogAnswer,
-  DialogCorrect,
-  DialogWrong,
-  DialogUser,
-} from "components/Dialog";
-import DialogButtons from "components/DialogButtons";
-import IWriting from "interface/IWriting";
+import DialogManager from "utils/DialogManager";
 
 const Container = styled.div`
   input {
@@ -30,14 +20,14 @@ interface IProps {
 }
 
 const WritingBox = (props: IProps) => {
-  const [dialogType, setDialogType] = useState("help");
   const { writingManager } = props;
+  const [dialogManager, setDialogManager] = useState(
+    new DialogManager(writingManager)
+  );
   const [writing, setWriting] = useState(writingManager.getWriting());
   const [textInWrinting, setTextInWrinting] = useState("");
   const [userCentence, setUserCentence] = useState("");
-  const [dialogList, setDialogList] = useState<
-    { type: string; element: JSX.Element }[]
-  >([]);
+  const [currentDialogType, setCurrentDialogType] = useState("");
 
   useEffect(() => {
     setTextInWrinting("");
@@ -47,8 +37,8 @@ const WritingBox = (props: IProps) => {
   const onClickHelpJenny = (event: any) => {
     event.preventDefault();
 
-    setDialogType("help");
-    appendDialog("jenny", <DialogJenny />);
+    setCurrentDialogType("help");
+    dialogManager.addHelpJenny();
   };
 
   /**
@@ -58,53 +48,30 @@ const WritingBox = (props: IProps) => {
     event.preventDefault();
     let Dialog = null;
 
-    console.log(writing);
     const result = writingManager.compareAnswer(
       writing.alter_sentences ? writing.alter_sentences : [],
       textInWrinting
     );
-    console.log(textInWrinting);
-    console.log(result);
-
     const element: any = document.getElementById("english_input");
     if (result.isCorrect) {
       // 맞았을 때
       element.setAttribute("readonly", true);
       element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
 
-      setDialogType("correct");
-      Dialog = (
-        <DialogCorrect writing={writing} userCentence={textInWrinting} />
-      );
+      setCurrentDialogType("correct");
+      dialogManager.addCorrect(writing.en_sentence, textInWrinting);
     } else {
       // 정답 틀렸을 때
-      const percent = writingManager.getMatchedWordPercent(textInWrinting);
-      setDialogType("wrong");
-      Dialog = <DialogWrong writing={writing} userCentence={textInWrinting} />;
+      setCurrentDialogType("wrong");
+      dialogManager.addWrong(textInWrinting);
     }
-    appendDialog("jenny", Dialog);
-  };
-
-  const appendDialog = (type: string, element: JSX.Element) => {
-    setDialogList((prev) => [...prev, { type, element }]);
-    setTimeout(() => {
-      var dialogSection = document.getElementById("explain-section");
-      console.log(dialogSection);
-
-      if (dialogSection) {
-        dialogSection.scrollTop = dialogSection.scrollHeight;
-      }
-    }, 500);
   };
 
   const onShowAnswer = () => {
     setUserCentence(textInWrinting);
-    const Dialog = (
-      <DialogAnswer userCentence={userCentence} answer={writing.en_sentence} />
-    );
 
-    setDialogType("answer");
-    appendDialog("jenny", Dialog);
+    setCurrentDialogType("answer");
+    dialogManager.addShowAnswer(textInWrinting);
   };
   return (
     <Container className="bg-white p-4 rounded-lg shadow-sm">
@@ -143,12 +110,11 @@ const WritingBox = (props: IProps) => {
       </div>
       <DialogBox
         writingManager={writingManager}
-        appendDialog={appendDialog}
         moveNextWriting={props.moveNextWriting}
         onShowAnswer={onShowAnswer}
-        setDialogType={setDialogType}
-        dialogList={dialogList}
-        dialogType={dialogType}
+        setCurrentDialogType={setCurrentDialogType}
+        dialogManager={dialogManager}
+        dialogType={currentDialogType}
       />
     </Container>
   );
@@ -156,86 +122,110 @@ const WritingBox = (props: IProps) => {
 
 export default WritingBox;
 
-interface IPropss {
+interface IPropsDialogBox {
   writingManager: WritingManager;
-  appendDialog: any;
+  setCurrentDialogType: any;
+  dialogType: string;
+  dialogManager: DialogManager;
   moveNextWriting: () => void;
   onShowAnswer: () => void;
-  setDialogType: any;
-  dialogList: { type: string; element: JSX.Element }[];
-  dialogType: string;
 }
 const DialogBox = ({
-  writingManager,
-  appendDialog,
   moveNextWriting,
   onShowAnswer,
-  setDialogType,
+  setCurrentDialogType,
+  dialogManager,
   dialogType,
-  dialogList,
-}: IPropss) => {
+}: IPropsDialogBox) => {
   const [hintCount, setHintCount] = useState(0);
+  const [dialogButtons, setDialogButtons] = useState<
+    { text: string; onClick: () => void }[]
+  >();
+  const [visibleSubjectiveHint, setVisibleSubjectiveHint] = useState(false);
+
+  useEffect(() => {
+    getButtonActions();
+  }, [hintCount, dialogButtons]);
 
   const onShowSubjective = () => {
-    const Dialog = (
-      <DialogHint
-        talkText={"주어 힌트는 여기있어!"}
-        hint={writingManager.getSubjective()}
-      />
-    );
-    writingManager.increaseHintNumber();
-    setDialogType("hint");
-    appendDialog("jenny", Dialog);
+    setCurrentDialogType("hint");
+    dialogManager.addSubjectiveHint();
   };
 
   const onShowHint = () => {
-    const Dialog = (
-      <DialogHint
-        talkText={writingManager.getHintTitle()}
-        hint={writingManager.getHintByNumber()}
-      />
+    setCurrentDialogType("hint");
+    dialogManager.addHint(hintCount);
+    setHintCount(hintCount + 1);
+    console.log(hintCount);
+  };
+  const hasMoreHint = () => {
+    console.log(
+      hintCount,
+      dialogManager.getHintSize(),
+      hintCount < dialogManager.getHintSize()
     );
-    writingManager.increaseHintNumber();
-    setDialogType("hint");
-    appendDialog("user", <DialogUser text={"힌트 보여줘!"} />);
-    appendDialog("jenny", Dialog);
+    return hintCount < dialogManager.getHintSize();
   };
 
   const BUTTON_ACTION = {
-    HELP: [
-      {
-        text: "👍첫단어 힌트",
-        onClick: onShowSubjective,
-      },
-      { text: "🙋🏻‍♀️힌트", onClick: onShowHint },
-      { text: "🍰정답 알려줘", onClick: onShowAnswer },
-      { text: "🤞🏻다음 문제 풀래", onClick: moveNextWriting },
-    ],
-    HINT_LAST: [
-      { text: "🍰정답 알려줘", onClick: onShowAnswer },
-      { text: "🤞🏻다음 문제 풀래", onClick: moveNextWriting },
-    ],
-    HINT_NOT_LAST: [
-      { text: "🙋🏻‍♀️힌트", onClick: onShowHint },
-      { text: "🍰정답 알려줘", onClick: onShowAnswer },
-      { text: "🤞🏻다음 문제 풀래", onClick: moveNextWriting },
-    ],
-    ANSWER: [
-      { text: "👨‍🏫설명해줘", onClick: () => alert("준비중인 기능이야") },
-      { text: "🕺다시 풀래", onClick: () => window.location.reload() },
-      { text: "🤞🏻다음 문제 풀래", onClick: moveNextWriting },
-    ],
-    WRONG: [
-      { text: "🙋🏻‍♀️힌트", onClick: onShowHint },
-      { text: "😎다시 풀래", onClick: () => window.location.reload() },
-      { text: "👊🏻다음 문제 풀래", onClick: moveNextWriting },
-    ],
-    CORRECT: [
-      { text: "문장 설명👨‍🏫", onClick: () => alert("준비중인 기능이야") },
-      { text: "다음 문제 풀래😎", onClick: moveNextWriting },
-    ],
+    FIRST_WORD_HINT: {
+      text: "👍 첫단어 힌트",
+      onClick: onShowSubjective,
+    },
+    GIVE_HINT: { text: "🙋🏻‍♀️ 힌트", onClick: onShowHint },
+    GIVE_ANSWER: { text: "🍰 정답 알려줘", onClick: onShowAnswer },
+    NEXT: { text: "😎 다음 문제 풀래", onClick: moveNextWriting },
+    EXPLAIN: { text: "👨‍🏫 설명해줘", onClick: () => alert("준비중인 기능이야") },
+    AGAIN: { text: "🕺다시 풀래", onClick: () => window.location.reload() },
   };
 
+  const getButtonActions = () => {
+    let buttons = [BUTTON_ACTION.GIVE_ANSWER];
+
+    switch (dialogType) {
+      case "help": // 도와줘 제니.
+        buttons = [
+          BUTTON_ACTION.FIRST_WORD_HINT,
+          BUTTON_ACTION.GIVE_HINT,
+          BUTTON_ACTION.GIVE_ANSWER,
+          BUTTON_ACTION.NEXT,
+        ];
+        break;
+      case "hint":
+        buttons = hasMoreHint()
+          ? [
+              BUTTON_ACTION.GIVE_HINT,
+              BUTTON_ACTION.GIVE_ANSWER,
+              BUTTON_ACTION.NEXT,
+            ]
+          : [BUTTON_ACTION.GIVE_ANSWER, BUTTON_ACTION.NEXT];
+
+        break;
+      case "answer":
+        buttons = [
+          BUTTON_ACTION.EXPLAIN,
+          BUTTON_ACTION.AGAIN,
+          BUTTON_ACTION.NEXT,
+        ];
+        break;
+      case "wrong":
+        buttons = buttons = [
+          BUTTON_ACTION.EXPLAIN,
+          BUTTON_ACTION.AGAIN,
+          BUTTON_ACTION.NEXT,
+        ];
+        break;
+
+      case "correct":
+        buttons = buttons = [
+          BUTTON_ACTION.EXPLAIN,
+          BUTTON_ACTION.AGAIN,
+          BUTTON_ACTION.NEXT,
+        ];
+        break;
+    }
+    setDialogButtons(Object.assign(buttons));
+  };
   return (
     <section>
       {/* 왼쪽 이미지 */}
@@ -248,21 +238,40 @@ const DialogBox = ({
         </article>
         <section id="explain-section relative">
           <div>
-            {dialogList.map((dialog, index) => (
+            {dialogManager.getDialogs().map((dialog, index) => (
               <div key={index}>{dialog.element}</div>
             ))}
           </div>
         </section>
         <section>
-          {dialogList.length > 0 && (
-            <DialogButtons
-              type={dialogType}
-              isLastHint={writingManager.hasMoreHint()}
-              buttonActions={BUTTON_ACTION}
-            />
+          {dialogManager.getDialogs().length > 0 && dialogButtons && (
+            <div className="flex justify-end">
+              {dialogButtons.map((item, index) => (
+                <SmallButton
+                  key={index}
+                  text={item.text}
+                  onClick={item.onClick}
+                />
+              ))}
+            </div>
           )}
         </section>
       </div>
     </section>
   );
 };
+
+const SmallButton = ({
+  onClick,
+  text,
+}: {
+  onClick: () => void;
+  text: string;
+}) => (
+  <button
+    onClick={onClick}
+    className="focus:outline-none text-blue-600 text-sm py-1 px-2 rounded-md border border-blue-600 hover:bg-blue-50 ml-1"
+  >
+    {text}
+  </button>
+);
