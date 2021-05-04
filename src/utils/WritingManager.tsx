@@ -54,41 +54,33 @@ export default class WritingManager {
     return Math.round(((wordCount - unMatchedWordCount) / wordCount) * 100);
   };
 
-  /** 정답 후보 문장에서 정답이 있는지 확인하고 object로 리턴 */
-  compareAnswer = (alter_sentences: string[], tryText: string) => {
-    let isCorrect = false;
-    let correctText = "";
-    let bestMatchedText = "";
-    let lestUnMatchedCount = 100;
+  getAnswerWords = () => {
+    return this.convertPlainText(this.writing.en_sentence).split(" ");
+  };
 
-    for (let i = 0; i < alter_sentences.length; i++) {
-      const unMatchedCount = this.getUnMatchedWordCount(
-        alter_sentences[i],
-        tryText
-      );
+  getUserSentenceWords = (tryText: string) => {
+    console.log(this.convertPlainText(tryText).split(" "));
+    return this.convertPlainText(tryText).split(" ");
+  };
 
-      if (
-        this.getUnMatchedWordCount(alter_sentences[i], tryText) <
-        lestUnMatchedCount
-      ) {
-        lestUnMatchedCount = unMatchedCount;
-        bestMatchedText = alter_sentences[i];
-      }
+  isCorrect = (userSentecne: string) => {
+    return userSentecne.trim() === this.writing.en_sentence.trim();
+  };
 
-      const correctPlainText = this.convertPlainText(alter_sentences[i]);
-      const tryPlainText = this.convertPlainText(tryText);
+  isIgnoreCaseCorrect = (userSentecne: string) => {
+    return (
+      userSentecne.trim().toLocaleLowerCase() ===
+      this.writing.en_sentence.trim().toLocaleLowerCase()
+    );
+  };
 
-      if (correctPlainText === tryPlainText) {
-        isCorrect = true;
-        correctText = alter_sentences[i];
-        break;
-      }
-    }
-    return {
-      isCorrect: isCorrect,
-      correctText: correctText,
-      bestMatchedText: bestMatchedText,
-    };
+  isIgnoreSpecialCharCorrect = (userSentecne: string) => {
+    var regExp = /[?.,;:~`!'"]/gi;
+
+    return (
+      userSentecne.trim().replace(regExp, "") ===
+      this.writing.en_sentence.trim().replace(regExp, "")
+    );
   };
 
   /**

@@ -32,7 +32,11 @@ const WritingBox = (props: IProps) => {
   useEffect(() => {
     setTextInWrinting("");
     setUserSentence("setUserSentence");
-  }, []);
+    const englishInput = document.getElementById("english_input");
+    if (englishInput) {
+      englishInput.addEventListener("focus", scrollEvent);
+    }
+  }, [currentDialogType, writingManager]);
 
   const onClickHelpJenny = (event: any) => {
     event.preventDefault();
@@ -47,36 +51,55 @@ const WritingBox = (props: IProps) => {
   const onSubmitChallenge = (event: any) => {
     event.preventDefault();
 
-    const result = writingManager.compareAnswer(
-      writing.alter_sentences ? writing.alter_sentences : [],
-      textInWrinting
-    );
+    const isCorrect = writingManager.isCorrect(textInWrinting);
     const element: any = document.getElementById("english_input");
-    if (result.isCorrect) {
+    if (isCorrect) {
       // 맞았을 때
       element.setAttribute("readonly", true);
       element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
-
       setCurrentDialogType("correct");
       dialogManager.addCorrect(writing.en_sentence, textInWrinting);
     } else {
       // 정답 틀렸을 때
-      setCurrentDialogType("wrong");
-      dialogManager.addWrong(textInWrinting);
+
+      if (writingManager.isIgnoreCaseCorrect(textInWrinting)) {
+        setCurrentDialogType("wrong");
+        dialogManager.addWrong(textInWrinting, "대소문자를 확인해주세요!");
+      } else if (writingManager.isIgnoreSpecialCharCorrect(textInWrinting)) {
+        setCurrentDialogType("wrong");
+        dialogManager.addWrong(
+          textInWrinting,
+          "점이나 쉼표같은 특수문자를 확인해보세요!"
+        );
+      } else {
+        setCurrentDialogType("wrong");
+        dialogManager.addWrong(textInWrinting);
+      }
     }
   };
 
   const onShowAnswer = () => {
     setUserSentence(textInWrinting);
 
-    setCurrentDialogType("answer");
+    setCurrentDialogType("showAnswer");
     dialogManager.addShowAnswer(textInWrinting);
   };
+
+  const scrollEvent = () => {
+    const writingBoxElement: any = document.querySelector("#writing-box");
+    const offsetTop = writingBoxElement.offsetTop;
+
+    window.scroll({
+      top: offsetTop,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <Container className="bg-white p-4 rounded-lg shadow-sm">
+    <Container className="" id="writing-box">
       <FilterNavigation />
       {/* <!-- A marketing page card built entirely with utility classes --> */}
-      <div className="md:flex">
+      <div className="bg-white  md:flex p-4 rounded-lg shadow-sm">
         <div className="md:flex-shrink-0">
           <WritingImage imageUrl={writing.image_url} size={null} />
         </div>
@@ -140,29 +163,24 @@ const DialogBox = ({
   const [dialogButtons, setDialogButtons] = useState<
     { text: string; onClick: () => void }[]
   >();
-  const [visibleSubjectiveHint, setVisibleSubjectiveHint] = useState(false);
+  const [shownSubjectiveHint, setShownSubjectiveHint] = useState(false);
 
   useEffect(() => {
     getButtonActions();
-  }, [hintCount, dialogButtons]);
+  }, [dialogButtons]);
 
   const onShowSubjective = () => {
-    setCurrentDialogType("hint");
+    setCurrentDialogType("giveHint");
+    setShownSubjectiveHint(true);
     dialogManager.addSubjectiveHint();
   };
 
   const onShowHint = () => {
-    setCurrentDialogType("hint");
+    setCurrentDialogType("giveHint");
     dialogManager.addHint(hintCount);
     setHintCount(hintCount + 1);
-    console.log(hintCount);
   };
   const hasMoreHint = () => {
-    console.log(
-      hintCount,
-      dialogManager.getHintSize(),
-      hintCount < dialogManager.getHintSize()
-    );
     return hintCount < dialogManager.getHintSize();
   };
 
@@ -179,49 +197,32 @@ const DialogBox = ({
   };
 
   const getButtonActions = () => {
-    let buttons = [BUTTON_ACTION.GIVE_ANSWER];
+    let buttons: { text: string; onClick: () => void }[] = [];
 
     switch (dialogType) {
       case "help": // 도와줘 제니.
-        buttons = [
-          BUTTON_ACTION.FIRST_WORD_HINT,
-          BUTTON_ACTION.GIVE_HINT,
-          BUTTON_ACTION.GIVE_ANSWER,
-          BUTTON_ACTION.NEXT,
-        ];
-        break;
-      case "hint":
-        buttons = hasMoreHint()
-          ? [
-              BUTTON_ACTION.GIVE_HINT,
-              BUTTON_ACTION.GIVE_ANSWER,
-              BUTTON_ACTION.NEXT,
-            ]
-          : [BUTTON_ACTION.GIVE_ANSWER, BUTTON_ACTION.NEXT];
-
-        break;
-      case "answer":
-        buttons = [
-          BUTTON_ACTION.EXPLAIN,
-          BUTTON_ACTION.AGAIN,
-          BUTTON_ACTION.NEXT,
-        ];
-        break;
+      case "giveHint":
       case "wrong":
-        buttons = buttons = [
-          BUTTON_ACTION.EXPLAIN,
-          BUTTON_ACTION.AGAIN,
-          BUTTON_ACTION.NEXT,
-        ];
+        if (!shownSubjectiveHint) {
+          buttons.push(BUTTON_ACTION.FIRST_WORD_HINT);
+        }
+        if (hasMoreHint()) {
+          buttons.push(BUTTON_ACTION.GIVE_HINT);
+        }
+        buttons.push(BUTTON_ACTION.GIVE_ANSWER);
+        buttons.push(BUTTON_ACTION.NEXT);
         break;
 
       case "correct":
-        buttons = buttons = [
-          BUTTON_ACTION.EXPLAIN,
-          BUTTON_ACTION.AGAIN,
-          BUTTON_ACTION.NEXT,
-        ];
+      case "showAnswer":
+        if (hasMoreHint()) {
+          buttons.push(BUTTON_ACTION.EXPLAIN);
+        }
+        buttons.push(BUTTON_ACTION.AGAIN);
+        buttons.push(BUTTON_ACTION.NEXT);
         break;
+      default:
+        buttons.push(BUTTON_ACTION.NEXT);
     }
     setDialogButtons(Object.assign(buttons));
   };

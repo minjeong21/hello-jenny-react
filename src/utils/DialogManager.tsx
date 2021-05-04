@@ -48,12 +48,15 @@ class DialogManager {
     );
   };
 
-  addWrong = (userSentence: string) => {
+  addWrong = (userSentence: string, moreDescription?: string) => {
     this.appendDialog(
       "jenny",
       <DialogWrong
-        answerSentence={this.answerSentence}
-        userSentence={userSentence}
+        moreDescription={moreDescription}
+        userSentenceWords={this.writingManager.getUserSentenceWords(
+          userSentence
+        )}
+        answerWords={this.writingManager.getAnswerWords()}
         percent={this.writingManager.getMatchedWordPercent(userSentence)}
       />
     );
@@ -68,7 +71,7 @@ class DialogManager {
     this.appendDialog(
       "jenny",
       <DialogHint
-        talkText={"첫 단어는 주어에요!"}
+        talkText={"첫 단어 힌트 갑니다!"}
         hint={this.writingManager.getSubjective()}
       />
     );

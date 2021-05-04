@@ -30,7 +30,7 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
       setWritingManager(manager);
     }
     console.log(writingManager);
-  }, [id, theme, level, manager, writingManager]);
+  }, [id, theme, level, manager]);
 
   const fetchWriting = async (id: number) => {
     const writing = await fetchWritingByNumId(id);
