@@ -16,7 +16,7 @@ const FilterNavigation = () => {
       <div className="w-full pb-3">
         <div className="inline-block mr-2 mt-2">
           <button className="focus:outline-none text-blue-600 text-sm py-2 px-4 rounded-md border border-blue-600 hover:bg-blue-50">
-            모든 형식
+            모든형식
           </button>
         </div>
         <div className="inline-block mr-2 mt-2">
@@ -26,7 +26,7 @@ const FilterNavigation = () => {
         </div>
         <div className="inline-block mr-2 mt-2">
           <button className="focus:outline-none text-green-600 text-sm py-2 px-4 rounded-md border border-green-600 hover:bg-green-50">
-            테마변경
+            모든테마
           </button>
         </div>
       </div>
