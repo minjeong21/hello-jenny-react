@@ -26,12 +26,12 @@ const WritingBox = (props: IProps) => {
   );
   const [writing] = useState(writingManager.getWriting());
   const [textInWrinting, setTextInWrinting] = useState("");
-  const [userCentence, setUserCentence] = useState("");
+  const [userSentence, setUserSentence] = useState("");
   const [currentDialogType, setCurrentDialogType] = useState("");
 
   useEffect(() => {
     setTextInWrinting("");
-    setUserCentence("setUserCentence");
+    setUserSentence("setUserSentence");
   }, []);
 
   const onClickHelpJenny = (event: any) => {
@@ -67,7 +67,7 @@ const WritingBox = (props: IProps) => {
   };
 
   const onShowAnswer = () => {
-    setUserCentence(textInWrinting);
+    setUserSentence(textInWrinting);
 
     setCurrentDialogType("answer");
     dialogManager.addShowAnswer(textInWrinting);

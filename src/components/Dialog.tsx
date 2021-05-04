@@ -32,10 +32,10 @@ export const DialogJenny = () => {
 
 export const DialogAnswer = ({
   answer,
-  userCentence,
+  userSentence,
 }: {
   answer: string;
-  userCentence: string;
+  userSentence: string;
 }) => {
   return (
     <DialogBase>
@@ -46,7 +46,7 @@ export const DialogAnswer = ({
             정답 문장: {answer}
           </div>
           <div className="font-small text-gray-500 pr-12">
-            도전 문장: {userCentence}
+            도전 문장: {userSentence}
           </div>
         </div>
       </div>
@@ -55,11 +55,11 @@ export const DialogAnswer = ({
 };
 
 export const DialogCorrect = ({
-  answerCentence,
-  userCentence,
+  answerSentence,
+  userSentence,
 }: {
-  answerCentence: string;
-  userCentence: string;
+  answerSentence: string;
+  userSentence: string;
 }) => {
   return (
     <>
@@ -67,10 +67,10 @@ export const DialogCorrect = ({
         <div className="">
           <div>와~ 맞췄구나. 정말 대단하다! 대단한 내 친구 뿌듯해! 💕</div>
           <div className="font-small text-gray-500 pr-12">
-            정답문장 : {answerCentence}
+            정답문장 : {answerSentence}
           </div>
           <div className="font-small text-gray-500 pr-12">
-            도전 문장 : {userCentence}
+            도전 문장 : {userSentence}
           </div>
         </div>
       </DialogBase>
@@ -79,12 +79,12 @@ export const DialogCorrect = ({
 };
 export const DialogWrong = ({
   percent,
-  answerCentence,
-  userCentence,
+  answerSentence,
+  userSentence,
 }: {
   percent: number;
-  answerCentence: string;
-  userCentence: string;
+  answerSentence: string;
+  userSentence: string;
 }) => {
   return (
     <>
@@ -92,10 +92,10 @@ export const DialogWrong = ({
         <div>
           <div>앗 아쉬워요, {percent}%. 맞췄어요 💕</div>
           <div className="font-small text-gray-500 pr-12">
-            정답문장 : {answerCentence}
+            정답문장 : {answerSentence}
           </div>
           <div className="font-small text-gray-500 pr-12">
-            도전 문장 : {userCentence}
+            도전 문장 : {userSentence}
           </div>
         </div>
       </DialogBase>

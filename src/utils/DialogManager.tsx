@@ -9,13 +9,13 @@ import WritingManager from "./WritingManager";
 class DialogManager {
   dialogList: { type: string; element: JSX.Element }[];
   writingManager: WritingManager;
-  answerCentence: string;
+  answerSentence: string;
   hintCount: number;
 
   constructor(writingManager: WritingManager) {
     this.dialogList = [];
     this.writingManager = writingManager;
-    this.answerCentence = writingManager.getAnswerCentence();
+    this.answerSentence = writingManager.getAnswerSentence();
     this.hintCount = 0;
   }
 
@@ -38,30 +38,30 @@ class DialogManager {
     this.appendDialog("jenny", <DialogJenny />);
   };
 
-  addCorrect = (answerCentence: string, userCentence: string) => {
+  addCorrect = (answerSentence: string, userSentence: string) => {
     this.appendDialog(
       "jenny",
       <DialogCorrect
-        answerCentence={answerCentence}
-        userCentence={userCentence}
+        answerSentence={answerSentence}
+        userSentence={userSentence}
       />
     );
   };
 
-  addWrong = (userCentence: string) => {
+  addWrong = (userSentence: string) => {
     this.appendDialog(
       "jenny",
       <DialogWrong
-        answerCentence={this.answerCentence}
-        userCentence={userCentence}
-        percent={this.writingManager.getMatchedWordPercent(userCentence)}
+        answerSentence={this.answerSentence}
+        userSentence={userSentence}
+        percent={this.writingManager.getMatchedWordPercent(userSentence)}
       />
     );
   };
-  addShowAnswer = (userCentence: string) => {
+  addShowAnswer = (userSentence: string) => {
     this.appendDialog(
       "jenny",
-      <DialogAnswer userCentence={userCentence} answer={this.answerCentence} />
+      <DialogAnswer userSentence={userSentence} answer={this.answerSentence} />
     );
   };
   addSubjectiveHint = () => {

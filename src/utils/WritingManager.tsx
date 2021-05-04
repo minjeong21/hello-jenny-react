@@ -109,7 +109,7 @@ export default class WritingManager {
       return this.writing.kr_sentence;
     }
   };
-  getAnswerCentence = () => {
+  getAnswerSentence = () => {
     return this.writing.en_sentence;
   };
 
