@@ -61,7 +61,7 @@ const Home = ({ writings, manager }: IProps) => {
 
               {writings && writings.length ? (
                 <WritingList
-                  writingList={writings}
+                  writingList={writings.splice(0, 3)}
                   moveWriting={() => pathMaanger.goRandomPath(writings)}
                 />
               ) : (
