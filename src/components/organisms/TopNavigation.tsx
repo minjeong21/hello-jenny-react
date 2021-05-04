@@ -1,4 +1,5 @@
 import { Popover, Transition, Menu } from "@headlessui/react";
+import { useState } from "react";
 import PathManager from "utils/PathManager";
 import IWriting from "interface/IWriting";
 import { Link, useHistory } from "react-router-dom";
@@ -22,6 +23,8 @@ const Container = styled.nav`
 `;
 
 const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
+  const [visible, setVisible] = useState(false);
+
   const pathManager = new PathManager(useHistory());
 
   const moveRandomWriting = () => {
@@ -42,7 +45,7 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
 
   return (
     <Container className="absolute top-0 w-full">
-      <div className="p-4 bg-white min-h-screen md:min-h-0 border-b ">
+      <div className="p-4 bg-white md:min-h-0 border-b ">
         <nav className="flex px-4 items-center relative">
           <div className="text-lg font-bold md:py-0 py-4">
             <a href="/">
@@ -55,7 +58,8 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
               />
             </a>
           </div>
-          <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
+          <ul className="md:hidden">햄버거</ul>
+          <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0 hidden md:block">
             <li className="self-center">
               <button
                 onClick={moveRandomWriting}
