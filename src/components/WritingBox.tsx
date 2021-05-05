@@ -15,34 +15,38 @@ const Container = styled.div`
 `;
 
 interface IProps {
+  writingId: number;
   writingManager: WritingManager;
   moveNextWriting: () => void;
 }
 
 const WritingBox = (props: IProps) => {
-  const { writingManager } = props;
-  const [dialogManager] = useState<DialogManager>(
+  const { writingId, writingManager } = props;
+  const [dialogManager, setDialogManager] = useState<DialogManager>(
     new DialogManager(writingManager)
   );
-  const [writing] = useState(writingManager.getWriting());
+
+  const [dialogCount, setDialogCount] = useState(0);
   const [textInWrinting, setTextInWrinting] = useState("");
   const [userSentence, setUserSentence] = useState("");
   const [currentDialogType, setCurrentDialogType] = useState("");
 
   useEffect(() => {
     setTextInWrinting("");
-    setUserSentence("setUserSentence");
+    setUserSentence("");
+    setDialogManager(new DialogManager(writingManager));
     const englishInput = document.getElementById("english_input");
     if (englishInput) {
       englishInput.addEventListener("focus", scrollEvent);
     }
-  }, [currentDialogType, writingManager]);
+  }, [writingId]);
 
   const onClickHelpJenny = (event: any) => {
     event.preventDefault();
 
     setCurrentDialogType("help");
     dialogManager.addHelpJenny();
+    setDialogCount(dialogCount + 1);
   };
 
   /**
@@ -58,7 +62,10 @@ const WritingBox = (props: IProps) => {
       element.setAttribute("readonly", true);
       element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
       setCurrentDialogType("correct");
-      dialogManager.addCorrect(writing.en_sentence, textInWrinting);
+      dialogManager.addCorrect(
+        writingManager.getAnswerSentence(),
+        textInWrinting
+      );
     } else {
       // 정답 틀렸을 때
 
@@ -76,13 +83,14 @@ const WritingBox = (props: IProps) => {
         dialogManager.addWrong(textInWrinting);
       }
     }
+    setDialogCount(dialogCount + 1);
   };
 
   const onShowAnswer = () => {
     setUserSentence(textInWrinting);
-
     setCurrentDialogType("showAnswer");
     dialogManager.addShowAnswer(textInWrinting);
+    setDialogCount(dialogCount + 1);
   };
 
   const scrollEvent = () => {
@@ -99,26 +107,28 @@ const WritingBox = (props: IProps) => {
     <Container className="" id="writing-box">
       <FilterNavigation />
       {/* <!-- A marketing page card built entirely with utility classes --> */}
-      <div className="bg-white  md:flex p-4 rounded-lg shadow-sm">
+      <div className="bg-white  md:flex p-4 rounded-lg shadow-custom">
         <div className="md:flex-shrink-0">
-          <WritingImage imageUrl={writing.image_url} size={null} />
+          <WritingImage imageUrl={writingManager.getImageURL()} size={null} />
         </div>
         <div className="mt-4 md:mt-0 md:ml-6 flex-1">
           <div>
             <div className="uppercase tracking-wide text-sm">
               <div className="flex justify-between pb-6">
                 <div className="text-gray-500">
-                  {writing.themes[0].display_name.toLowerCase()}
+                  {writingManager.getMainTheme()}
                 </div>
-                <Level levelNumber={writing.level} />
+                <Level levelNumber={writingManager.getLevel()} />
               </div>
             </div>
 
-            {writing.situation && (
-              <p className="mt-2 text-gray-400 text-sm">{writing.situation}</p>
+            {writingManager.getSituation() && (
+              <p className="mt-2 text-gray-400 text-sm">
+                {writingManager.getSituation()}
+              </p>
             )}
             <div className="block mt-1 text-lg leading-tight font-semibold text-gray-900 font-bold pb-3">
-              {writing.kr_sentence}
+              {writingManager.getKoreanSentence()}
             </div>
           </div>
 
@@ -137,6 +147,8 @@ const WritingBox = (props: IProps) => {
         setCurrentDialogType={setCurrentDialogType}
         dialogManager={dialogManager}
         dialogType={currentDialogType}
+        dialogCount={dialogCount}
+        setDialogCount={setDialogCount}
       />
     </Container>
   );
@@ -149,15 +161,19 @@ interface IPropsDialogBox {
   setCurrentDialogType: any;
   dialogType: string;
   dialogManager: DialogManager;
+  dialogCount: number;
   moveNextWriting: () => void;
   onShowAnswer: () => void;
+  setDialogCount: (value: number) => void;
 }
 const DialogBox = ({
   moveNextWriting,
   onShowAnswer,
+  setDialogCount,
   setCurrentDialogType,
   dialogManager,
   dialogType,
+  dialogCount,
 }: IPropsDialogBox) => {
   const [hintCount, setHintCount] = useState(0);
   const [dialogButtons, setDialogButtons] = useState<
@@ -167,11 +183,12 @@ const DialogBox = ({
 
   useEffect(() => {
     getButtonActions();
-  }, [dialogButtons]);
+  }, [dialogCount]);
 
   const onShowSubjective = () => {
     setCurrentDialogType("giveHint");
     setShownSubjectiveHint(true);
+    setDialogCount(dialogCount + 1);
     dialogManager.addSubjectiveHint();
   };
 
@@ -179,6 +196,7 @@ const DialogBox = ({
     setCurrentDialogType("giveHint");
     dialogManager.addHint(hintCount);
     setHintCount(hintCount + 1);
+    setDialogCount(dialogCount + 1);
   };
   const hasMoreHint = () => {
     return hintCount < dialogManager.getHintSize();

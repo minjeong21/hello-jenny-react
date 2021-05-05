@@ -104,11 +104,33 @@ export default class WritingManager {
   getAnswerSentence = () => {
     return this.writing.en_sentence;
   };
+  getId = () => {
+    return this.writing.id;
+  };
 
   getHintByNumber = (number: number) => {
     return this.writing.hints[number];
   };
   getHintSize = () => {
     return this.writing.hints.length;
+  };
+  getImageURL = () => {
+    return this.writing.image_url;
+  };
+  getMainTheme = () => {
+    if (this.writing.themes && this.writing.themes.length > 0) {
+      return this.writing.themes[0].display_name.toLowerCase();
+    } else {
+      return null;
+    }
+  };
+  getLevel = () => {
+    return this.writing.level;
+  };
+  getSituation = () => {
+    return this.writing.situation;
+  };
+  getKoreanSentence = () => {
+    return this.writing.kr_sentence;
   };
 }

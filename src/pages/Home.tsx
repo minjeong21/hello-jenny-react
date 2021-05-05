@@ -45,6 +45,7 @@ const Home = ({ writings, manager }: IProps) => {
           <section className="pt-12 ">
             {manager && writings ? (
               <WritingBox
+                writingId={manager.getId()}
                 writingManager={manager}
                 moveNextWriting={() => pathMaanger.goRandomPath(writings)}
               />

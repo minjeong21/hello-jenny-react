@@ -54,6 +54,7 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
             />
           </div>
           <WritingBox
+            writingId={writingManager.getId()}
             writingManager={writingManager}
             moveNextWriting={moveNextWriting}
           />
