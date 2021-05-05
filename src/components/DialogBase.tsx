@@ -5,19 +5,32 @@ const Container = styled.div`
     height: 0;
     margin: 10px 0px;
     border-top: 10px solid transparent;
-    border-right: 20px solid rgb(189, 236, 203);
+    border-right: 20px solid rgba(243, 244, 246);
     border-bottom: 10px solid transparent;
+  }
+  .avatar-bg {
+    border-radius: 25px;
+  }
+  .avatar {
+    height: 40px;
+    width: 40px;
   }
 `;
 const DialogBase = ({ children }: { children: any }) => {
   return (
-    <Container className="flex m-1">
+    <Container className="flex m-2 mt-3 md:pl-40">
       <div>
-        <img src="/assets/small-quokka.png" width="50" alt="avatar" />
+        <div className="avatar-bg p-1 flex justify-center aligns-center bg-brown-200">
+          <img
+            className="avatar"
+            src="/assets/jenny-avatar.png"
+            alt="quokka avatar"
+          />
+        </div>
       </div>
-      <div className="relative self-center">
+      <div className="relative self-center flex-1">
         <div className="absolute triangle-left left-0 "></div>
-        <div className="bg-green-100 p-2 flex-1 flex flex-row items-center rounded-lg ml-4">
+        <div className="bg-gray-100 py-2 px-4 rounded-lg ml-4 fit-w shadow-md">
           {children}
         </div>
       </div>

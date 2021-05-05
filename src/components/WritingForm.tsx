@@ -26,7 +26,7 @@ const WritingForm = ({
         <div className="p-2">
           <input
             type="submit"
-            className="bg-primary-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded"
             value="정답 도전!"
           />
         </div>
@@ -36,7 +36,7 @@ const WritingForm = ({
             <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
           </span>
           <button
-            className="bg-primary-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded"
             onClick={(e) => onClickHelpJenny(e)}
           >
             도와줘 제니
