@@ -12,7 +12,7 @@ const WritingForm = ({
   return (
     <form className="rounded" onSubmit={onSubmitChallenge}>
       <input
-        className="border-gray-400 font-medium rounded my-2 p-2  text-pink-600"
+        className="border-gray-400 rounded my-2 p-2 text-lg "
         placeholder="영작하기"
         height="500"
         id="english_input"
@@ -26,7 +26,7 @@ const WritingForm = ({
         <div className="p-2">
           <input
             type="submit"
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-primary-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             value="정답 도전!"
           />
         </div>
@@ -36,7 +36,7 @@ const WritingForm = ({
             <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
           </span>
           <button
-            className="bg-yellow-400 hover:bg-green-300 text-white font-bold py-2 px-4 rounded"
+            className="bg-primary-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             onClick={(e) => onClickHelpJenny(e)}
           >
             도와줘 제니
