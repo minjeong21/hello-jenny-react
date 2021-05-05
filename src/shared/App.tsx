@@ -46,12 +46,12 @@ const App = () => {
 
         <Footer />
       </Route>
-      <Route path="/writing*(/+)">
+      <Route path="/writing">
         <TopNavigation writings={writings ? writings : null} />
         <Detail manager={writingManager} />
         <Footer />
       </Route>
-      <Route path="/speaking/:id*(/+)">
+      <Route path="/speaking/:id">
         <TopNavigation writings={writings ? writings : null} />
         <Speaking
           manager={writingManager ? writingManager : null}
