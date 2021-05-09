@@ -1,17 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import DialogBase from "components/DialogBase";
+import styled from "styled-components";
+
+const Description = ({ children }: { children: any }) => (
+  <div className="font-small pt-2 pr-12 whitespace-pre-line">{children}</div>
+);
+
+const Title = ({ children }: { children: any }) => (
+  <div className="font-cute font-bold pb-2">{children}</div>
+);
 
 export const DialogHint = ({
   talkText,
   hint,
+  hintMore,
 }: {
   talkText: string;
   hint: string;
+  hintMore?: string;
 }) => {
+  const [visibleMore, setVisibleMore] = useState(false);
   return (
     <DialogBase>
-      <div className="font-cute text-lg pb-2">{talkText}</div>
-      <div className="font-small pr-12 whitespace-pre-line">{hint}</div>
+      <Title>{talkText}</Title>
+      <Description
+        children={
+          <>
+            {hint}
+            {hintMore && !visibleMore && (
+              <button
+                className="ml-2 bg-primary-500 p-3 text-white rounded px-2 py-1 text-sm"
+                onClick={() => setVisibleMore(true)}
+              >
+                더보기
+              </button>
+            )}
+
+            {visibleMore && (
+              <div className="py-2 text-sm text-gray-600">{hintMore}</div>
+            )}
+          </>
+        }
+      />
     </DialogBase>
   );
 };
@@ -19,7 +49,7 @@ export const DialogHint = ({
 export const DialogJenny = () => {
   return (
     <DialogBase>
-      <div className="font-cute text-lg  pb-2">
+      <div className="font-cute font-bold pb-2">
         저 왔어요~ 뭘 도와드릴까요?{" "}
       </div>
     </DialogBase>
@@ -36,7 +66,7 @@ export const DialogAnswer = ({
   return (
     <DialogBase>
       <div className="">
-        <div className="font-cute text-lg font-bold pb-2">
+        <div className="font-cute font-bold pb-2">
           정답은 이거에요! 잘하셨어요!{" "}
         </div>
         <div>
@@ -90,7 +120,7 @@ export const DialogWrong = ({
     <>
       <DialogBase>
         <div>
-          <div className="font-cute text-lg font-bold pb-2">
+          <div className="font-cute font-bold pb-2">
             앗 아쉬워요, {percent}% 단어가 맞았어요.💕 (
             <span className="text-blue-700">&nbsp;파랑이 맞는 단어</span>,{" "}
             <span className="text-pink-600">빨강이 틀린 단어에요.</span>)

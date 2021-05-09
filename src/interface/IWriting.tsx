@@ -15,6 +15,7 @@ export default interface IWriting {
     id: number;
     name: string;
     description: string;
+    description_more: string;
     type: string;
   }[];
 }

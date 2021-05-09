@@ -111,6 +111,9 @@ class DialogManager {
       <DialogHint
         talkText={talkText}
         hint={this.writingManager.getHintByNumber(hintCount).description}
+        hintMore={
+          this.writingManager.getHintByNumber(hintCount).description_more
+        }
       />
     );
   };
