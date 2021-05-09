@@ -15,7 +15,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.3;
-  background-color: #ececea;
 }
 
 code {
@@ -28,9 +27,12 @@ code {
 }
 
 .font-cute {
-  color: #111111;
   font-family: 'Poor Story', cursive;
 
+}
+
+.shadow-custom {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .video-container {
@@ -55,8 +57,113 @@ code {
   height: fit-content;
 }
 
+.fit-w {
+  width: fit-content;
+}
+
 section {
   max-width: 860px;
   margin: 0 auto;
+}
 
+.text-primary-200 {
+  color: #d5fffe;
+}
+
+.text-primary-300 {
+  color: #53cfc8;
+}
+
+.text-primary-500 {
+  color: #53cfc8;
+}
+
+.text-primary-600 {
+  color: #31cfca;
+}
+
+.text-primary-700 {
+  color: #00b6b0;
+}
+
+.bg-primary-200 {
+  background-color: #d5fffe;
+}
+
+.bg-primary-300 {
+  background-color: #53cfc8;
+}
+
+.bg-primary-500 {
+  background-color: #31cfca;
+}
+
+.bg-primary-600 {
+  background-color: #00b6b0;
+}
+
+.bg-primary-700 {
+  background-color: #1fb8b4;
+}
+
+.bg-brown-200 {
+  background-color: #EBC9B8;
+}
+
+.bg-brown-300 {
+  background-color: #EBC9B8;
+}
+
+.bg-brown-500 {
+  background-color: #a67862;
+}
+
+.bg-brown-600 {
+  background-color: #976d59
+}
+
+
+.text-brown-200 {
+  color: #EBC9B8;
+}
+
+.text-brown-300 {
+  color: #EBC9B8;
+}
+
+.text-brown-500 {
+  color: #a67862;
+}
+
+.text-brown-600 {
+  color: #976d59
+}
+
+
+
+
+/* Secondary */
+.text-secondary-300 {
+  color: #b7f637;
+}
+
+.text-secondary-500 {
+  color: #9acd32;
+}
+
+.text-secondary-600 {
+  color: #83b027;
+}
+
+.bg-secondary-300 {
+  background-color: #b7f637;
+}
+
+.bg-secondary-500 {
+  background-color: #9acd32;
+
+}
+
+.bg-secondary-600 {
+  background-color: #83b027
 }
