@@ -18,9 +18,9 @@ export const fetchRecapWritings = async () => {
     });
 };
 
-export const fetch = async () => {
+export const fetchWritings = async () => {
   return instance
-    .get("/recap/")
+    .get("/writings/")
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);
