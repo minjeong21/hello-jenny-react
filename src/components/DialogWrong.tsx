@@ -9,20 +9,26 @@ const DialogWrong = ({
   userSentenceWords,
   answerWords,
   moreDescription,
+  isShowHelp,
 }: {
   percent: number;
   userSentenceWords: string[];
   answerWords: string[];
   moreDescription?: string;
+  isShowHelp: boolean;
 }) => {
   return (
     <>
       <DialogBase>
         <div>
           <DialogTitle>
-            앗 아쉬워요, {percent}% 단어가 맞았어요.💕 (
-            <span className="text-blue-700">&nbsp;파랑이 맞는 단어</span>,{" "}
-            <span className="text-pink-600">빨강이 틀린 단어에요.</span>)
+            앗 아쉬워요, {percent}% 단어가 맞았어요.💕
+            {!isShowHelp && (
+              <>
+                <span className="text-blue-700">&nbsp;(파랑이 맞는 단어, </span>
+                <span className="text-pink-600">빨강이 틀린 단어에요.</span>)
+              </>
+            )}
           </DialogTitle>
           {moreDescription ? <div>{moreDescription}</div> : null}
 

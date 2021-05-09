@@ -47,10 +47,15 @@ class DialogManager {
     );
   };
 
-  addWrong = (userSentence: string, moreDescription?: string) => {
+  addWrong = (
+    userSentence: string,
+    isShowColorHelp: boolean,
+    moreDescription?: string
+  ) => {
     this.appendDialog(
       "jenny",
       <DialogWrong
+        isShowHelp={isShowColorHelp}
         moreDescription={moreDescription}
         userSentenceWords={this.writingManager.getUserSentenceWords(
           userSentence

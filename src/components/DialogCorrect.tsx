@@ -15,12 +15,12 @@ const DialogCorrect = ({
   return (
     <>
       <DialogBase>
-        <DialogTitle>
-          와~ 맞췄구나. 정말 대단하다! 대단한 내 친구 뿌듯해! 💕
-        </DialogTitle>
+        <DialogTitle>와~ 맞았어요! 정말 대단하시군요! 💕</DialogTitle>
         <DialogDescription>
-          <div>정답문장 : {answerSentence}</div>
-          <div>도전문장 : {userSentence}</div>
+          <div className="flex">
+            <div className="bg-brown-200 rounded px-1 mr-2">도전 문장</div>
+            <div>{userSentence}</div>
+          </div>
         </DialogDescription>
       </DialogBase>
     </>

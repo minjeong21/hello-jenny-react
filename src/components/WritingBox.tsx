@@ -30,13 +30,17 @@ const WritingBox = (props: IProps) => {
   const [textInWrinting, setTextInWrinting] = useState("");
   const [userSentence, setUserSentence] = useState("");
   const [currentDialogType, setCurrentDialogType] = useState("");
+  const [isShowColorHelp, setIsShowColorHelp] = useState(false);
 
   useEffect(() => {
     setTextInWrinting("");
     setUserSentence("");
     setDialogManager(new DialogManager(writingManager));
-    const englishInput = document.getElementById("english_input");
+    const englishInput: any = document.getElementById("english_input");
+
     if (englishInput) {
+      englishInput.readOnly = false;
+      englishInput.setAttribute("style", "background-color: white");
       englishInput.addEventListener("focus", scrollEvent);
     }
   }, [writingId]);
@@ -68,20 +72,25 @@ const WritingBox = (props: IProps) => {
       );
     } else {
       // 정답 틀렸을 때
-
       if (writingManager.isIgnoreCaseCorrect(textInWrinting)) {
         setCurrentDialogType("wrong");
-        dialogManager.addWrong(textInWrinting, "대소문자를 확인해주세요!");
+        dialogManager.addWrong(
+          textInWrinting,
+          isShowColorHelp,
+          "대소문자를 확인해주세요!"
+        );
       } else if (writingManager.isIgnoreSpecialCharCorrect(textInWrinting)) {
         setCurrentDialogType("wrong");
         dialogManager.addWrong(
           textInWrinting,
+          isShowColorHelp,
           "점이나 쉼표같은 특수문자를 확인해보세요!"
         );
       } else {
         setCurrentDialogType("wrong");
-        dialogManager.addWrong(textInWrinting);
+        dialogManager.addWrong(textInWrinting, isShowColorHelp);
       }
+      setIsShowColorHelp(true);
     }
     setDialogCount(dialogCount + 1);
   };

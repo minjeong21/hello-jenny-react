@@ -15,11 +15,13 @@ const DialogAnswer = ({
     <DialogBase>
       <DialogTitle>정답은 이거에요! 잘했어요!!</DialogTitle>
       <DialogDescription>
-        <div className="font-small pr-12 whitespace-pre-line">
-          정답 문장: {answer}
+        <div className="flex">
+          <div className="bg-brown-200 rounded px-1 mr-2">정답 문장</div>
+          <div>{answer}</div>
         </div>
-        <div className="font-small pr-12 whitespace-pre-line">
-          도전 문장: {userSentence}
+        <div className="flex">
+          <div className="bg-brown-200 rounded px-1 mr-2">도전 문장</div>
+          <div> {userSentence}</div>
         </div>
       </DialogDescription>
     </DialogBase>

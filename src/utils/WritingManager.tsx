@@ -50,17 +50,19 @@ export default class WritingManager {
       tryText
     );
     const wordCount = this.writing.en_sentence.split(" ").length;
+    const matchedPercent = Math.round(
+      ((wordCount - unMatchedWordCount) / wordCount) * 100
+    );
 
-    return Math.round(((wordCount - unMatchedWordCount) / wordCount) * 100);
+    return matchedPercent > 0 ? matchedPercent : 0;
   };
 
   getAnswerWords = () => {
-    return this.convertPlainText(this.writing.en_sentence).split(" ");
+    return this.writing.en_sentence.split(" ");
   };
 
   getUserSentenceWords = (tryText: string) => {
-    console.log(this.convertPlainText(tryText).split(" "));
-    return this.convertPlainText(tryText).split(" ");
+    return tryText.split(" ");
   };
 
   isCorrect = (userSentecne: string) => {
@@ -87,6 +89,7 @@ export default class WritingManager {
    * 문장이 긴 경우 말줄임표
    * */
 
+  /** 영어 문장 주어 return */
   getSubjective = () => {
     const firstWord = this.writing.first_word
       ? this.writing.first_word
