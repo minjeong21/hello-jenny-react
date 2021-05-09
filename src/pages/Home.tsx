@@ -33,7 +33,7 @@ interface IProps {
 }
 
 const Home = ({ writings, manager }: IProps) => {
-  const pathMaanger = new PathManager(useHistory());
+  const pathManager = new PathManager(useHistory());
 
   return (
     <main className="pt-20">
@@ -47,7 +47,7 @@ const Home = ({ writings, manager }: IProps) => {
               <WritingBox
                 writingId={manager.getId()}
                 writingManager={manager}
-                moveNextWriting={() => pathMaanger.goRandomPath(writings)}
+                moveNextWriting={() => pathManager.goRandomPath(writings)}
               />
             ) : (
               <div>Loading...</div>
@@ -62,7 +62,7 @@ const Home = ({ writings, manager }: IProps) => {
               {writings && writings.length ? (
                 <WritingList
                   writingList={writings.splice(0, 3)}
-                  moveWriting={() => pathMaanger.goRandomPath(writings)}
+                  moveWriting={() => pathManager.goRandomPath(writings)}
                 />
               ) : (
                 <div>Loading...</div>
