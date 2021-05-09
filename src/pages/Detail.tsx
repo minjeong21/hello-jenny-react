@@ -1,22 +1,33 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import WritingManager from "utils/WritingManager";
 import WritingBox from "components/WritingBox";
 import styled from "styled-components";
 import { fetchWritingByNumId } from "apis/WritingApi";
+import IWriting from "interface/IWriting";
+import PathManager from "utils/PathManager";
 
 interface ParamTypes {
   id?: string;
   theme?: string;
   level?: string;
+  moveNextWriting: string;
 }
 
+interface IProps {}
 const Main = styled.main`
   min-height: calc(100vh - 45px);
 `;
-const Detail = ({ manager }: { manager?: WritingManager }) => {
+const Detail = ({
+  manager,
+  writings,
+}: {
+  manager?: WritingManager;
+  writings: IWriting[] | null;
+}) => {
   let { id, theme, level } = useParams<ParamTypes>();
   const [writingManager, setWritingManager] = useState<WritingManager>();
+  const pathManager = new PathManager(useHistory());
 
   // TODO: Wraning 처리 (React Hook useEffect has missing dependencies)
   useEffect(() => {
@@ -37,11 +48,9 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
     setWritingManager(new WritingManager(writing.data));
   };
 
-  const moveNextWriting = () => {};
-
   return (
     <Main className=" pt-20">
-      {writingManager ? (
+      {writingManager && writings ? (
         <section className="py-20 ">
           <div className="flex justify-end">
             <div className="flex bg-primary-200 fit-h self-center p-2 rounded  font-cute">
@@ -56,7 +65,7 @@ const Detail = ({ manager }: { manager?: WritingManager }) => {
           <WritingBox
             writingId={writingManager.getId()}
             writingManager={writingManager}
-            moveNextWriting={moveNextWriting}
+            moveNextWriting={() => pathManager.goRandomPath(writings)}
           />
         </section>
       ) : (

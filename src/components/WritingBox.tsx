@@ -137,6 +137,7 @@ const WritingBox = (props: IProps) => {
             onSubmitChallenge={onSubmitChallenge}
             textInWrinting={textInWrinting}
             onClickHelpJenny={onClickHelpJenny}
+            moveNextWriting={props.moveNextWriting}
           />
         </div>
       </div>

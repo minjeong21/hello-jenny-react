@@ -3,14 +3,16 @@ const WritingForm = ({
   onSubmitChallenge,
   textInWrinting,
   onClickHelpJenny,
+  moveNextWriting,
 }: {
   onClickHelpJenny: any;
   setTextInWrinting: any;
   onSubmitChallenge: any;
+  moveNextWriting: () => void;
   textInWrinting: string;
 }) => {
   return (
-    <form className="rounded" onSubmit={onSubmitChallenge}>
+    <form className="rounded" onSubmit={onSubmitChallenge} id="writing-form">
       <input
         className="border-gray-400 rounded my-2 p-2 text-lg "
         placeholder="영작하기"
@@ -40,6 +42,12 @@ const WritingForm = ({
             onClick={(e) => onClickHelpJenny(e)}
           >
             도와줘 제니
+          </button>
+          <button
+            className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded ml-2"
+            onClick={moveNextWriting}
+          >
+            다른 문제 풀기
           </button>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Home, Detail, Speaking } from "../pages";
-import { fetchRecapWritings } from "apis/WritingApi";
+import { fetchRecapWritings, fetchWritings } from "apis/WritingApi";
 import WritingManager from "utils/WritingManager";
 import IWriting from "interface/IWriting";
 import TopNavigation from "components/organisms/TopNavigation";
@@ -12,18 +12,24 @@ const App = () => {
 
   useEffect(() => {
     fetchRecapWriting();
+    fetchWritingList();
   }, []);
 
   const fetchRecapWriting = async () => {
     const response = await fetchRecapWritings();
     if (response) {
-      setWritings(response.writings);
       setWritingManager(new WritingManager(response.rep_writing));
-    } else {
-      return [];
+    }
+  };
+  const fetchWritingList = async () => {
+    const response = await fetchWritings();
+    if (response) {
+      console.log(response);
+      setWritings(response.data);
     }
   };
 
+  console.log(writings);
   return (
     <Switch>
       <Route exact path="/">
@@ -36,19 +42,22 @@ const App = () => {
       </Route>
       <Route path="/writing/:id/:theme/">
         <TopNavigation writings={writings ? writings : null} />
-        <Detail />
+        <Detail writings={writings ? writings : null} />
 
         <Footer />
       </Route>
       <Route exact path="/writing/:id/">
         <TopNavigation writings={writings ? writings : null} />
-        <Detail />
+        <Detail writings={writings ? writings : null} />
 
         <Footer />
       </Route>
       <Route path="/writing">
         <TopNavigation writings={writings ? writings : null} />
-        <Detail manager={writingManager} />
+        <Detail
+          manager={writingManager}
+          writings={writings ? writings : null}
+        />
         <Footer />
       </Route>
       <Route path="/speaking/:id">
