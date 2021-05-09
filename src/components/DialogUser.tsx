@@ -1,50 +1,5 @@
-import React, { useState } from "react";
 import DialogBase from "components/DialogBase";
 import styled from "styled-components";
-
-const Description = ({ children }: { children: any }) => (
-  <div className="font-small pt-2 pr-12 whitespace-pre-line">{children}</div>
-);
-
-const Title = ({ children }: { children: any }) => (
-  <div className="font-cute font-bold pb-2">{children}</div>
-);
-
-export const DialogHint = ({
-  talkText,
-  hint,
-  hintMore,
-}: {
-  talkText: string;
-  hint: string;
-  hintMore?: string;
-}) => {
-  const [visibleMore, setVisibleMore] = useState(false);
-  return (
-    <DialogBase>
-      <Title>{talkText}</Title>
-      <Description
-        children={
-          <>
-            {hint}
-            {hintMore && !visibleMore && (
-              <button
-                className="ml-2 bg-primary-500 p-3 text-white rounded px-2 py-1 text-sm"
-                onClick={() => setVisibleMore(true)}
-              >
-                더보기
-              </button>
-            )}
-
-            {visibleMore && (
-              <div className="py-2 text-sm text-gray-600">{hintMore}</div>
-            )}
-          </>
-        }
-      />
-    </DialogBase>
-  );
-};
 
 export const DialogJenny = () => {
   return (

@@ -1,10 +1,9 @@
-import {
-  DialogHint,
-  DialogJenny,
-  DialogAnswer,
-  DialogCorrect,
-  DialogWrong,
-} from "components/Dialog";
+import React from "react";
+import DialogAnswer from "components/DialogAnswer";
+import DialogCorrect from "components/DialogCorrect";
+import DialogHint from "components/DialogHInt";
+import DialogJenny from "components/DialogJenny";
+import DialogWrong from "components/DialogWrong";
 import WritingManager from "./WritingManager";
 class DialogManager {
   dialogList: { type: string; element: JSX.Element }[];

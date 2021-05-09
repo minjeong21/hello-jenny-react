@@ -38,4 +38,11 @@ const DialogBase = ({ children }: { children: any }) => {
   );
 };
 
+export const DialogTitle = ({ children }: { children: any }) => (
+  <div className="font-cute font-bold pb-2">{children}</div>
+);
+
+export const DialogDescription = ({ children }: { children: any }) => (
+  <div className="text-sm pr-12 whitespace-pre-line">{children}</div>
+);
 export default DialogBase;
