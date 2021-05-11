@@ -13,10 +13,10 @@ const DialogAnswer = ({
 }) => {
   return (
     <DialogBase>
-      <DialogTitle>정답은 이거에요! 잘했어요!!</DialogTitle>
+      <DialogTitle>모범 답안은 이거에요! 잘했어요!!</DialogTitle>
       <DialogDescription>
         <div className="flex">
-          <div className="bg-brown-200 rounded px-1 mr-2">정답 문장</div>
+          <div className="bg-brown-200 rounded px-1 mr-2">모범 답안</div>
           <div>{answer}</div>
         </div>
         <div className="flex">

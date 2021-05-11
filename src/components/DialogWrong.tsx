@@ -23,7 +23,7 @@ const DialogWrong = ({
         <div>
           <DialogTitle>
             {moreDescription ? (
-              <div>🍀 단어는 모두 맞았어요! {moreDescription}</div>
+              <div>🍀 단어는 모두 맞았지만.. {moreDescription}</div>
             ) : (
               <div>🍀 앗 아쉬워요, {percent}% 단어가 맞았어요.</div>
             )}

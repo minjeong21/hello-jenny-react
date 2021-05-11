@@ -135,9 +135,7 @@ const WritingBox = (props: IProps) => {
             <div className="uppercase tracking-wide text-sm">
               <div className="flex pb-6">
                 <Level levelNumber={writingManager.getLevel()} />
-                <div className="ml-2 font-bold rounded text-gray-600">
-                  {writingManager.getMainTheme()}
-                </div>
+                <div className="ml-2 ">{writingManager.getMainTheme()}</div>
               </div>
             </div>
 
@@ -146,7 +144,7 @@ const WritingBox = (props: IProps) => {
                 {writingManager.getSituation()}
               </p>
             )}
-            <div className="block mt-1 text-lg leading-tight font-semibold text-gray-900 font-bold pb-3">
+            <div className="block mt-1 text-2xl leading-tight font-semibold text-gray-900 font-bold pb-3">
               {writingManager.getKoreanSentence()}
             </div>
           </div>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 const Image = styled.div<{ src: string; size?: string }>`
   background-image: url(${(props) => props.src});
-  height: 205px;
+  height: 100%;
   width: ${(props) => (props.size ? props.size : "250px")};
   background-size: cover;
   background-position: center;
@@ -13,9 +13,9 @@ interface IProps {
 }
 const WritingImage = ({ imageUrl, size }: IProps) => {
   return (
-    <div>
+    <>
       {size ? <Image src={imageUrl} size={size} /> : <Image src={imageUrl} />}
-    </div>
+    </>
   );
 };
 

@@ -65,11 +65,11 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
                 onClick={moveRandomWriting}
                 className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
               >
-                랜덤 영작
+                영작 연습
               </button>
             </li>
 
-            <li className="relative parent">
+            {/* <li className="relative parent">
               <button
                 onClick={moveRandomWriting}
                 className="flex justify-between md:inline-flex p-4 items-center hover:bg-gray-50 space-x-2"
@@ -123,7 +123,7 @@ const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
                   </li>
                 ))}
               </ul>
-            </li>
+            </li> */}
 
             <li className="self-center">
               <Link
