@@ -27,7 +27,15 @@ const DialogHint = ({
             )}
 
             {visibleMore && (
-              <div className="py-2 text-sm text-gray-600">{hintMore}</div>
+              <div className="py-2 text-sm text-gray-600">
+                {hintMore}
+                <button
+                  className="ml-2 bg-primary-500 p-3 text-white rounded px-2 py-1 text-sm"
+                  onClick={() => setVisibleMore(false)}
+                >
+                  접기
+                </button>
+              </div>
             )}
           </>
         }
