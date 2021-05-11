@@ -15,7 +15,10 @@ const DialogCorrect = ({
   return (
     <>
       <DialogBase>
-        <DialogTitle>와~ 맞았어요! 정말 대단하시군요! 💕</DialogTitle>
+        <DialogTitle>
+          💕 와~ 맞았어요!! 정말 대단해요!! &nbsp;
+          <img className="inline" src="/assets/party_blob.gif" width="25" />
+        </DialogTitle>
         <DialogDescription>
           <div className="flex">
             <div className="bg-brown-200 rounded px-1 mr-2">도전 문장</div>

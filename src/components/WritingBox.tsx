@@ -12,6 +12,10 @@ const Container = styled.div`
     width: 100%;
     padding: 10px;
   }
+  #explain-section {
+    max-height: 250px;
+    overflow-y: auto;
+  }
 `;
 
 interface IProps {
@@ -43,7 +47,7 @@ const WritingBox = (props: IProps) => {
       englishInput.setAttribute("style", "background-color: white");
       englishInput.addEventListener("focus", scrollEvent);
     }
-  }, [writingId]);
+  };
 
   const onClickHelpJenny = (event: any) => {
     event.preventDefault();
@@ -84,7 +88,7 @@ const WritingBox = (props: IProps) => {
         dialogManager.addWrong(
           textInWrinting,
           isShowColorHelp,
-          "점이나 쉼표같은 특수문자를 확인해보세요!"
+          "마침표와 쉼표같은 특수문자를 확인해주세요!"
         );
       } else {
         setCurrentDialogType("wrong");
@@ -123,16 +127,16 @@ const WritingBox = (props: IProps) => {
         <div className="mt-4 md:mt-0 md:ml-6 flex-1">
           <div>
             <div className="uppercase tracking-wide text-sm">
-              <div className="flex justify-between pb-6">
-                <div className="text-gray-500">
+              <div className="flex pb-6">
+                <Level levelNumber={writingManager.getLevel()} />
+                <div className="ml-2 font-bold rounded text-gray-600">
                   {writingManager.getMainTheme()}
                 </div>
-                <Level levelNumber={writingManager.getLevel()} />
               </div>
             </div>
 
             {writingManager.getSituation() && (
-              <p className="mt-2 text-gray-400 text-sm">
+              <p className="mt-2 text-gray-500 text-sm">
                 {writingManager.getSituation()}
               </p>
             )}
@@ -264,7 +268,7 @@ const DialogBox = ({
             {/* 설명 */}
           </div>
         </article>
-        <section id="explain-section relative">
+        <section className="relative" id="explain-section">
           <div>
             {dialogManager.getDialogs().map((dialog, index) => (
               <div key={index}>{dialog.element}</div>

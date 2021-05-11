@@ -22,7 +22,7 @@ const DialogHint = ({
                 className="ml-2 bg-primary-500 p-3 text-white rounded px-2 py-1 text-sm"
                 onClick={() => setVisibleMore(true)}
               >
-                더보기
+                자세히
               </button>
             )}
 

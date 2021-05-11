@@ -22,7 +22,12 @@ const DialogWrong = ({
       <DialogBase>
         <div>
           <DialogTitle>
-            앗 아쉬워요, {percent}% 단어가 맞았어요.💕
+            {moreDescription ? (
+              <div>🍀 단어는 모두 맞았어요! {moreDescription}</div>
+            ) : (
+              <div>🍀 앗 아쉬워요, {percent}% 단어가 맞았어요.</div>
+            )}
+
             {!isShowHelp && (
               <>
                 <span className="text-blue-700">&nbsp;(파랑이 맞는 단어, </span>
@@ -30,7 +35,6 @@ const DialogWrong = ({
               </>
             )}
           </DialogTitle>
-          {moreDescription ? <div>{moreDescription}</div> : null}
 
           <DialogDescription>
             (도전 문장)&nbsp;
