@@ -37,8 +37,14 @@ const WritingBox = (props: IProps) => {
   const [isShowColorHelp, setIsShowColorHelp] = useState(false);
 
   useEffect(() => {
+    resetWriting();
+  }, [writingId]);
+
+  const resetWriting = () => {
+    setDialogCount(0);
     setTextInWrinting("");
     setUserSentence("");
+    setIsShowColorHelp(false);
     setDialogManager(new DialogManager(writingManager));
     const englishInput: any = document.getElementById("english_input");
 
@@ -163,6 +169,7 @@ const WritingBox = (props: IProps) => {
         dialogType={currentDialogType}
         dialogCount={dialogCount}
         setDialogCount={setDialogCount}
+        resetWriting={resetWriting}
       />
     </Container>
   );
@@ -179,6 +186,7 @@ interface IPropsDialogBox {
   moveNextWriting: () => void;
   onShowAnswer: () => void;
   setDialogCount: (value: number) => void;
+  resetWriting: () => void;
 }
 const DialogBox = ({
   moveNextWriting,
@@ -188,6 +196,7 @@ const DialogBox = ({
   dialogManager,
   dialogType,
   dialogCount,
+  resetWriting,
 }: IPropsDialogBox) => {
   const [hintCount, setHintCount] = useState(0);
   const [dialogButtons, setDialogButtons] = useState<
@@ -225,7 +234,7 @@ const DialogBox = ({
     GIVE_ANSWER: { text: "🍰 정답 알려줘", onClick: onShowAnswer },
     NEXT: { text: "😎 다음 문제 풀래", onClick: moveNextWriting },
     EXPLAIN: { text: "👨‍🏫 설명해줘", onClick: () => alert("준비중인 기능이야") },
-    AGAIN: { text: "🕺다시 풀래", onClick: () => window.location.reload() },
+    AGAIN: { text: "🕺다시 풀래", onClick: () => resetWriting() },
   };
 
   const getButtonActions = () => {
