@@ -22,6 +22,9 @@ interface IProps {
   writingId: number;
   writingManager: WritingManager;
   moveNextWriting: () => void;
+  updateFilter?: (e: any) => void;
+  selectedLevels: string[];
+  selectedThemes: string[];
 }
 
 const WritingBox = (props: IProps) => {
@@ -124,7 +127,13 @@ const WritingBox = (props: IProps) => {
 
   return (
     <Container className="" id="writing-box">
-      <FilterNavigation />
+      {props.updateFilter ? (
+        <FilterNavigation
+          updateFilter={props.updateFilter}
+          selectedLevels={props.selectedLevels}
+          selectedThemes={props.selectedThemes}
+        />
+      ) : null}
       {/* <!-- A marketing page card built entirely with utility classes --> */}
       <div className="bg-white  md:flex p-4 rounded-lg shadow-custom">
         <div className="md:flex-shrink-0">

@@ -24,6 +24,25 @@ export const fetchWritings = async () => {
       return error;
     });
 };
+export const fetchWritingListFiltered = async (
+  levels: string[],
+  theme: string[]
+) => {
+  console.log({
+    levels,
+    theme,
+  });
+  return instance
+    .post("/writings/", {
+      levels,
+      theme,
+    })
+    .then((response) => response.data)
+    .catch(function (error) {
+      console.log(error);
+      return error;
+    });
+};
 
 export const fetchWritingByNumId = async (id: number) => {
   return instance

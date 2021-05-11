@@ -48,6 +48,8 @@ const Home = ({ writings, manager }: IProps) => {
                 writingId={manager.getId()}
                 writingManager={manager}
                 moveNextWriting={() => pathManager.goRandomPath(writings)}
+                selectedThemes={[]}
+                selectedLevels={[]}
               />
             ) : (
               <div>Loading...</div>

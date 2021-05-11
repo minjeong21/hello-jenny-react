@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import WritingManager from "utils/WritingManager";
 import WritingBox from "components/WritingBox";
 import styled from "styled-components";
-import { fetchWritingByNumId } from "apis/WritingApi";
+import { fetchWritingByNumId, fetchWritingListByTheme } from "apis/WritingApi";
 import IWriting from "interface/IWriting";
 import PathManager from "utils/PathManager";
 
@@ -14,22 +14,25 @@ interface ParamTypes {
   moveNextWriting: string;
 }
 
-interface IProps {}
 const Main = styled.main`
   min-height: calc(100vh - 45px);
 `;
 const Detail = ({
-  manager,
   writings,
+  repWritingId,
+  fetchWritingsFiltered,
 }: {
-  manager?: WritingManager;
+  repWritingId: number;
   writings: IWriting[] | null;
+  fetchWritingsFiltered: (levels: string[], themes: string[]) => void;
 }) => {
   let { id, theme, level } = useParams<ParamTypes>();
+
   const [writingManager, setWritingManager] = useState<WritingManager>();
   const pathManager = new PathManager(useHistory());
+  const [selectedLevels, setSelectedLevel] = useState<string[]>(["1", "2"]);
+  const [selectedThemes, setSelectedThemes] = useState<string[]>(["friend"]);
 
-  // TODO: Wraning 처리 (React Hook useEffect has missing dependencies)
   useEffect(() => {
     if (id) {
       fetchWriting(Number(id));
@@ -38,14 +41,43 @@ const Detail = ({
     } else if (level) {
       // fetchLevelWritingList(Number(level));
     } else {
-      setWritingManager(manager);
+      fetchWriting(repWritingId);
     }
-    console.log(writingManager);
-  }, [id, theme, level, manager]);
+  }, [id, theme, level]);
 
   const fetchWriting = async (id: number) => {
     const writing = await fetchWritingByNumId(id);
     setWritingManager(new WritingManager(writing.data));
+  };
+  const updateFilter = (e: any) => {
+    const { target } = e;
+    const { value, name } = target;
+
+    const updateButtonUI = (list: string[], activeBgColor: string) => {
+      if (list.includes(value)) {
+        const idx = list.indexOf(value);
+        if (idx > -1) list.splice(idx, 1);
+        target.classList.remove(activeBgColor);
+        target.classList.remove("border-brown-300");
+        target.classList.add("border-gray-300");
+        target.classList.add("text-gray-600");
+      } else {
+        list.push(value);
+        target.classList.add(activeBgColor);
+        target.classList.remove("border-gray-300");
+        target.classList.add("border-brown-300");
+        target.classList.remove("text-gray-600");
+      }
+    };
+
+    if (name === "level") {
+      updateButtonUI(selectedLevels, "bg-brown-300");
+      setSelectedLevel(selectedLevels);
+    } else if (name === "theme") {
+      updateButtonUI(selectedThemes, "bg-brown-300");
+      setSelectedThemes(selectedThemes);
+    }
+    fetchWritingsFiltered(selectedLevels, selectedThemes);
   };
 
   return (
@@ -66,6 +98,9 @@ const Detail = ({
             writingId={writingManager.getId()}
             writingManager={writingManager}
             moveNextWriting={() => pathManager.goRandomPath(writings)}
+            updateFilter={updateFilter}
+            selectedLevels={selectedLevels}
+            selectedThemes={selectedThemes}
           />
         </section>
       ) : (
