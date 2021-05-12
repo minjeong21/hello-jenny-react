@@ -22,22 +22,30 @@ const Container = styled.nav`
   }
 `;
 
-const TopNavigation = ({ writings }: { writings: IWriting[] | null }) => {
+const TopNavigation = ({
+  getNextWritingId,
+  writings,
+}: {
+  getNextWritingId: () => number;
+  writings: IWriting[] | null;
+}) => {
   const [visible, setVisible] = useState(false);
 
   const pathManager = new PathManager(useHistory());
 
-  const moveRandomWriting = () => {
+  const moveRandomWriting = (e: any) => {
     if (writings) {
-      pathManager.goRandomPath(writings);
+      const nextWritingId = getNextWritingId();
+      pathManager.goNextWriting(e, nextWritingId);
     } else {
       alert("새로고침 후 다시 시도해주세요.");
     }
   };
 
-  const goSpeaking = () => {
+  const goSpeaking = (e: any) => {
     if (writings) {
-      pathManager.goRandomPath(writings);
+      const nextWritingId = getNextWritingId();
+      pathManager.goNextWriting(e, nextWritingId);
     } else {
       alert("새로고침 후 다시 시도해주세요.");
     }

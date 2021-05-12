@@ -33,7 +33,7 @@ export const fetchWritingListFiltered = async (
     theme,
   });
   return instance
-    .post("/writings/", {
+    .post("/writings_filtered/", {
       levels,
       theme,
     })

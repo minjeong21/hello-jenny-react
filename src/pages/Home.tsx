@@ -28,11 +28,12 @@ const Container = styled.div`
 `;
 
 interface IProps {
+  getNextWritingId: () => number;
   writings: IWriting[] | null;
   manager: WritingManager | null;
 }
 
-const Home = ({ writings, manager }: IProps) => {
+const Home = ({ writings, manager, getNextWritingId }: IProps) => {
   const pathManager = new PathManager(useHistory());
 
   return (
@@ -47,7 +48,9 @@ const Home = ({ writings, manager }: IProps) => {
               <WritingBox
                 writingId={manager.getId()}
                 writingManager={manager}
-                moveNextWriting={() => pathManager.goRandomPath(writings)}
+                moveNextWriting={(e) =>
+                  pathManager.goNextWriting(e, getNextWritingId())
+                }
                 selectedThemes={[]}
                 selectedLevels={[]}
               />
@@ -64,7 +67,9 @@ const Home = ({ writings, manager }: IProps) => {
               {writings && writings.length ? (
                 <WritingList
                   writingList={writings.splice(0, 3)}
-                  moveWriting={() => pathManager.goRandomPath(writings)}
+                  moveWriting={(e) =>
+                    pathManager.goNextWriting(e, getNextWritingId())
+                  }
                 />
               ) : (
                 <div>Loading...</div>

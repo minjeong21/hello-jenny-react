@@ -5,7 +5,7 @@ const LEVEL_PATH_WITH_NUMID = "/level/:level/:numid";
 const LEVEL_PATH = "/level/:level";
 const THEME_PATH_WITH_NUMID = "/theme/:theme/:numid";
 const THEME_PATH = "/theme/:theme";
-const RANDOM_PATH = "/writing/:numid";
+const WRITING_PATH = "/writing/:numid";
 const SPEACKING_PATH = "/speaking/:numid";
 const WRITING_BASE_PATH = "/writing";
 
@@ -51,12 +51,11 @@ class MovePath {
     // this.history.push(path);
   };
 
-  goRandomPath = (writings: IWriting[]) => {
-    const randomNumber = Math.floor(Math.random() * 100) % writings.length;
-    const randomId = writings[randomNumber].id;
+  goNextWriting = (e: any, writingId: number) => {
+    e.preventDefault();
     this.history.push(
-      generatePath(RANDOM_PATH, {
-        numid: randomId,
+      generatePath(WRITING_PATH, {
+        numid: writingId,
       })
     );
   };

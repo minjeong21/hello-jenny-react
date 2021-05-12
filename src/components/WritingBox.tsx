@@ -21,7 +21,7 @@ const Container = styled.div`
 interface IProps {
   writingId: number;
   writingManager: WritingManager;
-  moveNextWriting: () => void;
+  moveNextWriting: (e: any) => void;
   updateFilter?: (e: any) => void;
   selectedLevels: string[];
   selectedThemes: string[];
@@ -190,7 +190,7 @@ interface IPropsDialogBox {
   dialogType: string;
   dialogManager: DialogManager;
   dialogCount: number;
-  moveNextWriting: () => void;
+  moveNextWriting: (e: any) => void;
   onShowAnswer: () => void;
   setDialogCount: (value: number) => void;
   resetWriting: () => void;
@@ -245,7 +245,7 @@ const DialogBox = ({
   };
 
   const getButtonActions = () => {
-    let buttons: { text: string; onClick: () => void }[] = [];
+    let buttons: { text: string; onClick: (e?: any) => void }[] = [];
 
     switch (dialogType) {
       case "help": // 도와줘 제니.

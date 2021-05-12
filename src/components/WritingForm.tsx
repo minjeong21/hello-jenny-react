@@ -5,10 +5,10 @@ const WritingForm = ({
   onClickHelpJenny,
   moveNextWriting,
 }: {
-  onClickHelpJenny: any;
+  onClickHelpJenny: (e: any) => void;
   setTextInWrinting: any;
   onSubmitChallenge: any;
-  moveNextWriting: () => void;
+  moveNextWriting: (e: any) => void;
   textInWrinting: string;
 }) => {
   return (
@@ -45,7 +45,7 @@ const WritingForm = ({
           </button>
           <button
             className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded ml-2"
-            onClick={moveNextWriting}
+            onClick={(e) => moveNextWriting(e)}
           >
             다른 문제 풀기
           </button>

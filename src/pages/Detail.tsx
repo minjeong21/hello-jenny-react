@@ -11,7 +11,6 @@ interface ParamTypes {
   id?: string;
   theme?: string;
   level?: string;
-  moveNextWriting: string;
 }
 
 const Main = styled.main`
@@ -19,9 +18,11 @@ const Main = styled.main`
 `;
 const Detail = ({
   writings,
+  getNextWritingId,
   repWritingId,
   fetchWritingsFiltered,
 }: {
+  getNextWritingId: () => number;
   repWritingId: number;
   writings: IWriting[] | null;
   fetchWritingsFiltered: (levels: string[], themes: string[]) => void;
@@ -77,6 +78,8 @@ const Detail = ({
       updateButtonUI(selectedThemes, "bg-brown-300");
       setSelectedThemes(selectedThemes);
     }
+    console.log(selectedLevels);
+    console.log(selectedThemes);
     fetchWritingsFiltered(selectedLevels, selectedThemes);
   };
 
@@ -97,7 +100,9 @@ const Detail = ({
           <WritingBox
             writingId={writingManager.getId()}
             writingManager={writingManager}
-            moveNextWriting={() => pathManager.goRandomPath(writings)}
+            moveNextWriting={(e) =>
+              pathManager.goNextWriting(e, getNextWritingId())
+            }
             updateFilter={updateFilter}
             selectedLevels={selectedLevels}
             selectedThemes={selectedThemes}
