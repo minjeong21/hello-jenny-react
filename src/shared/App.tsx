@@ -24,6 +24,8 @@ const App = () => {
   const fetchWritingsFiltered = async (levels: string[], themes: string[]) => {
     const response = await fetchWritingListFiltered(levels, themes);
     if (response) {
+      console.log("필터링 되었지롱~~ ");
+      console.log(response.data);
       setWritings(response.data);
       setWritingIndex(0);
     }

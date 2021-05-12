@@ -1,5 +1,4 @@
 import { LEVEL_MENU } from "properties/Menu";
-import styled from "styled-components";
 
 interface IProps {
   levelNumber: number;

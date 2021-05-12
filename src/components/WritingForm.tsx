@@ -1,5 +1,3 @@
-import { Button } from "stories/Button";
-
 const WritingForm = ({
   setTextInWrinting,
   onSubmitChallenge,

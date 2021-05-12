@@ -35,7 +35,6 @@ const WritingBox = (props: IProps) => {
 
   const [dialogCount, setDialogCount] = useState(0);
   const [textInWrinting, setTextInWrinting] = useState("");
-  const [userSentence, setUserSentence] = useState("");
   const [currentDialogType, setCurrentDialogType] = useState("");
   const [isShowColorHelp, setIsShowColorHelp] = useState(false);
 
@@ -46,7 +45,6 @@ const WritingBox = (props: IProps) => {
   const resetWriting = () => {
     setDialogCount(0);
     setTextInWrinting("");
-    setUserSentence("");
     setIsShowColorHelp(false);
     setDialogManager(new DialogManager(writingManager));
     const englishInput: any = document.getElementById("english_input");
@@ -79,10 +77,7 @@ const WritingBox = (props: IProps) => {
       element.setAttribute("readonly", true);
       element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
       setCurrentDialogType("correct");
-      dialogManager.addCorrect(
-        writingManager.getAnswerSentence(),
-        textInWrinting
-      );
+      dialogManager.addCorrect(writingManager.getAnswerSentence());
     } else {
       // 정답 틀렸을 때
       if (writingManager.isIgnoreCaseCorrect(textInWrinting)) {
@@ -109,7 +104,6 @@ const WritingBox = (props: IProps) => {
   };
 
   const onShowAnswer = () => {
-    setUserSentence(textInWrinting);
     setCurrentDialogType("showAnswer");
     dialogManager.addShowAnswer(textInWrinting);
     setDialogCount(dialogCount + 1);
@@ -305,7 +299,6 @@ const DialogBox = ({
                   key={index}
                   text={item.text}
                   onClick={item.onClick}
-                />
               ))}
             </div>
           )}

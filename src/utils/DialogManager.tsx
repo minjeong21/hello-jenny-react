@@ -38,14 +38,8 @@ class DialogManager {
     this.appendDialog("jenny", <DialogJenny />);
   };
 
-  addCorrect = (answerSentence: string, userSentence: string) => {
-    this.appendDialog(
-      "jenny",
-      <DialogCorrect
-        answerSentence={answerSentence}
-        userSentence={userSentence}
-      />
-    );
+  addCorrect = (userSentence: string) => {
+    this.appendDialog("jenny", <DialogCorrect userSentence={userSentence} />);
   };
 
   addWrong = (

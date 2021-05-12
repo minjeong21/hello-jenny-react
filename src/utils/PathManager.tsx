@@ -1,4 +1,3 @@
-import IWriting from "interface/IWriting";
 import { generatePath } from "react-router";
 
 const LEVEL_PATH_WITH_NUMID = "/level/:level/:numid";

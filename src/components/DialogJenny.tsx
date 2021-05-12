@@ -1,6 +1,4 @@
 import DialogBase, { DialogTitle } from "components/DialogBase";
-import React from "react";
-import styled from "styled-components";
 
 const DialogJenny = () => {
   return (

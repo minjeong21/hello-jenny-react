@@ -28,10 +28,7 @@ export const fetchWritingListFiltered = async (
   levels: string[],
   theme: string[]
 ) => {
-  console.log({
-    levels,
-    theme,
-  });
+  console.log("fetchWritingListFiltered");
   return instance
     .post("/writings_filtered/", {
       levels,

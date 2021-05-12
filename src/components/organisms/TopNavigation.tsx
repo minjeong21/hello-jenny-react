@@ -1,9 +1,6 @@
-import { Popover, Transition, Menu } from "@headlessui/react";
-import { useState } from "react";
 import PathManager from "utils/PathManager";
 import IWriting from "interface/IWriting";
 import { Link, useHistory } from "react-router-dom";
-import { LEVEL_MENU, THEME_MENU } from "../../properties/Menu";
 import styled from "styled-components";
 const Container = styled.nav`
   @media only screen and (min-width: 768px) {
@@ -29,8 +26,6 @@ const TopNavigation = ({
   getNextWritingId: () => number;
   writings: IWriting[] | null;
 }) => {
-  const [visible, setVisible] = useState(false);
-
   const pathManager = new PathManager(useHistory());
 
   const moveRandomWriting = (e: any) => {
@@ -42,14 +37,14 @@ const TopNavigation = ({
     }
   };
 
-  const goSpeaking = (e: any) => {
-    if (writings) {
-      const nextWritingId = getNextWritingId();
-      pathManager.goNextWriting(e, nextWritingId);
-    } else {
-      alert("새로고침 후 다시 시도해주세요.");
-    }
-  };
+  // const goSpeaking = (e: any) => {
+  //   if (writings) {
+  //     const nextWritingId = getNextWritingId();
+  //     pathManager.goNextWriting(e, nextWritingId);
+  //   } else {
+  //     alert("새로고침 후 다시 시도해주세요.");
+  //   }
+  // };
 
   return (
     <Container className="absolute top-0 w-full">

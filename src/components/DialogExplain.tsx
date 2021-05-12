@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import DialogBase, { DialogTitle, DialogDescription } from "./DialogBase";
 const DialogExplain = ({
   talkText,

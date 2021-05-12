@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import WritingManager from "utils/WritingManager";
 import WritingBox from "components/WritingBox";
 import styled from "styled-components";
-import { fetchWritingByNumId, fetchWritingListByTheme } from "apis/WritingApi";
+import { fetchWritingByNumId } from "apis/WritingApi";
 import IWriting from "interface/IWriting";
 import PathManager from "utils/PathManager";
 
@@ -44,7 +44,7 @@ const Detail = ({
     } else {
       fetchWriting(repWritingId);
     }
-  }, [id, theme, level]);
+  }, [id, theme, level, repWritingId]);
 
   const fetchWriting = async (id: number) => {
     const writing = await fetchWritingByNumId(id);

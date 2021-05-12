@@ -2,22 +2,19 @@ import DialogBase, {
   DialogDescription,
   DialogTitle,
 } from "components/DialogBase";
-import React from "react";
-import styled from "styled-components";
 
-const DialogCorrect = ({
-  answerSentence,
-  userSentence,
-}: {
-  answerSentence: string;
-  userSentence: string;
-}) => {
+const DialogCorrect = ({ userSentence }: { userSentence: string }) => {
   return (
     <>
       <DialogBase>
         <DialogTitle>
           💕 와~ 맞았어요!! 정말 대단해요!! &nbsp;
-          <img className="inline" src="/assets/party_blob.gif" width="25" />
+          <img
+            className="inline"
+            src="/assets/party_blob.gif"
+            width="25"
+            alt="happy emoji"
+          />
         </DialogTitle>
         <DialogDescription>
           <div className="flex">
