@@ -46,11 +46,14 @@ const App = () => {
           writings={writings ? writings : null}
           getNextWritingId={getNextWritingId}
         />
-        <Home
-          getNextWritingId={getNextWritingId}
-          writings={writings ? writings : null}
-          manager={writings ? new WritingManager(writings[0]) : null}
-        />
+        {writings && writings.length > 0 ? (
+          <Home
+            getNextWritingId={getNextWritingId}
+            writings={writings}
+            manager={new WritingManager(writings[0])}
+          />
+        ) : null}
+
         <Footer />
       </Route>
       <Route exact path="/writing/:id/">
@@ -58,13 +61,15 @@ const App = () => {
           getNextWritingId={getNextWritingId}
           writings={writings ? writings : null}
         />
-        <Detail
-          getNextWritingId={getNextWritingId}
-          fetchWritingsFiltered={fetchWritingsFiltered}
-          repWritingId={writings ? writings[0].id : 0}
-          writings={writings ? writings : null}
-        />
 
+        {writings && writings.length > 0 ? (
+          <Detail
+            getNextWritingId={getNextWritingId}
+            fetchWritingsFiltered={fetchWritingsFiltered}
+            repWritingId={writings ? writings[0].id : 0}
+            writings={writings ? writings : null}
+          />
+        ) : null}
         <Footer />
       </Route>
       <Route path="/writing">
@@ -72,12 +77,14 @@ const App = () => {
           writings={writings ? writings : null}
           getNextWritingId={getNextWritingId}
         />
-        <Detail
-          getNextWritingId={getNextWritingId}
-          fetchWritingsFiltered={fetchWritingsFiltered}
-          repWritingId={writings ? writings[0].id : 0}
-          writings={writings ? writings : null}
-        />
+        {writings && writings.length > 0 ? (
+          <Detail
+            getNextWritingId={getNextWritingId}
+            fetchWritingsFiltered={fetchWritingsFiltered}
+            repWritingId={writings ? writings[0].id : 0}
+            writings={writings ? writings : null}
+          />
+        ) : null}
         <Footer />
       </Route>
       <Route path="/speaking/:id">
