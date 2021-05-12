@@ -111,8 +111,15 @@ export default class WritingManager {
     return this.writing.id;
   };
 
-  getHintByNumber = (number: number) => {
-    return this.writing.hints[number];
+  getHintDescription = (number: number) => {
+    return this.writing.hints[number].description;
+  };
+
+  getHints = (startNumber: number) => {
+    return this.writing.hints.slice(startNumber, this.getHintSize());
+  };
+  getHintDescriptionMore = (number: number) => {
+    return this.writing.hints[number].description_more;
   };
   getHintSize = () => {
     return this.writing.hints.length;

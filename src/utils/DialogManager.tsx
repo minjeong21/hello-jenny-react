@@ -5,6 +5,7 @@ import DialogHint from "components/DialogHInt";
 import DialogJenny from "components/DialogJenny";
 import DialogWrong from "components/DialogWrong";
 import WritingManager from "./WritingManager";
+import DialogExplain from "components/DialogExplain";
 class DialogManager {
   dialogList: { type: string; element: JSX.Element }[];
   writingManager: WritingManager;
@@ -114,10 +115,19 @@ class DialogManager {
       "jenny",
       <DialogHint
         talkText={talkText}
-        hint={this.writingManager.getHintByNumber(hintCount).description}
-        hintMore={
-          this.writingManager.getHintByNumber(hintCount).description_more
-        }
+        hint={this.writingManager.getHintDescription(hintCount)}
+        hintMore={this.writingManager.getHintDescriptionMore(hintCount)}
+      />
+    );
+  };
+  addExplain = (startIndex: number) => {
+    let talkText = "문장에 대해 더 깊게 이해해보아요 :) ";
+
+    this.appendDialog(
+      "jenny",
+      <DialogExplain
+        talkText={talkText}
+        hints={this.writingManager.getHints(startIndex)}
       />
     );
   };

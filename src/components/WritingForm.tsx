@@ -1,3 +1,5 @@
+import { Button } from "stories/Button";
+
 const WritingForm = ({
   setTextInWrinting,
   onSubmitChallenge,
@@ -24,35 +26,66 @@ const WritingForm = ({
       />
 
       {/* 버튼 그룹 */}
-      <div className="flex justify-end">
-        <div className="p-2">
-          <input
-            type="submit"
-            className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded"
-            value="정답 도전!"
-          />
+      <div className="flex justify-end pt-2">
+        <div className="pr-2">
+          <SubmitButton text="정답 도전!" />
         </div>
-        <div className="p-2 relative">
-          <span className="flex h-3 w-3 absolute right-1">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
-          </span>
-          <button
-            className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded"
-            onClick={(e) => onClickHelpJenny(e)}
-          >
-            도와줘 제니
-          </button>
-          <button
-            className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded ml-2"
-            onClick={(e) => moveNextWriting(e)}
-          >
-            다른 문제 풀기
-          </button>
+
+        <div className="pr-2 relative">
+          <Ping />
+          <TextButton children={"도와줘 제니"} onClick={onClickHelpJenny} />
+        </div>
+        <div className="pr-2 relative">
+          <TextButton
+            children={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            }
+            onClick={moveNextWriting}
+          />
         </div>
       </div>
     </form>
   );
 };
+
+const TextButton = ({
+  children,
+  onClick,
+}: {
+  children: any;
+  onClick: (e: any) => void;
+}) => (
+  <button
+    className="bg-primary-500 hover:bg-primary-600 text-white font-bold h-10 px-4 rounded"
+    onClick={onClick}
+  >
+    {children}
+  </button>
+);
+const SubmitButton = ({ text }: { text: string }) => (
+  <button
+    type="submit"
+    className="bg-primary-500 hover:bg-primary-600 text-white font-bold h-10 px-4 rounded"
+  >
+    {text}
+  </button>
+);
+const Ping = () => (
+  <span className="flex h-3 w-3 absolute right-1">
+    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+    <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+  </span>
+);
 
 export default WritingForm;

@@ -228,6 +228,11 @@ const DialogBox = ({
     setHintCount(hintCount + 1);
     setDialogCount(dialogCount + 1);
   };
+  const onShowExplain = () => {
+    setCurrentDialogType("explain");
+    dialogManager.addExplain(hintCount);
+    setDialogCount(dialogCount + 1);
+  };
   const hasMoreHint = () => {
     return hintCount < dialogManager.getHintSize();
   };
@@ -240,7 +245,7 @@ const DialogBox = ({
     GIVE_HINT: { text: "🙋🏻‍♀️ 힌트", onClick: onShowHint },
     GIVE_ANSWER: { text: "🍰 정답 알려줘", onClick: onShowAnswer },
     NEXT: { text: "😎 다음 문제 풀래", onClick: moveNextWriting },
-    EXPLAIN: { text: "👨‍🏫 설명해줘", onClick: () => alert("준비중인 기능이야") },
+    EXPLAIN: { text: "👨‍🏫 설명해줘", onClick: onShowExplain },
     AGAIN: { text: "🕺다시 풀래", onClick: () => resetWriting() },
   };
 
@@ -270,6 +275,7 @@ const DialogBox = ({
         buttons.push(BUTTON_ACTION.NEXT);
         break;
       default:
+        buttons.push(BUTTON_ACTION.AGAIN);
         buttons.push(BUTTON_ACTION.NEXT);
     }
     setDialogButtons(Object.assign(buttons));
@@ -293,7 +299,7 @@ const DialogBox = ({
         </section>
         <section>
           {dialogManager.getDialogs().length > 0 && dialogButtons && (
-            <div className="flex justify-end">
+            <div className="flex justify-end pt-3">
               {dialogButtons.map((item, index) => (
                 <SmallButton
                   key={index}
