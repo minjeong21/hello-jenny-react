@@ -112,17 +112,33 @@ export default class WritingManager {
   };
 
   getHintDescription = (number: number) => {
-    return this.writing.hints[number].description;
+    if (this.getHintSize()) {
+      return this.writing.hints[number].description;
+    } else {
+      return "";
+    }
   };
 
   getHints = (startNumber: number) => {
-    return this.writing.hints.slice(startNumber, this.getHintSize());
+    if (this.getHintSize()) {
+      return this.writing.hints.slice(startNumber, this.getHintSize());
+    } else {
+      return [];
+    }
   };
   getHintDescriptionMore = (number: number) => {
-    return this.writing.hints[number].description_more;
+    if (this.getHintSize()) {
+      return this.writing.hints[number].description_more;
+    } else {
+      return "";
+    }
   };
   getHintSize = () => {
-    return this.writing.hints.length;
+    if (this.writing.hints) {
+      return this.writing.hints.length;
+    } else {
+      return 0;
+    }
   };
   getImageURL = () => {
     return this.writing.image_url;

@@ -67,9 +67,7 @@ const Home = ({ writings, manager, getNextWritingId }: IProps) => {
               {writings && writings.length ? (
                 <WritingList
                   writingList={writings.splice(0, 3)}
-                  moveWriting={(e) =>
-                    pathManager.goNextWriting(e, getNextWritingId())
-                  }
+                  moveWriting={(e) => pathManager.goWritingPage()}
                 />
               ) : (
                 <div>Loading...</div>
