@@ -31,7 +31,7 @@ const WritingForm = ({
 
         <div className="pr-2 relative">
           <Ping />
-          <TextButton children={"도와줘 제니"} onClick={onClickHelpJenny} />
+          <TextButton children={"🔑 도와줘 제니"} onClick={onClickHelpJenny} />
         </div>
         <div className="pr-2 relative">
           <TextButton
@@ -45,7 +45,7 @@ const WritingForm = ({
                 <path
                   fillRule="evenodd"
                   d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
               </svg>
             }
@@ -65,7 +65,7 @@ const TextButton = ({
   onClick: (e: any) => void;
 }) => (
   <button
-    className="bg-primary-500 hover:bg-primary-600 text-white font-bold h-10 px-4 rounded"
+    className="bg-gray-700 hover:bg-primary-600 text-white font-bold h-10 px-4 rounded"
     onClick={onClick}
   >
     {children}
@@ -74,7 +74,7 @@ const TextButton = ({
 const SubmitButton = ({ text }: { text: string }) => (
   <button
     type="submit"
-    className="bg-primary-500 hover:bg-primary-600 text-white font-bold h-10 px-4 rounded"
+    className="bg-gray-700 hover:bg-primary-600 text-white font-bold h-10 px-4 rounded"
   >
     {text}
   </button>

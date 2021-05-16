@@ -62,7 +62,7 @@ const Home = ({ writings, manager, getNextWritingId }: IProps) => {
 
           <div className="bg-white mt-12 border-t">
             <section className="py-20">
-              <div className="text-2xl pb-5">Lastest</div>
+              <div className="text-2xl pb-5">테마별 문제 풀기</div>
 
               {writings && writings.length ? (
                 <WritingList
