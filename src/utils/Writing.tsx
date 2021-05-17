@@ -1,6 +1,6 @@
 import IWriting from "interface/IWriting";
 
-export default class WritingManager {
+class Writing {
   writing: IWriting;
 
   constructor(writing: IWriting) {
@@ -85,18 +85,16 @@ export default class WritingManager {
     );
   };
 
-  /**
-   * 문장이 긴 경우 말줄임표
-   * */
-
   /** 영어 문장 주어 return */
   getSubjective = () => {
+    console.log(this.writing);
     const firstWord = this.writing.first_word
       ? this.writing.first_word
       : this.writing.en_sentence.split(" ")[0];
     return firstWord;
   };
 
+  /** 문장이 긴 경우 말줄임표 */
   getEllipsis = () => {
     if (this.writing.kr_sentence.length > 60) {
       return this.writing.kr_sentence.slice(0, 60) + "...";
@@ -104,10 +102,13 @@ export default class WritingManager {
       return this.writing.kr_sentence;
     }
   };
+
   getAnswerSentence = () => {
     return this.writing.en_sentence;
   };
+
   getId = () => {
+    console.log(this.writing.id);
     return this.writing.id;
   };
 
@@ -160,3 +161,5 @@ export default class WritingManager {
     return this.writing.kr_sentence;
   };
 }
+
+export default Writing;

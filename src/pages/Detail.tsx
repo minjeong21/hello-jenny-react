@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import WritingManager from "utils/WritingManager";
 import WritingBox from "components/WritingBox";
 import styled from "styled-components";
-import { fetchWritingByNumId } from "apis/WritingApi";
-import IWriting from "interface/IWriting";
 import PathManager from "utils/PathManager";
+import { useStores } from "states/Context";
+import { observer } from "mobx-react";
 
 interface ParamTypes {
   id?: string;
@@ -16,40 +15,16 @@ interface ParamTypes {
 const Main = styled.main`
   min-height: calc(100vh - 45px);
 `;
-const Detail = ({
-  writings,
-  getNextWritingId,
-  repWritingId,
-  fetchWritingsFiltered,
-}: {
-  getNextWritingId: () => number;
-  repWritingId: number;
-  writings: IWriting[] | null;
-  fetchWritingsFiltered: (levels: string[], themes: string[]) => void;
-}) => {
-  let { id, theme, level } = useParams<ParamTypes>();
-
-  const [writingManager, setWritingManager] = useState<WritingManager>();
+const Detail = observer(() => {
   const pathManager = new PathManager(useHistory());
+  let { id, theme, level } = useParams<ParamTypes>();
   const [selectedLevels, setSelectedLevel] = useState<string[]>(["1", "2"]);
   const [selectedThemes, setSelectedThemes] = useState<string[]>(["friend"]);
+  const { writingStore } = useStores();
 
   useEffect(() => {
-    if (id) {
-      fetchWriting(Number(id));
-    } else if (theme) {
-      // fetchThemeWritingList(theme);
-    } else if (level) {
-      // fetchLevelWritingList(Number(level));
-    } else {
-      fetchWriting(repWritingId);
-    }
-  }, [id, theme, level, repWritingId]);
-
-  const fetchWriting = async (id: number) => {
-    const writing = await fetchWritingByNumId(id);
-    setWritingManager(new WritingManager(writing.data));
-  };
+    writingStore.fetchWriting(Number(id));
+  }, [id]);
   const updateFilter = (e: any) => {
     const { target } = e;
     const { value, name } = target;
@@ -78,14 +53,12 @@ const Detail = ({
       updateButtonUI(selectedThemes, "bg-brown-300");
       setSelectedThemes(selectedThemes);
     }
-    console.log(selectedLevels);
-    console.log(selectedThemes);
-    fetchWritingsFiltered(selectedLevels, selectedThemes);
+    writingStore.updateWritings(selectedLevels, selectedThemes);
   };
 
   return (
     <Main className=" pt-20">
-      {writingManager && writings ? (
+      {writingStore.currentWriting ? (
         <section className="py-20 ">
           <div className="flex justify-end">
             <div className="flex bg-primary-200 fit-h self-center p-2 rounded  font-cute">
@@ -98,10 +71,10 @@ const Detail = ({
             />
           </div>
           <WritingBox
-            writingId={writingManager.getId()}
-            writingManager={writingManager}
+            writingId={writingStore.currentWriting.getId()}
+            Writing={writingStore.currentWriting}
             moveNextWriting={(e) =>
-              pathManager.goNextWriting(e, getNextWritingId())
+              pathManager.goNextWriting(e, writingStore.getNextWritingId())
             }
             updateFilter={updateFilter}
             selectedLevels={selectedLevels}
@@ -120,6 +93,6 @@ const Detail = ({
       )}
     </Main>
   );
-};
+});
 
 export default Detail;

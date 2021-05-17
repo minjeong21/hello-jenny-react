@@ -5,7 +5,7 @@ const instance = axios.create({
   timeout: 5000,
 });
 
-export const fetchRecapWritings = async () => {
+export const fetchRepWriting = async () => {
   return instance
     .get("/recap/")
     .then((response) => response.data)
@@ -28,7 +28,6 @@ export const fetchWritingListFiltered = async (
   levels: string[],
   theme: string[]
 ) => {
-  console.log("fetchWritingListFiltered");
   return instance
     .post("/writings_filtered/", {
       levels,

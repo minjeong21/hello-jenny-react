@@ -64,7 +64,7 @@ const CheckButton = styled.button`
 
 interface IProps {
   writing: IWriting;
-  moveNextWriting: () => void;
+  moveNextWriting: (e: any) => void;
 }
 
 const sentenceList = [

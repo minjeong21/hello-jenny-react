@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
-import WritingManager from "utils/WritingManager";
+import Writing from "utils/Writing";
 import Level from "components/atoms/Level";
 import FilterNavigation from "components/molecules/FilterNavigation";
 import WritingForm from "components/WritingForm";
@@ -21,7 +21,7 @@ const Container = styled.div`
 
 interface IProps {
   writingId: number;
-  writingManager: WritingManager;
+  Writing: Writing;
   moveNextWriting: (e: any) => void;
   updateFilter?: (e: any) => void;
   selectedLevels: string[];
@@ -29,9 +29,9 @@ interface IProps {
 }
 
 const WritingBox = (props: IProps) => {
-  const { writingId, writingManager } = props;
+  const { writingId, Writing } = props;
   const [dialogManager, setDialogManager] = useState<DialogManager>(
-    new DialogManager(writingManager)
+    new DialogManager(Writing)
   );
 
   const [dialogCount, setDialogCount] = useState(0);
@@ -47,7 +47,7 @@ const WritingBox = (props: IProps) => {
     setDialogCount(0);
     setTextInWrinting("");
     setIsShowColorHelp(false);
-    setDialogManager(new DialogManager(writingManager));
+    setDialogManager(new DialogManager(Writing));
     const englishInput: any = document.getElementById("english_input");
 
     if (englishInput) {
@@ -71,24 +71,24 @@ const WritingBox = (props: IProps) => {
   const onSubmitChallenge = (event: any) => {
     event.preventDefault();
 
-    const isCorrect = writingManager.isCorrect(textInWrinting);
+    const isCorrect = Writing.isCorrect(textInWrinting);
     const element: any = document.getElementById("english_input");
     if (isCorrect) {
       // 맞았을 때
       element.setAttribute("readonly", true);
       element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
       setCurrentDialogType("correct");
-      dialogManager.addCorrect(writingManager.getAnswerSentence());
+      dialogManager.addCorrect(Writing.getAnswerSentence());
     } else {
       // 정답 틀렸을 때
-      if (writingManager.isIgnoreCaseCorrect(textInWrinting)) {
+      if (Writing.isIgnoreCaseCorrect(textInWrinting)) {
         setCurrentDialogType("wrong");
         dialogManager.addWrong(
           textInWrinting,
           isShowColorHelp,
           "대소문자를 확인해주세요!"
         );
-      } else if (writingManager.isIgnoreSpecialCharCorrect(textInWrinting)) {
+      } else if (Writing.isIgnoreSpecialCharCorrect(textInWrinting)) {
         setCurrentDialogType("wrong");
         dialogManager.addWrong(
           textInWrinting,
@@ -132,24 +132,24 @@ const WritingBox = (props: IProps) => {
       {/* <!-- A marketing page card built entirely with utility classes --> */}
       <div className="bg-white  md:flex p-4 rounded-lg shadow-custom">
         <div className="md:flex-shrink-0">
-          <WritingImage imageUrl={writingManager.getImageURL()} size={null} />
+          <WritingImage imageUrl={Writing.getImageURL()} size={null} />
         </div>
         <div className="mt-4 md:mt-0 md:ml-6 flex-1">
           <div>
             <div className="uppercase tracking-wide text-sm">
               <div className="flex pb-6">
-                <Level levelNumber={writingManager.getLevel()} />
-                <div className="ml-2 ">{writingManager.getMainTheme()}</div>
+                <Level levelNumber={Writing.getLevel()} />
+                <div className="ml-2 ">{Writing.getMainTheme()}</div>
               </div>
             </div>
 
-            {writingManager.getSituation() && (
+            {Writing.getSituation() && (
               <p className="mt-2 text-gray-500 text-sm">
-                {writingManager.getSituation()}
+                {Writing.getSituation()}
               </p>
             )}
             <div className="block mt-1 text-2xl leading-tight font-semibold text-gray-900 font-bold pb-3">
-              {writingManager.getKoreanSentence()}
+              {Writing.getKoreanSentence()}
             </div>
           </div>
 
@@ -163,7 +163,7 @@ const WritingBox = (props: IProps) => {
         </div>
       </div>
       <DialogBox
-        writingManager={writingManager}
+        Writing={Writing}
         moveNextWriting={props.moveNextWriting}
         onShowAnswer={onShowAnswer}
         setCurrentDialogType={setCurrentDialogType}

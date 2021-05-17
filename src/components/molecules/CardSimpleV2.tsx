@@ -1,4 +1,4 @@
-import WritingManager from "../../utils/WritingManager";
+import Writing from "../../utils/Writing";
 import Level from "../atoms/Level";
 import styled from "styled-components";
 import MainTheme from "components/MainTheme";
@@ -28,14 +28,14 @@ const WritingImage = styled.div<{ src: string }>`
 `;
 
 interface IProps {
-  writingManager: WritingManager;
+  Writing: Writing;
   index: number;
   id: number;
   moveWriting: (value: number) => void;
 }
 
-const CardSimpleV2 = ({ writingManager, index, id, moveWriting }: IProps) => {
-  const writing = writingManager.getWriting();
+const CardSimpleV2 = ({ Writing, index, id, moveWriting }: IProps) => {
+  const writing = Writing.getWriting();
   return (
     <Container onClick={() => moveWriting(id)}>
       <div className="p-3">
@@ -52,7 +52,7 @@ const CardSimpleV2 = ({ writingManager, index, id, moveWriting }: IProps) => {
 
         <div>
           <div className="font-bold pb-8 ellipsis text-xl">
-            {writingManager.getEllipsis()}
+            {Writing.getEllipsis()}
           </div>
         </div>
         <div className="text-sm pointer text-gray-400 bg-gray-100 py-2.5 px-3 rounded-lg">
