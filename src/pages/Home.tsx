@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import WritingBox from "components/WritingBox";
 import HeaderSection from "../components/GreetingSection";
-import WritingManager from "utils/WritingManager";
-import IWriting from "interface/IWriting";
-
-import WritingList from "components/WritingList";
 import PathManager from "utils/PathManager";
 import { useHistory } from "react-router";
+import { useStores } from "states/Context";
+import { observer } from "mobx-react";
+import { useEffect } from "react";
 
 const Container = styled.div`
   padding-bottom: 80px;
@@ -27,14 +26,13 @@ const Container = styled.div`
   }
 `;
 
-interface IProps {
-  getNextWritingId: () => number;
-  writings: IWriting[] | null;
-  manager: WritingManager | null;
-}
-
-const Home = ({ writings, manager, getNextWritingId }: IProps) => {
+export default observer(() => {
   const pathManager = new PathManager(useHistory());
+  const { writingStore } = useStores();
+
+  useEffect(() => {
+    writingStore.fetchRepWriting();
+  }, []);
 
   return (
     <main className="pt-20">
@@ -44,12 +42,12 @@ const Home = ({ writings, manager, getNextWritingId }: IProps) => {
           <HeaderSection />
           {/* 문제 풀기 섹션 */}
           <section className="pt-12 ">
-            {manager && writings ? (
+            {writingStore.repWriting ? (
               <WritingBox
-                writingId={manager.getId()}
-                writingManager={manager}
+                writingId={writingStore.repWriting.getId()}
+                Writing={writingStore.repWriting}
                 moveNextWriting={(e) =>
-                  pathManager.goNextWriting(e, getNextWritingId())
+                  pathManager.goNextWriting(e, writingStore.getNextWritingId())
                 }
                 selectedThemes={[]}
                 selectedLevels={[]}
@@ -64,20 +62,18 @@ const Home = ({ writings, manager, getNextWritingId }: IProps) => {
             <section className="py-20">
               <div className="text-2xl pb-5">테마별 문제 풀기</div>
 
-              {writings && writings.length ? (
+              {/* {writings && writings.length ? (
                 <WritingList
                   writingList={writings.splice(0, 3)}
                   moveWriting={(e) => pathManager.goWritingPage()}
                 />
               ) : (
                 <div>Loading...</div>
-              )}
+              )} */}
             </section>
           </div>
         </>
       </Container>
     </main>
   );
-};
-
-export default Home;
+});

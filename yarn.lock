@@ -10733,10 +10733,10 @@ mobx-react@^7.1.0:
   dependencies:
     mobx-react-lite "^3.2.0"
 
-mobx@^6.1.8:
-  version "6.1.8"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.1.8.tgz#5d03cb76d8f7694dd82bfb2578d886945b66450d"
-  integrity sha512-U4yCvUeh6yKXRwFxm2lyJjXPVekOEar/R8ZKWAXem/3fthJqYflViawfjDAUh7lZEvbKqljC3NT/pSaUKpE+gg==
+mobx@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.3.0.tgz#a8fb693c3047bdfcb1eaff9aa48e36a7eb084f96"
+  integrity sha512-Aa1+VXsg4WxqJMTQfWoYuJi5UD10VZhiobSmcs5kcmI3BIT0aVtn7DysvCeDADCzl7dnbX+0BTHUj/v7gLlZpQ==
 
 modern-normalize@^1.0.0:
   version "1.0.0"
@@ -12901,11 +12901,6 @@ react-countdown-circle-timer@^2.5.1:
   integrity sha512-cfzr6dgc/rYFpx3CXXgFnpqti7edFX7eUOP7YPGUfa4MefvrLh8J1zzgVURfVFBDB207PrK7DNK7iYkf2H5YkQ==
   dependencies:
     use-elapsed-time "2.1.6"
-
-react-desc@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/react-desc/-/react-desc-4.1.2.tgz#83fc4ede66b2d45ae4ef63c18421474d55972966"
-  integrity sha512-JAVe89uaLr0HZ0IKodnpTPNgNyJ/SPDQnl3VJPVwI+SpebmHvJiBNZEOwX201QmSbsVGqRY8ql/VFPlAx85WzA==
 
 react-dev-utils@^11.0.3:
   version "11.0.3"

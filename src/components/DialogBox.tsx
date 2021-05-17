@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import DialogManager from "utils/DialogManager";
-import WritingManager from "utils/WritingManager";
+import Writing from "utils/Writing";
 
 interface IPropsDialogBox {
-  writingManager: WritingManager;
+  Writing: Writing;
   setCurrentDialogType: any;
   dialogType: string;
   dialogManager: DialogManager;

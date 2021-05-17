@@ -1,10 +1,7 @@
 import styled from "styled-components";
-import IWriting from "interface/IWriting";
 import SpeakingBox from "components/SpeakingBox";
-import WritingManager from "utils/WritingManager";
-// import HeaderSection from "./HeaderSection";
-
-// import WritingList from "./WritingList";
+import { useStores } from "states/Context";
+import PathManager from "utils/PathManager";
 
 const Container = styled.div`
   padding-bottom: 80px;
@@ -28,13 +25,9 @@ const Container = styled.div`
   }
 `;
 
-interface IProps {
-  writings: IWriting[] | null;
-  manager: WritingManager | null;
-}
-
-const Speaking = ({ manager, writings }: IProps) => {
-  const moveNextSpeacking = () => {};
+const Speaking = () => {
+  const pathManager = new PathManager(useHistory());
+  const { writingStore } = useStores();
   return (
     <main className="pt-24">
       <Container>
@@ -43,10 +36,15 @@ const Speaking = ({ manager, writings }: IProps) => {
             {/* 문제 풀기 섹션 */}
             <section className="bg-gray-6 pb-xl pt-12">
               <div className="pad-l writing-box bg-white mb-l rounded-lg">
-                {manager ? (
+                {writingStore.currentWriting ? (
                   <SpeakingBox
-                    writing={manager.getWriting()}
-                    moveNextWriting={moveNextSpeacking}
+                    writing={writingStore.currentWriting.writing}
+                    moveNextWriting={(e) =>
+                      pathManager.goNextWriting(
+                        e,
+                        writingStore.getNextWritingId()
+                      )
+                    }
                   />
                 ) : (
                   <div>스켈레톤</div>
@@ -61,3 +59,6 @@ const Speaking = ({ manager, writings }: IProps) => {
 };
 
 export default Speaking;
+function useHistory(): any {
+  throw new Error("Function not implemented.");
+}

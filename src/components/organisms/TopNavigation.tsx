@@ -1,7 +1,7 @@
 import PathManager from "utils/PathManager";
-import IWriting from "interface/IWriting";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { useStores } from "states/Context";
 const Container = styled.nav`
   @media only screen and (min-width: 768px) {
     .parent:hover .child {
@@ -19,32 +19,13 @@ const Container = styled.nav`
   }
 `;
 
-const TopNavigation = ({
-  getNextWritingId,
-  writings,
-}: {
-  getNextWritingId: () => number;
-  writings: IWriting[] | null;
-}) => {
+const TopNavigation = () => {
   const pathManager = new PathManager(useHistory());
+  const { writingStore } = useStores();
 
-  const moveRandomWriting = (e: any) => {
-    if (writings) {
-      const nextWritingId = getNextWritingId();
-      pathManager.goNextWriting(e, nextWritingId);
-    } else {
-      alert("새로고침 후 다시 시도해주세요.");
-    }
+  const goNextWriting = (e: any) => {
+    pathManager.goNextWriting(e, writingStore.getNextWritingId());
   };
-
-  // const goSpeaking = (e: any) => {
-  //   if (writings) {
-  //     const nextWritingId = getNextWritingId();
-  //     pathManager.goNextWriting(e, nextWritingId);
-  //   } else {
-  //     alert("새로고침 후 다시 시도해주세요.");
-  //   }
-  // };
 
   return (
     <Container className="absolute top-0 w-full">
@@ -65,7 +46,7 @@ const TopNavigation = ({
           <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0 hidden md:block">
             <li className="self-center">
               <button
-                onClick={moveRandomWriting}
+                onClick={goNextWriting}
                 className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
               >
                 영작 연습

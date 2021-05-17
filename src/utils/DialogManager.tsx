@@ -4,18 +4,18 @@ import DialogCorrect from "components/DialogCorrect";
 import DialogHint from "components/DialogHInt";
 import DialogJenny from "components/DialogJenny";
 import DialogWrong from "components/DialogWrong";
-import WritingManager from "./WritingManager";
+import Writing from "./Writing";
 import DialogExplain from "components/DialogExplain";
 class DialogManager {
   dialogList: { type: string; element: JSX.Element }[];
-  writingManager: WritingManager;
+  Writing: Writing;
   answerSentence: string;
   hintCount: number;
 
-  constructor(writingManager: WritingManager) {
+  constructor(Writing: Writing) {
     this.dialogList = [];
-    this.writingManager = writingManager;
-    this.answerSentence = writingManager.getAnswerSentence();
+    this.Writing = Writing;
+    this.answerSentence = Writing.getAnswerSentence();
     this.hintCount = 0;
   }
 
@@ -52,11 +52,9 @@ class DialogManager {
       <DialogWrong
         isShowHelp={isShowColorHelp}
         moreDescription={moreDescription}
-        userSentenceWords={this.writingManager.getUserSentenceWords(
-          userSentence
-        )}
-        answerWords={this.writingManager.getAnswerWords()}
-        percent={this.writingManager.getMatchedWordPercent(userSentence)}
+        userSentenceWords={this.Writing.getUserSentenceWords(userSentence)}
+        answerWords={this.Writing.getAnswerWords()}
+        percent={this.Writing.getMatchedWordPercent(userSentence)}
       />
     );
   };
@@ -71,7 +69,7 @@ class DialogManager {
       "jenny",
       <DialogHint
         talkText={"첫 단어 힌트 갑니다!"}
-        hint={this.writingManager.getSubjective()}
+        hint={this.Writing.getSubjective()}
       />
     );
   };
@@ -85,7 +83,7 @@ class DialogManager {
   // };
 
   getHintSize = () => {
-    return this.writingManager.getHintSize();
+    return this.Writing.getHintSize();
   };
 
   addHint = (hintCount: number) => {
@@ -109,8 +107,8 @@ class DialogManager {
       "jenny",
       <DialogHint
         talkText={talkText}
-        hint={this.writingManager.getHintDescription(hintCount)}
-        hintMore={this.writingManager.getHintDescriptionMore(hintCount)}
+        hint={this.Writing.getHintDescription(hintCount)}
+        hintMore={this.Writing.getHintDescriptionMore(hintCount)}
       />
     );
   };
@@ -121,7 +119,7 @@ class DialogManager {
       "jenny",
       <DialogExplain
         talkText={talkText}
-        hints={this.writingManager.getHints(startIndex)}
+        hints={this.Writing.getHints(startIndex)}
       />
     );
   };
