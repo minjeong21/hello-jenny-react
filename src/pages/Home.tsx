@@ -39,6 +39,24 @@ export default observer(() => {
     writingStore.fetchRepWriting();
   }, []);
 
+  const themes = [
+    {
+      title: "🙋🏻‍♀️ 친구 만들기",
+      description: "다른 나라에서 만날 수 있는 친구가 있다는 건 설레는 일이죠!",
+    },
+    {
+      title: "👔 비즈니스 영어",
+      description: "영어를 쓰는 회사에서 일하고 싶나요? 렛츠고!",
+    },
+    {
+      title: "🎬 영화 속 명대사",
+      description: "자막없이 영화를 볼 수 있다면 얼마나 멋있게요~?",
+    },
+    {
+      title: "🎙 노랫 속 가사",
+      description: "팝송 한번 멋지게 불러봐요우우~~🎧 ",
+    },
+  ];
   return (
     <main>
       <Container>
@@ -65,7 +83,25 @@ export default observer(() => {
 
           <div className="pt-24">
             <section className="py-20">
-              <div className="text-2xl pb-5">테마별 문제 풀기</div>
+              <div className="text-2xl pb-5">
+                관심있는 주제로 영어 문장을 만들어봐요
+              </div>
+              <div className="md:grid grid-cols-3 ">
+                {themes.map((theme, index) => (
+                  <div
+                    className="bg-white p-6 m-1 rounded-lg shadow-custom cursor-pointer"
+                    onClick={(e) =>
+                      pathManager.goNextWriting(
+                        e,
+                        writingStore.getNextWritingId()
+                      )
+                    }
+                  >
+                    <h4 className="text-lg font-bold pb-4">{theme.title}</h4>
+                    <p className="text-gray-600 text-sm">{theme.description}</p>
+                  </div>
+                ))}
+              </div>
 
               {/* {writings && writings.length ? (
                 <WritingList

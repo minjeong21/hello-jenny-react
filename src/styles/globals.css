@@ -10,6 +10,7 @@ input {
 }
 
 body {
+  background-color: #fbf9f3;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -120,6 +121,10 @@ section {
 
 .bg-brown-600 {
   background-color: #976d59
+}
+
+.bg-basic-100 {
+  background-color: #fbf9f3;
 }
 
 

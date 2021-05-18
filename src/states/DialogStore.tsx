@@ -96,7 +96,7 @@ export class DialogStore {
     const englishInput: any = document.getElementById("english_input");
     if (englishInput) {
       englishInput.readOnly = false;
-      englishInput.setAttribute("style", "background-color: white");
+      englishInput.classList.add("bg-basic-100");
       englishInput.addEventListener("focus", this.scrollEvent);
     }
   };
