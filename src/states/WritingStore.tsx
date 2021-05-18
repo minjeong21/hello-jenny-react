@@ -47,8 +47,6 @@ export class WritingStore {
   updateWritings = async (levels: string[], themes: string[]) => {
     const response = await fetchWritingListFiltered(levels, themes);
     this.setWritings(response.data);
-    console.log("갯수는 이것이다=> ", response.data.length);
-    console.log(response.data);
     this.currentWriting = new Writing(response.data[0]);
   };
 

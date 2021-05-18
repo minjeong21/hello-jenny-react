@@ -5,6 +5,7 @@ class Writing {
 
   constructor(writing: IWriting) {
     this.writing = writing;
+
   }
 
   getWriting = () => {
@@ -103,7 +104,8 @@ class Writing {
     }
   };
 
-  getAnswerSentence = () => {
+  getAnswerSentence = (): string => {
+    console.log(this.writing.en_sentence);
     return this.writing.en_sentence;
   };
 
@@ -112,33 +114,36 @@ class Writing {
     return this.writing.id;
   };
 
-  getHintDescription = (number: number) => {
-    if (this.getHintSize()) {
-      return this.writing.hints[number].description;
-    } else {
-      return "";
-    }
-  };
-
-  getHints = (startNumber: number) => {
-    if (this.getHintSize()) {
-      return this.writing.hints.slice(startNumber, this.getHintSize());
-    } else {
-      return [];
-    }
-  };
-  getHintDescriptionMore = (number: number) => {
-    if (this.getHintSize()) {
-      return this.writing.hints[number].description_more;
-    } else {
-      return "";
-    }
-  };
   getHintSize = () => {
     if (this.writing.hints) {
       return this.writing.hints.length;
     } else {
       return 0;
+    }
+  };
+  hasMoreHint = (currentIndex: number) => {
+    return this.writing ? this.getHintSize() > currentIndex : false;
+  };
+  getRemainedAllHints = (currentIndex: number) => {
+    if (this.hasMoreHint(currentIndex)) {
+      return this.writing.hints.slice(currentIndex, this.getHintSize());
+    } else {
+      return [];
+    }
+  };
+  getHintDescription = (currentIndex: number) => {
+    if (this.hasMoreHint(currentIndex)) {
+      return this.writing.hints[currentIndex].description;
+    } else {
+      return "";
+    }
+  };
+
+  getHintDescriptionMore = (currentIndex: number) => {
+    if (this.hasMoreHint(currentIndex)) {
+      return this.writing.hints[currentIndex].description_more;
+    } else {
+      return "";
     }
   };
   getImageURL = () => {

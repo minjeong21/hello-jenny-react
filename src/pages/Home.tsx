@@ -45,7 +45,7 @@ export default observer(() => {
             {writingStore.repWriting ? (
               <WritingBox
                 writingId={writingStore.repWriting.getId()}
-                Writing={writingStore.repWriting}
+                writing={writingStore.repWriting}
                 moveNextWriting={(e) =>
                   pathManager.goNextWriting(e, writingStore.getNextWritingId())
                 }

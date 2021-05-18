@@ -58,7 +58,7 @@ const Detail = observer(() => {
 
   return (
     <Main className=" pt-20">
-      {writingStore.currentWriting ? (
+      {writingStore.currentWriting && writingStore.currentWriting.writing ? (
         <section className="py-20 ">
           <div className="flex justify-end">
             <div className="flex bg-primary-200 fit-h self-center p-2 rounded  font-cute">
@@ -71,8 +71,8 @@ const Detail = observer(() => {
             />
           </div>
           <WritingBox
-            writingId={writingStore.currentWriting.getId()}
-            Writing={writingStore.currentWriting}
+            writingId={writingStore.currentWriting.writing.id}
+            writing={writingStore.currentWriting}
             moveNextWriting={(e) =>
               pathManager.goNextWriting(e, writingStore.getNextWritingId())
             }
