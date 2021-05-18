@@ -5,7 +5,7 @@ import {
   fetchWritings,
 } from "apis/WritingApi";
 import IWriting from "interface/IWriting";
-import { makeObservable, observable } from "mobx";
+import { makeObservable, observable, runInAction } from "mobx";
 import Writing from "utils/Writing";
 
 export class WritingStore {
@@ -31,12 +31,18 @@ export class WritingStore {
 
   fetchRepWriting = async () => {
     const response = await fetchRepWriting();
-    this.setRepWriting(response.rep_writing);
+
+    runInAction(() => {
+      this.setRepWriting(response.rep_writing);
+    });
   };
 
   fetchWriting = async (id: number) => {
     const response = await fetchWritingByNumId(id);
-    this.setCurrentWriting(response.data);
+
+    runInAction(() => {
+      this.setCurrentWriting(response.data);
+    });
   };
 
   fetchWritingsDefault = async () => {

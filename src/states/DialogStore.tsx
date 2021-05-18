@@ -4,7 +4,7 @@ import DialogExplain from "components/DialogExplain";
 import DialogHint from "components/DialogHInt";
 import DialogJenny from "components/DialogJenny";
 import DialogWrong from "components/DialogWrong";
-import { action, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable, runInAction } from "mobx";
 import Writing from "utils/Writing";
 
 export class DialogStore {
@@ -24,6 +24,7 @@ export class DialogStore {
   textInWrinting: string;
   userSentence: string;
   moveNextWriting: any;
+  tempButtons: DialogButton[];
 
   constructor(root: any) {
     makeObservable(this, {
@@ -31,7 +32,6 @@ export class DialogStore {
       dialogList: observable,
       hintCount: observable,
       dialogButtons: observable,
-      textInWrinting: observable,
     });
     this.moveNextWriting = null;
     this.rootStore = root;
@@ -43,16 +43,16 @@ export class DialogStore {
     this.currentType = "HELP";
     this.textInWrinting = "";
     this.userSentence = "";
+    this.tempButtons = [];
   }
 
-  setTextInWriting = (textInWrinting: string) => {
-    this.textInWrinting = textInWrinting;
+  @action setTextInWriting = (value: string) => {
+    this.textInWrinting = value;
   };
-
-  setUserCentence = (userSentence: string) => {
+  @action setUserCentence = (userSentence: string) => {
     this.userSentence = userSentence;
   };
-  setWriting = (writing: Writing) => {
+  @action setWriting = (writing: Writing) => {
     this.writing = writing;
   };
   getDialogs = () => {
@@ -64,8 +64,10 @@ export class DialogStore {
   };
 
   @action appendDialog = (type: string, element: JSX.Element) => {
-    console.log(this.dialogList);
-    this.dialogList = [...this.dialogList, { type, element }];
+    runInAction(() => {
+      this.dialogList = [...this.dialogList, { type, element }];
+    });
+
     this.updateButtonActions();
     setTimeout(() => {
       var dialogSection = document.getElementById("explain-section");
@@ -76,15 +78,16 @@ export class DialogStore {
     }, 500);
   };
 
-  setMoveNextWriing = (moveNextWriting: (e: any) => void) => {
+  @action setMoveNextWriing = (moveNextWriting: (e: any) => void) => {
     this.moveNextWriting = moveNextWriting;
-    this.resetWriting();
   };
 
-  resetWriting = () => {
+  @action resetWriting = () => {
     this.setUserCentence("");
     this.setTextInWriting("");
-    this.dialogList = [];
+    runInAction(() => {
+      this.dialogList = [];
+    });
     this.hintCount = 0;
     this.showSubjectiveHint = false;
     this.currentType = "HELP";
@@ -108,6 +111,7 @@ export class DialogStore {
     });
   };
   addHelpJenny = () => {
+    console.log("why?");
     this.appendDialog("jenny", <DialogJenny />);
   };
 
@@ -211,22 +215,23 @@ export class DialogStore {
   };
 
   @action updateButtonActions = () => {
-    let buttons = [];
-    console.log(this.dialogButtons);
+    this.tempButtons = [];
     switch (this.currentType) {
       case "HELP": // 도와줘 제니.
       case "HINT":
       case "WRONG":
         if (!this.showSubjectiveHint) {
-          buttons.push(
+          this.tempButtons.push(
             new DialogButton("👍 첫단어 힌트", this.addSubjectiveHint)
           );
         }
         if (this.hasMoreHint()) {
-          buttons.push(new DialogButton("🙋🏻‍♀️ 힌트", this.addHint));
+          this.tempButtons.push(new DialogButton("🙋🏻‍♀️ 힌트", this.addHint));
         }
-        buttons.push(new DialogButton("🍰 정답 알려줘", this.addShowAnswer));
-        buttons.push(
+        this.tempButtons.push(
+          new DialogButton("🍰 정답 알려줘", this.addShowAnswer)
+        );
+        this.tempButtons.push(
           new DialogButton("😎 다음 문제 풀래", (e: any) =>
             this.moveNextWriting(e)
           )
@@ -236,25 +241,29 @@ export class DialogStore {
       case "CORRECT":
       case "SHOW_ANSWER":
         if (this.hasMoreHint()) {
-          buttons.push(new DialogButton("👨‍🏫 설명해줘", this.addExplain));
+          this.tempButtons.push(
+            new DialogButton("👨‍🏫 설명해줘", this.addExplain)
+          );
         }
-        buttons.push(new DialogButton("🕺다시 풀래", this.reload));
-        buttons.push(
+        this.tempButtons.push(new DialogButton("🕺다시 풀래", this.reload));
+        this.tempButtons.push(
           new DialogButton("😎 다음 문제 풀래", (e: any) =>
             this.moveNextWriting(e)
           )
         );
         break;
       default:
-        buttons.push(new DialogButton("🕺다시 풀래", this.reload));
-
-        buttons.push(
+        this.tempButtons.push(new DialogButton("🕺다시 풀래", this.reload));
+        this.tempButtons.push(
           new DialogButton("😎 다음 문제 풀래", (e: any) =>
             this.moveNextWriting(e)
           )
         );
     }
-    this.dialogButtons = Object.assign(buttons);
+
+    runInAction(() => {
+      this.dialogButtons = Object.assign(this.tempButtons);
+    });
   };
 }
 

@@ -31,13 +31,22 @@ interface IProps {
 
 const WritingBox = observer((props: IProps) => {
   const { writingId, writing } = props;
+  const [textInWriting, setTextInWriting] = useState("");
   const [isShowColorHelp, setIsShowColorHelp] = useState(false);
   const { dialogStore } = useStores();
-  dialogStore.setMoveNextWriing(props.moveNextWriting);
 
+  useEffect(() => {
+    dialogStore.setMoveNextWriing(props.moveNextWriting);
+    dialogStore.resetWriting();
+  }, []);
   /**
    * 도전하기 버튼 클릭 Event
    * */
+  const onChange = (e: any) => {
+    setTextInWriting(e.target.value);
+    dialogStore.setTextInWriting(e.target.value);
+  };
+
   const onSubmitChallenge = (event: any) => {
     const userSentence = dialogStore.textInWrinting;
     event.preventDefault();
@@ -99,9 +108,9 @@ const WritingBox = observer((props: IProps) => {
           </div>
 
           <WritingForm
-            setTextInWrinting={dialogStore.setTextInWriting}
+            onChange={onChange}
             onSubmitChallenge={onSubmitChallenge}
-            textInWrinting={dialogStore.textInWrinting}
+            textInWrinting={textInWriting}
             onClickHelpJenny={dialogStore.addHelpJenny}
             moveNextWriting={props.moveNextWriting}
           />

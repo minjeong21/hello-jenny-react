@@ -1,13 +1,13 @@
 const WritingForm = ({
-  setTextInWrinting,
+  onChange,
   onSubmitChallenge,
   textInWrinting,
   onClickHelpJenny,
   moveNextWriting,
 }: {
   onClickHelpJenny: (e: any) => void;
-  setTextInWrinting: any;
-  onSubmitChallenge: any;
+  onChange: (e: any) => void;
+  onSubmitChallenge: (e: any) => void;
   moveNextWriting: (e: any) => void;
   textInWrinting: string;
 }) => {
@@ -20,7 +20,7 @@ const WritingForm = ({
         id="english_input"
         required
         value={textInWrinting}
-        onChange={(e) => setTextInWrinting(e.target.value)}
+        onChange={onChange}
       />
 
       {/* 버튼 그룹 */}
