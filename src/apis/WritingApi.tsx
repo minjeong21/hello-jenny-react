@@ -2,7 +2,7 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_DFR_API,
-  timeout: 5000,
+  timeout: 10000,
 });
 
 export const fetchRepWriting = async () => {
