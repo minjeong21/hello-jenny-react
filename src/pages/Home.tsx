@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import WritingBox from "components/WritingBox";
-import HeaderSection from "../components/GreetingSection";
+import GreetingSection from "../components/GreetingSection";
 import PathManager from "utils/PathManager";
 import { useHistory } from "react-router";
 import { useStores } from "states/Context";
@@ -20,9 +20,14 @@ const Container = styled.div`
     line-height: 1.3;
   }
   .bg-main {
-    background-image: url(/assets/bg-main3.jpg);
+    background-image: url(/assets/bg-main-6.jpg);
     background-size: cover;
-    background-position: center 80%;
+    background-position: center;
+    height: 600px;
+  }
+
+  #writing-section {
+    margin: -130px auto;
   }
 `;
 
@@ -35,13 +40,13 @@ export default observer(() => {
   }, []);
 
   return (
-    <main className="pt-20">
+    <main>
       <Container>
         <>
           {/* Header 토끼*/}
-          <HeaderSection />
+          <GreetingSection />
           {/* 문제 풀기 섹션 */}
-          <section className="pt-12 ">
+          <section id="writing-section">
             {writingStore.repWriting ? (
               <WritingBox
                 writingId={writingStore.repWriting.getId()}
@@ -58,7 +63,7 @@ export default observer(() => {
           </section>
           {/* 문제 리스트 */}
 
-          <div className="bg-white mt-12 border-t">
+          <div className="pt-24">
             <section className="py-20">
               <div className="text-2xl pb-5">테마별 문제 풀기</div>
 

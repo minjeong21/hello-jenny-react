@@ -31,7 +31,7 @@ const WritingForm = ({
 
         <div className="pr-2 relative">
           <Ping />
-          <TextButton children={"🔑 도와줘 제니"} onClick={onClickHelpJenny} />
+          <TextButton children={"HELP 🔑"} onClick={onClickHelpJenny} />
         </div>
         <div className="pr-2 relative">
           <TextButton

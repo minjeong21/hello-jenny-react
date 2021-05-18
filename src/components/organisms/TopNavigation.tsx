@@ -29,7 +29,7 @@ const TopNavigation = () => {
 
   return (
     <Container className="absolute top-0 w-full">
-      <div className="p-4 bg-white md:min-h-0 border-b ">
+      <div className="p-4 md:min-h-0">
         <nav className="flex px-4 items-center relative">
           <div className="text-lg font-bold md:py-0 py-4">
             <a href="/">

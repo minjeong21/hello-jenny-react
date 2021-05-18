@@ -75,7 +75,7 @@ const WritingBox = observer((props: IProps) => {
         />
       ) : null}
       {/* <!-- A marketing page card built entirely with utility classes --> */}
-      <div className="bg-white  md:flex p-4 rounded-lg shadow-custom">
+      <div className="bg-white p-6 md:flex p- rounded-lg shadow-custom">
         <div className="md:flex-shrink-0">
           <WritingImage imageUrl={writing.getImageURL()} size={null} />
         </div>
