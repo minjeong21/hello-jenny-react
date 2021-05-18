@@ -64,7 +64,7 @@ export default observer(() => {
           {/* Header 토끼*/}
           <GreetingSection />
           {/* 문제 풀기 섹션 */}
-          <section id="writing-section">
+          <section id="writing-section" className="px-2">
             {writingStore.repWriting ? (
               <WritingBox
                 writingId={writingStore.repWriting.getId()}
@@ -81,14 +81,19 @@ export default observer(() => {
           </section>
           {/* 문제 리스트 */}
 
-          <div className="pt-24">
-            <section className="py-20">
-              <div className="text-2xl pb-5">
-                관심있는 주제로 영어 문장을 만들어봐요
+          <div className="pt-48 pb-24">
+            <section className="py-20 px-2">
+              <div className="text-3xl font-bold pb-2">
+                영어를 잘하고 싶은 이유는 무엇인가요?
               </div>
-              <div className="md:grid grid-cols-3 ">
+              <div className="pb-8 text-gray-500">
+                관심가는 주제로 영어 문장을 만들어보세요. 어렵지 않게 영어를
+                익힐 수 있을거에요.
+              </div>
+              <div className="md:grid grid-cols-3 gap-x-2 gap-y-3">
                 {themes.map((theme, index) => (
                   <div
+                    key={index}
                     className="bg-white p-6 m-1 rounded-lg shadow-custom cursor-pointer"
                     onClick={(e) =>
                       pathManager.goNextWriting(
