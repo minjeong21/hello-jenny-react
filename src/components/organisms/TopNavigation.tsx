@@ -42,7 +42,7 @@ const TopNavigation = () => {
   return (
     <Container className="absolute top-0 w-full ">
       <div className="md:p-4 md:min-h-0">
-        <nav className="flex md:p-4 items-center relative justify-between">
+        <nav className="flex md:p-4 px-2 items-center relative justify-between z-10">
           <div className="text-lg font-bold">
             <a href="/">
               <img

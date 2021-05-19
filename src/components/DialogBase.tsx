@@ -1,8 +1,7 @@
 import styled from "styled-components";
-const Container = styled.div``;
 const DialogBase = ({ children }: { children: any }) => {
   return (
-    <Container className="flex md:mt-3 mt-1 md:pl-40">
+    <div className="flex md:mt-2 mt-1 md:pl-40">
       <div>
         <div className="rounded-3xl p-1 flex justify-center aligns-center bg-brown-200">
           <img
@@ -17,7 +16,7 @@ const DialogBase = ({ children }: { children: any }) => {
           {children}
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

@@ -15,8 +15,8 @@ const DialogHint = ({
       <DialogTitle>{talkText}</DialogTitle>
       <DialogDescription
         children={
-          <div className="text-xs md:text-sm">
-            <div className="">
+          <div className="text-xs md:text-base">
+            <div>
               <div className="inline">{hint}</div>
               {hintMore && !visibleMore && (
                 <button

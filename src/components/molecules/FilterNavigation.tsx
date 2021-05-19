@@ -65,9 +65,8 @@ const FilterNavigation = ({
           pagination={{ clickable: true }}
         >
           {LEVEL_MENU.map((item, index) => (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <SmallButton
-                key={index}
                 name="level"
                 value={item.value}
                 text={item.displayName}
@@ -83,9 +82,8 @@ const FilterNavigation = ({
           pagination={{ clickable: true }}
         >
           {THEME_MENU.map((item, index) => (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <SmallButton
-                key={index}
                 name="theme"
                 value={item.value}
                 text={item.text}

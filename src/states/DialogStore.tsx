@@ -110,8 +110,8 @@ export class DialogStore {
       behavior: "smooth",
     });
   };
-  addHelpJenny = () => {
-    console.log("why?");
+  addHelpJenny = (e: any) => {
+    e.preventDefault();
     this.appendDialog("jenny", <DialogJenny />);
   };
 
