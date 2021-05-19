@@ -42,7 +42,7 @@ const FilterNavigation = ({
             />
           ))}
         </div>
-        <div className="inline-block mr-2 mt-2">
+        <div className="inline-block mr-2">
           <button className="mr-3 text-brown-700 font-bold">테마</button>
           {THEME_MENU.map((item, index) => (
             <SmallButton

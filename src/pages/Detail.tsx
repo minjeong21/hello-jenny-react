@@ -59,13 +59,13 @@ const Detail = observer(() => {
   return (
     <Main className="md:pt-20 pt-12">
       {writingStore.currentWriting && writingStore.currentWriting.writing ? (
-        <section className="md:py-20">
+        <section>
           <div className="flex justify-end py-5 px-3">
             <div className="flex bg-primary-200 fit-h self-center px-3 py-2 md:py-4 md:px-5 mr-1 rounded-3xl shadow-lg">
               힌트를 사용해서 문제를 풀어보아요!
             </div>
             <img
-              className="md:w-16 w-10"
+              className="md:w-14 w-10"
               src="/assets/small-quokka-left.png"
               alt="quokka"
             />
@@ -91,6 +91,7 @@ const Detail = observer(() => {
           </div>
         </div>
       )}
+      <div className="md:min-h-50v" />
     </Main>
   );
 });

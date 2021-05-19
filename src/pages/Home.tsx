@@ -30,8 +30,8 @@ const Main = styled.main`
     .bg-main {
       background-image: url(/assets/bg-main-7-mobile.jpg);
       background-size: cover;
-      background-position: center 80%;
-      height: 300px;
+      background-position: center;
+      height: 350px;
     }
   }
   #writing-section {

@@ -172,3 +172,18 @@ section {
 .bg-secondary-600 {
   background-color: #83b027
 }
+
+
+/*  */
+
+.md\:min-h-50v {
+  min-height: 50vh;
+}
+
+.md\:min-h-40v {
+  min-height: 40vh;
+}
+
+.md\:min-h-30v {
+  min-height: 30vh;
+}
