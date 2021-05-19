@@ -74,7 +74,7 @@ const WritingBox = observer((props: IProps) => {
   };
 
   return (
-    <Container className="" id="writing-box">
+    <Container className="p-4 md:p-0" id="writing-box">
       {props.updateFilter ? (
         <FilterNavigation
           updateFilter={props.updateFilter}

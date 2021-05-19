@@ -7,7 +7,7 @@ import { useStores } from "states/Context";
 import { observer } from "mobx-react";
 import { useEffect } from "react";
 
-const Container = styled.div`
+const Main = styled.main`
   padding-bottom: 80px;
   .writing-box {
     max-width: 860px;
@@ -66,57 +66,56 @@ export default observer(() => {
     },
   ];
   return (
-    <main>
-      <Container>
-        <>
-          {/* Header 토끼*/}
-          <GreetingSection />
-          {/* 문제 풀기 섹션 */}
-          <section id="writing-section" className="px-2">
-            {writingStore.repWriting ? (
-              <WritingBox
-                writingId={writingStore.repWriting.getId()}
-                writing={writingStore.repWriting}
-                moveNextWriting={(e) =>
-                  pathManager.goNextWriting(e, writingStore.getNextWritingId())
-                }
-                selectedThemes={[]}
-                selectedLevels={[]}
-              />
-            ) : (
-              <div>Loading...</div>
-            )}
-          </section>
-          {/* 문제 리스트 */}
+    <Main>
+      <>
+        {/* Header 토끼*/}
+        <GreetingSection />
+        {/* 문제 풀기 섹션 */}
+        <section id="writing-section" className="px-2">
+          {writingStore.repWriting ? (
+            <WritingBox
+              writingId={writingStore.repWriting.getId()}
+              writing={writingStore.repWriting}
+              moveNextWriting={(e) =>
+                pathManager.goNextWriting(e, writingStore.getNextWritingId())
+              }
+              selectedThemes={[]}
+              selectedLevels={[]}
+            />
+          ) : (
+            <div>Loading...</div>
+          )}
+        </section>
+        {/* 문제 리스트 */}
 
-          <div className="pt-48 pb-24">
-            <section className="md:py-20 px-3">
-              <div className="md:text-3xl text-2xl font-bold pb-2">
-                영어를 잘하고 싶은 이유는 무엇인가요?
-              </div>
-              <div className="md:text-base text-sm md:pb-8 pb-4 text-gray-500">
-                관심가는 주제로 영어 문장을 만들어보세요. 어렵지 않게 영어를
-                익힐 수 있을거에요.
-              </div>
-              <div className="md:grid grid-cols-3 gap-x-2 gap-y-3">
-                {themes.map((theme, index) => (
-                  <div
-                    key={index}
-                    className="bg-white md:p-6 p-3 m-2 rounded-lg shadow-custom cursor-pointer"
-                    onClick={(e) =>
-                      pathManager.goNextWriting(
-                        e,
-                        writingStore.getNextWritingId()
-                      )
-                    }
-                  >
-                    <h4 className="text-lg font-bold pb-4">{theme.title}</h4>
-                    <p className="text-gray-600 text-sm">{theme.description}</p>
-                  </div>
-                ))}
-              </div>
+        <div className="pt-48 pb-24">
+          <section className="md:py-20 px-4">
+            <div className="md:text-3xl text-2xl font-bold pb-2">
+              영어를 잘하고 싶은 이유는 무엇인가요?
+            </div>
+            <div className="md:text-base text-sm md:pb-8 pb-4 text-gray-500">
+              관심가는 주제로 영어 문장을 만들어보세요. 어렵지 않게 영어를 익힐
+              수 있을거에요.
+            </div>
+            <div className="md:grid grid-cols-3 gap-x-2 gap-y-3">
+              {themes.map((theme, index) => (
+                <div
+                  key={index}
+                  className="bg-white md:p-6 p-3 my-4 rounded-lg shadow-custom cursor-pointer"
+                  onClick={(e) =>
+                    pathManager.goNextWriting(
+                      e,
+                      writingStore.getNextWritingId()
+                    )
+                  }
+                >
+                  <h4 className="text-lg font-bold pb-4">{theme.title}</h4>
+                  <p className="text-gray-600 text-sm">{theme.description}</p>
+                </div>
+              ))}
+            </div>
 
-              {/* {writings && writings.length ? (
+            {/* {writings && writings.length ? (
                 <WritingList
                   writingList={writings.splice(0, 3)}
                   moveWriting={(e) => pathManager.goWritingPage()}
@@ -124,10 +123,9 @@ export default observer(() => {
               ) : (
                 <div>Loading...</div>
               )} */}
-            </section>
-          </div>
-        </>
-      </Container>
-    </main>
+          </section>
+        </div>
+      </>
+    </Main>
   );
 });

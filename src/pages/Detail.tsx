@@ -59,7 +59,7 @@ const Detail = observer(() => {
   return (
     <Main className=" pt-20">
       {writingStore.currentWriting && writingStore.currentWriting.writing ? (
-        <section className="py-20 ">
+        <section className="md:py-20 ">
           <div className="flex justify-end">
             <div className="flex bg-primary-200 fit-h self-center p-2 rounded  font-cute">
               할 수 있따~ 포기하지 말아요~

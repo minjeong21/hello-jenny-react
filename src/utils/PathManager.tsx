@@ -59,10 +59,12 @@ class MovePath {
     );
   };
 
-  getSpeakingPath = (numid: number) => {
-    return generatePath(SPEACKING_PATH, {
-      numid: numid,
-    });
+  goSpeakingPath = (numid: number) => {
+    this.history.push(
+      generatePath(SPEACKING_PATH, {
+        numid: numid,
+      })
+    );
   };
 }
 
