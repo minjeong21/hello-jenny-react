@@ -65,6 +65,7 @@ export default observer(() => {
       description: "팝송 한번 멋지게 불러봐요우우~~🎧 ",
     },
   ];
+
   return (
     <Main>
       <>
@@ -73,15 +74,29 @@ export default observer(() => {
         {/* 문제 풀기 섹션 */}
         <section id="writing-section" className="px-2">
           {writingStore.repWriting ? (
-            <WritingBox
-              writingId={writingStore.repWriting.getId()}
-              writing={writingStore.repWriting}
-              moveNextWriting={(e) =>
-                pathManager.goNextWriting(e, writingStore.getNextWritingId())
-              }
-              selectedThemes={[]}
-              selectedLevels={[]}
-            />
+            <div className="relative">
+              <div
+                className="w-full h-full absolute top-0 z-10 cursor-pointer absolute"
+                onClick={(e) =>
+                  pathManager.goNextWriting(
+                    e,
+                    writingStore.repWriting
+                      ? writingStore.repWriting.getId()
+                      : 0
+                  )
+                }
+              ></div>
+
+              <WritingBox
+                writingId={writingStore.repWriting.getId()}
+                writing={writingStore.repWriting}
+                moveNextWriting={(e) =>
+                  pathManager.goNextWriting(e, writingStore.getNextWritingId())
+                }
+                selectedThemes={[]}
+                selectedLevels={[]}
+              />
+            </div>
           ) : (
             <div>Loading...</div>
           )}
