@@ -1,6 +1,7 @@
 @import "https: //cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
 @import "./tailwind.css";
 
+
 html {
   scroll-behavior: smooth;
 }
@@ -88,19 +89,19 @@ section {
 }
 
 .bg-primary-200 {
-  background-color: #d5fffe;
+  background-color: #c8f4f8;
 }
 
 .bg-primary-300 {
-  background-color: #53cfc8;
+  background-color: #aae7ec;
 }
 
 .bg-primary-500 {
-  background-color: #31cfca;
+  background-color: #8ddcdc;
 }
 
 .bg-primary-600 {
-  background-color: #00b6b0;
+  background-color: #5bb09f;
 }
 
 .bg-primary-700 {
