@@ -8,7 +8,7 @@ const Level = ({ levelNumber }: IProps) => {
 
   return (
     <div className="pb-l">
-      <div className="text">{level?.text}</div>
+      <div className="text">{level?.displayName}</div>
     </div>
   );
 };

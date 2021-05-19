@@ -30,7 +30,7 @@ const FilterNavigation = ({
               key={index}
               name="level"
               value={item.value}
-              text={item.text}
+              text={item.displayName}
               active={selectedLevels.includes(item.value)}
               onClick={updateFilter}
             />
