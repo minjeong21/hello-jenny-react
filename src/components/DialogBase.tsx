@@ -21,7 +21,7 @@ const DialogBase = ({ children }: { children: any }) => {
 };
 
 export const DialogTitle = ({ children }: { children: any }) => (
-  <div className="font-semibold tracking-tight md:text-base text-sm">
+  <div className="font-semibold tracking-tight md:text-base text-sm inline">
     {children}
   </div>
 );

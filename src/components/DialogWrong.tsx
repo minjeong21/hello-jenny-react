@@ -29,10 +29,10 @@ const DialogWrong = ({
             )}
 
             {!isShowHelp && (
-              <>
+              <div className="inline">
                 <span className="text-blue-700">&nbsp;(파랑이 맞는 단어, </span>
                 <span className="text-pink-600">빨강이 틀린 단어에요.</span>)
-              </>
+              </div>
             )}
           </DialogTitle>
 

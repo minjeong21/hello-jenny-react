@@ -18,6 +18,7 @@ const WritingForm = ({
         placeholder="영작하기"
         height="500"
         id="english_input"
+        autoComplete="off"
         required
         value={textInWrinting}
         onChange={onChange}
