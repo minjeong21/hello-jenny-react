@@ -2,6 +2,7 @@ import PathManager from "utils/PathManager";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useStores } from "states/Context";
+import { useState } from "react";
 const Container = styled.nav`
   @media only screen and (min-width: 768px) {
     .parent:hover .child {
@@ -29,9 +30,9 @@ const TopNavigation = () => {
 
   return (
     <Container className="absolute top-0 w-full">
-      <div className="p-4 md:min-h-0">
-        <nav className="flex px-4 items-center relative">
-          <div className="text-lg font-bold md:py-0 py-4">
+      <div className="md:p-4 md:min-h-0">
+        <nav className="flex md:p-4 p-2 items-center relative justify-between">
+          <div className="text-lg font-bold">
             <a href="/">
               <img
                 src="/logo2.png"
@@ -42,7 +43,9 @@ const TopNavigation = () => {
               />
             </a>
           </div>
-          <ul className="md:hidden">햄버거</ul>
+          <ul className="md:hidden">
+            <HamberMenu />
+          </ul>
           <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0 hidden md:block">
             <li className="self-center">
               <button
@@ -52,62 +55,6 @@ const TopNavigation = () => {
                 영작 연습
               </button>
             </li>
-
-            {/* <li className="relative parent">
-              <button
-                onClick={moveRandomWriting}
-                className="flex justify-between md:inline-flex p-4 items-center hover:bg-gray-50 space-x-2"
-              >
-                <span>테마로 영작</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4 fill-current pt-1"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                </svg>
-              </button>
-              <ul className="child transition duration-300 md:absolute top-full right-0 md:w-48 bg-white md:rounded-b ">
-                {THEME_MENU.map((theme, index) => (
-                  <li key={index}>
-                    <Link
-                      to={pathManager.getThemePath(theme.value)}
-                      className="flex px-4 py-3 hover:bg-gray-50"
-                    >
-                      {theme.text}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-
-            <li className="relative parent">
-              <a
-                href="#"
-                className="flex justify-between md:inline-flex p-4 items-center hover:bg-gray-50 space-x-2"
-              >
-                <span>레벨맞춰 영작</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4 fill-current pt-1"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                </svg>
-              </a>
-              <ul className="child transition duration-300 md:absolute top-full right-0 md:w-48 bg-white md:rounded-b ">
-                {LEVEL_MENU.map((item, index) => (
-                  <li key={index}>
-                    <a
-                      onClick={() => pathManager.getThemePath(item.value)}
-                      className="flex px-4 py-3 hover:bg-gray-50"
-                    >
-                      {item.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </li> */}
 
             <li className="self-center">
               <Link
@@ -125,3 +72,40 @@ const TopNavigation = () => {
 };
 
 export default TopNavigation;
+
+const HamberMenu = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="bg-gray-100 flex flex-col justify-center ">
+      <div className="relative sm:max-w-xl mx-auto">
+        <nav x-data="{ open: false }">
+          <button
+            className="text-gray-500 w-10 h-10 relative focus:outline-none bg-white"
+            onClick={() => setOpen(!open)}
+          >
+            <div className="block w-5 absolute left-1/2 top-1/2   transform  -translate-x-1/2 -translate-y-1/2">
+              <span
+                aria-hidden="true"
+                className={`block absolute h-0.5 w-5 bg-current transform transition duration-500 ease-in-out ${
+                  open ? "rotate-45" : " -translate-y-1.5"
+                }`}
+              ></span>
+              <span
+                aria-hidden="true"
+                className={`block absolute  h-0.5 w-5 bg-current   transform transition duration-500 ease-in-out ${
+                  open ? "opacity-0" : ""
+                }`}
+              ></span>
+              <span
+                aria-hidden="true"
+                className={`block absolute  h-0.5 w-5 bg-current transform  transition duration-500 ease-in-out ${
+                  open ? "-rotate-45" : "translate-y-1.5"
+                }`}
+              ></span>
+            </div>
+          </button>
+        </nav>
+      </div>
+    </div>
+  );
+};

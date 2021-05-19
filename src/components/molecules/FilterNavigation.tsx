@@ -71,7 +71,7 @@ const SmallButton = ({
   <button
     name={name}
     value={value}
-    className={`font-semibold text-sm text-gray-600 px-2 py-1 mr-2 border border-gray-300 rounded-md hover:bg-brown-300 ${
+    className={`font-semibold text-sm bg-white text-gray-600 px-2 py-1 mr-2 border border-gray-300 rounded-md hover:bg-brown-300 ${
       active ? `bg-brown-300` : ""
     }`}
     onClick={onClick}

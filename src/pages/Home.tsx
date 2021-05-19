@@ -19,13 +19,21 @@ const Container = styled.div`
     margin: 0 auto;
     line-height: 1.3;
   }
+
   .bg-main {
     background-image: url(/assets/bg-main-6.jpg);
     background-size: cover;
     background-position: center;
     height: 600px;
   }
-
+  @media (max-width: 640px) {
+    .bg-main {
+      background-image: url(/assets/bg-main-7-mobile.jpg);
+      background-size: cover;
+      background-position: center 80%;
+      height: 300px;
+    }
+  }
   #writing-section {
     margin: -130px auto;
   }
@@ -82,11 +90,11 @@ export default observer(() => {
           {/* 문제 리스트 */}
 
           <div className="pt-48 pb-24">
-            <section className="py-20 px-2">
-              <div className="text-3xl font-bold pb-2">
+            <section className="md:py-20 px-3">
+              <div className="md:text-3xl text-2xl font-bold pb-2">
                 영어를 잘하고 싶은 이유는 무엇인가요?
               </div>
-              <div className="pb-8 text-gray-500">
+              <div className="md:text-base text-sm md:pb-8 pb-4 text-gray-500">
                 관심가는 주제로 영어 문장을 만들어보세요. 어렵지 않게 영어를
                 익힐 수 있을거에요.
               </div>
@@ -94,7 +102,7 @@ export default observer(() => {
                 {themes.map((theme, index) => (
                   <div
                     key={index}
-                    className="bg-white p-6 m-1 rounded-lg shadow-custom cursor-pointer"
+                    className="bg-white md:p-6 p-3 m-2 rounded-lg shadow-custom cursor-pointer"
                     onClick={(e) =>
                       pathManager.goNextWriting(
                         e,

@@ -1,11 +1,11 @@
 import IWriting from "interface/IWriting";
+import { LEVEL_MENU } from "properties/Menu";
 
 class Writing {
   writing: IWriting;
 
   constructor(writing: IWriting) {
     this.writing = writing;
-
   }
 
   getWriting = () => {
@@ -159,6 +159,14 @@ class Writing {
   getLevel = () => {
     return this.writing.level;
   };
+  getLevelDisplayName = () => {
+    const level = LEVEL_MENU.find(
+      (item) => Number(item.value) === this.getLevel()
+    );
+
+    return level ? level.displayName : "난이도 없어요!";
+  };
+
   getSituation = () => {
     return this.writing.situation;
   };

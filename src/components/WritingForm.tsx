@@ -14,7 +14,7 @@ const WritingForm = ({
   return (
     <form className="rounded" onSubmit={onSubmitChallenge} id="writing-form">
       <input
-        className="bg-basic-100 border-gray-400 rounded my-2 p-2 text-lg "
+        className="bg-basic-100 border-gray-400 rounded my-2 p-2 md:text-lg text-sm"
         placeholder="영작하기"
         height="500"
         id="english_input"
@@ -65,7 +65,7 @@ const TextButton = ({
   onClick: (e: any) => void;
 }) => (
   <button
-    className="bg-gray-700 hover:bg-primary-600 text-white font-bold h-10 px-4 rounded"
+    className="bg-gray-700 hover:bg-primary-600 text-white font-bold md:px-4 px-3 p-2 rounded md:text-base text-sm"
     onClick={onClick}
   >
     {children}
@@ -74,15 +74,15 @@ const TextButton = ({
 const SubmitButton = ({ text }: { text: string }) => (
   <button
     type="submit"
-    className="bg-gray-700 hover:bg-primary-600 text-white font-bold h-10 px-4 rounded"
+    className="bg-gray-700 hover:bg-primary-600 text-white font-bold md:px-4 px-3 p-2 rounded md:text-base text-sm"
   >
     {text}
   </button>
 );
 const Ping = () => (
   <span className="flex h-3 w-3 absolute right-1">
-    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-    <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+    <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
   </span>
 );
 

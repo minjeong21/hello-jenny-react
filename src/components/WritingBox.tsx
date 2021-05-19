@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
 import Writing from "utils/Writing";
-import Level from "components/atoms/Level";
 import FilterNavigation from "components/molecules/FilterNavigation";
 import WritingForm from "components/WritingForm";
 import DialogBox from "components/DialogBox";
@@ -84,21 +83,25 @@ const WritingBox = observer((props: IProps) => {
         />
       ) : null}
       {/* <!-- A marketing page card built entirely with utility classes --> */}
-      <div className="bg-white p-6 md:flex rounded-lg shadow-custom">
+      <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
         <div className="md:flex-shrink-0">
           <WritingImage imageUrl={writing.getImageURL()} size={null} />
         </div>
-        <div className="mt-4 md:mt-0 md:ml-6 flex-1">
+        <div className="md:ml-6 flex-1">
           <div>
-            <div className="uppercase tracking-wide text-sm">
-              <div className="flex pb-6">
-                <Level levelNumber={writing.getLevel()} />
-                <div className="ml-2 ">{writing.getMainTheme()}</div>
+            <div className="tracking-wide:sm text-sm">
+              <div className="flex md:pb-6 pb-1">
+                <div className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700 border border-gray-300 mr-1">
+                  <div>{writing.getLevelDisplayName()}</div>
+                </div>
+                <div className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700 border border-gray-300 mr-1">
+                  {writing.getMainTheme()}
+                </div>
               </div>
             </div>
 
             {writing.getSituation() && (
-              <p className="mt-2 text-gray-500 text-sm">
+              <p className="mt-3 text-gray-500 text-sm">
                 {writing.getSituation()}
               </p>
             )}
