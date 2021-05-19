@@ -4,18 +4,19 @@ import styled from "styled-components";
 import { useStores } from "states/Context";
 import { useState } from "react";
 const Container = styled.nav`
-  @media only screen and (min-width: 768px) {
-    .parent:hover .child {
-      opacity: 1;
-      height: auto;
-      overflow: none;
-      transform: translateY(0);
-    }
-    .child {
+
+  .fade-in-box {
+    animation: fadein 0.2s;
+  }
+  @keyframes fadein {
+    from {
       opacity: 0;
-      height: 0;
-      overflow: hidden;
-      transform: translateY(-10%);
+      transform: translateY(-15%);
+      t
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 `;
@@ -23,15 +24,25 @@ const Container = styled.nav`
 const TopNavigation = () => {
   const pathManager = new PathManager(useHistory());
   const { writingStore } = useStores();
+  const [open, setOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setOpen(!open);
+  };
 
   const goNextWriting = (e: any) => {
     pathManager.goNextWriting(e, writingStore.getNextWritingId());
+    toggleMenu();
+  };
+  const goSpeacking = () => {
+    pathManager.goSpeakingPath(writingStore.getNextWritingId());
+    toggleMenu();
   };
 
   return (
-    <Container className="absolute top-0 w-full">
+    <Container className="absolute top-0 w-full ">
       <div className="md:p-4 md:min-h-0">
-        <nav className="flex md:p-4 p-2 items-center relative justify-between">
+        <nav className="flex md:p-4 items-center relative justify-between">
           <div className="text-lg font-bold">
             <a href="/">
               <img
@@ -44,26 +55,18 @@ const TopNavigation = () => {
             </a>
           </div>
           <ul className="md:hidden">
-            <HamberMenu />
+            <HamberMenu open={open} toggleMenu={toggleMenu} />
           </ul>
-          <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0 hidden md:block">
-            <li className="self-center">
-              <button
-                onClick={goNextWriting}
-                className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
-              >
-                영작 연습
-              </button>
-            </li>
-
-            <li className="self-center">
-              <Link
-                to={pathManager.getSpeakingPath(1)}
-                className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
-              >
-                스피킹 연습
-              </Link>
-            </li>
+          <ul
+            className={`md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative fade-in-box  ${
+              open
+                ? "bg-white top-full right-0  w-1/2 rounded-lg shadow-lg"
+                : "hidden"
+            }  
+            `}
+          >
+            <WideButton onClick={(e) => goNextWriting(e)} label={"영작 연습"} />
+            <WideButton onClick={goSpeacking} label={"스피킹 연습"} />
           </ul>
         </nav>
       </div>
@@ -73,39 +76,63 @@ const TopNavigation = () => {
 
 export default TopNavigation;
 
-const HamberMenu = () => {
-  const [open, setOpen] = useState(false);
+const HamberMenu = ({
+  open,
+  toggleMenu,
+}: {
+  open: boolean;
+  toggleMenu: () => void;
+}) => {
   return (
-    <div className="bg-gray-100 flex flex-col justify-center ">
-      <div className="relative sm:max-w-xl mx-auto">
-        <nav x-data="{ open: false }">
-          <button
-            className="text-gray-500 w-10 h-10 relative focus:outline-none bg-white"
-            onClick={() => setOpen(!open)}
-          >
-            <div className="block w-5 absolute left-1/2 top-1/2   transform  -translate-x-1/2 -translate-y-1/2">
-              <span
-                aria-hidden="true"
-                className={`block absolute h-0.5 w-5 bg-current transform transition duration-500 ease-in-out ${
-                  open ? "rotate-45" : " -translate-y-1.5"
-                }`}
-              ></span>
-              <span
-                aria-hidden="true"
-                className={`block absolute  h-0.5 w-5 bg-current   transform transition duration-500 ease-in-out ${
-                  open ? "opacity-0" : ""
-                }`}
-              ></span>
-              <span
-                aria-hidden="true"
-                className={`block absolute  h-0.5 w-5 bg-current transform  transition duration-500 ease-in-out ${
-                  open ? "-rotate-45" : "translate-y-1.5"
-                }`}
-              ></span>
-            </div>
-          </button>
-        </nav>
+    <>
+      <div className="bg-gray-100 flex flex-col justify-center rounded">
+        <div className="relative sm:max-w-xl mx-auto">
+          <nav x-data="{ open: false }">
+            <button
+              className="text-gray-500 w-9 h-9 relative focus:outline-none bg-white rounded"
+              onClick={toggleMenu}
+            >
+              <div className="block w-5 absolute left-1/2 top-1/2   transform  -translate-x-1/2 -translate-y-1/2">
+                <span
+                  aria-hidden="true"
+                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-200 ease-in-out ${
+                    open ? "rotate-45" : " -translate-y-1.5"
+                  }`}
+                ></span>
+                <span
+                  aria-hidden="true"
+                  className={`block absolute  h-0.5 w-5 bg-current   transform transition duration-200 ease-in-out ${
+                    open ? "opacity-0" : ""
+                  }`}
+                ></span>
+                <span
+                  aria-hidden="true"
+                  className={`block absolute  h-0.5 w-5 bg-current transform  transition duration-200 ease-in-out ${
+                    open ? "-rotate-45" : "translate-y-1.5"
+                  }`}
+                ></span>
+              </div>
+            </button>
+          </nav>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
+
+const WideButton = ({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: (e?: any) => void;
+}) => (
+  <li className="block active:border-purple-light hover:bg-grey-lighter border-l-4 pl-2 mb-1 md:border-0">
+    <button
+      className="text-left md:text-center rounded-md md:px-4 py-2 font-semibold text-gray-600 w-max"
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  </li>
+);
