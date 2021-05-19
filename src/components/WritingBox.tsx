@@ -91,10 +91,10 @@ const WritingBox = observer((props: IProps) => {
           <div>
             <div className="tracking-wide:sm text-sm">
               <div className="flex md:pb-6 pb-1">
-                <div className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700 border border-gray-300 mr-1">
+                <div className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1">
                   <div>{writing.getLevelDisplayName()}</div>
                 </div>
-                <div className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700 border border-gray-300 mr-1">
+                <div className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1">
                   {writing.getMainTheme()}
                 </div>
               </div>

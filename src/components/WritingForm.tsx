@@ -14,7 +14,7 @@ const WritingForm = ({
   return (
     <form className="rounded" onSubmit={onSubmitChallenge} id="writing-form">
       <input
-        className="bg-basic-100 border-gray-400 rounded my-2 p-2 md:text-lg text-sm"
+        className="bg-basic-100 border-gray-400 rounded my-2 p-1 md:p-2 md:text-lg text-sm"
         placeholder="영작하기"
         height="500"
         id="english_input"
