@@ -37,7 +37,7 @@ const WritingBox = observer((props: IProps) => {
   useEffect(() => {
     dialogStore.setMoveNextWriing(props.moveNextWriting);
     dialogStore.resetWriting();
-  }, []);
+  }, [writingId]);
   /**
    * 도전하기 버튼 클릭 Event
    * */
