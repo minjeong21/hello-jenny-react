@@ -222,19 +222,17 @@ export class DialogStore {
       case "WRONG":
         if (!this.showSubjectiveHint) {
           this.tempButtons.push(
-            new DialogButton("👍 첫단어 힌트", this.addSubjectiveHint)
+            new DialogButton("첫 단어 🔑", this.addSubjectiveHint)
           );
         }
         if (this.hasMoreHint()) {
-          this.tempButtons.push(new DialogButton("🙋🏻‍♀️ 힌트", this.addHint));
+          this.tempButtons.push(new DialogButton("힌트 🔑", this.addHint));
         }
         this.tempButtons.push(
-          new DialogButton("🍰 정답 알려줘", this.addShowAnswer)
+          new DialogButton("정답 알려줘 😎", this.addShowAnswer)
         );
         this.tempButtons.push(
-          new DialogButton("😎 다음 문제 풀래", (e: any) =>
-            this.moveNextWriting(e)
-          )
+          new DialogButton("다음 문제", (e: any) => this.moveNextWriting(e))
         );
 
         break;
@@ -247,17 +245,13 @@ export class DialogStore {
         }
         this.tempButtons.push(new DialogButton("🕺다시 풀래", this.reload));
         this.tempButtons.push(
-          new DialogButton("😎 다음 문제 풀래", (e: any) =>
-            this.moveNextWriting(e)
-          )
+          new DialogButton("😎 다음 문제", (e: any) => this.moveNextWriting(e))
         );
         break;
       default:
         this.tempButtons.push(new DialogButton("🕺다시 풀래", this.reload));
         this.tempButtons.push(
-          new DialogButton("😎 다음 문제 풀래", (e: any) =>
-            this.moveNextWriting(e)
-          )
+          new DialogButton("😎 다음 문제", (e: any) => this.moveNextWriting(e))
         );
     }
 

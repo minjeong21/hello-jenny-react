@@ -15,29 +15,31 @@ const DialogHint = ({
       <DialogTitle>{talkText}</DialogTitle>
       <DialogDescription
         children={
-          <>
-            {hint}
-            {hintMore && !visibleMore && (
-              <button
-                className="ml-2 bg-primary-500 p-3 text-white rounded px-2 py-1 text-sm"
-                onClick={() => setVisibleMore(true)}
-              >
-                자세히
-              </button>
-            )}
+          <div className="text-xs md:text-sm">
+            <div className="">
+              <div className="inline">{hint}</div>
+              {hintMore && !visibleMore && (
+                <button
+                  className="ml-2 bg-primary-600 rounded px-2 py-1 font-bold text-white "
+                  onClick={() => setVisibleMore(true)}
+                >
+                  자세히
+                </button>
+              )}
+            </div>
 
             {visibleMore && (
-              <div className="py-2 text-sm text-gray-600">
-                {hintMore}
+              <div className="flex flex-col">
+                <div className="text-gray-600">{hintMore}</div>
                 <button
-                  className="ml-2 bg-primary-500 p-3 text-white rounded px-2 py-1 text-sm"
+                  className="m-1 bg-primary-600 rounded px-2 py-1 font-bold text-white mt-2 self-end"
                   onClick={() => setVisibleMore(false)}
                 >
                   접기
                 </button>
               </div>
             )}
-          </>
+          </div>
         }
       />
     </DialogBase>

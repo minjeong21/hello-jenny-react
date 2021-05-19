@@ -16,16 +16,14 @@ const DialogBox = observer(({ writing }: { writing: Writing }) => {
             {/* 설명 */}
           </div>
         </article>
-        <section className="relative" id="explain-section">
-          <div>
-            {dialogStore.dialogList.map((dialog, index) => (
-              <div key={index}>{dialog.element}</div>
-            ))}
-          </div>
+        <section className="relative pt-2" id="explain-section">
+          {dialogStore.dialogList.map((dialog, index) => (
+            <div key={index}>{dialog.element}</div>
+          ))}
         </section>
         <section>
           {dialogStore.getDialogs().length > 0 && dialogStore.dialogButtons && (
-            <div className="flex justify-end pt-3">
+            <div className="flex justify-end pt-3 flex-wrap">
               {dialogStore.dialogButtons.map((item, index) => (
                 <SmallButton
                   key={index}
@@ -50,7 +48,7 @@ const SmallButton = ({
 }) => (
   <button
     onClick={onClick}
-    className="focus:outline-none text-sm py-1 px-2 rounded-md text-white bg-brown-500 hover:bg-brown-700 ml-1"
+    className="focus:outline-none text-xs md:text-sm font-bold md:font-medium py-1 px-2 rounded-md text-white bg-brown-500 hover:bg-brown-700 ml-1"
   >
     {text}
   </button>
