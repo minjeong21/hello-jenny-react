@@ -1,9 +1,13 @@
 import { generatePath } from "react-router";
-const THEME_PATH = "/theme/:theme/";
-const WRITING_PATH = "/writing/:numid/";
-const SPEACKING_PATH = "/speaking/:numid/";
-const WRITING_BASE_PATH = "/writing/";
 
+const Path = {
+  PROFILE: "/profile/",
+  LOGIN: "/signin/",
+  REGISTER: "/signup/",
+  WRITING_DETAIL: "/writing/:numid/",
+  SPEACKING: "/speaking/:numid/",
+  WRITING_BASE: "/writing/",
+};
 class MovePath {
   history: any;
   currentId: number;
@@ -18,21 +22,35 @@ class MovePath {
   };
 
   goWritingPage = () => {
-    return this.history.push(generatePath(WRITING_BASE_PATH));
+    return this.history.push(generatePath(Path.WRITING_BASE));
   };
 
   goNextWriting = (e: any, writingId: number) => {
     e.preventDefault();
     this.history.push(
-      generatePath(WRITING_PATH, {
+      generatePath(Path.WRITING_DETAIL, {
         numid: writingId,
       })
     );
   };
 
+  goUserProfile = (e: any) => {
+    e.preventDefault();
+    this.history.push(Path.PROFILE);
+  };
+
+  goSignIn = (e: any) => {
+    e.preventDefault();
+    this.history.push(Path.LOGIN);
+  };
+  goReigster = (e: any) => {
+    e.preventDefault();
+    this.history.push(Path.REGISTER);
+  };
+
   goSpeakingPath = (numid: number) => {
     this.history.push(
-      generatePath(SPEACKING_PATH, {
+      generatePath(Path.SPEACKING, {
         numid: numid,
       })
     );

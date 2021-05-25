@@ -24,10 +24,12 @@ const Container = styled.nav`
 const TopNavigation = () => {
   const pathManager = new PathManager(useHistory());
   const { writingStore } = useStores();
-  const [open, setOpen] = useState(false);
+  const [openMenu, setMenuOpen] = useState(false);
+  const [openProfile, setProfileOpen] = useState(false);
+  const [loggined, setLoggined] = useState(false);
 
   const toggleMenu = () => {
-    setOpen(!open);
+    setMenuOpen(!openMenu);
   };
 
   const goNextWriting = (e: any) => {
@@ -55,11 +57,11 @@ const TopNavigation = () => {
             </a>
           </div>
           <ul className="md:hidden">
-            <HamberMenu open={open} toggleMenu={toggleMenu} />
+            <HamberMenu open={openMenu} toggleMenu={toggleMenu} />
           </ul>
           <ul
             className={`md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative fade-in-box  ${
-              open
+              openMenu
                 ? "bg-white top-full right-0  w-1/2 rounded-lg shadow-lg"
                 : "hidden"
             }  
@@ -68,6 +70,31 @@ const TopNavigation = () => {
             <WideButton onClick={(e) => goNextWriting(e)} label={"영작 연습"} />
             <WideButton onClick={goSpeacking} label={"스피킹 연습"} />
           </ul>
+          {loggined ? (
+            <>
+              <button
+                onClick={(e) => pathManager.goUserProfile(e)}
+                className="flex ml-3 text-gray-400 text-sm border-2 border-white
+            rounded-full focus:outline-none focus:border-gray-300 transition
+            duration-150 ease-in-out"
+              >
+                <img
+                  className="h-8 w-8 rounded-full"
+                  src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
+                />
+              </button>
+              {openProfile ? <div>hello</div> : null}
+            </>
+          ) : (
+            <>
+              <button
+                onClick={(e) => pathManager.goSignIn(e)}
+                className="bg-primary-700 text-white font-bold ml-2 py-2 px-3 rounded shadow-custom"
+              >
+                SignIn
+              </button>
+            </>
+          )}
         </nav>
       </div>
     </Container>
@@ -75,6 +102,23 @@ const TopNavigation = () => {
 };
 
 export default TopNavigation;
+
+const WideButton = ({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: (e?: any) => void;
+}) => (
+  <li className="block active:border-purple-light hover:bg-grey-lighter border-l-4 pl-2 mb-1 md:border-0">
+    <button
+      className="text-left md:text-center rounded-md md:px-4 py-2 font-semibold text-gray-600 w-max"
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  </li>
+);
 
 const HamberMenu = ({
   open,
@@ -120,19 +164,27 @@ const HamberMenu = ({
   );
 };
 
-const WideButton = ({
-  label,
-  onClick,
+const ProfileMenu = ({
+  open,
+  toggleProflie,
 }: {
-  label: string;
-  onClick: (e?: any) => void;
-}) => (
-  <li className="block active:border-purple-light hover:bg-grey-lighter border-l-4 pl-2 mb-1 md:border-0">
-    <button
-      className="text-left md:text-center rounded-md md:px-4 py-2 font-semibold text-gray-600 w-max"
-      onClick={onClick}
-    >
-      {label}
-    </button>
-  </li>
-);
+  open: boolean;
+  toggleProflie: () => void;
+}) => {
+  return (
+    <>
+      <div className="bg-gray-100 flex flex-col justify-center rounded">
+        <ul
+          className={`md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative fade-in-box  ${
+            open
+              ? "bg-white top-full right-0  w-1/2 rounded-lg shadow-lg"
+              : "hidden"
+          }  
+            `}
+        >
+          hello
+        </ul>
+      </div>
+    </>
+  );
+};

@@ -20,7 +20,7 @@ const DialogHint = ({
               <div className="inline">{hint}</div>
               {hintMore && !visibleMore && (
                 <button
-                  className="ml-2 bg-primary-600 rounded px-2 py-1 font-bold text-white "
+                  className="ml-2 bg-primary-700 rounded px-2 py-1 font-bold text-white "
                   onClick={() => setVisibleMore(true)}
                 >
                   자세히
@@ -32,7 +32,7 @@ const DialogHint = ({
               <div className="flex flex-col">
                 <div className="text-gray-600">{hintMore}</div>
                 <button
-                  className="m-1 bg-primary-600 rounded px-2 py-1 font-bold text-white mt-2 self-end"
+                  className="m-1 bg-primary-700 rounded px-2 py-1 font-bold text-white mt-2 self-end"
                   onClick={() => setVisibleMore(false)}
                 >
                   접기

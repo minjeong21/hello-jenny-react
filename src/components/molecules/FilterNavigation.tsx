@@ -115,7 +115,7 @@ const SmallButton = ({
     name={name}
     value={value}
     className={`my-1 mr-1 button-level font-semibold md:text-sm text-xs px-2 py-1 rounded-md shadow ${
-      active ? `bg-primary-600 text-white` : "bg-white text-gray-600"
+      active ? `bg-primary-700 text-white` : "bg-white text-gray-600"
     }`}
     onClick={onClick}
   >

@@ -11,6 +11,7 @@ input {
 }
 
 body {
+  min-height: 100vh;
   background-color: #fbf9f3;
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -99,7 +100,7 @@ section {
   background-color: #8ddcdc;
 }
 
-.bg-primary-600 {
+.bg-primary-700 {
   background-color: #5bb09f;
 }
 
@@ -125,6 +126,31 @@ section {
 
 .bg-basic-100 {
   background-color: #fbf9f3;
+}
+
+
+.border-primary-500 {
+  border-color: #53cfc8;
+}
+
+.border-primary-600 {
+  border-color: #31cfca;
+}
+
+.border-primary-700 {
+  border-color: #00b6b0;
+}
+
+.outline-primary-500 {
+  outline-color: #53cfc8;
+}
+
+.outline-primary-600 {
+  outline-color: #31cfca;
+}
+
+.outline-primary-700 {
+  outline-color: #00b6b0;
 }
 
 
