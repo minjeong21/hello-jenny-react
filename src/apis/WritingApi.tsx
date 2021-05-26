@@ -7,7 +7,7 @@ const instance = axios.create({
 
 export const fetchRepWriting = async () => {
   return instance
-    .get("/recap/")
+    .get("/writing/recap/")
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);
@@ -17,7 +17,7 @@ export const fetchRepWriting = async () => {
 
 export const fetchWritings = async () => {
   return instance
-    .get("/writings/")
+    .get("/writing/list/")
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);
@@ -25,14 +25,11 @@ export const fetchWritings = async () => {
     });
 };
 export const fetchWritingListFiltered = async (
-  levels: string[],
-  theme: string[]
+  levels: string,
+  themes: string
 ) => {
   return instance
-    .post("/writings_filtered/", {
-      levels,
-      theme,
-    })
+    .get(`/writing/list/filtered/?theme=${themes}&level=${levels}`)
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);
@@ -43,26 +40,6 @@ export const fetchWritingListFiltered = async (
 export const fetchWritingByNumId = async (id: number) => {
   return instance
     .get(`/writing/${id}/`)
-    .then((response) => response.data)
-    .catch(function (error) {
-      console.log(error);
-      return error;
-    });
-};
-
-export const fetchWritingListByTheme = async (theme: string) => {
-  return instance
-    .get(`/pracitce/theme/${theme}/list/`)
-    .then((response) => response.data)
-    .catch(function (error) {
-      console.log(error);
-      return error;
-    });
-};
-
-export const fetchWritingListByLevel = async (level: number) => {
-  return instance
-    .get(`/pracitce/level/${level}/list/`)
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);

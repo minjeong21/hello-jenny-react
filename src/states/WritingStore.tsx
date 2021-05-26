@@ -50,7 +50,7 @@ export class WritingStore {
     this.setWritings(response.data);
   };
 
-  updateWritings = async (levels: string[], themes: string[]) => {
+  updateWritings = async (levels: string, themes: string) => {
     const response = await fetchWritingListFiltered(levels, themes);
     this.setWritings(response.data);
     this.currentWriting = new Writing(response.data[0]);
