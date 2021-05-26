@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import WritingBox from "components/WritingBox";
 import styled from "styled-components";
+import FilterNavigation from "components/molecules/FilterNavigation";
 import PathManager from "utils/PathManager";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
@@ -53,23 +54,34 @@ const Detail = observer(() => {
       updateButtonUI(selectedThemes, "bg-brown-300");
       setSelectedThemes(selectedThemes);
     }
-    writingStore.updateWritings(selectedLevels, selectedThemes);
+    writingStore.updateWritings(
+      selectedLevels.join(","),
+      selectedThemes.join(",")
+    );
   };
 
   return (
-    <Main className="md:pt-20 pt-12">
-      {writingStore.currentWriting && writingStore.currentWriting.writing ? (
-        <section>
-          <div className="flex justify-end py-5 px-3">
-            <div className="flex bg-primary-200 fit-h self-center px-3 py-2 md:py-4 md:px-5 mr-1 rounded-3xl shadow-lg">
-              힌트를 사용해서 문제를 풀어보아요!
-            </div>
-            <img
-              className="md:w-14 w-10"
-              src="/assets/small-quokka-left.png"
-              alt="quokka"
-            />
+    <Main className="md:pt-20 pt-12 px-3">
+      <section>
+        <div className="flex justify-end py-5 px-3">
+          <div className="flex bg-primary-200 fit-h self-center px-3 py-2 md:py-4 md:px-5 mr-1 rounded-3xl shadow-lg">
+            힌트를 사용해서 문제를 풀어보아요!
           </div>
+          <img
+            className="md:w-14 w-10"
+            src="/assets/small-quokka-left.png"
+            alt="quokka"
+          />
+        </div>
+        {updateFilter ? (
+          <FilterNavigation
+            updateFilter={updateFilter}
+            selectedLevels={selectedLevels}
+            selectedThemes={selectedThemes}
+          />
+        ) : null}
+
+        {writingStore.currentWriting && writingStore.currentWriting.writing ? (
           <WritingBox
             writingId={writingStore.currentWriting.writing.id}
             writing={writingStore.currentWriting}
@@ -80,17 +92,22 @@ const Detail = observer(() => {
             selectedLevels={selectedLevels}
             selectedThemes={selectedThemes}
           />
-        </section>
-      ) : (
-        <div>
+        ) : (
           <div>
-            <div className="pt-24 flex flex-col items-center">
-              <div>잠시만요!</div>
-              <img src="/assets/small-quokka.png" width="100px" alt="quokka" />
+            <div>
+              <div className="pt-24 flex flex-col items-center">
+                <div>이 조합에는 문제를 준비중입니다!</div>
+                <img
+                  src="/assets/small-quokka.png"
+                  width="100px"
+                  alt="quokka"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </section>
+
       <div className="md:min-h-50v" />
     </Main>
   );
