@@ -89,9 +89,9 @@ const TopNavigation = () => {
             <>
               <button
                 onClick={(e) => pathManager.goSignIn(e)}
-                className="bg-primary-700 text-white font-bold ml-2 py-2 px-3 rounded shadow-custom"
+                className="bg-primary-700 text-white font-bold ml-2 py-2 px-3 rounded shadow-sm"
               >
-                SignIn
+                Login
               </button>
             </>
           )}
