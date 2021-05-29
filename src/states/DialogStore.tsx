@@ -97,7 +97,7 @@ export class DialogStore {
     if (englishInput) {
       englishInput.readOnly = false;
       englishInput.classList.add("bg-basic-100");
-      englishInput.addEventListener("focus", this.scrollEvent);
+      // englishInput.addEventListener("focus", this.scrollEvent);
     }
   };
 
