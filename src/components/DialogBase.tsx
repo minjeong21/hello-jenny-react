@@ -27,6 +27,6 @@ export const DialogTitle = ({ children }: { children: any }) => (
 );
 
 export const DialogDescription = ({ children }: { children: any }) => (
-  <div className="md:text-sm text-xs whitespace-pre-line pt-2">{children}</div>
+  <div className="md:text-sm text-xs pt-2">{children}</div>
 );
 export default DialogBase;
