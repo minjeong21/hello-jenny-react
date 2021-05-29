@@ -1,6 +1,22 @@
 @import "https: //cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
 @import "./tailwind.css";
 
+:root {
+  --color-primary-600: #31cfca;
+  --color-primary-700: #1fb8b4;
+  --color-gray-200: rgb(229, 231, 235);
+  --color-gray-300: rgb(209, 213, 219);
+  --color-gray-400: rgb(156, 163, 175);
+  --color-gray-500: rgb(107, 114, 128);
+  --color-gray-600: rgb(75, 85, 99);
+  --color-white: white;
+}
+
+
+
+button:disabled {
+  background-color: var(--color-gray-300) !important;
+}
 
 html {
   scroll-behavior: smooth;
@@ -100,7 +116,7 @@ section {
   background-color: #8ddcdc;
 }
 
-.bg-primary-700 {
+.bg-primary-600 {
   background-color: #5bb09f;
 }
 

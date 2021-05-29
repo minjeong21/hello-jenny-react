@@ -22,9 +22,6 @@ interface IProps {
   writingId: number;
   writing: Writing;
   moveNextWriting: (e: any) => void;
-  updateFilter?: (e: any) => void;
-  selectedLevels: string[];
-  selectedThemes: string[];
   openPopup?: () => void;
 }
 
@@ -92,8 +89,9 @@ const WritingBox = observer((props: IProps) => {
                 >
                   <div>{writing.getLevelDisplayName()}</div>
                 </button>
-                {writing.getThemes()?.map((theme) => (
+                {writing.getThemes()?.map((theme, index) => (
                   <button
+                    key={index}
                     className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1"
                     onClick={props.openPopup}
                   >

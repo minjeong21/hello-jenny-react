@@ -20,20 +20,11 @@ const Main = styled.main`
 const Detail = observer(() => {
   const pathManager = new PathManager(useHistory());
   let { id } = useParams<ParamTypes>();
-  const [popup, setPopupOpen] = useState(false);
+  const [popupOpen, setPopupOpen] = useState(false);
   const { writingStore } = useStores();
-  const openPopup = () => {
-    setPopupOpen(true);
-  };
-
-  const saveFilter = () => {
-    alert("저장한다");
-  };
 
   useEffect(() => {
     writingStore.currentWriting = null;
-    console.log("레벨", writingStore.selectedLevels.join(", "));
-    console.log("테마", writingStore.selectedThemes.join(","));
     writingStore.fetchWriting(Number(id));
 
     // Params
@@ -43,42 +34,7 @@ const Detail = observer(() => {
       writingStore.setSelectedThemes([theme]);
     }
   }, [id]);
-  const updateFilter = (e: any) => {
-    const { target } = e;
-    const { value, name } = target;
 
-    const updateButtonUI = (list: string[], activeBgColor: string) => {
-      if (list.includes(value)) {
-        const idx = list.indexOf(value);
-        if (idx > -1) list.splice(idx, 1);
-        target.classList.remove(activeBgColor);
-        target.classList.remove("border-brown-300");
-        target.classList.add("border-gray-300");
-        target.classList.add("text-gray-600");
-      } else {
-        list.push(value);
-        target.classList.add(activeBgColor);
-        target.classList.remove("border-gray-300");
-        target.classList.add("border-brown-300");
-        target.classList.remove("text-gray-600");
-      }
-    };
-
-    if (name === "level") {
-      updateButtonUI(writingStore.selectedLevels, "bg-brown-300");
-      writingStore.setSelectedLevel(writingStore.selectedLevels);
-    } else if (name === "theme") {
-      updateButtonUI(writingStore.selectedThemes, "bg-brown-300");
-      writingStore.setSelectedThemes(writingStore.selectedThemes);
-    }
-  };
-
-  const SaveFilter = () => {
-    writingStore.fetchFilteredWritingAndUpdate(
-      writingStore.selectedLevels.join(","),
-      writingStore.selectedThemes.join(",")
-    );
-  };
   return (
     <Main className="md:pt-20 pt-12 px-3">
       <section>
@@ -93,11 +49,9 @@ const Detail = observer(() => {
           />
         </div>
         <FilterPopup
-          open={popup}
+          open={popupOpen}
           closePopup={() => setPopupOpen(false)}
-          updateFilter={updateFilter}
-          selectedLevels={writingStore.selectedLevels}
-          selectedThemes={writingStore.selectedThemes}
+          pathManager={pathManager}
         />
         {/* {updateFilter ? (
           <FilterNavigation
@@ -115,9 +69,6 @@ const Detail = observer(() => {
             moveNextWriting={(e) =>
               pathManager.goNextWriting(e, writingStore.getNextWritingId())
             }
-            updateFilter={updateFilter}
-            selectedLevels={writingStore.selectedLevels}
-            selectedThemes={writingStore.selectedThemes}
           />
         ) : (
           <div>

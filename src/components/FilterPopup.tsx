@@ -1,25 +1,72 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 import FilterNavigation from "./molecules/FilterNavigation";
+import { useStores } from "states/Context";
+import { toJS } from "mobx";
+import PathManager from "utils/PathManager";
 
 interface IProps {
   open: boolean;
+  pathManager: PathManager;
   closePopup: () => void;
-  updateFilter: (e: any) => void;
-  selectedLevels: string[];
-  selectedThemes: string[];
 }
-export default function FilterPopup({
-  open,
-  closePopup,
-  updateFilter,
-  selectedLevels,
-  selectedThemes,
-}: IProps) {
+export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
   const cancelButtonRef = useRef(null);
+  const { writingStore } = useStores();
 
+  const [levels, setLevels] = useState<string[]>(
+    toJS(writingStore.selectedLevels)
+  );
+  const [themes, setThemes] = useState<string[]>(
+    toJS(writingStore.selectedThemes)
+  );
+
+  const onClickFilterButton = (e: any) => {
+    const element = e.target;
+    const { name, value } = element;
+
+    if (name === "level") {
+      const idx = levels.indexOf(value);
+      idx > -1 ? levels.splice(idx, 1) : levels.push(value);
+    } else {
+      const idx = themes.indexOf(value);
+      idx > -1 ? themes.splice(idx, 1) : themes.push(value);
+    }
+    element.classList.toggle("active");
+    checkBlank();
+  };
+
+  const checkBlank = () => {
+    const saveButton: any = document.querySelector("#filter-save-button");
+    if (levels.length === 0 || themes.length === 0) {
+      saveButton.setAttribute("disabled", true);
+    } else {
+      saveButton.removeAttribute("disabled");
+    }
+  };
+
+  const saveFilter = (e: any) => {
+    writingStore.setSelectedLevel(levels);
+    writingStore.setSelectedThemes(themes);
+    console.log("saveFilter");
+    console.log(writingStore.selectedLevels.join(","));
+    console.log(writingStore.selectedThemes.join(","));
+    writingStore.fetchFilteredWritingAndUpdate(
+      e,
+      writingStore.selectedLevels.join(","),
+      writingStore.selectedThemes.join(","),
+      pathManager
+    );
+    closePopup();
+  };
+
+  const resetClose = () => {
+    setLevels(toJS(writingStore.selectedLevels));
+    setThemes(toJS(writingStore.selectedThemes));
+    closePopup();
+  };
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
@@ -28,7 +75,7 @@ export default function FilterPopup({
         className="fixed z-10 inset-0 overflow-y-auto"
         initialFocus={cancelButtonRef}
         open={open}
-        onClose={closePopup}
+        onClose={resetClose}
       >
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -63,24 +110,25 @@ export default function FilterPopup({
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                   <FilterNavigation
-                    updateFilter={() => {}}
-                    selectedLevels={selectedLevels}
-                    selectedThemes={selectedThemes}
+                    onClickFilter={onClickFilterButton}
+                    selectedLevels={levels}
+                    selectedThemes={themes}
                   />
                 </div>
               </div>
               <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-700 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={updateFilter}
+                  id="filter-save-button"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-700 text-base font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                  onClick={saveFilter}
                 >
                   적용하기
                 </button>
                 <button
                   type="button"
                   className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={closePopup}
+                  onClick={resetClose}
                   ref={cancelButtonRef}
                 >
                   취소하기

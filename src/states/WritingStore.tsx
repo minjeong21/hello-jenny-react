@@ -41,7 +41,6 @@ export class WritingStore {
 
   fetchRepWriting = async () => {
     const response = await fetchRepWriting();
-
     runInAction(() => {
       this.setRepWriting(response.rep_writing);
       this.setRepThemes(response.themes);
@@ -64,7 +63,6 @@ export class WritingStore {
           .getThemes()
           ?.map((item) => item.name);
         this.setSelectedThemes(themes);
-        console.log(themes);
       }
     });
   };
@@ -74,9 +72,15 @@ export class WritingStore {
     this.setWritings(response.data);
   };
 
-  fetchFilteredWritingAndUpdate = async (levels: string, themes: string) => {
+  fetchFilteredWritingAndUpdate = async (
+    e: any,
+    levels: string,
+    themes: string,
+    pathManager: PathManager
+  ) => {
     const response = await fetchWritingListFiltered(levels, themes);
     this.setWritings(response.data);
+    pathManager.goNextWriting(e, response.data[0].id);
   };
 
   setRepWriting = (writing: IWriting) => {
@@ -103,7 +107,6 @@ export class WritingStore {
     } else {
       this.setCurrentIndex(0);
     }
-
     return this.writings ? this.writings[this.currentIndex].id : -1;
   };
 
@@ -114,7 +117,7 @@ export class WritingStore {
   ) => {
     this.writings = null;
     let writing: IWriting;
-    await this.fetchFilteredWritingAndUpdate("", themeName);
+    await this.fetchFilteredWritingAndUpdate(e, "", themeName, pathManager);
 
     runInAction(() => {
       this.setSelectedThemes([themeName]);

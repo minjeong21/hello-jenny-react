@@ -256,7 +256,7 @@ const SpeakingBox = (props: IProps) => {
               <MainTheme themes={writing.themes} />
             </div>
             {sentenceList.map((item, index) => (
-              <ProblemContainer>
+              <ProblemContainer key={index}>
                 <KorSentenceContainer>{item.korean}</KorSentenceContainer>
                 <EngSentenceContainer>{item.english}</EngSentenceContainer>
                 <ButtonCheckContainer>

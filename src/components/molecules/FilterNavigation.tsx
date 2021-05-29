@@ -13,39 +13,33 @@ const Navgation = styled.ul`
   .swiper-slide {
     width: fit-content;
   }
+
+  .filter-button {
+    color: var(--color-gray-600);
+    background-color: white;
+  }
+  .filter-button.active {
+    background-color: var(--color-primary-700);
+    color: white;
+  }
 `;
 interface IProps {
-  updateFilter: (e: any) => void;
+  onClickFilter: (element: any) => void;
   selectedLevels: string[];
   selectedThemes: string[];
 }
 
 const FilterNavigation = ({
-  updateFilter,
+  onClickFilter,
   selectedLevels,
   selectedThemes,
 }: IProps) => {
   return (
     <Navgation className="flex mb-2">
       {/* Desktop View */}
-      <div className="w-full pb-3 hidden md:block">
+      <div className="w-full pb-3 ">
         <div>
-          <h3 className="font-bold text-lg pt-6">테마</h3>
-          <div className="inline-block mr-2">
-            {THEME_MENU.map((item, index) => (
-              <SmallButton
-                key={index}
-                name="theme"
-                value={item.value}
-                text={item.text}
-                active={selectedThemes.includes(item.value)}
-                onClick={updateFilter}
-              />
-            ))}
-          </div>
-        </div>
-        <div>
-          <h3 className="font-bold text-lg pt-2">레벨</h3>
+          <button className="mr-3 text-lg font-bold">레벨</button>
           <div className="inline-block mr-2 mt-2">
             {LEVEL_MENU.map((item, index) => (
               <SmallButton
@@ -54,49 +48,26 @@ const FilterNavigation = ({
                 value={item.value}
                 text={item.displayName}
                 active={selectedLevels.includes(item.value)}
-                onClick={updateFilter}
+                onClick={onClickFilter}
               />
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Mobile View */}
-      <div className="w-full pb-2 md:hidden">
-        <Swiper
-          spaceBetween={2}
-          slidesPerView={"auto"}
-          pagination={{ clickable: true }}
-        >
-          {LEVEL_MENU.map((item, index) => (
-            <SwiperSlide key={index}>
+        <div className="pt-6">
+          <button className="mr-3 text-lg font-bold">테마</button>
+          <div className="inline-block mr-2">
+            {THEME_MENU.map((item, index) => (
               <SmallButton
-                name="level"
-                value={item.value}
-                text={item.displayName}
-                active={selectedLevels.includes(item.value)}
-                onClick={updateFilter}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        <Swiper
-          spaceBetween={1}
-          slidesPerView={"auto"}
-          pagination={{ clickable: true }}
-        >
-          {THEME_MENU.map((item, index) => (
-            <SwiperSlide key={index}>
-              <SmallButton
+                key={index}
                 name="theme"
                 value={item.value}
                 text={item.text}
                 active={selectedThemes.includes(item.value)}
-                onClick={updateFilter}
+                onClick={onClickFilter}
               />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+            ))}
+          </div>
+        </div>
       </div>
     </Navgation>
   );
@@ -118,8 +89,8 @@ const SmallButton = ({
   <button
     name={name}
     value={value}
-    className={`my-1 mr-1 button-level font-semibold md:text-sm text-xs px-2 py-1 rounded-md shadow ${
-      active ? `bg-primary-700 text-white` : "bg-white text-gray-600"
+    className={`my-1 mr-1 button-level font-semibold md:text-sm text-xs px-2 py-1 rounded-md shadow filter-button ${
+      active ? "active" : ""
     }`}
     onClick={onClick}
   >

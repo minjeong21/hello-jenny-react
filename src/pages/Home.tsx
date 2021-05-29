@@ -74,8 +74,6 @@ export default observer(() => {
                 moveNextWriting={(e) =>
                   pathManager.goNextWriting(e, writingStore.getNextWritingId())
                 }
-                selectedThemes={[]}
-                selectedLevels={[]}
               />
             </div>
           ) : (
