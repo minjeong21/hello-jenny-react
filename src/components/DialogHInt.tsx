@@ -17,7 +17,10 @@ const DialogHint = ({
         children={
           <div className="text-xs md:text-base">
             <div>
-              <div className="inline">{hint}</div>
+              <div
+                className="inline"
+                dangerouslySetInnerHTML={{ __html: hint }}
+              ></div>
               {hintMore && !visibleMore && (
                 <button
                   className="ml-2 bg-primary-700 rounded px-2 py-1 font-bold text-white "
@@ -28,9 +31,14 @@ const DialogHint = ({
               )}
             </div>
 
-            {visibleMore && (
+            {visibleMore && hintMore && (
               <div className="flex flex-col">
-                <div className="text-gray-600">{hintMore}</div>
+                <div
+                  className="text-gray-600"
+                  dangerouslySetInnerHTML={{ __html: hintMore }}
+                >
+                  {hintMore}
+                </div>
                 <button
                   className="m-1 bg-primary-700 rounded px-2 py-1 font-bold text-white mt-2 self-end"
                   onClick={() => setVisibleMore(false)}

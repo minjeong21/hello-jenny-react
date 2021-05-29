@@ -89,7 +89,9 @@ export class WritingStore {
     this.currentWriting = new Writing(writing);
   };
   setWritings = (writings: IWriting[]) => {
-    this.writings = Object.assign(writings);
+    if (writings) {
+      this.writings = Object.assign(writings);
+    }
   };
   setCurrentIndex = (index: number) => {
     this.currentIndex = index;
