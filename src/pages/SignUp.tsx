@@ -5,6 +5,7 @@ import PathManager from "utils/PathManager";
 import { observer } from "mobx-react";
 import GoogleIcon from "components/GoogleIcon";
 import KakaoIcon from "components/KakaoIcon";
+import { registerUser } from "apis/AuthApi";
 
 const Main = styled.main`
   .margin-auto {
@@ -47,7 +48,8 @@ const SignUp = observer(() => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [username, setUsername] = useState("");
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
 
   useEffect(() => {}, [step]);
 
@@ -55,13 +57,13 @@ const SignUp = observer(() => {
     console.log(step);
     let allPass = true;
     switch (step) {
-      case 1:
+      case 0:
         allPass = email ? true : false;
         break;
-      case 2:
+      case 1:
         allPass = password && password2 && username ? true : false;
         break;
-      case 3:
+      case 2:
         break;
     }
     if (allPass) {
@@ -87,6 +89,13 @@ const SignUp = observer(() => {
     pathManager.goSignIn(e);
   };
 
+  const signUpUser = async () => {
+    // TODO: 회원가입 로직 Store로 빼기?
+    const response = await registerUser(email, username, password);
+    console.log(response);
+    setSignUpSuccess(true);
+    setStep(10);
+  };
   return (
     <Main className="pt-24 pb-24 flex flex-col items-center">
       <div className="w-full margin-auto p-3 md:pt-16">
@@ -102,7 +111,7 @@ const SignUp = observer(() => {
 
         <section className="p-8 max-w-screen-sm width-460 bg-white border rounded-lg  shadow-custom z-10">
           <h3 className="md:text-3xl text-2xl font-bold mb-6 text-center">
-            제니 멤버 되기
+            제니 멤버되기
           </h3>
           {step === 0 && (
             <>
@@ -208,13 +217,13 @@ const SignUp = observer(() => {
 
               <button
                 className="py-3 mt-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full"
-                onClick={goNextStep}
+                onClick={signUpUser}
               >
                 Continue
               </button>
             </>
           )}
-          {step === 3 && (
+          {signUpSuccess && (
             <>
               <div className="pb-1 text-3xl">
                 제니의 멤버가 되신 것을 환영해요!!

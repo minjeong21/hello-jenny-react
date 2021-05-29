@@ -5,6 +5,7 @@ import PathManager from "utils/PathManager";
 import { observer } from "mobx-react";
 import GoogleIcon from "components/GoogleIcon";
 import KakaoIcon from "components/KakaoIcon";
+import { loginUser } from "apis/AuthApi";
 
 const Main = styled.main`
   .margin-auto {
@@ -50,8 +51,11 @@ const SignIn = observer(() => {
 
   useEffect(() => {}, []);
 
-  const signinWithEmail = () => {
-    alert(email + "/" + password + " ->email");
+  const signinWithEmail = async () => {
+    // AuthStore 추가
+    const response = await loginUser(email, password);
+    console.log(response);
+    sessionStorage.setItem("token", response.token);
   };
 
   const signinWithKakao = () => {
