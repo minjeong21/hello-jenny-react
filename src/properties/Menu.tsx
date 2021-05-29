@@ -7,8 +7,19 @@ export const LEVEL_MENU = [
   { value: "6", displayName: "🤩 초고수" },
 ];
 export const THEME_MENU = [
-  { text: "🙋🏻‍♀️ 친구 만들기 ", value: "friend" },
-  { text: "👔 비즈니스 영어 ", value: "business" },
-  { text: "🍿 영화 속 명대사 ", value: "movie" },
-  { text: "🎙 노랫 속 가사 ", value: "music" },
+  {
+    value: "friend",
+    text: "🙋🏻‍♀️ 친구 만들기",
+  },
+  {
+    value: "business",
+    text: "👔 비즈니스 영어",
+  },
+  { value: "daily", text: "🍎 일상" },
+  { value: "love", text: "💕 사랑" },
+  {
+    value: "wise_saying",
+    text: "👨‍🏫 인생 명언",
+  },
+  { value: "news", text: "🎙 뉴스" },
 ];

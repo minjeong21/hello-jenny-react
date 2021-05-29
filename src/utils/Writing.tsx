@@ -156,6 +156,14 @@ class Writing {
       return null;
     }
   };
+
+  getThemes = () => {
+    if (this.writing.themes && this.writing.themes.length > 0) {
+      return this.writing.themes;
+    } else {
+      return null;
+    }
+  };
   getLevel = () => {
     return this.writing.level;
   };

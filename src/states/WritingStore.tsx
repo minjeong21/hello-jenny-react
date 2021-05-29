@@ -17,12 +17,17 @@ export class WritingStore {
   repThemes: ITheme[] | null;
   currentWriting: Writing | null;
   currentIndex: number;
+  selectedLevels: string[];
+  selectedThemes: string[];
 
   constructor(root: any) {
     makeObservable(this, {
       writings: observable,
       repWriting: observable,
       currentWriting: observable,
+      repThemes: observable,
+      selectedLevels: observable,
+      selectedThemes: observable,
     });
     this.rootStore = root;
     this.currentIndex = 0;
@@ -30,7 +35,8 @@ export class WritingStore {
     this.repWriting = null;
     this.repThemes = null;
     this.currentWriting = null;
-    this.fetchWritingsDefault();
+    this.selectedLevels = [];
+    this.selectedThemes = [];
   }
 
   fetchRepWriting = async () => {
@@ -39,15 +45,27 @@ export class WritingStore {
     runInAction(() => {
       this.setRepWriting(response.rep_writing);
       this.setRepThemes(response.themes);
-      console.log(response.themes);
     });
   };
 
   fetchWriting = async (id: number) => {
     const response = await fetchWritingByNumId(id);
-
     runInAction(() => {
       this.setCurrentWriting(response.data);
+      if (this.currentWriting && this.selectedLevels.length === 0) {
+        this.setSelectedLevel([`${this.currentWriting.getLevel()}`]);
+      }
+      if (
+        this.currentWriting &&
+        this.selectedThemes.length === 0 &&
+        this.currentWriting.getThemes()
+      ) {
+        let themes: any = this.currentWriting
+          .getThemes()
+          ?.map((item) => item.name);
+        this.setSelectedThemes(themes);
+        console.log(themes);
+      }
     });
   };
 
@@ -59,7 +77,6 @@ export class WritingStore {
   fetchFilteredWritingAndUpdate = async (levels: string, themes: string) => {
     const response = await fetchWritingListFiltered(levels, themes);
     this.setWritings(response.data);
-    // this.currentWriting = new Writing(response.data[0]);
   };
 
   setRepWriting = (writing: IWriting) => {
@@ -95,13 +112,25 @@ export class WritingStore {
   ) => {
     this.writings = null;
     let writing: IWriting;
-
     await this.fetchFilteredWritingAndUpdate("", themeName);
-    if (this.writings) {
-      writing = this.writings[0];
-      pathManager.goWritingWithTheme(e, writing.id, themeName);
-    } else {
-      alert("다시 시도해주세요.");
-    }
+
+    runInAction(() => {
+      this.setSelectedThemes([themeName]);
+      if (this.writings) {
+        writing = this.writings[0];
+        pathManager.goWritingWithTheme(e, writing.id, themeName);
+
+        this.setSelectedLevel([`${writing.level}`]);
+      } else {
+        alert("다시 시도해주세요.");
+      }
+    });
+  };
+
+  setSelectedLevel = (values: string[]) => {
+    this.selectedLevels = values;
+  };
+  setSelectedThemes = (values: string[]) => {
+    this.selectedThemes = values;
   };
 }

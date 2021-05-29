@@ -29,31 +29,35 @@ const FilterNavigation = ({
     <Navgation className="flex mb-2">
       {/* Desktop View */}
       <div className="w-full pb-3 hidden md:block">
-        <div className="inline-block mr-2 mt-2">
-          <button className="mr-3 text-brown-700 font-bold">레벨</button>
-          {LEVEL_MENU.map((item, index) => (
-            <SmallButton
-              key={index}
-              name="level"
-              value={item.value}
-              text={item.displayName}
-              active={selectedLevels.includes(item.value)}
-              onClick={updateFilter}
-            />
-          ))}
+        <div>
+          <h3 className="font-bold text-lg pt-6">테마</h3>
+          <div className="inline-block mr-2">
+            {THEME_MENU.map((item, index) => (
+              <SmallButton
+                key={index}
+                name="theme"
+                value={item.value}
+                text={item.text}
+                active={selectedThemes.includes(item.value)}
+                onClick={updateFilter}
+              />
+            ))}
+          </div>
         </div>
-        <div className="inline-block mr-2">
-          <button className="mr-3 text-brown-700 font-bold">테마</button>
-          {THEME_MENU.map((item, index) => (
-            <SmallButton
-              key={index}
-              name="theme"
-              value={item.value}
-              text={item.text}
-              active={selectedThemes.includes(item.value)}
-              onClick={updateFilter}
-            />
-          ))}
+        <div>
+          <h3 className="font-bold text-lg pt-2">레벨</h3>
+          <div className="inline-block mr-2 mt-2">
+            {LEVEL_MENU.map((item, index) => (
+              <SmallButton
+                key={index}
+                name="level"
+                value={item.value}
+                text={item.displayName}
+                active={selectedLevels.includes(item.value)}
+                onClick={updateFilter}
+              />
+            ))}
+          </div>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import WritingBox from "components/WritingBox";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import FilterNavigation from "components/molecules/FilterNavigation";
 import PathManager from "utils/PathManager";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
+import FilterPopup from "components/FilterPopup";
 
 interface ParamTypes {
   id?: string;
@@ -18,13 +19,29 @@ const Main = styled.main`
 `;
 const Detail = observer(() => {
   const pathManager = new PathManager(useHistory());
-  let { id, theme, level } = useParams<ParamTypes>();
-  const [selectedLevels, setSelectedLevel] = useState<string[]>(["1", "2"]);
-  const [selectedThemes, setSelectedThemes] = useState<string[]>(["friend"]);
+  let { id } = useParams<ParamTypes>();
+  const [popup, setPopupOpen] = useState(false);
   const { writingStore } = useStores();
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const saveFilter = () => {
+    alert("저장한다");
+  };
 
   useEffect(() => {
+    writingStore.currentWriting = null;
+    console.log("레벨", writingStore.selectedLevels.join(", "));
+    console.log("테마", writingStore.selectedThemes.join(","));
     writingStore.fetchWriting(Number(id));
+
+    // Params
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("theme")) {
+      const theme: any = params.get("theme") ? params.get("theme") : "";
+      writingStore.setSelectedThemes([theme]);
+    }
   }, [id]);
   const updateFilter = (e: any) => {
     const { target } = e;
@@ -48,18 +65,20 @@ const Detail = observer(() => {
     };
 
     if (name === "level") {
-      updateButtonUI(selectedLevels, "bg-brown-300");
-      setSelectedLevel(selectedLevels);
+      updateButtonUI(writingStore.selectedLevels, "bg-brown-300");
+      writingStore.setSelectedLevel(writingStore.selectedLevels);
     } else if (name === "theme") {
-      updateButtonUI(selectedThemes, "bg-brown-300");
-      setSelectedThemes(selectedThemes);
+      updateButtonUI(writingStore.selectedThemes, "bg-brown-300");
+      writingStore.setSelectedThemes(writingStore.selectedThemes);
     }
-    writingStore.fetchFilteredWritingAndUpdate(
-      selectedLevels.join(","),
-      selectedThemes.join(",")
-    );
   };
 
+  const SaveFilter = () => {
+    writingStore.fetchFilteredWritingAndUpdate(
+      writingStore.selectedLevels.join(","),
+      writingStore.selectedThemes.join(",")
+    );
+  };
   return (
     <Main className="md:pt-20 pt-12 px-3">
       <section>
@@ -73,24 +92,32 @@ const Detail = observer(() => {
             alt="quokka"
           />
         </div>
-        {updateFilter ? (
+        <FilterPopup
+          open={popup}
+          closePopup={() => setPopupOpen(false)}
+          updateFilter={updateFilter}
+          selectedLevels={writingStore.selectedLevels}
+          selectedThemes={writingStore.selectedThemes}
+        />
+        {/* {updateFilter ? (
           <FilterNavigation
             updateFilter={updateFilter}
-            selectedLevels={selectedLevels}
-            selectedThemes={selectedThemes}
+            selectedLevels={writingStore.selectedLevels}
+            selectedThemes={writingStore.selectedThemes}
           />
-        ) : null}
+        ) : null} */}
 
         {writingStore.currentWriting && writingStore.currentWriting.writing ? (
           <WritingBox
+            openPopup={() => setPopupOpen(true)}
             writingId={writingStore.currentWriting.writing.id}
             writing={writingStore.currentWriting}
             moveNextWriting={(e) =>
               pathManager.goNextWriting(e, writingStore.getNextWritingId())
             }
             updateFilter={updateFilter}
-            selectedLevels={selectedLevels}
-            selectedThemes={selectedThemes}
+            selectedLevels={writingStore.selectedLevels}
+            selectedThemes={writingStore.selectedThemes}
           />
         ) : (
           <div>

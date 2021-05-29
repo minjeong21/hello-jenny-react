@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
 import Writing from "utils/Writing";
-import FilterNavigation from "components/molecules/FilterNavigation";
 import WritingForm from "components/WritingForm";
 import DialogBox from "components/DialogBox";
 import { useStores } from "states/Context";
@@ -26,6 +25,7 @@ interface IProps {
   updateFilter?: (e: any) => void;
   selectedLevels: string[];
   selectedThemes: string[];
+  openPopup?: () => void;
 }
 
 const WritingBox = observer((props: IProps) => {
@@ -86,12 +86,20 @@ const WritingBox = observer((props: IProps) => {
           <div>
             <div className="tracking-wide:sm text-sm">
               <div className="flex md:pb-6 pb-1">
-                <div className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700  mr-1">
+                <button
+                  className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700  mr-1"
+                  onClick={props.openPopup}
+                >
                   <div>{writing.getLevelDisplayName()}</div>
-                </div>
-                <div className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1">
-                  {writing.getMainTheme()}
-                </div>
+                </button>
+                {writing.getThemes()?.map((theme) => (
+                  <button
+                    className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1"
+                    onClick={props.openPopup}
+                  >
+                    {theme.display_name}
+                  </button>
+                ))}
               </div>
             </div>
 
