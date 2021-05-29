@@ -5,7 +5,8 @@ import PathManager from "utils/PathManager";
 import { useHistory } from "react-router";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import SkeletonWritingBox from "components/SkeleontWritingBox";
 
 const Main = styled.main`
   padding-bottom: 80px;
@@ -77,7 +78,9 @@ export default observer(() => {
               />
             </div>
           ) : (
-            <div>Loading...</div>
+            <div>
+              <SkeletonWritingBox />
+            </div>
           )}
         </section>
         {/* 문제 리스트 */}

@@ -76,7 +76,7 @@ const WritingBox = observer((props: IProps) => {
     <Container className="p-4 md:p-0" id="writing-box">
       {/* <!-- A marketing page card built entirely with utility classes --> */}
       <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
-        <div className="md:flex-shrink-0">
+        <div className="md:flex-shrink-0 bg-gray-100">
           <WritingImage imageUrl={writing.getImageURL()} size={null} />
         </div>
         <div className="md:ml-6 flex-1">

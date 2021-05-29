@@ -7,6 +7,7 @@ import PathManager from "utils/PathManager";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
 import FilterPopup from "components/FilterPopup";
+import SkeletonWritingBox from "components/SkeleontWritingBox";
 
 interface ParamTypes {
   id?: string;
@@ -26,12 +27,15 @@ const Detail = observer(() => {
   useEffect(() => {
     writingStore.currentWriting = null;
     writingStore.fetchWriting(Number(id));
-
     // Params
     const params = new URLSearchParams(window.location.search);
     if (params.has("theme")) {
       const theme: any = params.get("theme") ? params.get("theme") : "";
       writingStore.setSelectedThemes([theme]);
+    }
+    // If WritingNone, fetch
+    if (!writingStore.writings || writingStore.writings.length == 0) {
+      writingStore.fetchWritingsDefault();
     }
   }, [id]);
 
@@ -62,31 +66,24 @@ const Detail = observer(() => {
         ) : null} */}
 
         {writingStore.currentWriting && writingStore.currentWriting.writing ? (
-          <WritingBox
-            openPopup={() => setPopupOpen(true)}
-            writingId={writingStore.currentWriting.writing.id}
-            writing={writingStore.currentWriting}
-            moveNextWriting={(e) =>
-              pathManager.goNextWriting(e, writingStore.getNextWritingId())
-            }
-          />
+          <>
+            <WritingBox
+              openPopup={() => setPopupOpen(true)}
+              writingId={writingStore.currentWriting.writing.id}
+              writing={writingStore.currentWriting}
+              moveNextWriting={(e) =>
+                pathManager.goNextWriting(e, writingStore.getNextWritingId())
+              }
+            />
+          </>
         ) : (
           <div>
-            <div>
-              <div className="pt-24 flex flex-col items-center">
-                <div>이 조합에는 문제를 준비중입니다!</div>
-                <img
-                  src="/assets/small-quokka.png"
-                  width="100px"
-                  alt="quokka"
-                />
-              </div>
-            </div>
+            <SkeletonWritingBox />
           </div>
         )}
       </section>
 
-      <div className="md:min-h-50v" />
+      <div className="md:pb-12" />
     </Main>
   );
 });
