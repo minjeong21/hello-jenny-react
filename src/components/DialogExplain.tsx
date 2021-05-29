@@ -17,13 +17,16 @@ const DialogExplain = ({
           <DialogDescription
             children={
               <>
-                <div className="font-bold p-1">
-                  ({index + 1}) {hint.description}
-                </div>
+                ({index + 1})
+                <div
+                  className="font-bold p-1"
+                  dangerouslySetInnerHTML={{ __html: hint.description }}
+                ></div>
                 {hint.description_more && (
-                  <div className="p-2 text-sm text-gray-600">
-                    {hint.description_more}
-                  </div>
+                  <div
+                    className="p-2 text-sm text-gray-600"
+                    dangerouslySetInnerHTML={{ __html: hint.description_more }}
+                  ></div>
                 )}
               </>
             }
