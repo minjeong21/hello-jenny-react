@@ -36,7 +36,7 @@ const WritingBox = observer((props: IProps) => {
     dialogStore.resetWriting();
     setTextInWriting("");
     setIsShowColorHelp(false);
-  }, [writingId]);
+  }, [writingId, dialogStore]);
   /**
    * 도전하기 버튼 클릭 Event
    * */

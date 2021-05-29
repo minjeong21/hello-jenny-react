@@ -1,4 +1,3 @@
-import styled from "styled-components";
 const DialogBase = ({ children }: { children: any }) => {
   return (
     <div className="flex md:mt-2 mt-1 md:pl-40">

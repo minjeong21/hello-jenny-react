@@ -1,4 +1,4 @@
-export default () => (
+const GoogleIcon = () => (
   <svg
     viewBox="0 0 18 18"
     className="svg-inline--fa fa-comment fa-w-16 fa-lg mr-2 w-5 h-5"
@@ -21,3 +21,5 @@ export default () => (
     ></path>
   </svg>
 );
+
+export default GoogleIcon;

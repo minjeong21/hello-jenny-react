@@ -1,8 +1,8 @@
 import PathManager from "utils/PathManager";
-import { Link, useHistory } from "react-router-dom";
-import styled from "styled-components";
-import { useStores } from "states/Context";
 import { useState } from "react";
+import { useStores } from "states/Context";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 const Container = styled.nav`
 
   .fade-in-box {
@@ -80,6 +80,7 @@ const TopNavigation = () => {
               >
                 <img
                   className="h-8 w-8 rounded-full"
+                  alt="user avatar"
                   src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
                 />
               </button>

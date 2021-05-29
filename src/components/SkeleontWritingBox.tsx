@@ -1,11 +1,4 @@
-import { useEffect, useState } from "react";
-import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
-import Writing from "utils/Writing";
-import WritingForm from "components/WritingForm";
-import DialogBox from "components/DialogBox";
-import { useStores } from "states/Context";
-import { observer } from "mobx-react";
 
 const Container = styled.div`
   input {

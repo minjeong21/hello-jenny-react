@@ -1,7 +1,7 @@
 import { LEVEL_MENU, THEME_MENU } from "properties/Menu";
 import styled from "styled-components";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.scss";
+
 const Navgation = styled.ul`
   a {
     width: 100px;

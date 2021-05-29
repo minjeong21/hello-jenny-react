@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import WritingBox from "components/WritingBox";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { observer } from "mobx-react";
 import styled from "styled-components";
 import PathManager from "utils/PathManager";
-import { useStores } from "states/Context";
-import { observer } from "mobx-react";
 
 const Main = styled.main`
   min-height: calc(100vh - 45px);
@@ -16,8 +14,6 @@ const Main = styled.main`
     margin: 0 auto;
   }
 `;
-
-// https://scontent-gmp1-1.xx.fbcdn.net/v/t1.6435-9/187749158_5518684844869977_4143896323752426109_n.jpg?_nc_cat=109&ccb=1-3&_nc_sid=730e14&_nc_ohc=r5k68SUl0-gAX-xiemP&_nc_ht=scontent-gmp1-1.xx&oh=18d79f3e5f549cf6aa66b31a1ad34c39&oe=60D04BED
 
 const Badges = [
   {

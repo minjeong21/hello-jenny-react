@@ -1,12 +1,11 @@
-import styled from "styled-components";
-import WritingBox from "components/WritingBox";
-import GreetingSection from "../components/GreetingSection";
-import PathManager from "utils/PathManager";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
-import React, { useEffect } from "react";
+import styled from "styled-components";
+import WritingBox from "components/WritingBox";
 import SkeletonWritingBox from "components/SkeleontWritingBox";
+import PathManager from "utils/PathManager";
 
 const Main = styled.main`
   padding-bottom: 80px;
@@ -46,13 +45,12 @@ export default observer(() => {
 
   useEffect(() => {
     writingStore.fetchRepWriting();
-  }, []);
+  }, [writingStore]);
 
   return (
     <Main>
       <>
-        {/* Header 토끼*/}
-        <GreetingSection />
+        <div className="bg-main pt-20 pb-10"></div>
         {/* 문제 풀기 섹션 */}
         <section id="writing-section" className="px-2">
           {writingStore.repWriting ? (

@@ -1,7 +1,4 @@
-import DialogBase, {
-  DialogDescription,
-  DialogTitle,
-} from "components/DialogBase";
+import DialogBase, { DialogTitle } from "components/DialogBase";
 
 const DialogAnswer = ({
   answer,

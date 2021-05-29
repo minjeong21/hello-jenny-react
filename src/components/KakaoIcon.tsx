@@ -1,4 +1,4 @@
-export default () => (
+const KakaoIcon = () => (
   <svg
     aria-hidden="true"
     focusable="false"
@@ -15,3 +15,5 @@ export default () => (
     ></path>
   </svg>
 );
+
+export default KakaoIcon;

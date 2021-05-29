@@ -1,10 +1,8 @@
-/* This example requires Tailwind CSS v2.0+ */
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationIcon } from "@heroicons/react/outline";
-import FilterNavigation from "./molecules/FilterNavigation";
+import React, { Fragment, useRef, useState } from "react";
 import { useStores } from "states/Context";
+import { Dialog, Transition } from "@headlessui/react";
 import { toJS } from "mobx";
+import FilterNavigation from "./molecules/FilterNavigation";
 import PathManager from "utils/PathManager";
 
 interface IProps {

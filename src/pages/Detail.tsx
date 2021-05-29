@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import WritingBox from "components/WritingBox";
-import styled from "styled-components";
-import FilterNavigation from "components/molecules/FilterNavigation";
-import PathManager from "utils/PathManager";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
+import styled from "styled-components";
+import PathManager from "utils/PathManager";
+import WritingBox from "components/WritingBox";
 import FilterPopup from "components/FilterPopup";
 import SkeletonWritingBox from "components/SkeleontWritingBox";
 
@@ -34,10 +33,10 @@ const Detail = observer(() => {
       writingStore.setSelectedThemes([theme]);
     }
     // If WritingNone, fetch
-    if (!writingStore.writings || writingStore.writings.length == 0) {
+    if (!writingStore.writings || writingStore.writings.length === 0) {
       writingStore.fetchWritingsDefault();
     }
-  }, [id]);
+  }, [id, writingStore]);
 
   return (
     <Main className="md:pt-20 pt-12 px-3">
