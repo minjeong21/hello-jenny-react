@@ -83,11 +83,11 @@ const Detail = observer(() => {
     <Main className="md:pt-20 pt-12 px-3">
       <section>
         <div className="flex justify-end py-5 px-3">
-          <div className="flex bg-primary-200 fit-h self-center px-3 py-2 md:py-4 md:px-5 mr-1 rounded-3xl shadow-lg">
+          <div className="flex bg-gray-200 fit-h self-center px-3 py-2 md:py-3 md:px-5 mr-1 rounded-xl shadow-sm">
             힌트를 사용해서 문제를 풀어보아요!
           </div>
           <img
-            className="md:w-14 w-10 h-10"
+            className="w-12 h-14"
             src="/assets/small-quokka-left.png"
             alt="quokka"
           />

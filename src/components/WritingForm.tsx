@@ -39,7 +39,7 @@ const WritingForm = ({
             children={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="h-6 w-6"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -66,7 +66,7 @@ const TextButton = ({
   onClick: (e: any) => void;
 }) => (
   <button
-    className="bg-gray-700 hover:bg-primary-700 text-white font-bold md:px-4 px-3 p-2 rounded md:text-base text-sm"
+    className="bg-gray-700 hover:bg-primary-700 text-white font-bold md:px-4 px-3 py-2 rounded md:text-base text-sm"
     onClick={onClick}
   >
     {children}
@@ -75,7 +75,7 @@ const TextButton = ({
 const SubmitButton = ({ text }: { text: string }) => (
   <button
     type="submit"
-    className="bg-gray-700 hover:bg-primary-700 text-white font-bold md:px-4 px-3 p-2 rounded md:text-base text-sm"
+    className="bg-gray-700 hover:bg-primary-700 text-white font-bold md:px-4 px-3 py-2 rounded md:text-base text-sm"
   >
     {text}
   </button>
