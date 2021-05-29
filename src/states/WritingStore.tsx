@@ -4,14 +4,17 @@ import {
   fetchWritingListFiltered,
   fetchWritings,
 } from "apis/WritingApi";
+import ITheme from "interface/ITheme";
 import IWriting from "interface/IWriting";
 import { makeObservable, observable, runInAction } from "mobx";
+import PathManager from "utils/PathManager";
 import Writing from "utils/Writing";
 
 export class WritingStore {
   rootStore;
   writings: IWriting[] | null;
   repWriting: Writing | null;
+  repThemes: ITheme[] | null;
   currentWriting: Writing | null;
   currentIndex: number;
 
@@ -25,6 +28,7 @@ export class WritingStore {
     this.currentIndex = 0;
     this.writings = null;
     this.repWriting = null;
+    this.repThemes = null;
     this.currentWriting = null;
     this.fetchWritingsDefault();
   }
@@ -34,6 +38,8 @@ export class WritingStore {
 
     runInAction(() => {
       this.setRepWriting(response.rep_writing);
+      this.setRepThemes(response.themes);
+      console.log(response.themes);
     });
   };
 
@@ -50,14 +56,17 @@ export class WritingStore {
     this.setWritings(response.data);
   };
 
-  updateWritings = async (levels: string, themes: string) => {
+  fetchFilteredWritingAndUpdate = async (levels: string, themes: string) => {
     const response = await fetchWritingListFiltered(levels, themes);
     this.setWritings(response.data);
-    this.currentWriting = new Writing(response.data[0]);
+    // this.currentWriting = new Writing(response.data[0]);
   };
 
   setRepWriting = (writing: IWriting) => {
     this.repWriting = new Writing(writing);
+  };
+  setRepThemes = (themes: ITheme[]) => {
+    this.repThemes = themes;
   };
   setCurrentWriting = (writing: IWriting) => {
     this.currentWriting = new Writing(writing);
@@ -77,5 +86,22 @@ export class WritingStore {
     }
 
     return this.writings ? this.writings[this.currentIndex].id : -1;
+  };
+
+  moveWritingWithTheme = async (
+    e: any,
+    pathManager: PathManager,
+    themeName: string
+  ) => {
+    this.writings = null;
+    let writing: IWriting;
+
+    await this.fetchFilteredWritingAndUpdate("", themeName);
+    if (this.writings) {
+      writing = this.writings[0];
+      pathManager.goWritingWithTheme(e, writing.id, themeName);
+    } else {
+      alert("다시 시도해주세요.");
+    }
   };
 }

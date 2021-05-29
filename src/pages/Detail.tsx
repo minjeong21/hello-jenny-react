@@ -54,7 +54,7 @@ const Detail = observer(() => {
       updateButtonUI(selectedThemes, "bg-brown-300");
       setSelectedThemes(selectedThemes);
     }
-    writingStore.updateWritings(
+    writingStore.fetchFilteredWritingAndUpdate(
       selectedLevels.join(","),
       selectedThemes.join(",")
     );
@@ -68,7 +68,7 @@ const Detail = observer(() => {
             힌트를 사용해서 문제를 풀어보아요!
           </div>
           <img
-            className="md:w-14 w-10"
+            className="md:w-14 w-10 h-10"
             src="/assets/small-quokka-left.png"
             alt="quokka"
           />

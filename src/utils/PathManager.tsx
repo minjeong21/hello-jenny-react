@@ -5,6 +5,7 @@ const Path = {
   LOGIN: "/signin/",
   REGISTER: "/signup/",
   WRITING_DETAIL: "/writing/:numid/",
+  WRITING_DETAIL_THEME: "/writing/:numid/?theme=:theme",
   SPEACKING: "/speaking/:numid/",
   WRITING_BASE: "/writing/",
 };
@@ -34,6 +35,15 @@ class MovePath {
     );
   };
 
+  goWritingWithTheme = (e: any, writingId: number, theme: string) => {
+    e.preventDefault();
+    this.history.push(
+      generatePath(Path.WRITING_DETAIL_THEME, {
+        numid: writingId,
+        theme: theme,
+      })
+    );
+  };
   goUserProfile = (e: any) => {
     e.preventDefault();
     this.history.push(Path.PROFILE);
