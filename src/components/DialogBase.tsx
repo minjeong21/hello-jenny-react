@@ -5,7 +5,7 @@ const DialogBase = ({ children }: { children: any }) => {
       <div>
         <div className="rounded-3xl p-1 flex justify-center aligns-center bg-brown-200">
           <img
-            className=" w-10 md:w-12 "
+            className=" w-10 md:w-12 h-10 md:h-12"
             src="/assets/jenny-avatar.png"
             alt="quokka avatar"
           />
