@@ -13,6 +13,9 @@
 }
 
 
+main {
+  min-height: 100vh;
+}
 
 button:disabled {
   background-color: var(--color-gray-300) !important;
