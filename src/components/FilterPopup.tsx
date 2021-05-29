@@ -50,9 +50,6 @@ export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
   const saveFilter = (e: any) => {
     writingStore.setSelectedLevel(levels);
     writingStore.setSelectedThemes(themes);
-    console.log("saveFilter");
-    console.log(writingStore.selectedLevels.join(","));
-    console.log(writingStore.selectedThemes.join(","));
     writingStore.fetchFilteredWritingAndUpdate(
       e,
       writingStore.selectedLevels.join(","),
