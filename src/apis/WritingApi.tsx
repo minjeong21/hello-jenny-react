@@ -1,8 +1,11 @@
 import axios from "axios";
+import axiosRetry from "axios-retry";
+
+axiosRetry(axios, { retries: 3 });
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_DFR_API,
-  timeout: 10000,
+  timeout: 5000,
 });
 
 export const fetchRepWriting = async () => {
@@ -38,11 +41,16 @@ export const fetchWritingListFiltered = async (
 };
 
 export const fetchWritingByNumId = async (id: number) => {
+  const url = `/writing/${id}/`;
   return instance
-    .get(`/writing/${id}/`)
+    .get(url)
     .then((response) => response.data)
     .catch(function (error) {
-      console.log(error);
-      return error;
+      let status = error.response ? error.response.status : null;
+      if (status === 404) {
+        return status;
+      } else {
+        return error;
+      }
     });
 };
