@@ -50,11 +50,8 @@ const WritingBox = observer((props: IProps) => {
     event.preventDefault();
 
     const isCorrect = writing.isCorrect(userSentence);
-    const element: any = document.getElementById("english_input");
     if (isCorrect) {
       // 맞았을 때
-      element.setAttribute("readonly", true);
-      element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
       dialogStore.addCorrect();
     } else {
       // 정답 틀렸을 때
