@@ -79,6 +79,7 @@ const Detail = observer(() => {
                   closePopup={() => setPopupOpen(false)}
                   pathManager={pathManager}
                 />
+
                 <WritingBox
                   openPopup={() => setPopupOpen(true)}
                   writingId={writingStore.currentWriting.writing.id}

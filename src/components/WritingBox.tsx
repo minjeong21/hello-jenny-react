@@ -51,8 +51,12 @@ const WritingBox = observer((props: IProps) => {
 
     const isCorrect = writing.isCorrect(userSentence);
     if (isCorrect) {
-      // 맞았을 때
       dialogStore.addCorrect();
+      // 폭죽 효과
+      document.querySelector("#firework")?.classList.add("firework");
+      window.setTimeout(() => {
+        document.querySelector("#firework")?.classList.remove("firework");
+      }, 2000);
     } else {
       // 정답 틀렸을 때
       if (writing.isIgnoreCaseCorrect(userSentence)) {
@@ -71,6 +75,10 @@ const WritingBox = observer((props: IProps) => {
 
   return (
     <Container className="p-4 md:p-0" id="writing-box">
+      <div id="firework">
+        <div className="before"></div>
+        <div className="after"></div>
+      </div>
       {/* <!-- A marketing page card built entirely with utility classes --> */}
       <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
         <div className="md:flex-shrink-0 bg-gray-100">
