@@ -25,12 +25,11 @@ const Detail = observer(() => {
 
   useEffect(() => {
     writingStore.currentWriting = null;
+    writingStore.changeOrfetchWriting(Number(id));
     // If WritingNone, fetch
     if (!writingStore.writings || writingStore.writings.length === 0) {
       writingStore.fetchWritingsDefault();
     }
-
-    writingStore.changeOrfetchWriting(Number(id));
     // Params
     const params = new URLSearchParams(window.location.search);
     if (params.has("theme")) {
@@ -54,26 +53,50 @@ const Detail = observer(() => {
             alt="quokka"
           />
         </div>
-        {writingStore.currentWriting && writingStore.currentWriting.writing ? (
-          <>
+        {writingStore.isNotFoundWriting ? (
+          <div>
             <FilterPopup
               open={popupOpen}
               closePopup={() => setPopupOpen(false)}
               pathManager={pathManager}
             />
-            <WritingBox
-              openPopup={() => setPopupOpen(true)}
-              writingId={writingStore.currentWriting.writing.id}
-              writing={writingStore.currentWriting}
-              moveNextWriting={(e) =>
+            <div>문제를 찾을 수 없습니다.</div>
+            <button
+              onClick={(e) =>
                 pathManager.goNextWriting(e, writingStore.getNextWritingId())
               }
-            />
-          </>
-        ) : (
-          <div>
-            <SkeletonWritingBox />
+            >
+              다른 문제
+            </button>
           </div>
+        ) : (
+          <>
+            {writingStore.currentWriting &&
+            writingStore.currentWriting.writing ? (
+              <>
+                <FilterPopup
+                  open={popupOpen}
+                  closePopup={() => setPopupOpen(false)}
+                  pathManager={pathManager}
+                />
+                <WritingBox
+                  openPopup={() => setPopupOpen(true)}
+                  writingId={writingStore.currentWriting.writing.id}
+                  writing={writingStore.currentWriting}
+                  moveNextWriting={(e) =>
+                    pathManager.goNextWriting(
+                      e,
+                      writingStore.getNextWritingId()
+                    )
+                  }
+                />
+              </>
+            ) : (
+              <div>
+                <SkeletonWritingBox />
+              </div>
+            )}
+          </>
         )}
       </section>
 

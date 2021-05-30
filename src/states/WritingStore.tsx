@@ -21,6 +21,7 @@ export class WritingStore {
   currentIndex: number;
   selectedLevels: string[];
   selectedThemes: string[];
+  isNotFoundWriting: boolean;
 
   constructor(root: any) {
     makeObservable(this, {
@@ -30,7 +31,9 @@ export class WritingStore {
       repThemes: observable,
       selectedLevels: observable,
       selectedThemes: observable,
+      isNotFoundWriting: observable,
     });
+    this.isNotFoundWriting = false;
     this.rootStore = root;
     this.currentIndex = 0;
     this.writings = null;
@@ -71,8 +74,14 @@ export class WritingStore {
   };
   fetchWriting = async (id: number) => {
     const response = await fetchWritingByNumId(id);
+    console.log(response);
     runInAction(() => {
-      this.settingWriting(response.data);
+      if (response === 404) {
+        this.isNotFoundWriting = true;
+      } else {
+        this.isNotFoundWriting = false;
+        this.settingWriting(response.data);
+      }
     });
   };
 
