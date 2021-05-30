@@ -27,3 +27,17 @@ export const loginUser = async (email: string, password: string) => {
       return error;
     });
 };
+export const fetchUserProfile = async (jwtToken: string) => {
+  const config = {
+    headers: {
+      Authorization: "jwt " + jwtToken,
+    },
+  };
+  return instance
+    .get("/user/detail/", config)
+    .then((response) => response.data)
+    .catch(function (error) {
+      console.log(error);
+      return error;
+    });
+};

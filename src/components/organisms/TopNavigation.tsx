@@ -23,7 +23,7 @@ const Container = styled.nav`
 
 const TopNavigation = () => {
   const pathManager = new PathManager(useHistory());
-  const { writingStore } = useStores();
+  const { writingStore, profileStore } = useStores();
   const [openMenu, setMenuOpen] = useState(false);
   const [openProfile, setProfileOpen] = useState(false);
   const [loggined, setLoggined] = useState(false);
@@ -41,11 +41,15 @@ const TopNavigation = () => {
     toggleMenu();
   };
 
+  const isSignPage = () => {
+    return window.location.href.includes("signin");
+  };
+  console.log(profileStore.getToken());
   return (
     <Container className="absolute top-0 w-full ">
       <div className="md:p-4 md:min-h-0">
         <nav className="flex md:p-4 px-2 items-center relative justify-between z-10">
-          <div className="text-lg font-bold">
+          <div className="text-lg font-bold md:block hidden">
             <a href="/">
               <img
                 src="/logo2.png"
@@ -59,10 +63,21 @@ const TopNavigation = () => {
           <ul className="md:hidden">
             <HamberMenu open={openMenu} toggleMenu={toggleMenu} />
           </ul>
+          <div className="text-lg font-bold md:hidden ">
+            <a href="/">
+              <img
+                src="/logo2.png"
+                width="200"
+                height="100"
+                alt="Hello Jenny Logo"
+                title="Hello Jenny Logo"
+              />
+            </a>
+          </div>
           <ul
             className={`md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative fade-in-box  ${
               openMenu
-                ? "bg-white top-full right-0  w-1/2 rounded-lg shadow-lg"
+                ? "bg-white top-full md:right-0 w-1/2 rounded-lg shadow-lg"
                 : "hidden"
             }  
             `}
@@ -70,7 +85,7 @@ const TopNavigation = () => {
             <WideButton onClick={(e) => goNextWriting(e)} label={"영작 연습"} />
             <WideButton onClick={goSpeacking} label={"스피킹 연습"} />
           </ul>
-          {loggined ? (
+          {profileStore.isLogined() ? (
             <>
               <button
                 onClick={(e) => pathManager.goUserProfile(e)}
@@ -88,12 +103,14 @@ const TopNavigation = () => {
             </>
           ) : (
             <>
-              <button
-                onClick={(e) => pathManager.goSignIn(e)}
-                className="bg-primary-700 text-white font-bold ml-2 py-2 px-3 rounded shadow-sm"
-              >
-                Login
-              </button>
+              {!isSignPage() && (
+                <button
+                  onClick={(e) => pathManager.goSignIn(e)}
+                  className="bg-primary-700 text-white font-bold ml-2 py-2 px-3 rounded shadow-sm"
+                >
+                  SignIn
+                </button>
+              )}
             </>
           )}
         </nav>
@@ -160,31 +177,6 @@ const HamberMenu = ({
             </button>
           </nav>
         </div>
-      </div>
-    </>
-  );
-};
-
-const ProfileMenu = ({
-  open,
-  toggleProflie,
-}: {
-  open: boolean;
-  toggleProflie: () => void;
-}) => {
-  return (
-    <>
-      <div className="bg-gray-100 flex flex-col justify-center rounded">
-        <ul
-          className={`md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative fade-in-box  ${
-            open
-              ? "bg-white top-full right-0  w-1/2 rounded-lg shadow-lg"
-              : "hidden"
-          }  
-            `}
-        >
-          hello
-        </ul>
       </div>
     </>
   );

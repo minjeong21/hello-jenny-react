@@ -1,6 +1,7 @@
 import { generatePath } from "react-router";
 
 const Path = {
+  HOME: "/",
   PROFILE: "/profile/",
   LOGIN: "/signin/",
   REGISTER: "/signup/",
@@ -22,8 +23,11 @@ class MovePath {
     this.currentId = id;
   };
 
+  goHome = () => {
+    return this.history.push(Path.HOME);
+  };
   goWritingPage = () => {
-    return this.history.push(generatePath(Path.WRITING_BASE));
+    return this.history.push(Path.WRITING_BASE);
   };
 
   goNextWriting = (e: any, writingId: number) => {
