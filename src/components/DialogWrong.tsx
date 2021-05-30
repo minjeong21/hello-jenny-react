@@ -7,13 +7,15 @@ import DialogBase, {
 const DialogWrong = ({
   percent,
   userSentenceWords,
-  answerWords,
   moreDescription,
   isShowHelp,
 }: {
   percent: number;
-  userSentenceWords: string[];
-  answerWords: string[];
+  userSentenceWords: {
+    word: string;
+    correct: boolean;
+    isLastChar?: boolean;
+  }[];
   moreDescription?: string;
   isShowHelp: boolean;
 }) => {
@@ -23,7 +25,7 @@ const DialogWrong = ({
         <div>
           <DialogTitle>
             {moreDescription ? (
-              <div>🍀 단어는 모두 맞았지만.. {moreDescription}</div>
+              <div>🍀 {moreDescription}</div>
             ) : (
               <div>🍀 앗 아쉬워요, {percent}% 단어가 맞았어요.</div>
             )}
@@ -38,14 +40,15 @@ const DialogWrong = ({
 
           <DialogDescription>
             (도전 문장)&nbsp;
-            {userSentenceWords.map((word, index) => {
-              const has = answerWords.includes(word);
+            {userSentenceWords.map((item, index) => {
               return (
                 <span
                   key={index}
-                  className={`${has ? "text-blue-700" : "text-pink-600"}`}
+                  className={`${
+                    item.correct ? "text-blue-700" : "text-pink-600"
+                  }`}
                 >
-                  {word}&nbsp;
+                  {item.word}&nbsp;
                 </span>
               );
             })}

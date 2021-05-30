@@ -130,10 +130,9 @@ export class DialogStore {
         <DialogWrong
           isShowHelp={isShowColorHelp}
           moreDescription={moreDescription}
-          userSentenceWords={this.writing.getUserSentenceWords(
+          userSentenceWords={this.writing.getCompareUserSentenceWords(
             this.userSentence
           )}
-          answerWords={this.writing.getAnswerWords()}
           percent={this.writing.getMatchedWordPercent(this.userSentence)}
         />
       );

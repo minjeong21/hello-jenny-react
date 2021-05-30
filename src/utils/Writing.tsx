@@ -11,28 +11,36 @@ class Writing {
   getWriting = () => {
     return this.writing;
   };
+
   convertPlainText = (text: string) => {
-    // 앞 뒤 공백 제거. 모두 소문자로 변형.
-    let convertedText = text.trim().toLowerCase();
-
-    // I'm = I am 처리
-    convertedText = convertedText.replace(/(i'm)/gi, "i am");
-    convertedText = convertedText.replace(/(you're)/gi, "you are");
-    convertedText = convertedText.replace(/(they're)/gi, "they are");
-    convertedText = convertedText.replace(/(gotta)/gi, "got to");
-    convertedText = convertedText.replace(/(wanna)/gi, "want to");
-
-    //  점 없애기.
-    convertedText = convertedText.replace(/[.,]/g, "");
-
-    // 특수기호 변환
-    convertedText = convertedText.replace(/[`’"]/g, "'");
+    let convertedText = text.trim().replace(/[.,]/g, "");
+    convertedText = convertedText.replace(/[`’]/g, "'");
 
     return convertedText;
   };
-  /** 정답 문장에서 안맞는 단어 갯수가 몇개인지 return */
-  getUnMatchedWordCount = (correctText: string, tryText: string) => {
-    const correctTextWords = this.convertPlainText(correctText).split(" ");
+
+  getAnswerSentencePlain = () => {
+    let result = this.writing.en_sentence.trim();
+    result = result.replace(/[.,!]/g, "");
+    result = result.replace(/[`’]/g, "'");
+    return result;
+  };
+  convertSentencePlain = (tryText: string) => {
+    let result = tryText.trim();
+    result = result.replace(/[.,!]/g, "");
+    result = result.replace(/[`’]/g, "'");
+    return result;
+  };
+
+  getAnswerSentence = () => {
+    return this.writing.en_sentence.trim();
+  };
+
+  /** 정답 문장에서 몇 퍼센트 단어 맞췄는지 return */
+  getMatchedWordPercent = (tryText: string) => {
+    const correctTextWords = this.convertPlainText(
+      this.getAnswerSentence()
+    ).split(" ");
     const tryTextWords = this.convertPlainText(tryText).split(" ");
 
     for (let i = 0; i < tryTextWords.length; i++) {
@@ -41,48 +49,88 @@ class Writing {
         correctTextWords.splice(index, 1);
       }
     }
-    return correctTextWords.length;
-  };
-
-  /** 정답 문장에서 몇 퍼센트 단어 맞췄는지 return */
-  getMatchedWordPercent = (tryText: string) => {
-    const unMatchedWordCount = this.getUnMatchedWordCount(
-      this.writing.en_sentence,
-      tryText
-    );
-    const wordCount = this.writing.en_sentence.split(" ").length;
+    const wordCount = this.getAnswerSentence().split(" ").length;
     const matchedPercent = Math.round(
-      ((wordCount - unMatchedWordCount) / wordCount) * 100
+      ((wordCount - correctTextWords.length) / wordCount) * 100
     );
-
     return matchedPercent > 0 ? matchedPercent : 0;
   };
 
   getAnswerWords = () => {
-    return this.writing.en_sentence.split(" ");
+    const words = this.getAnswerSentence().split(" ");
+    return words;
   };
 
-  getUserSentenceWords = (tryText: string) => {
-    return tryText.split(" ");
+  getCompareUserSentenceWords = (tryText: string) => {
+    // 마지막 특수문자 체크
+    const tryTextlastChar = tryText.charAt(tryText.length - 1);
+    const isLastSpecialChar = !/^[a-z0-9]+$/i.test(tryTextlastChar);
+
+    // 축약어 처리
+    const abbrs = this.getWriting().abbrs;
+    let changeLog: { original: string; converted: string }[] = [];
+    abbrs.map((item) => {
+      if (tryText.includes(item.converted)) {
+        changeLog.push({ original: item.converted, converted: item.original });
+      }
+      tryText = tryText.replace(item.converted, item.original);
+    });
+
+    const answerWords = this.getAnswerSentencePlain().split(" ");
+    const list = this.convertSentencePlain(tryText).split(" ");
+    const words = list.map((word) => {
+      if (answerWords.includes(word)) {
+        const log = changeLog.find((item) => item.converted === word);
+        return log
+          ? { word: log.original, correct: true }
+          : { word: word, correct: true };
+      } else if (abbrs.length > 0) {
+        const target = abbrs.find((abbr) => abbr.converted === word);
+        return { word: word, correct: target ? true : false };
+      } else {
+        return { word: word, correct: false };
+      }
+    });
+
+    // 마지막 특수문자 추가
+    if (isLastSpecialChar) {
+      words[words.length - 1].word =
+        words[words.length - 1].word + tryTextlastChar;
+    }
+    return words;
+  };
+
+  convertUserSentenceWithAbbr = (userSentecne: string) => {
+    const abbrs = this.getWriting().abbrs;
+    let converted = userSentecne;
+    abbrs.map((item) => {
+      converted = converted.replace(item.converted, item.original);
+    });
+    return converted;
   };
 
   isCorrect = (userSentecne: string) => {
-    return userSentecne.trim() === this.writing.en_sentence.trim();
+    const converted = this.convertUserSentenceWithAbbr(userSentecne);
+    if (converted.trim() === this.getAnswerSentence()) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   isIgnoreCaseCorrect = (userSentecne: string) => {
-    return (
-      userSentecne.trim().toLocaleLowerCase() ===
-      this.writing.en_sentence.trim().toLocaleLowerCase()
+    const converted = this.convertUserSentenceWithAbbr(
+      userSentecne.trim().toLocaleLowerCase()
     );
+    return converted === this.getAnswerSentence().toLocaleLowerCase();
   };
 
   isIgnoreSpecialCharCorrect = (userSentecne: string) => {
     var regExp = /[?.,;:~`!'"]/gi;
-
+    const converted = this.convertUserSentenceWithAbbr(userSentecne.trim());
     return (
-      userSentecne.trim().replace(regExp, "") ===
-      this.writing.en_sentence.trim().replace(regExp, "")
+      converted.replace(regExp, "") ===
+      this.getAnswerSentence().replace(regExp, "")
     );
   };
 
@@ -90,12 +138,8 @@ class Writing {
   getSubjective = () => {
     const firstWord = this.writing.first_word
       ? this.writing.first_word
-      : this.writing.en_sentence.split(" ")[0];
+      : this.getAnswerSentence().split(" ")[0];
     return firstWord;
-  };
-
-  getAnswerSentence = (): string => {
-    return this.writing.en_sentence;
   };
 
   getId = () => {
