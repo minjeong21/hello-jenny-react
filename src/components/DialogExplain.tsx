@@ -13,11 +13,11 @@ const DialogExplain = ({
     <DialogBase>
       <DialogTitle>{talkText}</DialogTitle>
       {hints.map((hint, index) => (
-        <div key={index} className="bg-gray-200 rounded">
+        <div key={index} className="bg-gray-100 my-1">
           <DialogDescription
             children={
               <>
-                ({index + 1})
+                💡 {index + 1}번째 설명
                 <div
                   className="font-bold p-1"
                   dangerouslySetInnerHTML={{ __html: hint.description }}

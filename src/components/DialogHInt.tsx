@@ -12,7 +12,21 @@ const DialogHint = ({
   const [visibleMore, setVisibleMore] = useState(false);
   return (
     <DialogBase>
-      <DialogTitle>{talkText}</DialogTitle>
+      <DialogTitle>
+        <div className="flex">
+          <div>{talkText}</div>
+          <div>
+            {hintMore && !visibleMore && (
+              <button
+                className="ml-3 bg-primary-700 rounded px-3 py-1 font-bold text-white text-right text-sm"
+                onClick={() => setVisibleMore(true)}
+              >
+                자세히
+              </button>
+            )}
+          </div>
+        </div>
+      </DialogTitle>
       <div className="md:text-sm text-xs pt-2">
         <div className="text-xs md:text-base">
           <div>
@@ -20,15 +34,6 @@ const DialogHint = ({
               className="inline"
               dangerouslySetInnerHTML={{ __html: hint }}
             ></div>
-
-            {hintMore && !visibleMore && (
-              <button
-                className="ml-2 bg-primary-700 rounded px-2 py-1 font-bold text-white "
-                onClick={() => setVisibleMore(true)}
-              >
-                자세히
-              </button>
-            )}
           </div>
 
           {visibleMore && hintMore && (

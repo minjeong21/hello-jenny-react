@@ -141,8 +141,6 @@ export class DialogStore {
   };
   addShowAnswer = () => {
     this.currentType = "SHOW_ANSWER";
-    this.hintCount += 1;
-
     if (this.writing) {
       this.appendDialog(
         "jenny",
@@ -169,6 +167,7 @@ export class DialogStore {
   addHint = () => {
     this.currentType = "HINT";
     let talkText = "그 다음 힌트에요!";
+
     switch (this.hintCount) {
       case 0:
         talkText = "첫번째 힌트에요.";
@@ -240,7 +239,9 @@ export class DialogStore {
       case "SHOW_ANSWER":
         if (this.hasMoreHint()) {
           this.tempButtons.push(
-            new DialogButton("👨‍🏫 설명해줘", this.addExplain)
+            new DialogButton("👨‍🏫 설명해줘", () =>
+              this.addExplain(this.hintCount)
+            )
           );
         }
         this.tempButtons.push(new DialogButton("🕺다시 풀래", this.reload));
