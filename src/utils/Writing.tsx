@@ -112,6 +112,10 @@ class Writing {
   };
 
   hasMoreHint = (currentIndex: number) => {
+    return this.writing ? this.getHintSize() - 1 > currentIndex : false;
+  };
+
+  hasHint = (currentIndex: number) => {
     return this.writing ? this.getHintSize() > currentIndex : false;
   };
 
@@ -124,15 +128,11 @@ class Writing {
   };
 
   getHintDescription = (currentIndex: number) => {
-    if (this.hasMoreHint(currentIndex)) {
-      return this.writing.hints[currentIndex].description;
-    } else {
-      return "";
-    }
+    return this.writing.hints[currentIndex].description;
   };
 
   getHintDescriptionMore = (currentIndex: number) => {
-    if (this.hasMoreHint(currentIndex)) {
+    if (this.hasHint(currentIndex)) {
       return this.writing.hints[currentIndex].description_more;
     } else {
       return "";
@@ -177,8 +177,6 @@ class Writing {
   getKoreanSentence = () => {
     return this.writing.kr_sentence;
   };
-
-  
 }
 
 export default Writing;
