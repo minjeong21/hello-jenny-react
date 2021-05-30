@@ -21,12 +21,12 @@ const DialogExplain = ({
                 <div
                   className="font-bold p-1"
                   dangerouslySetInnerHTML={{ __html: hint.description }}
-                ></div>
+                />
                 {hint.description_more && (
                   <div
                     className="p-2 text-sm text-gray-600"
                     dangerouslySetInnerHTML={{ __html: hint.description_more }}
-                  ></div>
+                  />
                 )}
               </>
             }
