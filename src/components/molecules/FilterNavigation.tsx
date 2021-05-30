@@ -89,7 +89,7 @@ const SmallButton = ({
   <button
     name={name}
     value={value}
-    className={`my-1 mr-1 button-level font-semibold md:text-sm text-xs px-2 py-1 rounded-md shadow filter-button ${
+    className={`my-1 mr-2 button-level font-semibold px-2 py-1 md:text-medium text-sm rounded-md shadow filter-button ${
       active ? "active" : ""
     }`}
     onClick={onClick}

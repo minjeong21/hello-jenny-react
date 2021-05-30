@@ -124,7 +124,7 @@ const SignUp = observer(() => {
                 onChange={(e) => setEmail(e.target.value)}
               />
               <button
-                className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full"
+                className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full shadow-md"
                 onClick={goNextStep}
               >
                 Continue

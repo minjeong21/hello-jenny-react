@@ -81,6 +81,7 @@ const Detail = observer(() => {
                 />
 
                 <WritingBox
+                  isDetailPage
                   openPopup={() => setPopupOpen(true)}
                   writingId={writingStore.currentWriting.writing.id}
                   writing={writingStore.currentWriting}
