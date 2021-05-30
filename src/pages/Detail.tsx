@@ -25,17 +25,20 @@ const Detail = observer(() => {
 
   useEffect(() => {
     writingStore.currentWriting = null;
-    writingStore.fetchWriting(Number(id));
+    // If WritingNone, fetch
+    if (!writingStore.writings || writingStore.writings.length === 0) {
+      writingStore.fetchWritingsDefault();
+    }
+
+    writingStore.changeOrfetchWriting(Number(id));
     // Params
     const params = new URLSearchParams(window.location.search);
     if (params.has("theme")) {
       const theme: any = params.get("theme") ? params.get("theme") : "";
       writingStore.setSelectedThemes([theme]);
     }
-    // If WritingNone, fetch
-    if (!writingStore.writings || writingStore.writings.length === 0) {
-      writingStore.fetchWritingsDefault();
-    }
+
+    writingStore.updateFilterFromSession();
   }, [id, writingStore]);
 
   return (
@@ -51,21 +54,13 @@ const Detail = observer(() => {
             alt="quokka"
           />
         </div>
-        <FilterPopup
-          open={popupOpen}
-          closePopup={() => setPopupOpen(false)}
-          pathManager={pathManager}
-        />
-        {/* {updateFilter ? (
-          <FilterNavigation
-            updateFilter={updateFilter}
-            selectedLevels={writingStore.selectedLevels}
-            selectedThemes={writingStore.selectedThemes}
-          />
-        ) : null} */}
-
         {writingStore.currentWriting && writingStore.currentWriting.writing ? (
           <>
+            <FilterPopup
+              open={popupOpen}
+              closePopup={() => setPopupOpen(false)}
+              pathManager={pathManager}
+            />
             <WritingBox
               openPopup={() => setPopupOpen(true)}
               writingId={writingStore.currentWriting.writing.id}

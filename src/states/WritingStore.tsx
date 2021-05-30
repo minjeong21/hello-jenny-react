@@ -10,6 +10,7 @@ import {
 } from "apis/WritingApi";
 import PathManager from "utils/PathManager";
 import Writing from "utils/Writing";
+import SessionStorage from "utils/SessionStorage";
 
 export class WritingStore {
   rootStore;
@@ -48,24 +49,48 @@ export class WritingStore {
     });
   };
 
+  changeOrfetchWriting = (id: number) => {
+    let targetWriting: IWriting | undefined;
+    targetWriting = this.writings
+      ? this.writings.find((item) => item.id === id)
+      : undefined;
+    if (targetWriting) {
+      this.settingWriting(targetWriting);
+    } else {
+      this.fetchWriting(id);
+    }
+  };
+
+  updateFilterFromSession = () => {
+    if (this.selectedLevels.length === 0 || this.selectedThemes.length === 0) {
+      const levels = SessionStorage.getSelectedLevelsFromSession();
+      const themes = SessionStorage.getSelectedThemesFromSession();
+      this.setSelectedLevel(levels);
+      this.setSelectedThemes(themes);
+    }
+  };
   fetchWriting = async (id: number) => {
     const response = await fetchWritingByNumId(id);
     runInAction(() => {
-      this.setCurrentWriting(response.data);
-      if (this.currentWriting && this.selectedLevels.length === 0) {
-        this.setSelectedLevel([`${this.currentWriting.getLevel()}`]);
-      }
-      if (
-        this.currentWriting &&
-        this.selectedThemes.length === 0 &&
-        this.currentWriting.getThemes()
-      ) {
-        let themes: any = this.currentWriting
-          .getThemes()
-          ?.map((item) => item.name);
-        this.setSelectedThemes(themes);
-      }
+      this.settingWriting(response.data);
     });
+  };
+
+  settingWriting = (writing: any) => {
+    this.setCurrentWriting(writing);
+    if (this.currentWriting && this.selectedLevels.length === 0) {
+      this.setSelectedLevel([`${this.currentWriting.getLevel()}`]);
+    }
+    if (
+      this.currentWriting &&
+      this.selectedThemes.length === 0 &&
+      this.currentWriting.getThemes()
+    ) {
+      let themes: any = this.currentWriting
+        .getThemes()
+        ?.map((item) => item.name);
+      this.setSelectedThemes(themes);
+    }
   };
 
   fetchWritingsDefault = async () => {
@@ -79,9 +104,14 @@ export class WritingStore {
     themes: string,
     pathManager: PathManager
   ) => {
-    const response = await fetchWritingListFiltered(levels, themes);
-    this.setWritings(response.data);
-    pathManager.goNextWriting(e, response.data[0].id);
+    try {
+      const response = await fetchWritingListFiltered(levels, themes);
+      console.log(response);
+      this.setWritings(response.data);
+      pathManager.goNextWriting(e, response.data[0].id);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   setRepWriting = (writing: IWriting) => {
@@ -106,7 +136,7 @@ export class WritingStore {
     if (this.writings && this.writings.length > this.currentIndex - 1) {
       this.setCurrentIndex(this.currentIndex + 1);
     } else {
-      this.setCurrentIndex(0);
+      alert("잠시 후에 다시 시도해주세요🙏🏻");
     }
     return this.writings ? this.writings[this.currentIndex].id : -1;
   };

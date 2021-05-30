@@ -4,6 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { toJS } from "mobx";
 import FilterNavigation from "./molecules/FilterNavigation";
 import PathManager from "utils/PathManager";
+import SessionStorage from "utils/SessionStorage";
 
 interface IProps {
   open: boolean;
@@ -48,12 +49,17 @@ export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
   const saveFilter = (e: any) => {
     writingStore.setSelectedLevel(levels);
     writingStore.setSelectedThemes(themes);
+
+    const levelsString = writingStore.selectedLevels.join(",");
+    const themesString = writingStore.selectedThemes.join(",");
     writingStore.fetchFilteredWritingAndUpdate(
       e,
-      writingStore.selectedLevels.join(","),
-      writingStore.selectedThemes.join(","),
+      levelsString,
+      themesString,
       pathManager
     );
+    SessionStorage.setSelectedLevelsToSession(levelsString);
+    SessionStorage.setSelectedThemesToSession(themesString);
     closePopup();
   };
 
