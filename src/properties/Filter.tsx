@@ -23,3 +23,12 @@ export const THEME_MENU = [
   },
   { value: "news", text: "🎙 뉴스" },
 ];
+
+export const getLevelName = (value: string) => {
+  const level: any = LEVEL_MENU.find((item) => item.value === value);
+  return level.displayName;
+};
+export const getThemeName = (value: string) => {
+  const theme: any = THEME_MENU.find((item) => item.value === value);
+  return theme.text;
+};

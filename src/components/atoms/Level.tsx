@@ -1,4 +1,4 @@
-import { LEVEL_MENU } from "properties/Menu";
+import { LEVEL_MENU } from "properties/Filter";
 
 interface IProps {
   levelNumber: number;

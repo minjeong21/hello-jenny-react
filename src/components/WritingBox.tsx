@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
 import Writing from "utils/Writing";
@@ -6,6 +6,9 @@ import WritingForm from "components/WritingForm";
 import DialogBox from "components/DialogBox";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
+import { getLevelName, getThemeName } from "properties/Filter";
+import BookMarkIcon from "./BookMarkIcon";
+import FilterIcon from "./FilterIcon";
 
 const Container = styled.div`
   input {
@@ -29,7 +32,7 @@ const WritingBox = observer((props: IProps) => {
   const { writingId, writing } = props;
   const [textInWriting, setTextInWriting] = useState("");
   const [isShowColorHelp, setIsShowColorHelp] = useState(false);
-  const { dialogStore } = useStores();
+  const { dialogStore, writingStore } = useStores();
 
   useEffect(() => {
     dialogStore.setMoveNextWriing(props.moveNextWriting);
@@ -72,12 +75,39 @@ const WritingBox = observer((props: IProps) => {
       setIsShowColorHelp(true);
     }
   };
+  const onClickBookmark = (e: any) => {
+    // TODO: 북마크 구현
+    e.target.classList.toggle("text-gray-300");
+    e.target.classList.toggle("text-red-300");
+  };
 
   return (
     <Container className="p-4 md:p-0" id="writing-box">
       <div id="firework">
         <div className="before"></div>
         <div className="after"></div>
+      </div>
+      <div
+        className="flex cursor-pointer items-center"
+        onClick={props.openPopup}
+      >
+        <div className="flex">
+          {writingStore.selectedLevels.map((item) => (
+            <div className="bg-primary-200 rounded-lg text-sm px-2 py-1 text-gray-700  mr-1 shadow-sm">
+              {getLevelName(item)}
+            </div>
+          ))}
+        </div>
+        <div className="flex">
+          {writingStore.selectedThemes.map((item) => (
+            <div className="bg-primary-200 rounded-lg text-sm px-2 py-1 text-gray-700  mr-1 shadow-sm">
+              {getThemeName(item)}
+            </div>
+          ))}
+        </div>
+        <div>
+          <FilterIcon />
+        </div>
       </div>
       {/* <!-- A marketing page card built entirely with utility classes --> */}
       <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
@@ -87,22 +117,27 @@ const WritingBox = observer((props: IProps) => {
         <div className="md:ml-6 flex-1">
           <div>
             <div className="tracking-wide:sm text-sm">
-              <div className="flex md:pb-6 pb-1">
-                <button
-                  className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700  mr-1"
-                  onClick={props.openPopup}
-                >
-                  <div>{writing.getLevelDisplayName()}</div>
-                </button>
-                {writing.getThemes()?.map((theme, index) => (
+              <div className="flex justify-between">
+                <div className="flex md:pb-6 pb-1">
                   <button
-                    key={index}
-                    className="bg-gray-100 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1"
+                    className="bg-gray-200 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1"
                     onClick={props.openPopup}
                   >
-                    {theme.display_name}
+                    <div>{writing.getLevelDisplayName()}</div>
                   </button>
-                ))}
+                  {writing.getThemes()?.map((theme, index) => (
+                    <button
+                      key={index}
+                      className="bg-gray-200 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1"
+                      onClick={props.openPopup}
+                    >
+                      {theme.display_name}
+                    </button>
+                  ))}
+                </div>
+                <div className="pl-6 pr-1" onClick={onClickBookmark}>
+                  <BookMarkIcon />
+                </div>
               </div>
             </div>
 

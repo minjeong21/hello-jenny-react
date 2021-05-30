@@ -1,5 +1,5 @@
 import IWriting from "interface/IWriting";
-import { LEVEL_MENU } from "properties/Menu";
+import { LEVEL_MENU } from "properties/Filter";
 
 class Writing {
   writing: IWriting;
