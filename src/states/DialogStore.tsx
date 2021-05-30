@@ -66,9 +66,9 @@ export class DialogStore {
   @action appendDialog = (type: string, element: JSX.Element) => {
     runInAction(() => {
       this.dialogList = [...this.dialogList, { type, element }];
+      this.updateButtonActions();
     });
 
-    this.updateButtonActions();
     setTimeout(() => {
       var dialogSection = document.getElementById("explain-section");
 
@@ -183,17 +183,18 @@ export class DialogStore {
         break;
     }
 
+    const currentHintCount = this.hintCount;
+    this.hintCount += 1;
     if (this.writing) {
       this.appendDialog(
         "jenny",
         <DialogHint
           talkText={talkText}
-          hint={this.writing.getHintDescription(this.hintCount)}
-          hintMore={this.writing.getHintDescriptionMore(this.hintCount)}
+          hint={this.writing.getHintDescription(currentHintCount)}
+          hintMore={this.writing.getHintDescriptionMore(currentHintCount)}
         />
       );
     }
-    this.hintCount += 1;
   };
   addExplain = (startIndex: number) => {
     this.currentType = "EXPLAIN";
