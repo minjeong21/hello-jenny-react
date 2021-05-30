@@ -111,10 +111,6 @@ class Writing {
   };
 
   hasMoreHint = (currentIndex: number) => {
-    return this.writing ? this.getHintSize() - 1 > currentIndex : false;
-  };
-
-  hasHint = (currentIndex: number) => {
     return this.writing ? this.getHintSize() > currentIndex : false;
   };
 
@@ -131,7 +127,7 @@ class Writing {
   };
 
   getHintDescriptionMore = (currentIndex: number) => {
-    if (this.hasHint(currentIndex)) {
+    if (this.hasMoreHint(currentIndex)) {
       return this.writing.hints[currentIndex].description_more;
     } else {
       return "";
