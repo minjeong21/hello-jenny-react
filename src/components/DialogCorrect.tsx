@@ -7,6 +7,10 @@ const DialogCorrect = ({ userSentence }: { userSentence: string }) => {
   return (
     <>
       <DialogBase>
+        <div className="firework">
+          <div className="before"></div>
+          <div className="after"></div>
+        </div>
         <DialogTitle>
           💕 와~ 맞았어요!! 정말 대단해요!! &nbsp;
           <img
