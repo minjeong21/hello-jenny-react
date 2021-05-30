@@ -121,15 +121,6 @@ export default observer(() => {
                 <div>스켈레톤</div>
               )}
             </div>
-
-            {/* {writings && writings.length ? (
-                <WritingList
-                  writingList={writings.splice(0, 3)}
-                  moveWriting={(e) => pathManager.goWritingPage()}
-                />
-              ) : (
-                <div>Loading...</div>
-              )} */}
           </section>
         </div>
       </>

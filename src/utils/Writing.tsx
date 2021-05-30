@@ -95,22 +95,11 @@ class Writing {
     return firstWord;
   };
 
-  /** 문장이 긴 경우 말줄임표 */
-  getEllipsis = () => {
-    if (this.writing.kr_sentence.length > 60) {
-      return this.writing.kr_sentence.slice(0, 60) + "...";
-    } else {
-      return this.writing.kr_sentence;
-    }
-  };
-
   getAnswerSentence = (): string => {
-    console.log(this.writing.en_sentence);
     return this.writing.en_sentence;
   };
 
   getId = () => {
-    console.log(this.writing.id);
     return this.writing.id;
   };
 
@@ -121,9 +110,11 @@ class Writing {
       return 0;
     }
   };
+
   hasMoreHint = (currentIndex: number) => {
     return this.writing ? this.getHintSize() > currentIndex : false;
   };
+
   getRemainedAllHints = (currentIndex: number) => {
     if (this.hasMoreHint(currentIndex)) {
       return this.writing.hints.slice(currentIndex, this.getHintSize());
@@ -131,6 +122,7 @@ class Writing {
       return [];
     }
   };
+
   getHintDescription = (currentIndex: number) => {
     if (this.hasMoreHint(currentIndex)) {
       return this.writing.hints[currentIndex].description;
@@ -146,12 +138,14 @@ class Writing {
       return "";
     }
   };
+
   getImageURL = () => {
     return this.writing.image_url;
   };
+
   getMainTheme = () => {
     if (this.writing.themes && this.writing.themes.length > 0) {
-      return this.writing.themes[0].display_name.toLowerCase();
+      return this.writing.themes[0].display_name;
     } else {
       return null;
     }
@@ -167,6 +161,7 @@ class Writing {
   getLevel = () => {
     return this.writing.level;
   };
+
   getLevelDisplayName = () => {
     const level = LEVEL_MENU.find(
       (item) => Number(item.value) === this.getLevel()
@@ -178,9 +173,12 @@ class Writing {
   getSituation = () => {
     return this.writing.situation;
   };
+
   getKoreanSentence = () => {
     return this.writing.kr_sentence;
   };
+
+  
 }
 
 export default Writing;
