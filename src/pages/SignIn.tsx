@@ -54,7 +54,6 @@ const SignIn = observer(() => {
   const signinWithEmail = async () => {
     // AuthStore 추가
     const response = await loginUser(email, password);
-    console.log(response);
     sessionStorage.setItem("token", response.token);
   };
 

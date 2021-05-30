@@ -106,7 +106,6 @@ export class WritingStore {
   ) => {
     try {
       const response = await fetchWritingListFiltered(levels, themes);
-      console.log(response);
       this.setWritings(response.data);
       pathManager.goNextWriting(e, response.data[0].id);
     } catch (err) {

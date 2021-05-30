@@ -88,7 +88,6 @@ class Writing {
 
   /** 영어 문장 주어 return */
   getSubjective = () => {
-    console.log(this.writing);
     const firstWord = this.writing.first_word
       ? this.writing.first_word
       : this.writing.en_sentence.split(" ")[0];

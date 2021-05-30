@@ -129,10 +129,6 @@ const SpeakingBox = (props: IProps) => {
     }
   };
 
-  // const CheckOnclick = (i: Number) => {
-  //   console.log(i);
-  // }
-
   const CheckOnclick = (i: number) => {
     // console.log(i);
     var correctList = correctProblem;
@@ -147,13 +143,6 @@ const SpeakingBox = (props: IProps) => {
     setCorrectProblem(correctList);
   };
 
-  // console.log(
-  //   hintCount,
-  //   writing.hints.length - 1,
-  //   hintCount >= writing.hints.length - 1
-  // );
-
-  console.log(writing.themes);
   return (
     <Container>
       <section>

@@ -92,7 +92,6 @@ const SignUp = observer(() => {
   const signUpUser = async () => {
     // TODO: 회원가입 로직 Store로 빼기?
     const response = await registerUser(email, username, password);
-    console.log(response);
     setSignUpSuccess(true);
     setStep(10);
   };
