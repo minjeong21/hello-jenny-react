@@ -6,7 +6,7 @@ import styled from "styled-components";
 import PathManager from "utils/PathManager";
 import WritingBox from "components/WritingBox";
 import FilterPopup from "components/FilterPopup";
-import SkeletonWritingBox from "components/SkeleontWritingBox";
+import SkeletonWritingBox from "components/SkeletonWritingBox";
 
 interface ParamTypes {
   id?: string;

@@ -4,7 +4,7 @@ import { useStores } from "states/Context";
 import { observer } from "mobx-react";
 import styled from "styled-components";
 import WritingBox from "components/WritingBox";
-import SkeletonWritingBox from "components/SkeleontWritingBox";
+import SkeletonWritingBox from "components/SkeletonWritingBox";
 import PathManager from "utils/PathManager";
 
 const Main = styled.main`

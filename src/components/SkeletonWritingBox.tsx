@@ -1,8 +1,6 @@
-import styled from "styled-components";
-
 const SkeletonWritingBox = () => {
   return (
-    <div className="p-4 md:p-0" id="writing-box">
+    <div className="p-4 md:p-0">
       {/* <!-- card --> */}
       <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
         {/* <!-- image --> */}
