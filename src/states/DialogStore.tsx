@@ -97,18 +97,20 @@ export class DialogStore {
     if (englishInput) {
       englishInput.readOnly = false;
       englishInput.classList.add("bg-basic-100");
-      // englishInput.addEventListener("focus", this.scrollEvent);
+      englishInput.addEventListener("focus", this.scrollEvent);
     }
   };
 
   scrollEvent = () => {
-    const writingBoxElement: any = document.querySelector("#writing-box");
-    const offsetTop = writingBoxElement.offsetTop;
+    if (window.innerWidth < 480) {
+      const writingBoxElement: any = document.querySelector("#writing-box");
+      const offsetTop = writingBoxElement.offsetTop;
 
-    window.scroll({
-      top: offsetTop,
-      behavior: "smooth",
-    });
+      window.scroll({
+        top: offsetTop,
+        behavior: "smooth",
+      });
+    }
   };
   addHelpJenny = (e: any) => {
     e.preventDefault();

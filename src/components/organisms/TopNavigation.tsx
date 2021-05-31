@@ -60,28 +60,21 @@ const TopNavigation = () => {
               />
             </a>
           </div>
-          <ul className="md:hidden">
-            <HamberMenu open={openMenu} toggleMenu={toggleMenu} />
-          </ul>
-          <div className="text-lg font-bold md:hidden ">
+          <div className="text-lg font-bold md:hidden block">
             <a href="/">
               <img
-                src="/logo2.png"
-                width="200"
-                height="100"
+                src="/logo192.png"
+                width="50"
+                height="50"
                 alt="Hello Jenny Logo"
                 title="Hello Jenny Logo"
               />
             </a>
           </div>
-          <ul
-            className={`md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative fade-in-box  ${
-              openMenu
-                ? "bg-white top-full md:right-0 w-1/2 rounded-lg shadow-lg"
-                : "hidden"
-            }  
-            `}
-          >
+          {/* <ul className="md:hidden">
+            <HamberMenu open={openMenu} toggleMenu={toggleMenu} />
+          </ul> */}
+          <ul className="md:px-2 ml-0 ml-auto flex space-x-2  fade-in-box">
             <WideButton onClick={(e) => goNextWriting(e)} label={"영작 연습"} />
             <WideButton onClick={goSpeacking} label={"스피킹 연습"} />
           </ul>
@@ -128,7 +121,7 @@ const WideButton = ({
   label: string;
   onClick: (e?: any) => void;
 }) => (
-  <li className="block active:border-purple-light hover:bg-grey-lighter border-l-4 pl-2 mb-1 md:border-0">
+  <li className="block pl-2 mb-1 md:border-0">
     <button
       className="text-left md:text-center rounded-md md:px-4 py-2 font-semibold text-gray-600 w-max"
       onClick={onClick}

@@ -127,7 +127,7 @@ const SignIn = observer(() => {
               Sign in
             </button>
           </form>
-          <div className="flex justify-between pt-2 text-sm md:text-medium font-bold">
+          <div className="flex justify-between pt-2 text-sm md:text-base font-bold">
             <button
               className="text-button bg-gray-200 rounded-lg px-3 py-1"
               onClick={signup}
@@ -161,7 +161,7 @@ const SignIn = observer(() => {
               className="py-3 mb-3 border-0 font-bold w-full shadow-md kakao-signin"
               onClick={signinWithKakao}
             >
-              <div className="flex justify-center text-sm md:text-medium ">
+              <div className="flex justify-center text-sm md:text-base ">
                 <KakaoIcon />
                 <span>카카오로 로그인</span>
               </div>
@@ -170,7 +170,7 @@ const SignIn = observer(() => {
               className="py-3 mb-3 border-0 font-bold w-full shadow-md gmail-signin"
               onClick={signinWithGoogle}
             >
-              <div className="flex justify-center  text-sm md:text-medium ">
+              <div className="flex justify-center  text-sm md:text-base ">
                 <GoogleIcon />
                 <span>구글로 로그인</span>
               </div>

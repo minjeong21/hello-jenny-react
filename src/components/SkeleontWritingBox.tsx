@@ -1,19 +1,8 @@
 import styled from "styled-components";
 
-const Container = styled.div`
-  input {
-    width: 100%;
-    padding: 10px;
-  }
-  #explain-section {
-    max-height: 300px;
-    overflow-y: auto;
-  }
-`;
-
 const SkeletonWritingBox = () => {
   return (
-    <Container className="p-4 md:p-0" id="writing-box">
+    <div className="p-4 md:p-0" id="writing-box">
       {/* <!-- card --> */}
       <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
         {/* <!-- image --> */}
@@ -38,7 +27,7 @@ const SkeletonWritingBox = () => {
           </div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

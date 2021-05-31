@@ -83,7 +83,7 @@ const WritingBox = observer((props: IProps) => {
   };
 
   return (
-    <Container className="p-4 md:p-0" id="writing-box">
+    <Container className="md:p-0">
       {props.isDetailPage && (
         <>
           <div id="firework">
@@ -116,52 +116,54 @@ const WritingBox = observer((props: IProps) => {
       )}
 
       {/* <!-- A marketing page card built entirely with utility classes --> */}
-      <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
-        <div className="md:flex-shrink-0 bg-gray-100">
-          <WritingImage imageUrl={writing.getImageURL()} size={null} />
-        </div>
-        <div className="md:ml-6 flex-1">
-          <div>
-            <div className="tracking-wide:sm text-sm">
-              <div className="flex justify-between">
-                <div className="flex md:pb-6 pb-1">
-                  <div className="bg-gray-200 rounded-lg text-sm px-2 py-1 text-gray-700 shadow-sm mr-1">
-                    <div>{writing.getLevelDisplayName()}</div>
-                  </div>
-                  {writing.getThemes()?.map((theme, index) => (
-                    <div
-                      key={index}
-                      className="bg-gray-200 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1"
-                    >
-                      {theme.display_name}
+      <section id="writing-box">
+        <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
+          <div className="md:flex-shrink-0 bg-gray-100">
+            <WritingImage imageUrl={writing.getImageURL()} size={null} />
+          </div>
+          <div className="md:ml-6 flex-1">
+            <div>
+              <div className="tracking-wide:sm text-sm">
+                <div className="flex justify-between">
+                  <div className="flex md:pb-6 pb-1">
+                    <div className="bg-gray-200 rounded-lg md:text-sm text-xs px-2 py-1 text-gray-700 shadow-sm mr-1">
+                      <div>{writing.getLevelDisplayName()}</div>
                     </div>
-                  ))}
+                    {writing.getThemes()?.map((theme, index) => (
+                      <div
+                        key={index}
+                        className="bg-gray-200 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1"
+                      >
+                        {theme.display_name}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="pl-6 pr-1" onClick={onClickBookmark}>
+                    <BookMarkIcon />
+                  </div>
                 </div>
-                <div className="pl-6 pr-1" onClick={onClickBookmark}>
-                  <BookMarkIcon />
-                </div>
+              </div>
+
+              {writing.getSituation() && (
+                <p className="mt-3 text-gray-500 md:text-sm text-xs">
+                  {writing.getSituation()}
+                </p>
+              )}
+              <div className="block mt-1 md:text-2xl leading-tight md:font-semibold text-gray-900 font-bold pb-3">
+                {writing.getKoreanSentence()}
               </div>
             </div>
 
-            {writing.getSituation() && (
-              <p className="mt-3 text-gray-500 text-sm">
-                {writing.getSituation()}
-              </p>
-            )}
-            <div className="block mt-1 text-2xl leading-tight font-semibold text-gray-900 font-bold pb-3">
-              {writing.getKoreanSentence()}
-            </div>
+            <WritingForm
+              onChange={onChange}
+              onSubmitChallenge={onSubmitChallenge}
+              textInWrinting={textInWriting}
+              onClickHelpJenny={dialogStore.addHelpJenny}
+              moveNextWriting={props.moveNextWriting}
+            />
           </div>
-
-          <WritingForm
-            onChange={onChange}
-            onSubmitChallenge={onSubmitChallenge}
-            textInWrinting={textInWriting}
-            onClickHelpJenny={dialogStore.addHelpJenny}
-            moveNextWriting={props.moveNextWriting}
-          />
         </div>
-      </div>
+      </section>
       <DialogBox writing={writing} />
     </Container>
   );
