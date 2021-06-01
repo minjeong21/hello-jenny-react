@@ -10,23 +10,23 @@
     "@testing-library/user-event": "^12.1.10",
     "@types/axios": "^0.14.0",
     "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7",
     "axios": "^0.21.1",
+    "google-tts-api": "^2.0.2",
     "mobx": "^6.1.8",
     "mobx-react": "^7.1.0",
     "query-string": "^6.14.1",
     "react": "^17.0.1",
     "react-countdown-circle-timer": "^2.5.1",
     "react-dom": "^17.0.1",
+    "react-player": "^2.9.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "styled-components": "^5.2.1",
     "tailwindcss": "^2.1.2",
-    "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -66,6 +66,8 @@
     "@storybook/node-logger": "^6.1.21",
     "@storybook/preset-create-react-app": "^3.1.7",
     "@storybook/react": "^6.1.21",
-    "storybook": "^6.1.21"
+    "@types/node": "^15.0.2",
+    "storybook": "^6.1.21",
+    "typescript": "^4.2.4"
   }
 }

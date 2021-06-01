@@ -5,6 +5,8 @@ import MainTheme from "components/MainTheme";
 import Level from "components/atoms/Level";
 import IWriting from "interface/IWriting";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import * as googleTTS from 'google-tts-api'; //Typescript
+import ReactPlayer from 'react-player'
 
 const Container = styled.div`
   input {
@@ -90,6 +92,45 @@ const sentenceList = [
   },
 ];
 
+const useAudio = (url : string) => {
+  const [audio, setAudio] = useState(new Audio(url));
+  const [playing, setPlaying] = useState(false);
+
+  const toggle = () => setPlaying(!playing)
+
+  useEffect(() => {
+    playing ? audio.play() : audio.pause();
+  },
+  [playing]
+  );
+
+  useEffect(() => {
+    audio.addEventListener('ended', () => setPlaying(false));
+    return () => {
+      audio.removeEventListener('ended', () => setPlaying(false));
+    };
+  }, []);
+
+  return [playing, toggle];
+};
+
+const Player = ({sentence} : {sentence:string}) =>{
+  const url = googleTTS.getAudioUrl(sentence, {
+    lang: 'en',
+    slow: false,
+    host: 'https://translate.google.com',
+  });
+  console.log(url);
+
+  const [playing, toggle] = useAudio(url);
+
+  return(
+    <div>
+      <button onClick={()=>toggle}>{playing ? "Pause" : "Play"}</button>
+    </div>
+  )
+}
+
 const SpeakingBox = (props: IProps) => {
   const { writing } = props;
 
@@ -109,6 +150,10 @@ const SpeakingBox = (props: IProps) => {
     false,
     false,
   ]);
+  const [engAudioBase64, setEngAudioBase64] = useState('')
+
+  // const [audioPlay, setAudioPlay] = useState(false);
+  
 
   useEffect(() => {}, []);
 
@@ -117,6 +162,18 @@ const SpeakingBox = (props: IProps) => {
     setInfoSentence("아래 문장을 영어로 말해보세요.");
     setKorSentence(sentenceList[0].korean);
     setEngSentence(sentenceList[0].english);
+
+    const result = googleTTS.getAllAudioBase64(engSentence, {
+      lang:'en',
+      slow: false,
+      host: 'https://translate.google.com',
+      timeout: 10000,
+      splitPunct: ',.?',
+    })
+
+    console.log(result)
+    // setEngAudioBase64(result);
+
   };
 
   const nextOnClick = () => {
@@ -152,6 +209,22 @@ const SpeakingBox = (props: IProps) => {
   //   writing.hints.length - 1,
   //   hintCount >= writing.hints.length - 1
   // );
+
+  const ListenOnclick = (sentence: string) => {
+    const url = googleTTS.getAudioUrl(sentence, {
+      lang: 'en',
+      slow: false,
+      host: 'https://translate.google.com',
+    });
+    console.log(url);
+
+    // setAudioPlay(true)
+    
+    // const [audioPlay, toggle] = useAudio(url);
+
+    var audio = new Audio(url);
+    audio.play();
+  }
 
   console.log(writing.themes);
   return (
@@ -226,6 +299,14 @@ const SpeakingBox = (props: IProps) => {
                             {engSentence}
                           </div>
                           <div className="flex justify-end">
+                            {/* <button onClick={() => ListenOnclick(engSentence)}>{audioPlay ? "Pause" : "Play"}</button> */}
+                            {/* <button onClick={()=>toggle}>{audioPlay ? "Pause" : "Play"}</button> */}
+                            {/* <Player sentence={engSentence}/> */}
+                            {/* <button onClick={() => ListenOnclick(engSentence)}>듣기</button> */}
+                            <audio controls src={"https://translate.google.com/translate_tts?ie=UTF-8&q=Hyunju%20likes%20playing.&tl=en&total=1&idx=0&textlen=21&client=tw-ob&prev=input&ttsspeed=1"}>
+                              Your browser does not support the audio tag.
+                            </audio>
+                            {/* <ReactPlayer url={'https://translate.google.com/translate_tts?ie=UTF-8&q=Hyunju%20likes%20playing.&tl=en&total=1&idx=0&textlen=21&client=tw-ob&prev=input&ttsspeed=1'} config={{file:{forceAudio:true}}}/> */}
                             <NextButton
                               className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                               onClick={nextOnClick}
