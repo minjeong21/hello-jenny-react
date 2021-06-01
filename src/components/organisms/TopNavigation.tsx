@@ -36,7 +36,7 @@ const TopNavigation = () => {
     pathManager.goNextWriting(e, writingStore.getNextWritingId());
     toggleMenu();
   };
-  const goSpeacking = () => {
+  const goSpeaking = () => {
     pathManager.goSpeakingPath(writingStore.getNextWritingId());
     toggleMenu();
   };
@@ -76,7 +76,7 @@ const TopNavigation = () => {
           </ul> */}
           <ul className="md:px-2 ml-0 ml-auto flex space-x-2  fade-in-box">
             <WideButton onClick={(e) => goNextWriting(e)} label={"영작 연습"} />
-            <WideButton onClick={goSpeacking} label={"스피킹 연습"} />
+            <WideButton onClick={goSpeaking} label={"스피킹 연습"} />
           </ul>
           {profileStore.isLogined() ? (
             <>
