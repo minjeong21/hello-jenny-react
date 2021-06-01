@@ -1,5 +1,4 @@
-import { LEVEL_MENU } from "properties/Menu";
-import styled from "styled-components";
+import { LEVEL_MENU } from "properties/Filter";
 
 interface IProps {
   levelNumber: number;
@@ -9,7 +8,7 @@ const Level = ({ levelNumber }: IProps) => {
 
   return (
     <div className="pb-l">
-      <div className="text">{level?.text}</div>
+      <div className="text">{level?.displayName}</div>
     </div>
   );
 };

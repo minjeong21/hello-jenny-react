@@ -1,61 +1,55 @@
-import { Popover, Transition, Menu } from "@headlessui/react";
-import { useState } from "react";
 import PathManager from "utils/PathManager";
-import IWriting from "interface/IWriting";
-import { Link, useHistory } from "react-router-dom";
-import { LEVEL_MENU, THEME_MENU } from "../../properties/Menu";
+import { useState } from "react";
+import { useStores } from "states/Context";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 const Container = styled.nav`
-  @media only screen and (min-width: 768px) {
-    .parent:hover .child {
-      opacity: 1;
-      height: auto;
-      overflow: none;
-      transform: translateY(0);
-    }
-    .child {
+
+  .fade-in-box {
+    animation: fadein 0.2s;
+  }
+  @keyframes fadein {
+    from {
       opacity: 0;
-      height: 0;
-      overflow: hidden;
-      transform: translateY(-10%);
+      transform: translateY(-15%);
+      t
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 `;
 
-const TopNavigation = ({
-  getNextWritingId,
-  writings,
-}: {
-  getNextWritingId: () => number;
-  writings: IWriting[] | null;
-}) => {
-  const [visible, setVisible] = useState(false);
-
+const TopNavigation = () => {
   const pathManager = new PathManager(useHistory());
+  const { writingStore, profileStore } = useStores();
+  const [openMenu, setMenuOpen] = useState(false);
+  const [openProfile, setProfileOpen] = useState(false);
+  const [loggined, setLoggined] = useState(false);
 
-  const moveRandomWriting = (e: any) => {
-    if (writings) {
-      const nextWritingId = getNextWritingId();
-      pathManager.goNextWriting(e, nextWritingId);
-    } else {
-      alert("새로고침 후 다시 시도해주세요.");
-    }
+  const toggleMenu = () => {
+    setMenuOpen(!openMenu);
   };
 
-  const goSpeaking = (e: any) => {
-    if (writings) {
-      const nextWritingId = getNextWritingId();
-      pathManager.goNextWriting(e, nextWritingId);
-    } else {
-      alert("새로고침 후 다시 시도해주세요.");
-    }
+  const goNextWriting = (e: any) => {
+    pathManager.goNextWriting(e, writingStore.getNextWritingId());
+    toggleMenu();
+  };
+  const goSpeacking = () => {
+    pathManager.goSpeakingPath(writingStore.getNextWritingId());
+    toggleMenu();
   };
 
+  const isSignPage = () => {
+    return window.location.href.includes("signin");
+  };
+  console.log(profileStore.getToken());
   return (
-    <Container className="absolute top-0 w-full">
-      <div className="p-4 bg-white md:min-h-0 border-b ">
-        <nav className="flex px-4 items-center relative">
-          <div className="text-lg font-bold md:py-0 py-4">
+    <Container className="absolute top-0 w-full ">
+      <div className="md:p-4 md:min-h-0">
+        <nav className="flex md:p-4 px-2 items-center relative justify-between z-10">
+          <div className="text-lg font-bold md:block hidden">
             <a href="/">
               <img
                 src="/logo2.png"
@@ -66,82 +60,52 @@ const TopNavigation = ({
               />
             </a>
           </div>
-          <ul className="md:hidden">햄버거</ul>
-          <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0 hidden md:block">
-            <li className="self-center">
-              <button
-                onClick={moveRandomWriting}
-                className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
-              >
-                영작 연습
-              </button>
-            </li>
-
-            {/* <li className="relative parent">
-              <button
-                onClick={moveRandomWriting}
-                className="flex justify-between md:inline-flex p-4 items-center hover:bg-gray-50 space-x-2"
-              >
-                <span>테마로 영작</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4 fill-current pt-1"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                </svg>
-              </button>
-              <ul className="child transition duration-300 md:absolute top-full right-0 md:w-48 bg-white md:rounded-b ">
-                {THEME_MENU.map((theme, index) => (
-                  <li key={index}>
-                    <Link
-                      to={pathManager.getThemePath(theme.value)}
-                      className="flex px-4 py-3 hover:bg-gray-50"
-                    >
-                      {theme.text}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-
-            <li className="relative parent">
-              <a
-                href="#"
-                className="flex justify-between md:inline-flex p-4 items-center hover:bg-gray-50 space-x-2"
-              >
-                <span>레벨맞춰 영작</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4 fill-current pt-1"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                </svg>
-              </a>
-              <ul className="child transition duration-300 md:absolute top-full right-0 md:w-48 bg-white md:rounded-b ">
-                {LEVEL_MENU.map((item, index) => (
-                  <li key={index}>
-                    <a
-                      onClick={() => pathManager.getThemePath(item.value)}
-                      className="flex px-4 py-3 hover:bg-gray-50"
-                    >
-                      {item.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </li> */}
-
-            <li className="self-center">
-              <Link
-                to={pathManager.getSpeakingPath(1)}
-                className="rounded-md px-4 py-2 font-semibold text-gray-600  px-4 py-2"
-              >
-                스피킹 연습
-              </Link>
-            </li>
+          <div className="text-lg font-bold md:hidden block">
+            <a href="/">
+              <img
+                src="/logo192.png"
+                width="50"
+                height="50"
+                alt="Hello Jenny Logo"
+                title="Hello Jenny Logo"
+              />
+            </a>
+          </div>
+          {/* <ul className="md:hidden">
+            <HamberMenu open={openMenu} toggleMenu={toggleMenu} />
+          </ul> */}
+          <ul className="md:px-2 ml-0 ml-auto flex space-x-2  fade-in-box">
+            <WideButton onClick={(e) => goNextWriting(e)} label={"영작 연습"} />
+            <WideButton onClick={goSpeacking} label={"스피킹 연습"} />
           </ul>
+          {profileStore.isLogined() ? (
+            <>
+              <button
+                onClick={(e) => pathManager.goUserProfile(e)}
+                className="flex ml-3 text-gray-400 text-sm border-2 border-white
+            rounded-full focus:outline-none focus:border-gray-300 transition
+            duration-150 ease-in-out"
+              >
+                <img
+                  className="h-8 w-8 rounded-full"
+                  alt="user avatar"
+                  src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
+                />
+              </button>
+              {openProfile ? <div>hello</div> : null}
+            </>
+          ) : (
+            <>
+              {!isSignPage() && (
+                <button
+                  onClick={(e) => pathManager.goSignIn(e)}
+                  className="bg-primary-700 text-white font-bold ml-2 py-2 px-3 rounded shadow-sm"
+                >
+                  SignIn
+                </button>
+              )}
+            </>
+          )}
         </nav>
       </div>
     </Container>
@@ -149,3 +113,64 @@ const TopNavigation = ({
 };
 
 export default TopNavigation;
+
+const WideButton = ({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: (e?: any) => void;
+}) => (
+  <li className="block pl-2 mb-1 md:border-0">
+    <button
+      className="text-left md:text-center rounded-md md:px-4 py-2 font-semibold text-gray-600 w-max"
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  </li>
+);
+
+const HamberMenu = ({
+  open,
+  toggleMenu,
+}: {
+  open: boolean;
+  toggleMenu: () => void;
+}) => {
+  return (
+    <>
+      <div className="bg-gray-100 flex flex-col justify-center rounded">
+        <div className="relative sm:max-w-xl mx-auto">
+          <nav x-data="{ open: false }">
+            <button
+              className="text-gray-500 w-9 h-9 relative focus:outline-none bg-white rounded"
+              onClick={toggleMenu}
+            >
+              <div className="block w-5 absolute left-1/2 top-1/2   transform  -translate-x-1/2 -translate-y-1/2">
+                <span
+                  aria-hidden="true"
+                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-200 ease-in-out ${
+                    open ? "rotate-45" : " -translate-y-1.5"
+                  }`}
+                ></span>
+                <span
+                  aria-hidden="true"
+                  className={`block absolute  h-0.5 w-5 bg-current   transform transition duration-200 ease-in-out ${
+                    open ? "opacity-0" : ""
+                  }`}
+                ></span>
+                <span
+                  aria-hidden="true"
+                  className={`block absolute  h-0.5 w-5 bg-current transform  transition duration-200 ease-in-out ${
+                    open ? "-rotate-45" : "translate-y-1.5"
+                  }`}
+                ></span>
+              </div>
+            </button>
+          </nav>
+        </div>
+      </div>
+    </>
+  );
+};

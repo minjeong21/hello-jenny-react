@@ -7,7 +7,7 @@ export default interface IWriting {
   id: number;
   level: number;
   publish_date: string;
-
+  abbrs: { original: string; converted: string }[];
   situation?: string;
   themes: { display_name: string; name: string; id: number }[];
   image_url: string;

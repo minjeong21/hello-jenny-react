@@ -66,7 +66,7 @@ const CheckButton = styled.button`
 
 interface IProps {
   writing: IWriting;
-  moveNextWriting: () => void;
+  moveNextWriting: (e: any) => void;
 }
 
 const sentenceList = [
@@ -185,10 +185,6 @@ const SpeakingBox = (props: IProps) => {
       setEngSentence(sentenceList[problemNum + 1].english);
     }
   };
-
-  // const CheckOnclick = (i: Number) => {
-  //   console.log(i);
-  // }
 
   const CheckOnclick = (i: number) => {
     // console.log(i);
@@ -337,7 +333,7 @@ const SpeakingBox = (props: IProps) => {
               <MainTheme themes={writing.themes} />
             </div>
             {sentenceList.map((item, index) => (
-              <ProblemContainer>
+              <ProblemContainer key={index}>
                 <KorSentenceContainer>{item.korean}</KorSentenceContainer>
                 <EngSentenceContainer>{item.english}</EngSentenceContainer>
                 <ButtonCheckContainer>

@@ -1,13 +1,16 @@
 import axios from "axios";
+import axiosRetry from "axios-retry";
+
+axiosRetry(axios, { retries: 3 });
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_DFR_API,
   timeout: 5000,
 });
 
-export const fetchRecapWritings = async () => {
+export const fetchRepWriting = async () => {
   return instance
-    .get("/recap/")
+    .get("/writing/recap/")
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);
@@ -17,7 +20,7 @@ export const fetchRecapWritings = async () => {
 
 export const fetchWritings = async () => {
   return instance
-    .get("/writings/")
+    .get("/writing/list/")
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);
@@ -25,18 +28,11 @@ export const fetchWritings = async () => {
     });
 };
 export const fetchWritingListFiltered = async (
-  levels: string[],
-  theme: string[]
+  levels: string,
+  themes: string
 ) => {
-  console.log({
-    levels,
-    theme,
-  });
   return instance
-    .post("/writings_filtered/", {
-      levels,
-      theme,
-    })
+    .get(`/writing/list/filtered/?theme=${themes}&level=${levels}`)
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);
@@ -45,31 +41,16 @@ export const fetchWritingListFiltered = async (
 };
 
 export const fetchWritingByNumId = async (id: number) => {
+  const url = `/writing/${id}/`;
   return instance
-    .get(`/writing/${id}/`)
+    .get(url)
     .then((response) => response.data)
     .catch(function (error) {
-      console.log(error);
-      return error;
-    });
-};
-
-export const fetchWritingListByTheme = async (theme: string) => {
-  return instance
-    .get(`/pracitce/theme/${theme}/list/`)
-    .then((response) => response.data)
-    .catch(function (error) {
-      console.log(error);
-      return error;
-    });
-};
-
-export const fetchWritingListByLevel = async (level: number) => {
-  return instance
-    .get(`/pracitce/level/${level}/list/`)
-    .then((response) => response.data)
-    .catch(function (error) {
-      console.log(error);
-      return error;
+      let status = error.response ? error.response.status : null;
+      if (status === 404) {
+        return status;
+      } else {
+        return error;
+      }
     });
 };

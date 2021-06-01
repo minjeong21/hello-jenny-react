@@ -1,14 +1,15 @@
-import IWriting from "interface/IWriting";
 import { generatePath } from "react-router";
 
-const LEVEL_PATH_WITH_NUMID = "/level/:level/:numid";
-const LEVEL_PATH = "/level/:level";
-const THEME_PATH_WITH_NUMID = "/theme/:theme/:numid";
-const THEME_PATH = "/theme/:theme";
-const WRITING_PATH = "/writing/:numid";
-const SPEACKING_PATH = "/speaking/:numid";
-const WRITING_BASE_PATH = "/writing";
-
+const Path = {
+  HOME: "/",
+  PROFILE: "/profile/",
+  LOGIN: "/signin/",
+  REGISTER: "/signup/",
+  WRITING_DETAIL: "/writing/:numid/",
+  WRITING_DETAIL_THEME: "/writing/:numid/?theme=:theme",
+  SPEACKING: "/speaking/:numid/",
+  WRITING_BASE: "/writing/",
+};
 class MovePath {
   history: any;
   currentId: number;
@@ -22,48 +23,51 @@ class MovePath {
     this.currentId = id;
   };
 
-  goLevelPath = (level: string, numid?: number) => {
-    const path = numid
-      ? generatePath(LEVEL_PATH_WITH_NUMID, {
-          level: level,
-          numid: numid,
-        })
-      : generatePath(LEVEL_PATH, {
-          level: level,
-        });
-    this.history.push(path);
+  goHome = () => {
+    return this.history.push(Path.HOME);
   };
-
   goWritingPage = () => {
-    return this.history.push(generatePath(WRITING_BASE_PATH));
-  };
-
-  getThemePath = (theme: string, numid?: number) => {
-    const path = numid
-      ? generatePath(THEME_PATH_WITH_NUMID, {
-          theme: theme,
-          numid: numid,
-        })
-      : generatePath(THEME_PATH, {
-          theme: theme,
-        });
-    return path;
-    // this.history.push(path);
+    return this.history.push(Path.WRITING_BASE);
   };
 
   goNextWriting = (e: any, writingId: number) => {
     e.preventDefault();
     this.history.push(
-      generatePath(WRITING_PATH, {
+      generatePath(Path.WRITING_DETAIL, {
         numid: writingId,
       })
     );
   };
 
-  getSpeakingPath = (numid: number) => {
-    return generatePath(SPEACKING_PATH, {
-      numid: numid,
-    });
+  goWritingWithTheme = (e: any, writingId: number, theme: string) => {
+    e.preventDefault();
+    this.history.push(
+      generatePath(Path.WRITING_DETAIL_THEME, {
+        numid: writingId,
+        theme: theme,
+      })
+    );
+  };
+  goUserProfile = (e: any) => {
+    e.preventDefault();
+    this.history.push(Path.PROFILE);
+  };
+
+  goSignIn = (e: any) => {
+    e.preventDefault();
+    this.history.push(Path.LOGIN);
+  };
+  goReigster = (e: any) => {
+    e.preventDefault();
+    this.history.push(Path.REGISTER);
+  };
+
+  goSpeakingPath = (numid: number) => {
+    this.history.push(
+      generatePath(Path.SPEACKING, {
+        numid: numid,
+      })
+    );
   };
 }
 

@@ -1,48 +1,31 @@
-import styled from "styled-components";
-const Container = styled.div`
-  .triangle-left {
-    width: 0;
-    height: 0;
-    margin: 10px 0px;
-    border-top: 10px solid transparent;
-    border-right: 20px solid rgba(243, 244, 246);
-    border-bottom: 10px solid transparent;
-  }
-  .avatar-bg {
-    border-radius: 25px;
-  }
-  .avatar {
-    height: 40px;
-    width: 40px;
-  }
-`;
 const DialogBase = ({ children }: { children: any }) => {
   return (
-    <Container className="flex m-2 mt-3 md:pl-40">
+    <div className="flex md:mt-2 mt-1 md:pl-40">
       <div>
-        <div className="avatar-bg p-1 flex justify-center aligns-center bg-brown-200">
+        <div className="rounded-3xl p-1 flex justify-center aligns-center bg-brown-200">
           <img
-            className="avatar"
+            className=" w-10 md:w-10 h-10 md:h-10"
             src="/assets/jenny-avatar.png"
             alt="quokka avatar"
           />
         </div>
       </div>
-      <div className="relative self-center flex-1">
-        <div className="absolute triangle-left left-0 "></div>
-        <div className="bg-gray-100 py-2 px-4 rounded-lg ml-4 fit-w shadow-md">
+      <div className="relative self-center flex-1 pb-1">
+        <div className="bg-white md:py-2 py-1.5 md:px-4 px-2 rounded-lg ml-2 fit-w shadow-md">
           {children}
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 
 export const DialogTitle = ({ children }: { children: any }) => (
-  <div className="font-cute font-bold pb-2">{children}</div>
+  <div className="font-semibold tracking-tight md:text-base text-sm inline">
+    {children}
+  </div>
 );
 
 export const DialogDescription = ({ children }: { children: any }) => (
-  <div className="text-sm pr-12 whitespace-pre-line">{children}</div>
+  <div className="md:text-sm text-xs pt-2">{children}</div>
 );
 export default DialogBase;

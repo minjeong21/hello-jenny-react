@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
-import WritingManager from "utils/WritingManager";
-import Level from "components/atoms/Level";
-import FilterNavigation from "components/molecules/FilterNavigation";
+import Writing from "utils/Writing";
 import WritingForm from "components/WritingForm";
-import DialogManager from "utils/DialogManager";
+import DialogBox from "components/DialogBox";
+import { useStores } from "states/Context";
+import { observer } from "mobx-react";
+import { getLevelName, getThemeName } from "properties/Filter";
+import BookMarkIcon from "./BookMarkIcon";
+import FilterIcon from "./FilterIcon";
 
 const Container = styled.div`
   input {
@@ -13,313 +16,157 @@ const Container = styled.div`
     padding: 10px;
   }
   #explain-section {
-    max-height: 250px;
+    max-height: 300px;
     overflow-y: auto;
   }
 `;
 
 interface IProps {
   writingId: number;
-  writingManager: WritingManager;
+  writing: Writing;
   moveNextWriting: (e: any) => void;
-  updateFilter?: (e: any) => void;
-  selectedLevels: string[];
-  selectedThemes: string[];
+  openPopup?: () => void;
+  isDetailPage?: boolean;
 }
 
-const WritingBox = (props: IProps) => {
-  const { writingId, writingManager } = props;
-  const [dialogManager, setDialogManager] = useState<DialogManager>(
-    new DialogManager(writingManager)
-  );
-
-  const [dialogCount, setDialogCount] = useState(0);
-  const [textInWrinting, setTextInWrinting] = useState("");
-  const [userSentence, setUserSentence] = useState("");
-  const [currentDialogType, setCurrentDialogType] = useState("");
+const WritingBox = observer((props: IProps) => {
+  const { writingId, writing } = props;
+  const [textInWriting, setTextInWriting] = useState("");
   const [isShowColorHelp, setIsShowColorHelp] = useState(false);
+  const { dialogStore, writingStore } = useStores();
 
   useEffect(() => {
-    resetWriting();
-  }, [writingId]);
-
-  const resetWriting = () => {
-    setDialogCount(0);
-    setTextInWrinting("");
-    setUserSentence("");
+    dialogStore.setMoveNextWriing(props.moveNextWriting);
+    dialogStore.resetWriting();
+    setTextInWriting("");
     setIsShowColorHelp(false);
-    setDialogManager(new DialogManager(writingManager));
-    const englishInput: any = document.getElementById("english_input");
-
-    if (englishInput) {
-      englishInput.readOnly = false;
-      englishInput.setAttribute("style", "background-color: white");
-      englishInput.addEventListener("focus", scrollEvent);
-    }
-  };
-
-  const onClickHelpJenny = (event: any) => {
-    event.preventDefault();
-
-    setCurrentDialogType("help");
-    dialogManager.addHelpJenny();
-    setDialogCount(dialogCount + 1);
-  };
-
+  }, [writingId, dialogStore]);
   /**
    * 도전하기 버튼 클릭 Event
    * */
+  const onChange = (e: any) => {
+    setTextInWriting(e.target.value);
+    dialogStore.setTextInWriting(e.target.value);
+  };
+
   const onSubmitChallenge = (event: any) => {
+    const userSentence = dialogStore.textInWrinting;
     event.preventDefault();
 
-    const isCorrect = writingManager.isCorrect(textInWrinting);
-    const element: any = document.getElementById("english_input");
+    const isCorrect = writing.isCorrect(userSentence);
     if (isCorrect) {
-      // 맞았을 때
-      element.setAttribute("readonly", true);
-      element.setAttribute("style", "background-color: #e6ddd7; color:#141937");
-      setCurrentDialogType("correct");
-      dialogManager.addCorrect(
-        writingManager.getAnswerSentence(),
-        textInWrinting
-      );
+      dialogStore.addCorrect();
+      // 폭죽 효과
+      document.querySelector("#firework")?.classList.add("firework");
+      window.setTimeout(() => {
+        document.querySelector("#firework")?.classList.remove("firework");
+      }, 2000);
     } else {
       // 정답 틀렸을 때
-      if (writingManager.isIgnoreCaseCorrect(textInWrinting)) {
-        setCurrentDialogType("wrong");
-        dialogManager.addWrong(
-          textInWrinting,
-          isShowColorHelp,
-          "대소문자를 확인해주세요!"
-        );
-      } else if (writingManager.isIgnoreSpecialCharCorrect(textInWrinting)) {
-        setCurrentDialogType("wrong");
-        dialogManager.addWrong(
-          textInWrinting,
+      if (writing.isIgnoreCaseCorrect(userSentence)) {
+        dialogStore.addWrong(isShowColorHelp, "대소문자를 확인해주세요!");
+      } else if (writing.isIgnoreSpecialCharCorrect(userSentence)) {
+        dialogStore.addWrong(
           isShowColorHelp,
           "마침표와 쉼표같은 특수문자를 확인해주세요!"
         );
       } else {
-        setCurrentDialogType("wrong");
-        dialogManager.addWrong(textInWrinting, isShowColorHelp);
+        dialogStore.addWrong(isShowColorHelp);
       }
       setIsShowColorHelp(true);
     }
-    setDialogCount(dialogCount + 1);
   };
-
-  const onShowAnswer = () => {
-    setUserSentence(textInWrinting);
-    setCurrentDialogType("showAnswer");
-    dialogManager.addShowAnswer(textInWrinting);
-    setDialogCount(dialogCount + 1);
-  };
-
-  const scrollEvent = () => {
-    const writingBoxElement: any = document.querySelector("#writing-box");
-    const offsetTop = writingBoxElement.offsetTop;
-
-    window.scroll({
-      top: offsetTop,
-      behavior: "smooth",
-    });
+  const onClickBookmark = (e: any) => {
+    // TODO: 북마크 구현
+    e.target.classList.toggle("text-gray-300");
+    e.target.classList.toggle("text-red-300");
   };
 
   return (
-    <Container className="" id="writing-box">
-      {props.updateFilter ? (
-        <FilterNavigation
-          updateFilter={props.updateFilter}
-          selectedLevels={props.selectedLevels}
-          selectedThemes={props.selectedThemes}
-        />
-      ) : null}
+    <Container className="md:p-0">
+      {props.isDetailPage && (
+        <>
+          <div id="firework">
+            <div className="before"></div>
+            <div className="after"></div>
+          </div>
+          <div
+            className="flex cursor-pointer items-center"
+            onClick={props.openPopup}
+          >
+            <div className="flex">
+              {writingStore.selectedLevels.map((item) => (
+                <div className="bg-primary-200 rounded-lg text-sm px-2 py-1 text-gray-700  mr-1 shadow-sm">
+                  {getLevelName(item)}
+                </div>
+              ))}
+            </div>
+            <div className="flex">
+              {writingStore.selectedThemes.map((item) => (
+                <div className="bg-primary-200 rounded-lg text-sm px-2 py-1 text-gray-700  mr-1 shadow-sm">
+                  {getThemeName(item)}
+                </div>
+              ))}
+            </div>
+            <div>
+              <FilterIcon />
+            </div>
+          </div>
+        </>
+      )}
+
       {/* <!-- A marketing page card built entirely with utility classes --> */}
-      <div className="bg-white  md:flex p-4 rounded-lg shadow-custom">
-        <div className="md:flex-shrink-0">
-          <WritingImage imageUrl={writingManager.getImageURL()} size={null} />
-        </div>
-        <div className="mt-4 md:mt-0 md:ml-6 flex-1">
-          <div>
-            <div className="uppercase tracking-wide text-sm">
-              <div className="flex pb-6">
-                <Level levelNumber={writingManager.getLevel()} />
-                <div className="ml-2 ">{writingManager.getMainTheme()}</div>
+      <section id="writing-box">
+        <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
+          <div className="md:flex-shrink-0 bg-gray-100">
+            <WritingImage imageUrl={writing.getImageURL()} size={null} />
+          </div>
+          <div className="md:ml-6 flex-1">
+            <div>
+              <div className="tracking-wide:sm text-sm">
+                <div className="flex justify-between">
+                  <div className="flex md:pb-6 pb-1">
+                    <div className="bg-gray-200 rounded-lg md:text-sm text-xs px-2 py-1 text-gray-700 shadow-sm mr-1">
+                      <div>{writing.getLevelDisplayName()}</div>
+                    </div>
+                    {writing.getThemes()?.map((theme, index) => (
+                      <div
+                        key={index}
+                        className="bg-gray-200 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1"
+                      >
+                        {theme.display_name}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="pl-6 pr-1" onClick={onClickBookmark}>
+                    <BookMarkIcon />
+                  </div>
+                </div>
+              </div>
+
+              {writing.getSituation() && (
+                <p className="mt-3 text-gray-500 md:text-sm text-xs">
+                  {writing.getSituation()}
+                </p>
+              )}
+              <div className="block mt-1 md:text-2xl leading-tight md:font-semibold text-gray-900 font-bold pb-3">
+                {writing.getKoreanSentence()}
               </div>
             </div>
 
-            {writingManager.getSituation() && (
-              <p className="mt-2 text-gray-500 text-sm">
-                {writingManager.getSituation()}
-              </p>
-            )}
-            <div className="block mt-1 text-2xl leading-tight font-semibold text-gray-900 font-bold pb-3">
-              {writingManager.getKoreanSentence()}
-            </div>
+            <WritingForm
+              onChange={onChange}
+              onSubmitChallenge={onSubmitChallenge}
+              textInWrinting={textInWriting}
+              onClickHelpJenny={dialogStore.addHelpJenny}
+              moveNextWriting={props.moveNextWriting}
+            />
           </div>
-
-          <WritingForm
-            setTextInWrinting={setTextInWrinting}
-            onSubmitChallenge={onSubmitChallenge}
-            textInWrinting={textInWrinting}
-            onClickHelpJenny={onClickHelpJenny}
-            moveNextWriting={props.moveNextWriting}
-          />
         </div>
-      </div>
-      <DialogBox
-        writingManager={writingManager}
-        moveNextWriting={props.moveNextWriting}
-        onShowAnswer={onShowAnswer}
-        setCurrentDialogType={setCurrentDialogType}
-        dialogManager={dialogManager}
-        dialogType={currentDialogType}
-        dialogCount={dialogCount}
-        setDialogCount={setDialogCount}
-        resetWriting={resetWriting}
-      />
+      </section>
+      <DialogBox writing={writing} />
     </Container>
   );
-};
+});
 
 export default WritingBox;
-
-interface IPropsDialogBox {
-  writingManager: WritingManager;
-  setCurrentDialogType: any;
-  dialogType: string;
-  dialogManager: DialogManager;
-  dialogCount: number;
-  moveNextWriting: (e: any) => void;
-  onShowAnswer: () => void;
-  setDialogCount: (value: number) => void;
-  resetWriting: () => void;
-}
-const DialogBox = ({
-  moveNextWriting,
-  onShowAnswer,
-  setDialogCount,
-  setCurrentDialogType,
-  dialogManager,
-  dialogType,
-  dialogCount,
-  resetWriting,
-}: IPropsDialogBox) => {
-  const [hintCount, setHintCount] = useState(0);
-  const [dialogButtons, setDialogButtons] = useState<
-    { text: string; onClick: () => void }[]
-  >();
-  const [shownSubjectiveHint, setShownSubjectiveHint] = useState(false);
-
-  useEffect(() => {
-    getButtonActions();
-  }, [dialogCount]);
-
-  const onShowSubjective = () => {
-    setCurrentDialogType("giveHint");
-    setShownSubjectiveHint(true);
-    setDialogCount(dialogCount + 1);
-    dialogManager.addSubjectiveHint();
-  };
-
-  const onShowHint = () => {
-    setCurrentDialogType("giveHint");
-    dialogManager.addHint(hintCount);
-    setHintCount(hintCount + 1);
-    setDialogCount(dialogCount + 1);
-  };
-  const hasMoreHint = () => {
-    return hintCount < dialogManager.getHintSize();
-  };
-
-  const BUTTON_ACTION = {
-    FIRST_WORD_HINT: {
-      text: "👍 첫단어 힌트",
-      onClick: onShowSubjective,
-    },
-    GIVE_HINT: { text: "🙋🏻‍♀️ 힌트", onClick: onShowHint },
-    GIVE_ANSWER: { text: "🍰 정답 알려줘", onClick: onShowAnswer },
-    NEXT: { text: "😎 다음 문제 풀래", onClick: moveNextWriting },
-    EXPLAIN: { text: "👨‍🏫 설명해줘", onClick: () => alert("준비중인 기능이야") },
-    AGAIN: { text: "🕺다시 풀래", onClick: () => resetWriting() },
-  };
-
-  const getButtonActions = () => {
-    let buttons: { text: string; onClick: (e?: any) => void }[] = [];
-
-    switch (dialogType) {
-      case "help": // 도와줘 제니.
-      case "giveHint":
-      case "wrong":
-        if (!shownSubjectiveHint) {
-          buttons.push(BUTTON_ACTION.FIRST_WORD_HINT);
-        }
-        if (hasMoreHint()) {
-          buttons.push(BUTTON_ACTION.GIVE_HINT);
-        }
-        buttons.push(BUTTON_ACTION.GIVE_ANSWER);
-        buttons.push(BUTTON_ACTION.NEXT);
-        break;
-
-      case "correct":
-      case "showAnswer":
-        if (hasMoreHint()) {
-          buttons.push(BUTTON_ACTION.EXPLAIN);
-        }
-        buttons.push(BUTTON_ACTION.AGAIN);
-        buttons.push(BUTTON_ACTION.NEXT);
-        break;
-      default:
-        buttons.push(BUTTON_ACTION.NEXT);
-    }
-    setDialogButtons(Object.assign(buttons));
-  };
-  return (
-    <section>
-      {/* 왼쪽 이미지 */}
-      <div className="pad-xs ">
-        <article className="pad-xs flex-1 solving-article">
-          <div className={`dynamic-flex`}>
-            <div className="pad-m"></div>
-            {/* 설명 */}
-          </div>
-        </article>
-        <section className="relative" id="explain-section">
-          <div>
-            {dialogManager.getDialogs().map((dialog, index) => (
-              <div key={index}>{dialog.element}</div>
-            ))}
-          </div>
-        </section>
-        <section>
-          {dialogManager.getDialogs().length > 0 && dialogButtons && (
-            <div className="flex justify-end">
-              {dialogButtons.map((item, index) => (
-                <SmallButton
-                  key={index}
-                  text={item.text}
-                  onClick={item.onClick}
-                />
-              ))}
-            </div>
-          )}
-        </section>
-      </div>
-    </section>
-  );
-};
-
-const SmallButton = ({
-  onClick,
-  text,
-}: {
-  onClick: () => void;
-  text: string;
-}) => (
-  <button
-    onClick={onClick}
-    className="focus:outline-none text-sm py-1 px-2 rounded-md text-white bg-brown-500 hover:bg-brown-700 ml-1"
-  >
-    {text}
-  </button>
-);

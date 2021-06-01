@@ -1,5 +1,27 @@
 @import "https: //cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
 @import "./tailwind.css";
+@import "./animation.css";
+
+:root {
+  --color-primary-600: #31cfca;
+  --color-primary-700: #1fb8b4;
+  --color-gray-200: rgb(229, 231, 235);
+  --color-gray-300: rgb(209, 213, 219);
+  --color-gray-400: rgb(156, 163, 175);
+  --color-gray-500: rgb(107, 114, 128);
+  --color-gray-600: rgb(75, 85, 99);
+  --color-white: white;
+}
+
+
+main {
+  min-width: 320px;
+  min-height: calc(100vh - 45px);
+}
+
+button:disabled {
+  background-color: var(--color-gray-300) !important;
+}
 
 html {
   scroll-behavior: smooth;
@@ -10,8 +32,9 @@ input {
 }
 
 body {
+  min-height: 100vh;
+  background-color: #fbf9f3;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.3;
@@ -87,19 +110,19 @@ section {
 }
 
 .bg-primary-200 {
-  background-color: #d5fffe;
+  background-color: #c9e9ec;
 }
 
 .bg-primary-300 {
-  background-color: #53cfc8;
+  background-color: #aae7ec;
 }
 
 .bg-primary-500 {
-  background-color: #31cfca;
+  background-color: #8ddcdc;
 }
 
 .bg-primary-600 {
-  background-color: #00b6b0;
+  background-color: #5bb09f;
 }
 
 .bg-primary-700 {
@@ -120,6 +143,35 @@ section {
 
 .bg-brown-600 {
   background-color: #976d59
+}
+
+.bg-basic-100 {
+  background-color: #fbf9f3;
+}
+
+
+.border-primary-500 {
+  border-color: #53cfc8;
+}
+
+.border-primary-600 {
+  border-color: #31cfca;
+}
+
+.border-primary-700 {
+  border-color: #00b6b0;
+}
+
+.outline-primary-500 {
+  outline-color: #53cfc8;
+}
+
+.outline-primary-600 {
+  outline-color: #31cfca;
+}
+
+.outline-primary-700 {
+  outline-color: #00b6b0;
 }
 
 
@@ -166,4 +218,19 @@ section {
 
 .bg-secondary-600 {
   background-color: #83b027
+}
+
+
+/*  */
+
+.md\:min-h-50v {
+  min-height: 50vh;
+}
+
+.md\:min-h-40v {
+  min-height: 40vh;
+}
+
+.md\:min-h-30v {
+  min-height: 30vh;
 }

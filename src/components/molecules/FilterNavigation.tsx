@@ -1,5 +1,7 @@
-import { LEVEL_MENU, THEME_MENU } from "properties/Menu";
+import { LEVEL_MENU, THEME_MENU } from "properties/Filter";
 import styled from "styled-components";
+import "swiper/swiper.scss";
+
 const Navgation = styled.ul`
   a {
     width: 100px;
@@ -8,47 +10,63 @@ const Navgation = styled.ul`
   button:focus {
     outline: 0px !important;
   }
+  .swiper-slide {
+    width: fit-content;
+  }
+
+  .filter-button {
+    color: var(--color-gray-600);
+    background-color: white;
+  }
+  .filter-button.active {
+    background-color: var(--color-primary-700);
+    color: white;
+  }
 `;
 interface IProps {
-  updateFilter: (e: any) => void;
+  onClickFilter: (element: any) => void;
   selectedLevels: string[];
   selectedThemes: string[];
 }
 
 const FilterNavigation = ({
-  updateFilter,
+  onClickFilter,
   selectedLevels,
   selectedThemes,
 }: IProps) => {
   return (
     <Navgation className="flex mb-2">
-      <div className="w-full pb-3">
-        <div className="inline-block mr-2 mt-2">
-          <button className="mr-3 text-brown-700 font-bold">레벨</button>
-          {LEVEL_MENU.map((item, index) => (
-            <SmallButton
-              key={index}
-              name="level"
-              value={item.value}
-              text={item.text}
-              active={selectedLevels.includes(item.value)}
-              onClick={updateFilter}
-            />
-          ))}
+      {/* Desktop View */}
+      <div className="w-full pb-3 ">
+        <div>
+          <button className="mr-3 text-lg font-bold">레벨</button>
+          <div className="inline-block mr-2 mt-2">
+            {LEVEL_MENU.map((item, index) => (
+              <SmallButton
+                key={index}
+                name="level"
+                value={item.value}
+                text={item.displayName}
+                active={selectedLevels.includes(item.value)}
+                onClick={onClickFilter}
+              />
+            ))}
+          </div>
         </div>
-        <br />
-        <div className="inline-block mr-2 mt-2">
-          <button className="mr-3 text-brown-700 font-bold">테마</button>
-          {THEME_MENU.map((item, index) => (
-            <SmallButton
-              key={index}
-              name="theme"
-              value={item.value}
-              text={item.text}
-              active={selectedThemes.includes(item.value)}
-              onClick={updateFilter}
-            />
-          ))}
+        <div className="pt-6">
+          <button className="mr-3 text-lg font-bold">테마</button>
+          <div className="inline-block mr-2">
+            {THEME_MENU.map((item, index) => (
+              <SmallButton
+                key={index}
+                name="theme"
+                value={item.value}
+                text={item.text}
+                active={selectedThemes.includes(item.value)}
+                onClick={onClickFilter}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </Navgation>
@@ -71,8 +89,8 @@ const SmallButton = ({
   <button
     name={name}
     value={value}
-    className={`font-semibold text-sm text-gray-600 px-2 py-1 mr-2 border border-gray-300 rounded-md hover:bg-brown-300 ${
-      active ? `bg-brown-300` : ""
+    className={`my-1 mr-2 button-level font-semibold px-2 py-1 md:text-base text-sm rounded-md shadow filter-button ${
+      active ? "active" : ""
     }`}
     onClick={onClick}
   >
