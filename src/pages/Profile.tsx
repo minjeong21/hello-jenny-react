@@ -72,7 +72,7 @@ const Profile = observer(() => {
   };
 
   return (
-    <Main className="md:pt-20 pt-12 pb-56">
+    <Main className="sm:pt-20 pt-12 pb-56">
       <nav className="flex justify-center mt-12">
         <button
           onClick={() => setPage("history")}
@@ -102,16 +102,16 @@ const Profile = observer(() => {
       </nav>
       <div className="mt-6 w-full max-w-screen-md  margin-auto">
         {page === "profile" && (
-          <section className="bg-white shadow-md rounded-md md:p-8 p-6 w-full">
-            <div className="flex flex-col items-center  md:items-start md:flex-row">
+          <section className="bg-white shadow-md rounded-md sm:p-8 p-6 w-full">
+            <div className="flex flex-col items-center  sm:items-start sm:flex-row">
               <div className="w-28 relative">
                 <img
                   className="w-full rounded-full"
                   src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
                 />
               </div>
-              <div className="md:ml-6 w-full">
-                <div className="mb-2 md:mb-4 flex items-center">
+              <div className="sm:ml-6 w-full">
+                <div className="mb-2 sm:mb-4 flex items-center">
                   <span className="w-12 text-xs text-gray-500">닉네임</span>
                   <h3 className="font-medium text-3xl leading-8">
                     {profileStore.getUser()?.username}

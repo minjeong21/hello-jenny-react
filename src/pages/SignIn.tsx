@@ -95,9 +95,9 @@ const SignIn = observer(() => {
   };
   return (
     <Main className="pt-36 flex flex-col items-center">
-      <div className="w-full margin-auto p-3 md:p-0">
+      <div className="w-full margin-auto p-3 sm:p-0">
         <section className="p-8 max-w-screen-sm width-460 bg-white border rounded-lg  shadow-custom z-10">
-          <h3 className="md:text-3xl text-2xl font-bold pt-2 pb-8 text-center">
+          <h3 className="sm:text-3xl text-2xl font-bold pt-2 pb-8 text-center">
             제니 로그인하기
           </h3>
           <form onSubmit={handleSubmit}>
@@ -127,7 +127,7 @@ const SignIn = observer(() => {
               Sign in
             </button>
           </form>
-          <div className="flex justify-between pt-2 text-sm md:text-base font-bold">
+          <div className="flex justify-between pt-2 text-sm sm:text-base font-bold">
             <button
               className="text-button bg-gray-200 rounded-lg px-3 py-1"
               onClick={signup}
@@ -161,7 +161,7 @@ const SignIn = observer(() => {
               className="py-3 mb-3 border-0 font-bold w-full shadow-md kakao-signin"
               onClick={signinWithKakao}
             >
-              <div className="flex justify-center text-sm md:text-base ">
+              <div className="flex justify-center text-sm sm:text-base ">
                 <KakaoIcon />
                 <span>카카오로 로그인</span>
               </div>
@@ -170,7 +170,7 @@ const SignIn = observer(() => {
               className="py-3 mb-3 border-0 font-bold w-full shadow-md gmail-signin"
               onClick={signinWithGoogle}
             >
-              <div className="flex justify-center  text-sm md:text-base ">
+              <div className="flex justify-center  text-sm sm:text-base ">
                 <GoogleIcon />
                 <span>구글로 로그인</span>
               </div>

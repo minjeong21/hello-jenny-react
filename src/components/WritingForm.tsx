@@ -15,9 +15,9 @@ const WritingForm = ({
 }) => {
   return (
     <form className="rounded" onSubmit={onSubmitChallenge} id="writing-form">
-      <div className="flex bg-basic-100  border-1 rounded border-gray-400 rounded  border-gray-400 my-2 p-1 md:p-2 ">
+      <div className="flex bg-basic-100  border-1 rounded border-gray-400 rounded  border-gray-400 my-2 p-1 sm:p-2 ">
         <input
-          className="md:text-lg text-base  border-0 p-0"
+          className="sm:text-lg text-base  border-0 p-0"
           placeholder="영작하기"
           height="500"
           id="english_input"
@@ -31,7 +31,7 @@ const WritingForm = ({
       </div>
 
       {/* 버튼 그룹 */}
-      {/* <div className="flex justify-end pt-2 md:text-base text-sm">
+      {/* <div className="flex justify-end pt-2 sm:text-base text-sm">
         <div className="pr-2"></div>
 
         <div className="pr-2 relative">
@@ -62,7 +62,7 @@ const TextButton = ({
   onClick: (e: any) => void;
 }) => (
   <button
-    className="bg-gray-700 hover:bg-primary-700 text-white font-bold md:px-4 px-3 py-2 rounded md:text-base text-sm"
+    className="bg-gray-700 hover:bg-primary-700 text-white font-bold sm:px-4 px-3 py-2 rounded sm:text-base text-sm"
     onClick={onClick}
   >
     {children}
@@ -71,7 +71,7 @@ const TextButton = ({
 const SubmitButton = ({ text }: { text: string }) => (
   <button
     type="submit"
-    className="bg-brown-700 hover:bg-primary-700 text-white font-bold p-1 rounded md:text-sm text-xs h-8 w-10"
+    className="bg-brown-700 hover:bg-primary-700 text-white font-bold p-1 rounded sm:text-sm text-xs h-8 w-10"
   >
     {text}
   </button>

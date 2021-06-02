@@ -93,7 +93,7 @@ const WritingBox = observer((props: IProps) => {
   };
 
   return (
-    <Container className="md:p-0">
+    <Container className="sm:p-0">
       {props.isDetailPage && (
         <>
           <div id="firework">
@@ -144,21 +144,21 @@ const WritingBox = observer((props: IProps) => {
 
       {/* <!-- A marketing page card built entirely with utility classes --> */}
 
-      <div className="md:hidden block">
+      <div className="sm:hidden block">
         <DialogBox writing={writing} />
       </div>
       <section id="writing-box">
-        <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
-          <div className="md:flex-shrink-0 bg-gray-100">
+        <div className="bg-white sm:p-6 mt-2 p-3 sm:flex rounded-lg shadow-custom">
+          <div className="sm:flex-shrink-0 bg-gray-100">
             <WritingImage imageUrl={writing.getImageURL()} size={null} />
           </div>
-          <div className="md:ml-6 flex-1">
+          <div className="sm:ml-6 flex-1">
             <div>
               {/* 레벨/테마 */}
               <div className="tracking-wide:sm text-sm hidden">
                 <div className="flex justify-between ">
-                  <div className="flex md:pb-6 pb-1">
-                    <div className="bg-gray-200 rounded-lg md:text-sm text-xs px-2 py-1 text-gray-700 shadow-sm mr-1">
+                  <div className="flex sm:pb-6 pb-1">
+                    <div className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700 shadow-sm mr-1">
                       <div>{writing.getLevelDisplayName()}</div>
                     </div>
                     {writing.getThemes()?.map((theme, index) => (
@@ -174,7 +174,7 @@ const WritingBox = observer((props: IProps) => {
               </div>
               <div className="relative ">
                 {writing.getSituation() && (
-                  <p className="mt-3 text-gray-500 md:text-sm text-xs">
+                  <p className="mt-3 text-gray-500 sm:text-sm text-xs">
                     {writing.getSituation()}
                   </p>
                 )}
@@ -186,7 +186,7 @@ const WritingBox = observer((props: IProps) => {
                 </div>
               </div>
 
-              <div className="block mt-1 md:text-2xl leading-tight md:font-semibold text-gray-900 font-bold pb-3">
+              <div className="block mt-1 sm:text-2xl leading-tight sm:font-semibold text-gray-900 font-bold pb-3">
                 {writing.getKoreanSentence()}
               </div>
             </div>
@@ -214,7 +214,7 @@ const WritingBox = observer((props: IProps) => {
           </div>
         </div>
       </section>
-      <div className="md:block Hidden">
+      <div className="sm:block Hidden">
         <DialogBox writing={writing} />
       </div>
     </Container>
@@ -232,7 +232,7 @@ const SmallButton = ({
 }) => (
   <button
     onClick={onClick}
-    className="focus:outline-none text-xs md:text-base font-bold md:font-medium py-1 px-2 rounded text-white bg-brown-500 hover:bg-brown-700 ml-1"
+    className="focus:outline-none text-xs sm:text-base font-bold sm:font-medium py-1 px-2 rounded text-white bg-brown-500 hover:bg-brown-700 ml-1"
   >
     {text}
   </button>

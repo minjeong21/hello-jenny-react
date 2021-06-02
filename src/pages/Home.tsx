@@ -84,20 +84,20 @@ export default observer(() => {
         {/* 문제 리스트 */}
 
         <div className="pt-48 pb-24">
-          <section className="md:py-20 px-4">
-            <div className="md:text-3xl text-2xl font-bold pb-2">
+          <section className="sm:py-20 px-4">
+            <div className="sm:text-3xl text-2xl font-bold pb-2">
               영어를 잘하고 싶은 이유는 무엇인가요?
             </div>
-            <div className="md:text-base text-sm md:pb-8 pb-4 text-gray-500">
+            <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
               관심가는 주제로 영어 문장을 만들어보세요. 어렵지 않게 영어를 익힐
               수 있을거에요.
             </div>
-            <div className="md:grid grid-cols-3 gap-x-2 gap-y-3">
+            <div className="sm:grid grid-cols-3 gap-x-2 gap-y-3">
               {writingStore.repThemes ? (
                 writingStore.repThemes.map((theme, index) => (
                   <div
                     key={index}
-                    className="bg-white md:p-4 p-4 my-4 rounded-lg shadow-custom cursor-pointer"
+                    className="bg-white sm:p-4 p-4 my-4 rounded-lg shadow-custom cursor-pointer"
                     onClick={(e) =>
                       writingStore.moveWritingWithTheme(
                         e,
