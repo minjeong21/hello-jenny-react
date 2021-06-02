@@ -14,7 +14,8 @@ import SettingIcon from "./SettingIcon";
 const Container = styled.div`
   input {
     width: 100%;
-    padding: 10px;
+    outline: none;
+    background-color: inherit;
   }
   #explain-section {
     max-height: 300px;
@@ -50,9 +51,9 @@ const WritingBox = observer((props: IProps) => {
     dialogStore.setTextInWriting(e.target.value);
   };
 
-  const onSubmitChallenge = (event: any) => {
+  const onSubmitChallenge = (e: any) => {
     const userSentence = dialogStore.textInWrinting;
-    event.preventDefault();
+    e.preventDefault();
 
     const isCorrect = writing.isCorrect(userSentence);
     if (isCorrect) {
@@ -61,6 +62,14 @@ const WritingBox = observer((props: IProps) => {
       document.querySelector("#firework")?.classList.add("firework");
       window.setTimeout(() => {
         document.querySelector("#firework")?.classList.remove("firework");
+      }, 2000);
+
+      window.setTimeout(() => {
+        document.querySelector("#correct-popup")?.classList.remove("hidden");
+        window.setTimeout(() => {
+          document.querySelector("#correct-popup")?.classList.add("hidden");
+          props.moveNextWriting(e);
+        }, 3000);
       }, 2000);
     } else {
       // 정답 틀렸을 때
@@ -91,32 +100,53 @@ const WritingBox = observer((props: IProps) => {
             <div className="before"></div>
             <div className="after"></div>
           </div>
+
           <div
-            className="flex cursor-pointer items-center"
-            onClick={props.openPopup}
+            id="correct-popup"
+            className="hidden absolute bg-white top-1/3 left-1/3 h-1/4 w-1/4 border-2 flex flex-col justify-center items-center rounded-lg shadow-lg text-red-500 font-bold"
           >
-            <div className="flex">
-              {writingStore.selectedLevels.map((item) => (
-                <div className="bg-primary-200 rounded-lg text-sm px-2 py-1 text-gray-700  mr-1 shadow-sm">
-                  {getLevelName(item)}
-                </div>
-              ))}
-            </div>
-            <div className="flex">
-              {writingStore.selectedThemes.map((item) => (
-                <div className="bg-primary-200 rounded-lg text-sm px-2 py-1 text-gray-700  mr-1 shadow-sm">
-                  {getThemeName(item)}
-                </div>
-              ))}
+            <div>다음 문제로 이동할까요?</div>
+
+            <button>취소</button>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex cursor-pointer" onClick={props.openPopup}>
+              <div className="flex">
+                {writingStore.selectedLevels.map((item, index) => (
+                  <div
+                    key={index}
+                    className="bg-primary-200 rounded-lg text-sm px-2 py-1 text-gray-700  mr-1 shadow-sm"
+                  >
+                    {getLevelName(item)}
+                  </div>
+                ))}
+              </div>
+              <div className="flex">
+                {writingStore.selectedThemes.map((item, index) => (
+                  <div
+                    key={index}
+                    className="bg-primary-200 rounded-lg text-sm px-2 py-1 text-gray-700  mr-1 shadow-sm"
+                  >
+                    {getThemeName(item)}
+                  </div>
+                ))}
+              </div>
+              <div>
+                <FilterAddIcon />
+              </div>
             </div>
             <div>
-              <FilterIcon />
+              <SettingIcon />
             </div>
           </div>
         </>
       )}
 
       {/* <!-- A marketing page card built entirely with utility classes --> */}
+
+      <div className="md:hidden block">
+        <DialogBox writing={writing} />
+      </div>
       <section id="writing-box">
         <div className="bg-white md:p-6 mt-2 p-3 md:flex rounded-lg shadow-custom">
           <div className="md:flex-shrink-0 bg-gray-100">
@@ -124,8 +154,9 @@ const WritingBox = observer((props: IProps) => {
           </div>
           <div className="md:ml-6 flex-1">
             <div>
-              <div className="tracking-wide:sm text-sm">
-                <div className="flex justify-between">
+              {/* 레벨/테마 */}
+              <div className="tracking-wide:sm text-sm hidden">
+                <div className="flex justify-between ">
                   <div className="flex md:pb-6 pb-1">
                     <div className="bg-gray-200 rounded-lg md:text-sm text-xs px-2 py-1 text-gray-700 shadow-sm mr-1">
                       <div>{writing.getLevelDisplayName()}</div>
@@ -139,17 +170,22 @@ const WritingBox = observer((props: IProps) => {
                       </div>
                     ))}
                   </div>
-                  <div className="pl-6 pr-1" onClick={onClickBookmark}>
-                    <BookMarkIcon />
-                  </div>
+                </div>
+              </div>
+              <div className="relative ">
+                {writing.getSituation() && (
+                  <p className="mt-3 text-gray-500 md:text-sm text-xs">
+                    {writing.getSituation()}
+                  </p>
+                )}
+                <div
+                  className="pl-6 pr-1 absolute right-0 top-0"
+                  onClick={onClickBookmark}
+                >
+                  <BookMarkIcon />
                 </div>
               </div>
 
-              {writing.getSituation() && (
-                <p className="mt-3 text-gray-500 md:text-sm text-xs">
-                  {writing.getSituation()}
-                </p>
-              )}
               <div className="block mt-1 md:text-2xl leading-tight md:font-semibold text-gray-900 font-bold pb-3">
                 {writing.getKoreanSentence()}
               </div>
@@ -162,12 +198,42 @@ const WritingBox = observer((props: IProps) => {
               onClickHelpJenny={dialogStore.addHelpJenny}
               moveNextWriting={props.moveNextWriting}
             />
+            <section>
+              {dialogStore.dialogButtons && (
+                <div className="flex justify-end pt-3 flex-wrap">
+                  {dialogStore.dialogButtons.map((item, index) => (
+                    <SmallButton
+                      key={index}
+                      text={item.label}
+                      onClick={item.onClick}
+                    />
+                  ))}
+                </div>
+              )}
+            </section>
           </div>
         </div>
       </section>
-      <DialogBox writing={writing} />
+      <div className="md:block Hidden">
+        <DialogBox writing={writing} />
+      </div>
     </Container>
   );
 });
 
 export default WritingBox;
+
+const SmallButton = ({
+  onClick,
+  text,
+}: {
+  onClick: () => void;
+  text: string;
+}) => (
+  <button
+    onClick={onClick}
+    className="focus:outline-none text-xs md:text-base font-bold md:font-medium py-1 px-2 rounded text-white bg-brown-500 hover:bg-brown-700 ml-1"
+  >
+    {text}
+  </button>
+);

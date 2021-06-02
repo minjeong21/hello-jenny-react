@@ -41,7 +41,7 @@ const Detail = observer(() => {
   }, [id, writingStore]);
 
   return (
-    <Main className="md:pt-20 pt-12 px-3">
+    <Main className="md:pt-20 pt-12 md:px-3">
       <section>
         <div className="flex justify-end py-5 px-3">
           <div className="flex bg-gray-200 fit-h self-center px-3 py-2 md:py-3 md:px-5 mr-1 rounded-xl shadow-sm md:text-sm text-xs">

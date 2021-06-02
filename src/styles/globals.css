@@ -25,6 +25,7 @@ button:disabled {
 
 html {
   scroll-behavior: smooth;
+  /* -webkit-overflow-scrolling: none; */
 }
 
 input {
@@ -52,6 +53,11 @@ code {
 .font-cute {
   font-family: 'Poor Story', cursive;
 
+}
+
+
+.border-1 {
+  border-width: 1px;
 }
 
 .shadow-custom {
@@ -143,6 +149,10 @@ section {
 
 .bg-brown-600 {
   background-color: #976d59
+}
+
+.bg-brown-700 {
+  background-color: #5e4337
 }
 
 .bg-basic-100 {

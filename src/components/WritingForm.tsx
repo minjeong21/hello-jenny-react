@@ -1,3 +1,5 @@
+import RightArrowIcon from "./icons/RightArrowIcon";
+
 const WritingForm = ({
   onChange,
   onSubmitChallenge,
@@ -13,22 +15,24 @@ const WritingForm = ({
 }) => {
   return (
     <form className="rounded" onSubmit={onSubmitChallenge} id="writing-form">
-      <input
-        className="bg-basic-100 border-gray-400 rounded my-2 p-1 md:p-2 md:text-lg text-base"
-        placeholder="영작하기"
-        height="500"
-        id="english_input"
-        autoComplete="off"
-        required
-        value={textInWrinting}
-        onChange={onChange}
-      />
+      <div className="flex bg-basic-100  border-1 rounded border-gray-400 rounded  border-gray-400 my-2 p-1 md:p-2 ">
+        <input
+          className="md:text-lg text-base  border-0 p-0"
+          placeholder="영작하기"
+          height="500"
+          id="english_input"
+          autoComplete="off"
+          required
+          value={textInWrinting}
+          onChange={onChange}
+        />
+
+        <SubmitButton text="도전" />
+      </div>
 
       {/* 버튼 그룹 */}
-      <div className="flex justify-end pt-2 md:text-base text-sm">
-        <div className="pr-2">
-          <SubmitButton text="정답 도전!" />
-        </div>
+      {/* <div className="flex justify-end pt-2 md:text-base text-sm">
+        <div className="pr-2"></div>
 
         <div className="pr-2 relative">
           <Ping />
@@ -37,23 +41,15 @@ const WritingForm = ({
         <div className="pr-2 relative">
           <TextButton
             children={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="md:h-6 h-5 w-6"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <>
+                <RightArrowIcon />
+                <span>NEXT</span>
+              </>
             }
             onClick={moveNextWriting}
           />
         </div>
-      </div>
+      </div> */}
     </form>
   );
 };
@@ -75,7 +71,7 @@ const TextButton = ({
 const SubmitButton = ({ text }: { text: string }) => (
   <button
     type="submit"
-    className="bg-gray-700 hover:bg-primary-700 text-white font-bold md:px-4 px-3 py-2 rounded md:text-base text-sm"
+    className="bg-brown-700 hover:bg-primary-700 text-white font-bold p-1 rounded md:text-sm text-xs h-8 w-10"
   >
     {text}
   </button>
