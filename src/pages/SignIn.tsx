@@ -3,8 +3,8 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import PathManager from "utils/PathManager";
 import { observer } from "mobx-react";
-import GoogleIcon from "components/GoogleIcon";
-import KakaoIcon from "components/KakaoIcon";
+import GoogleIcon from "components/icons/GoogleIcon";
+import KakaoIcon from "components/icons/KakaoIcon";
 import { fetchUserProfile, loginUser } from "apis/AuthApi";
 import { useStores } from "states/Context";
 
