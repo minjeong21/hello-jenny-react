@@ -149,46 +149,57 @@ const WritingBox = observer((props: IProps) => {
       </div>
       <section id="writing-box">
         <div className="bg-white sm:p-6 mt-2 p-3 sm:flex rounded-lg shadow-custom">
-          <div className="sm:flex-shrink-0 bg-gray-100">
+          <div className="sm:flex-shrink-0 bg-gray-100 sm:w-40 md:w-56 w-0">
             <WritingImage imageUrl={writing.getImageURL()} size={null} />
           </div>
-          <div className="sm:ml-6 flex-1">
-            <div>
-              {/* 레벨/테마 */}
-              <div className="tracking-wide:sm text-sm hidden">
-                <div className="flex justify-between ">
-                  <div className="flex sm:pb-6 pb-1">
-                    <div className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700 shadow-sm mr-1">
-                      <div>{writing.getLevelDisplayName()}</div>
-                    </div>
-                    {writing.getThemes()?.map((theme, index) => (
-                      <div
-                        key={index}
-                        className="bg-gray-200 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1"
-                      >
-                        {theme.display_name}
-                      </div>
-                    ))}
+          <div className="sm:ml-6 flex-1 relative">
+            {/* 레벨/테마 */}
+            <div
+              className={`tracking-wide:sm text-sm ${
+                props.isDetailPage ? "hidden" : ""
+              }`}
+            >
+              <div className="flex justify-between ">
+                <div className="flex sm:pb-6 pb-1">
+                  <div className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700 shadow-sm mr-1">
+                    <div>{writing.getLevelDisplayName()}</div>
                   </div>
+                  {writing.getThemes()?.map((theme, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-200 rounded-lg text-sm p-1 text-gray-700 shadow-sm mr-1"
+                    >
+                      {theme.display_name}
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className="relative ">
-                {writing.getSituation() && (
-                  <p className="mt-3 text-gray-500 sm:text-sm text-xs">
-                    {writing.getSituation()}
-                  </p>
-                )}
-                <div
-                  className="pl-6 pr-1 absolute right-0 top-0"
-                  onClick={onClickBookmark}
-                >
-                  <BookMarkIcon />
-                </div>
-              </div>
+            </div>
+            <div className="">
+              {writing.getSituation() ? (
+                <p className="mt-3 text-gray-500 sm:text-sm text-xs">
+                  {writing.getSituation()}
+                </p>
+              ) : (
+                <>
+                  {props.isDetailPage ? (
+                    <p className="mt-3 text-gray-500 sm:text-sm text-xs">
+                      Let's make it!
+                    </p>
+                  ) : null}
+                </>
+              )}
 
-              <div className="block mt-1 sm:text-2xl leading-tight sm:font-semibold text-gray-900 font-bold pb-3">
-                {writing.getKoreanSentence()}
+              <div
+                className="pl-6 pr-1 absolute right-0 top-0"
+                onClick={onClickBookmark}
+              >
+                <BookMarkIcon />
               </div>
+            </div>
+
+            <div className="block mt-1 sm:text-2xl leading-tight sm:font-semibold text-gray-900 font-bold pb-3">
+              {writing.getKoreanSentence()}
             </div>
 
             <WritingForm

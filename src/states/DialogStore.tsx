@@ -234,7 +234,7 @@ export class DialogStore {
     const HintButton = new DialogButton("힌트 🔑", this.addHint);
     const NextButton = new DialogButton(
       (
-        <div className="flex">
+        <div className="flex items-center">
           Next
           <RightArrowIcon />
         </div>
