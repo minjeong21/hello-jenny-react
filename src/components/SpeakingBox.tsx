@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 import WritingImage from "./atoms/WritingImage";
+import Speaking from "utils/Speaking";
 import styled from "styled-components";
 import MainTheme from "components/MainTheme";
 import Level from "components/atoms/Level";
 import IWriting from "interface/IWriting";
+import ISpeaking from "interface/ISpeaking"
+import { useStores } from "states/Context";
+import { observer } from "mobx-react";
+import { getLevelName, getThemeName } from "properties/Filter";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { SpeakingStore } from "states/SpeakingStore";
+// import * as googleTTS from 'google-tts-api'; //Typescript
+// import ReactPlayer from 'react-player'
 
 const Container = styled.div`
   input {
@@ -63,8 +71,8 @@ const CheckButton = styled.button`
 `;
 
 interface IProps {
-  writing: IWriting;
-  moveNextWriting: (e: any) => void;
+  // writing: IWriting;
+  // moveNextWriting: (e: any) => void;
 }
 
 const sentenceList = [
@@ -90,8 +98,31 @@ const sentenceList = [
   },
 ];
 
-const SpeakingBox = (props: IProps) => {
-  const { writing } = props;
+const useAudio = (url : string) => {
+  const [audio, setAudio] = useState(new Audio(url));
+  const [playing, setPlaying] = useState(false);
+
+  const toggle = () => setPlaying(!playing)
+
+  useEffect(() => {
+    playing ? audio.play() : audio.pause();
+  },
+  [playing]
+  );
+
+  useEffect(() => {
+    audio.addEventListener('ended', () => setPlaying(false));
+    return () => {
+      audio.removeEventListener('ended', () => setPlaying(false));
+    };
+  }, []);
+
+  return [playing, toggle];
+};
+
+
+const SpeakingBox = observer((props: IProps) => {
+  // const { writing } = props;
 
   const [infoSentence, setInfoSentence] = useState("화이팅");
   const [korSentence, setKorSentence] = useState(
@@ -109,6 +140,16 @@ const SpeakingBox = (props: IProps) => {
     false,
     false,
   ]);
+  const [engAudioBase64, setEngAudioBase64] = useState('')
+
+  // const { writingId, writing } = props;
+  // const writing = Writing
+  const [textInWriting, setTextInWriting] = useState("");
+  const [isShowColorHelp, setIsShowColorHelp] = useState(false);
+  const { dialogStore, speakingStore } = useStores();
+
+  // const [audioPlay, setAudioPlay] = useState(false);
+  
 
   useEffect(() => {}, []);
 
@@ -117,6 +158,18 @@ const SpeakingBox = (props: IProps) => {
     setInfoSentence("아래 문장을 영어로 말해보세요.");
     setKorSentence(sentenceList[0].korean);
     setEngSentence(sentenceList[0].english);
+
+    // const result = googleTTS.getAllAudioBase64(engSentence, {
+    //   lang:'en',
+    //   slow: false,
+    //   host: 'https://translate.google.com',
+    //   timeout: 10000,
+    //   splitPunct: ',.?',
+    // })
+
+    // console.log(result)
+    // // setEngAudioBase64(result);
+
   };
 
   const nextOnClick = () => {
@@ -134,6 +187,7 @@ const SpeakingBox = (props: IProps) => {
     var correctList = correctProblem;
     correctList[i] = true;
     setCorrectProblem(correctList);
+    console.log(correctProblem)
   };
 
   const CheckNoOnclick = (i: number) => {
@@ -141,8 +195,34 @@ const SpeakingBox = (props: IProps) => {
     var correctList = correctProblem;
     correctList[i] = false;
     setCorrectProblem(correctList);
+    console.log(correctProblem)
   };
 
+  // console.log(
+  //   hintCount,
+  //   writing.hints.length - 1,
+  //   hintCount >= writing.hints.length - 1
+  // );
+
+  const ListenOnclick = (sentence: string) => {
+    // const url = googleTTS.getAudioUrl(sentence, {
+    //   lang: 'en',
+    //   slow: false,
+    //   host: 'https://translate.google.com',
+    // });
+    // console.log(url);
+
+    // setAudioPlay(true)
+    
+    // const [audioPlay, toggle] = useAudio(url);
+
+    // var audio = new Audio(url);
+    // audio.play();
+  }
+
+  // console.log(writing.themes);
+  console.log(speakingStore.speakings)
+  
   return (
     <Container>
       <section>
@@ -151,20 +231,20 @@ const SpeakingBox = (props: IProps) => {
           <div className="pad-xs ">
             <article className="p-3 flex">
               <div className="">
-                <WritingImage imageUrl={writing.image_url} size={null} />
+                {/* <WritingImage imageUrl={writing.image_url} size={null} /> */}
               </div>
               {/* 설명 */}
               <div className="flex-1 pl-2">
                 <div className="flex justify-between pb-4">
-                  <MainTheme themes={writing.themes} />
-                  <Level levelNumber={writing.level} />
+                  {/* <MainTheme themes={writing.themes} /> */}
+                  {/* <Level levelNumber={writing.level} /> */}
                 </div>
 
-                {writing.situation && (
+                {/* {writing.situation && (
                   <div className="font-gray-200 py-1 text-sm">
                     {infoSentence}
                   </div>
-                )}
+                )} */}
 
                 <div
                   className="text-lg font-bold text-gray-600"
@@ -215,6 +295,14 @@ const SpeakingBox = (props: IProps) => {
                             {engSentence}
                           </div>
                           <div className="flex justify-end">
+                            {/* <button onClick={() => ListenOnclick(engSentence)}>{audioPlay ? "Pause" : "Play"}</button> */}
+                            {/* <button onClick={()=>toggle}>{audioPlay ? "Pause" : "Play"}</button> */}
+                            {/* <Player sentence={engSentence}/> */}
+                            {/* <button onClick={() => ListenOnclick(engSentence)}>듣기</button> */}
+                            <audio controls src={"https://translate.google.com/translate_tts?ie=UTF-8&q=Hyunju%20likes%20playing.&tl=en&total=1&idx=0&textlen=21&client=tw-ob&prev=input&ttsspeed=1"}>
+                              Your browser does not support the audio tag.
+                            </audio>
+                            {/* <ReactPlayer url={'https://translate.google.com/translate_tts?ie=UTF-8&q=Hyunju%20likes%20playing.&tl=en&total=1&idx=0&textlen=21&client=tw-ob&prev=input&ttsspeed=1'} config={{file:{forceAudio:true}}}/> */}
                             <NextButton
                               className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                               onClick={nextOnClick}
@@ -242,7 +330,7 @@ const SpeakingBox = (props: IProps) => {
         ) : (
           <div className="w-full p-6 rounded">
             <div className="flex justify-between pb-3">
-              <MainTheme themes={writing.themes} />
+              {/* <MainTheme themes={writing.themes} /> */}
             </div>
             {sentenceList.map((item, index) => (
               <ProblemContainer key={index}>
@@ -282,6 +370,6 @@ const SpeakingBox = (props: IProps) => {
       </section>
     </Container>
   );
-};
+});
 
 export default SpeakingBox;

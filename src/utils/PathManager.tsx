@@ -7,9 +7,13 @@ const Path = {
   REGISTER: "/signup/",
   WRITING_DETAIL: "/writing/:numid/",
   WRITING_DETAIL_THEME: "/writing/:numid/?theme=:theme",
-  SPEACKING: "/speaking/:numid/",
+  SPEAKING: "/speaking/:numid/",
   WRITING_BASE: "/writing/",
+  SPEAKING_DETAIL: "/speaking/:numid/",
+  SPEAKING_DETAIL_THEME: "/speaking/:numid/?theme=:theme",
+  SPEAKING_BASE: "/speaking/",
 };
+
 class MovePath {
   history: any;
   currentId: number;
@@ -64,8 +68,27 @@ class MovePath {
 
   goSpeakingPath = (numid: number) => {
     this.history.push(
-      generatePath(Path.SPEACKING, {
+      generatePath(Path.SPEAKING, {
         numid: numid,
+      })
+    );
+  };
+
+  goNextSpeaking = (e: any, speakingId: number) => {
+    e.preventDefault();
+    this.history.push(
+      generatePath(Path.WRITING_DETAIL, {
+        numid: speakingId,
+      })
+    );
+  };
+
+  goSpeakingWithTheme = (e: any, speakingId: number, theme: string) => {
+    e.preventDefault();
+    this.history.push(
+      generatePath(Path.SPEAKING_DETAIL_THEME, {
+        numid: speakingId,
+        theme: theme,
       })
     );
   };
