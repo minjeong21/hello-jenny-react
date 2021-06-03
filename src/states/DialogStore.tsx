@@ -48,7 +48,6 @@ export class DialogStore {
   };
   @action setWriting = (writing: Writing) => {
     this.writing = writing;
-    this.updateButtonActions("INIT");
   };
   getDialogs = () => {
     return this.dialogList;
@@ -76,13 +75,15 @@ export class DialogStore {
       this.updateButtonActions(type);
     });
 
-    setTimeout(() => {
-      var dialogSection = document.getElementById("explain-section");
+    if (window.innerWidth < 480) {
+      const dialogSection: any = document.querySelector("#explain-section");
+      const offsetTop = dialogSection.scrollHeight;
 
-      if (dialogSection) {
-        dialogSection.scrollTop = dialogSection.scrollHeight;
-      }
-    }, 500);
+      dialogSection.scroll({
+        top: offsetTop,
+        behavior: "smooth",
+      });
+    }
   };
 
   @action setMoveNextWriing = (moveNextWriting: (e: any) => void) => {
@@ -118,6 +119,7 @@ export class DialogStore {
       });
     }
   };
+
   addHelpJenny = (e: any) => {
     e.preventDefault();
     this.appendDialog("HINT", <DialogJenny />);
@@ -228,20 +230,22 @@ export class DialogStore {
       | "EXPLAIN"
   ) => {
     const FirstWordButton = new DialogButton(
-      "첫 단어? 🔑",
+      "🔑 첫단어",
       this.addSubjectiveHint
     );
-    const HintButton = new DialogButton("힌트 🔑", this.addHint);
+    const HintButton = new DialogButton("🔑 힌트 ", this.addHint);
     const NextButton = new DialogButton(
       (
         <div className="flex items-center">
-          Next
           <RightArrowIcon />
         </div>
       ),
       (e: any) => this.moveNextWriting(e)
     );
-    const AnswerButton = new DialogButton("정답 알려줘 😎", this.addShowAnswer);
+    const AnswerButton = new DialogButton(
+      "😎 정답 알려줘 ",
+      this.addShowAnswer
+    );
     const ReTryButton = new DialogButton("🕺다시 풀래", this.reload);
 
     this.tempButtons = [];

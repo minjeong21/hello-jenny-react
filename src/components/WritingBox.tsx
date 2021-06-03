@@ -18,7 +18,7 @@ const Container = styled.div`
     background-color: inherit;
   }
   #explain-section {
-    max-height: 300px;
+    max-height: 60vh;
     overflow-y: auto;
   }
 `;
@@ -63,14 +63,6 @@ const WritingBox = observer((props: IProps) => {
       window.setTimeout(() => {
         document.querySelector("#firework")?.classList.remove("firework");
       }, 2000);
-
-      window.setTimeout(() => {
-        document.querySelector("#correct-popup")?.classList.remove("hidden");
-        window.setTimeout(() => {
-          document.querySelector("#correct-popup")?.classList.add("hidden");
-          props.moveNextWriting(e);
-        }, 3000);
-      }, 2000);
     } else {
       // 정답 틀렸을 때
       if (writing.isIgnoreCaseCorrect(userSentence)) {
@@ -101,42 +93,29 @@ const WritingBox = observer((props: IProps) => {
             <div className="after"></div>
           </div>
 
-          <div
-            id="correct-popup"
-            className="hidden absolute bg-white top-1/3 left-1/3 h-1/4 w-1/4 border-2 flex flex-col justify-center items-center rounded-lg shadow-lg text-red-500 font-bold"
-          >
-            <div>다음 문제로 이동할까요?</div>
-
-            <button>취소</button>
-          </div>
           <div className="flex items-center justify-between">
             <div className="flex cursor-pointer" onClick={props.openPopup}>
-              <div className="flex">
+              <div className="flex flex-wrap">
                 {writingStore.selectedLevels.map((item, index) => (
                   <div
                     key={index}
-                    className="bg-primary-200 rounded-lg text-sm px-2 py-1 text-gray-700  mr-1 shadow-sm"
+                    className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1"
                   >
                     {getLevelName(item)}
                   </div>
                 ))}
-              </div>
-              <div className="flex">
                 {writingStore.selectedThemes.map((item, index) => (
                   <div
                     key={index}
-                    className="bg-primary-200 rounded-lg text-sm px-2 py-1 text-gray-700  mr-1 shadow-sm"
+                    className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1"
                   >
                     {getThemeName(item)}
                   </div>
                 ))}
+                <div>
+                  <SettingIcon />
+                </div>
               </div>
-              <div>
-                <FilterAddIcon />
-              </div>
-            </div>
-            <div>
-              <SettingIcon />
             </div>
           </div>
         </>
@@ -175,31 +154,20 @@ const WritingBox = observer((props: IProps) => {
                 </div>
               </div>
             </div>
-            <div className="">
-              {writing.getSituation() ? (
-                <p className="mt-3 text-gray-500 sm:text-sm text-xs">
-                  {writing.getSituation()}
-                </p>
-              ) : (
-                <>
-                  {props.isDetailPage ? (
-                    <p className="mt-3 text-gray-500 sm:text-sm text-xs">
-                      Let's make it!
-                    </p>
-                  ) : null}
-                </>
-              )}
-
-              <div
-                className="pl-6 pr-1 absolute right-0 top-0"
-                onClick={onClickBookmark}
-              >
+            <div className="flex justify-between">
+              <div>
+                {writing.getSituation() && (
+                  <p className="sm:mt-3 mt-2 text-gray-500 sm:text-sm text-xs">
+                    {writing.getSituation()}
+                  </p>
+                )}
+                <div className="block mt-1 sm:text-2xl leading-tight sm:font-semibold text-gray-900 font-bold pb-3">
+                  {writing.getKoreanSentence()}
+                </div>
+              </div>
+              <div className="px-1 " onClick={onClickBookmark}>
                 <BookMarkIcon />
               </div>
-            </div>
-
-            <div className="block mt-1 sm:text-2xl leading-tight sm:font-semibold text-gray-900 font-bold pb-3">
-              {writing.getKoreanSentence()}
             </div>
 
             <WritingForm
@@ -211,7 +179,7 @@ const WritingBox = observer((props: IProps) => {
             />
             <section>
               {dialogStore.dialogButtons && (
-                <div className="flex justify-end pt-3 flex-wrap">
+                <div className="flex justify-end sm:pt-3 pt-1 flex-wrap">
                   {dialogStore.dialogButtons.map((item, index) => (
                     <SmallButton
                       key={index}
@@ -225,7 +193,7 @@ const WritingBox = observer((props: IProps) => {
           </div>
         </div>
       </section>
-      <div className="sm:block Hidden">
+      <div className="sm:block hidden">
         <DialogBox writing={writing} />
       </div>
     </Container>
@@ -243,7 +211,7 @@ const SmallButton = ({
 }) => (
   <button
     onClick={onClick}
-    className="focus:outline-none text-xs sm:text-base font-bold sm:font-medium py-1 px-2 rounded text-white bg-brown-500 hover:bg-brown-700 ml-1"
+    className="focus:outline-none text-xs sm:text-base font-bold sm:font-medium py-1 px-2 rounded  bg-gray-200 shadow-sm ml-1"
   >
     {text}
   </button>

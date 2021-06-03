@@ -1,17 +1,17 @@
 const DialogBase = ({ children }: { children: any }) => {
   return (
-    <div className="flex sm:mt-2 mt-1 sm:pl-40">
+    <div className="flex sm:mt-2 mt-1 sm:pl-40 dialog fade-in">
       <div>
         <div className="rounded-3xl p-1 flex justify-center aligns-center bg-brown-200">
           <img
-            className=" w-10 sm:w-10 h-10 sm:h-10"
+            className="w-6 sm:w-10 h-6 sm:h-10"
             src="/assets/jenny-avatar.png"
             alt="quokka avatar"
           />
         </div>
       </div>
       <div className="relative self-center flex-1 pb-1">
-        <div className="bg-white sm:py-2 py-1.5 sm:px-4 px-2 rounded-lg ml-2 fit-w shadow-md">
+        <div className="bg-basic-100 sm:py-2 py-1.5 sm:px-4 px-2 rounded-lg ml-2 fit-w shadow-md">
           {children}
         </div>
       </div>

@@ -48,9 +48,6 @@ const WritingBox = observer((props: IProps) => {
     <Container className="sm:p-0">
       {/* <!-- A marketing page card built entirely with utility classes --> */}
 
-      <div className="sm:hidden block">
-        <DialogBox writing={writing} />
-      </div>
       <section id="writing-box">
         <div className="bg-white sm:p-6 mt-2 p-3 sm:flex rounded-lg shadow-custom">
           <div className="sm:flex-shrink-0 bg-gray-100 sm:w-40 md:w-56 w-0">
@@ -122,9 +119,6 @@ const WritingBox = observer((props: IProps) => {
           </div>
         </div>
       </section>
-      <div className="sm:block Hidden">
-        <DialogBox writing={writing} />
-      </div>
     </Container>
   );
 });

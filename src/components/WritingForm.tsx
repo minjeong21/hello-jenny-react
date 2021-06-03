@@ -29,27 +29,6 @@ const WritingForm = ({
 
         <SubmitButton text="도전" />
       </div>
-
-      {/* 버튼 그룹 */}
-      {/* <div className="flex justify-end pt-2 sm:text-base text-sm">
-        <div className="pr-2"></div>
-
-        <div className="pr-2 relative">
-          <Ping />
-          <TextButton children={"HELP 🔑"} onClick={onClickHelpJenny} />
-        </div>
-        <div className="pr-2 relative">
-          <TextButton
-            children={
-              <>
-                <RightArrowIcon />
-                <span>NEXT</span>
-              </>
-            }
-            onClick={moveNextWriting}
-          />
-        </div>
-      </div> */}
     </form>
   );
 };
@@ -71,7 +50,7 @@ const TextButton = ({
 const SubmitButton = ({ text }: { text: string }) => (
   <button
     type="submit"
-    className="bg-brown-700 hover:bg-primary-700 text-white font-bold p-1 rounded sm:text-sm text-xs h-8 w-10"
+    className="bg-primary-700 text-white font-bold p-1 rounded sm:text-sm text-xs h-8 w-10"
   >
     {text}
   </button>

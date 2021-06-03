@@ -1,5 +1,6 @@
 @import "https: //cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
 @import "./tailwind.css";
+@import "./firework.css";
 @import "./animation.css";
 
 :root {
