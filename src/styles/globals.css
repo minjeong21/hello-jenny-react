@@ -21,7 +21,8 @@ main {
 }
 
 button:disabled {
-  background-color: var(--color-gray-300) !important;
+  background-color: #f7f8f9 !important;
+  color: var(--color-gray-300) !important;
 }
 
 html {
@@ -34,12 +35,13 @@ input {
 }
 
 body {
+  font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   min-height: 100vh;
   background-color: #fbf9f3;
   margin: 0;
+  line-height: 1.3;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.3;
 }
 
 code {

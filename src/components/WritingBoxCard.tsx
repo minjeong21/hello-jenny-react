@@ -3,23 +3,15 @@ import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
 import Writing from "utils/Writing";
 import WritingForm from "components/WritingForm";
-import DialogBox from "components/DialogBox";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
-import { getLevelName, getThemeName } from "properties/Filter";
 import BookMarkIcon from "./BookMarkIcon";
-import FilterAddIcon from "./FilterAddIcon";
-import SettingIcon from "./SettingIcon";
 
 const Container = styled.div`
   input {
     width: 100%;
     outline: none;
     background-color: inherit;
-  }
-  #explain-section {
-    max-height: 300px;
-    overflow-y: auto;
   }
 `;
 

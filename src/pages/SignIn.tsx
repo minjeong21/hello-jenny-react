@@ -3,10 +3,9 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import PathManager from "utils/PathManager";
 import { observer } from "mobx-react";
-import GoogleIcon from "components/icons/GoogleIcon";
-import KakaoIcon from "components/icons/KakaoIcon";
 import { fetchUserProfile, loginUser } from "apis/AuthApi";
 import { useStores } from "states/Context";
+import LogoIcon from "components/icons/LogoIcon";
 
 const Main = styled.main`
   .margin-auto {
@@ -33,13 +32,14 @@ const Main = styled.main`
     text-decoration: underline;
   }
 
-  .kakao-signin {
+  .kakao-icon {
     background-color: rgb(254, 229, 0);
   }
-  .gmail-signin {
+  .gmail-icon {
     background-color: white;
   }
-  #signup-button {
+  .naver-icon {
+    background-color: #1ec800;
   }
 `;
 
@@ -97,24 +97,32 @@ const SignIn = observer(() => {
     <Main className="pt-36 flex flex-col items-center">
       <div className="w-full margin-auto p-3 sm:p-0">
         <section className="p-8 max-w-screen-sm width-460 bg-white border rounded-lg  shadow-custom z-10">
-          <h3 className="sm:text-3xl text-2xl font-bold pt-2 pb-8 text-center">
-            제니 로그인하기
-          </h3>
+          <div className="flex">
+            <img
+              className="w-9 h-10 mr-2"
+              src="/assets/small-quokka.png"
+              alt="quokka logo"
+            />
+
+            <h3 className="sm:text-xl text-lg font-bold pt-2 pb-8 text-center">
+              영작으로 영어와 친해져요!
+            </h3>
+          </div>
           <form onSubmit={handleSubmit}>
             <input
-              className="p-3 mb-1 border-gray-300 w-full"
+              className="p-3 mb-1 border-gray-200 w-full"
               type="email"
               name="email"
-              placeholder="email"
+              placeholder="이메일"
               value={email}
               required
               onChange={changeEmail}
             />
             <input
-              className="p-3 mb-1 border-gray-300 w-full"
+              className="p-3 mb-1 border-gray-200 w-full"
               type="password"
               name="password"
-              placeholder="password"
+              placeholder="비밀번호"
               value={password}
               required
               onChange={changePassword}
@@ -122,63 +130,58 @@ const SignIn = observer(() => {
 
             <button
               type="submit"
+              disabled
               className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full shadow-md"
             >
-              Sign in
+              이메일로 로그인
             </button>
           </form>
-          <div className="flex justify-between pt-2 text-sm sm:text-base font-bold">
+
+          <div className="flex justify-center pt-6">
+            <div>
+              <button
+                className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md naver-icon mr-1 "
+                onClick={signinWithKakao}
+              >
+                <LogoIcon name="naver" />
+              </button>
+            </div>{" "}
+            <div>
+              <button
+                className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md kakao-icon mr-1 "
+                onClick={signinWithKakao}
+              >
+                <LogoIcon name="kakao" />
+              </button>
+            </div>
+            <div>
+              <button
+                className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md gmail-icon mr-1 "
+                onClick={signinWithGoogle}
+              >
+                <LogoIcon name="google" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex justify-center">
             <button
-              className="text-button bg-gray-200 rounded-lg px-3 py-1"
+              className="text-primary-700 px-3 py-4 text-sm mb-3"
+              onClick={findEmail}
+            >
+              가입 정보를 잊으셨나요?
+            </button>
+          </div>
+          <div className="flex justify-center pt-2 sm:text-sm">
+            <span className="text-gray-500">아직 회원이 아니신가요? </span>
+            <button
+              className="pl-3 font-bold text-primary-700 "
               onClick={signup}
             >
               회원가입
             </button>
-            <div className="flex ">
-              <button
-                className=" bg-gray-200 rounded-lg px-3 py-1 mr-1"
-                onClick={findEmail}
-              >
-                아이디 찾기
-              </button>
-              <button
-                className="bg-gray-200 rounded-lg px-3 py-1"
-                onClick={findPassword}
-              >
-                비밀번호찾기
-              </button>
-            </div>
           </div>
-          <div className="py-6 flex items-center justify-center margin-auto">
-            <div className="flex-1 border-t-2 border-gray-200"></div>
-            <span className=" text-sm uppercase mx-5 font-medium text-gray-600">
-              Or
-            </span>
-            <div className="flex-1 border-t-2"></div>
-          </div>
-          <section className="rounded-lg">
-            <button
-              className="py-3 mb-3 border-0 font-bold w-full shadow-md kakao-signin"
-              onClick={signinWithKakao}
-            >
-              <div className="flex justify-center text-sm sm:text-base ">
-                <KakaoIcon />
-                <span>카카오로 로그인</span>
-              </div>
-            </button>
-            <button
-              className="py-3 mb-3 border-0 font-bold w-full shadow-md gmail-signin"
-              onClick={signinWithGoogle}
-            >
-              <div className="flex justify-center  text-sm sm:text-base ">
-                <GoogleIcon />
-                <span>구글로 로그인</span>
-              </div>
-            </button>
-          </section>
         </section>
-
-        {/* 뱃지 */}
       </div>
     </Main>
   );

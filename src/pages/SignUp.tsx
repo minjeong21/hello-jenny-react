@@ -3,9 +3,8 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import PathManager from "utils/PathManager";
 import { observer } from "mobx-react";
-import GoogleIcon from "components/icons/GoogleIcon";
-import KakaoIcon from "components/icons/KakaoIcon";
 import { registerUser } from "apis/AuthApi";
+import LogoIcon from "components/icons/LogoIcon";
 
 const Main = styled.main`
   .margin-auto {
@@ -142,18 +141,14 @@ const SignUp = observer(() => {
                   onClick={signinWithKakao}
                 >
                   <div className="flex justify-center sm:text-base text-sm">
-                    <KakaoIcon />
-                    <span>카카오로 멤버 되기</span>
+                    <LogoIcon name="kakao" />
                   </div>
                 </button>
                 <button
                   className="py-3 mb-3 border-0 font-bold w-full shadow-custom gmail-signin"
                   onClick={signinWithGoogle}
                 >
-                  <div className="flex justify-center sm:text-base text-sm">
-                    <GoogleIcon />
-                    <span>구글로 멤버 되기</span>
-                  </div>
+                  <div className="flex justify-center sm:text-base text-sm"></div>
                 </button>
               </section>
             </>

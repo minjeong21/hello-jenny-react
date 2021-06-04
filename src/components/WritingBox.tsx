@@ -8,7 +8,6 @@ import { useStores } from "states/Context";
 import { observer } from "mobx-react";
 import { getLevelName, getThemeName } from "properties/Filter";
 import BookMarkIcon from "./BookMarkIcon";
-import FilterAddIcon from "./FilterAddIcon";
 import SettingIcon from "./SettingIcon";
 
 const Container = styled.div`
