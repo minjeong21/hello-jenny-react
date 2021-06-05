@@ -18,38 +18,6 @@ const Main = styled.main`
   }
 `;
 
-const Badges = [
-  {
-    label: "",
-    lock: false,
-    url: "/assets/flower-1.png",
-  },
-  {
-    label: "",
-    lock: false,
-    url: "/assets/flower-1.png",
-  },
-  {
-    label: "7일 발도장",
-    lock: false,
-    url:
-      "https://cdn3.iconfinder.com/data/icons/medal-7/64/01_Medal_badge_ribbon_award_veteran-512.png",
-  },
-
-  {
-    label: "7일 연속 발도장",
-    lock: true,
-    url:
-      "https://cdn4.iconfinder.com/data/icons/pets-and-animals-3/24/dog-badge-pet-animal--512.png",
-  },
-  {
-    label: "Level 7 달성!",
-    lock: true,
-    url:
-      "https://www.clipartmax.com/png/middle/280-2805834_the-following-are-appropriate-level-7-qualifications-level-7.png",
-  },
-];
-
 const Profile = observer(() => {
   const pathManager = new PathManager(useHistory());
   const { userStore } = useStores();
