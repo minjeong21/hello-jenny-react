@@ -5,6 +5,7 @@ import PathManager from "utils/PathManager";
 import { observer } from "mobx-react";
 import { registerUser } from "apis/AuthApi";
 import LogoIcon from "components/icons/LogoIcon";
+import { emailValidate } from "utils/Validation";
 
 const Main = styled.main`
   .margin-auto {
@@ -41,6 +42,14 @@ const Main = styled.main`
   }
 `;
 
+const checkList = {
+  all: "아래 약관에 모두 동의합니다.",
+  tos: "서비스 이용약관 (필수)",
+  pricyPolicy: "개인정보 처리 방침 (필수)",
+  marketingSMS: "이벤트 등 프로모션 알림 SMS 수신 (선택)",
+  marketingEmail: "이벤트 등 프로모션 알림 Email 수신 (선택)",
+};
+
 const SignUp = observer(() => {
   const pathManager = new PathManager(useHistory());
   const [email, setEmail] = useState("");
@@ -49,9 +58,25 @@ const SignUp = observer(() => {
   const [username, setUsername] = useState("");
   const [step, setStep] = useState(0);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [checkTos, setCheckTos] = useState(false);
+  const [checkPrivacyPolicy, setCheckPrivacyPolicy] = useState(false);
+  const [checkMarketingEmail, setCheckMarketingEmail] = useState(false);
+  const [checkMarketingSMS, setCheckMarketingSMS] = useState(false);
+  const [checkAll, setCheckAll] = useState(false);
 
   useEffect(() => {}, [step]);
 
+  const onChangeInput = (e: any) => {
+    const { name, value } = e.target;
+    if (name === "email") {
+      setEmail(value);
+      emailValidate(e.target.value) ? setValidated(true) : setValidated(false);
+    }
+  };
+  const goPreviosStep = () => {
+    setStep(step - 1);
+  };
   const goNextStep = () => {
     console.log(step);
     let allPass = true;
@@ -88,6 +113,31 @@ const SignUp = observer(() => {
     pathManager.goSignIn(e);
   };
 
+  const onToggleCheckbox = (name: string) => {
+    switch (name) {
+      case "all":
+        const status = !checkAll;
+        setCheckAll(status);
+        setCheckTos(status);
+        setCheckPrivacyPolicy(status);
+        setCheckMarketingSMS(status);
+        setCheckMarketingEmail(status);
+        break;
+      case "tos":
+        setCheckTos(!checkTos);
+        break;
+      case "pricy":
+        setCheckPrivacyPolicy(!checkPrivacyPolicy);
+        break;
+      case "sms":
+        setCheckMarketingSMS(!checkMarketingSMS);
+        break;
+      case "email":
+        setCheckMarketingEmail(!checkMarketingEmail);
+        break;
+    }
+  };
+
   const signUpUser = async () => {
     // TODO: 회원가입 로직 Store로 빼기?
     const response = await registerUser(email, username, password);
@@ -97,36 +147,35 @@ const SignUp = observer(() => {
   return (
     <Main className="pt-24 pb-24 flex flex-col items-center">
       <div className="w-full margin-auto p-3 sm:pt-16">
-        <header className="flex justify-between width-460 margin-auto relative pt-4">
-          <button
-            id="signup-button"
-            className="absolute bottom-0 right-2 bg-gray-400 text-white font-bold px-4 py-3 rounded-t self-end sm:text-base text-sm"
-            onClick={signin}
-          >
-            로그인 하러가기
-          </button>
-        </header>
+        <section className="p-8 max-w-screen-sm width-460 bg-white border rounded-lg  shadow-lg z-10">
+          <div className="flex justify-center">
+            <img
+              className="w-9 h-10 mr-2"
+              src="/assets/small-quokka.png"
+              alt="quokka logo"
+            />
 
-        <section className="p-8 max-w-screen-sm width-460 bg-white border rounded-lg  shadow-custom z-10">
-          <h3 className="sm:text-3xl text-2xl font-bold mb-6 text-center">
-            제니 멤버되기
-          </h3>
+            <h3 className="sm:text-xl text-lg font-bold pt-2 pb-8 text-center">
+              영작으로 영어와 친해져요!
+            </h3>
+          </div>
           {step === 0 && (
             <>
               <input
                 className="p-3 mb-1 border-gray-300 w-full"
                 type="email"
                 name="email"
-                placeholder="email"
+                placeholder="이메일"
                 value={email}
                 required
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={onChangeInput}
               />
               <button
+                disabled={!validated}
                 className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full shadow-md"
                 onClick={goNextStep}
               >
-                Continue
+                이메일로 가입하기
               </button>
               <div className="py-6 flex items-center justify-center margin-auto">
                 <div className="flex-1 border-t-2 border-gray-200"></div>
@@ -155,42 +204,73 @@ const SignUp = observer(() => {
           )}
           {step === 1 && (
             <>
-              <div className="pb-1">Nickname</div>
-              <input
-                className="p-3 mb-1 border-gray-300 w-full"
-                type="text"
-                name="name"
-                placeholder="이름 또는 닉네임을 입력해주세요"
-                value={username}
-                required
-                onChange={(e) => setUsername(e.target.value)}
+              <div className="pb-2">
+                <h6 className="pl-1 pb-1 text-sm">이메일</h6>
+                <input
+                  className="p-3 mb-1 border-gray-300 w-full"
+                  type="email"
+                  name="email"
+                  placeholder="이메일"
+                  value={email}
+                  disabled
+                  required
+                />
+              </div>
+              <div className="pb-2">
+                <h6 className="pl-1 pb-1 text-sm">닉네임</h6>
+                <input
+                  className="p-3 border-gray-300 w-full"
+                  type="text"
+                  name="name"
+                  placeholder="이름 또는 닉네임"
+                  value={username}
+                  required
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="pb-2">
+                <h6 className="pl-1 pb-1 text-sm">비밀번호</h6>
+                <input
+                  className="p-3 mb-1 border-gray-300 w-full"
+                  type="password"
+                  name="password"
+                  placeholder="비밀번호"
+                  value={password}
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <input
+                  className="p-3 mb-1 border-gray-300 w-full"
+                  type="password"
+                  name="password2"
+                  placeholder="비밀번호 확인"
+                  value={password2}
+                  required
+                  onChange={(e) => setPassword2(e.target.value)}
+                />
+              </div>
+              <AgreeCheckList
+                checkAll={checkAll}
+                checkTos={checkTos}
+                checkPrivacyPolicy={checkPrivacyPolicy}
+                checkMarketingSMS={checkMarketingSMS}
+                checkMarketingEmail={checkMarketingEmail}
+                onToggleCheckbox={onToggleCheckbox}
               />
-
-              <div className="pb-1 pt-6">Password</div>
-              <input
-                className="p-3 mb-1 border-gray-300 w-full"
-                type="password"
-                name="password"
-                placeholder="비밀번호를 입력해주세요."
-                value={password}
-                required
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <input
-                className="p-3 mb-1 border-gray-300 w-full"
-                type="password"
-                name="password2"
-                placeholder="위와 동일한 비밀번호를 입력해주세요"
-                value={password2}
-                required
-                onChange={(e) => setPassword2(e.target.value)}
-              />
-              <button
-                className="py-3 mt-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full"
-                onClick={goNextStep}
-              >
-                Continue
-              </button>
+              <div className="flex gap-1">
+                <button
+                  className="py-3 mt-3 mb-1 bg-whtie border-primary-700 text-primary-700 border font-bold w-full"
+                  onClick={goPreviosStep}
+                >
+                  이전으로
+                </button>
+                <button
+                  className="py-3 mt-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full"
+                  onClick={goNextStep}
+                >
+                  회원 가입
+                </button>
+              </div>
             </>
           )}
           {step === 2 && (
@@ -241,3 +321,66 @@ const SignUp = observer(() => {
 });
 
 export default SignUp;
+
+const AgreeCheckbox = ({
+  checked,
+  text,
+  onClick,
+}: {
+  checked: boolean;
+  text: string;
+  onClick: (e: any) => void;
+}) => {
+  return (
+    <div className="flex items-center cursor-pointer pb-1" onClick={onClick}>
+      <input checked={checked} type="checkbox" className="border-gray-700" />
+      <div className="pl-1 text-sm text-gray-900">{text}</div>
+    </div>
+  );
+};
+
+const AgreeCheckList = ({
+  checkAll,
+  checkTos,
+  checkPrivacyPolicy,
+  checkMarketingSMS,
+  checkMarketingEmail,
+  onToggleCheckbox,
+}: {
+  checkAll: boolean;
+  checkTos: boolean;
+  checkPrivacyPolicy: boolean;
+  checkMarketingSMS: boolean;
+  checkMarketingEmail: boolean;
+  onToggleCheckbox: (name: string) => void;
+}) => (
+  <div className="pb-2">
+    <div className="pb-1 mb-1 border-b">
+      <AgreeCheckbox
+        checked={checkAll}
+        text={checkList.all}
+        onClick={() => onToggleCheckbox("all")}
+      />
+    </div>
+    <AgreeCheckbox
+      checked={checkTos}
+      text={checkList.tos}
+      onClick={() => onToggleCheckbox("tos")}
+    />
+    <AgreeCheckbox
+      checked={checkPrivacyPolicy}
+      text={checkList.pricyPolicy}
+      onClick={() => onToggleCheckbox("pricy")}
+    />
+    <AgreeCheckbox
+      checked={checkMarketingSMS}
+      text={checkList.marketingSMS}
+      onClick={() => onToggleCheckbox("sms")}
+    />
+    <AgreeCheckbox
+      checked={checkMarketingEmail}
+      text={checkList.marketingEmail}
+      onClick={() => onToggleCheckbox("email")}
+    />
+  </div>
+);
