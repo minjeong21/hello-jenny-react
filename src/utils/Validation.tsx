@@ -1,12 +1,12 @@
-export const emailValidate = (value: string) => {
-  return (
-    value &&
+export const validateEmail = (value: string) => {
+  return value &&
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
       value
     )
-  );
+    ? true
+    : false;
 };
 
-export const passwordValidate = (value: string) => {
+export const validatePassword = (value: string) => {
   return value.length > 6;
 };

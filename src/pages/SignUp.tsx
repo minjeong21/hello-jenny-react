@@ -5,7 +5,7 @@ import PathManager from "utils/PathManager";
 import { observer } from "mobx-react";
 import { registerUser } from "apis/AuthApi";
 import LogoIcon from "components/icons/LogoIcon";
-import { emailValidate } from "utils/Validation";
+import { validateEmail, validatePassword } from "utils/Validation";
 
 const Main = styled.main`
   .margin-auto {
@@ -58,7 +58,9 @@ const SignUp = observer(() => {
   const [username, setUsername] = useState("");
   const [step, setStep] = useState(0);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
-  const [validated, setValidated] = useState(false);
+  const [validatedEmail, setValidatedEmail] = useState(false);
+  const [validatedPassword, setValidatedPassword] = useState(false);
+  const [validatedPassword2, setValidatedPassword2] = useState(false);
   const [checkTos, setCheckTos] = useState(false);
   const [checkPrivacyPolicy, setCheckPrivacyPolicy] = useState(false);
   const [checkMarketingEmail, setCheckMarketingEmail] = useState(false);
@@ -69,32 +71,30 @@ const SignUp = observer(() => {
 
   const onChangeInput = (e: any) => {
     const { name, value } = e.target;
-    if (name === "email") {
-      setEmail(value);
-      emailValidate(e.target.value) ? setValidated(true) : setValidated(false);
+    switch (name) {
+      case "username":
+        setUsername(value);
+        break;
+
+      case "email":
+        setEmail(value);
+        setValidatedEmail(validateEmail(value));
+        break;
+
+      case "password":
+        setPassword(value);
+        setValidatedPassword(validatePassword(value));
+        break;
+      case "password2":
+        setPassword2(value);
+        setValidatedPassword2(password === value);
     }
   };
   const goPreviosStep = () => {
     setStep(step - 1);
   };
-  const goNextStep = () => {
-    console.log(step);
-    let allPass = true;
-    switch (step) {
-      case 0:
-        allPass = email ? true : false;
-        break;
-      case 1:
-        allPass = password && password2 && username ? true : false;
-        break;
-      case 2:
-        break;
-    }
-    if (allPass) {
-      setStep(step + 1);
-    } else {
-      alert("모든 칸을 채워주세요!");
-    }
+  const goSecondPage = () => {
+    setStep(1);
   };
   const signinWithKakao = () => {
     alert(email + "/" + password + " ->kakao");
@@ -137,6 +137,15 @@ const SignUp = observer(() => {
         break;
     }
   };
+  const validatedSignUpButton = () => {
+    return (
+      validatedEmail &&
+      validatedPassword &&
+      validatedPassword2 &&
+      checkTos &&
+      checkPrivacyPolicy
+    );
+  };
 
   const signUpUser = async () => {
     // TODO: 회원가입 로직 Store로 빼기?
@@ -170,10 +179,16 @@ const SignUp = observer(() => {
                 required
                 onChange={onChangeInput}
               />
+              {email.length > 2 && !validatedEmail && (
+                <div className="pl-1 text-red-700 text-xs pb-1 ">
+                  ! 이메일 형식에 맞게 입력해주세요.
+                </div>
+              )}
+
               <button
-                disabled={!validated}
+                disabled={!validatedEmail}
                 className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full shadow-md"
-                onClick={goNextStep}
+                onClick={goSecondPage}
               >
                 이메일로 가입하기
               </button>
@@ -221,11 +236,11 @@ const SignUp = observer(() => {
                 <input
                   className="p-3 border-gray-300 w-full"
                   type="text"
-                  name="name"
+                  name="username"
                   placeholder="이름 또는 닉네임"
                   value={username}
                   required
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={onChangeInput}
                 />
               </div>
               <div className="pb-2">
@@ -237,8 +252,15 @@ const SignUp = observer(() => {
                   placeholder="비밀번호"
                   value={password}
                   required
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={onChangeInput}
                 />
+
+                {password.length > 0 && !validatedPassword && (
+                  <div className="pl-1 text-red-700 text-xs pb-1 ">
+                    ! 영문, 숫자, 특수문자 포함 8~36자로 설정해주세요.
+                  </div>
+                )}
+
                 <input
                   className="p-3 mb-1 border-gray-300 w-full"
                   type="password"
@@ -246,8 +268,13 @@ const SignUp = observer(() => {
                   placeholder="비밀번호 확인"
                   value={password2}
                   required
-                  onChange={(e) => setPassword2(e.target.value)}
+                  onChange={onChangeInput}
                 />
+                {password2.length > 0 && !validatedPassword2 && (
+                  <div className="pl-1 text-red-700 text-xs pb-1 ">
+                    ! 비밀번호가 일치하지 않습니다.
+                  </div>
+                )}
               </div>
               <AgreeCheckList
                 checkAll={checkAll}
@@ -266,37 +293,15 @@ const SignUp = observer(() => {
                 </button>
                 <button
                   className="py-3 mt-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full"
-                  onClick={goNextStep}
+                  disabled={!validatedSignUpButton()}
+                  onClick={signUpUser}
                 >
                   회원 가입
                 </button>
               </div>
             </>
           )}
-          {step === 2 && (
-            <>
-              <div className="pb-1">관심분야 체크</div>
 
-              <button className="py-3 mt-3 mb-1 bg-gray-200 border-0 font-bold w-full">
-                비지니스
-              </button>
-
-              <button className="py-3 mt-3 mb-1 bg-gray-200 border-0 font-bold w-full">
-                토익 준비
-              </button>
-
-              <button className="py-3 mt-3 mb-1 bg-gray-200 border-0 font-bold w-full">
-                여행 영어
-              </button>
-
-              <button
-                className="py-3 mt-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full"
-                onClick={signUpUser}
-              >
-                Continue
-              </button>
-            </>
-          )}
           {signUpSuccess && (
             <>
               <div className="pb-1 text-3xl">

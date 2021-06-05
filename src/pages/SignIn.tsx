@@ -6,7 +6,7 @@ import { observer } from "mobx-react";
 import { fetchUserProfile, loginUser } from "apis/AuthApi";
 import { useStores } from "states/Context";
 import LogoIcon from "components/icons/LogoIcon";
-import { emailValidate, passwordValidate } from "utils/Validation";
+import { validateEmail, validatePassword } from "utils/Validation";
 import LoadingSpinner from "components/LoadingSpinner";
 
 const Main = styled.main`
@@ -43,7 +43,8 @@ const SignIn = observer(() => {
   const pathManager = new PathManager(useHistory());
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [validated, setValidated] = useState(false);
+  const [validatedEmail, setValidatedEmail] = useState(false);
+  const [validatedPassword, setValidatedPassword] = useState(false);
   const { userStore } = useStores();
 
   useEffect(() => {
@@ -84,16 +85,11 @@ const SignIn = observer(() => {
   };
   const changeEmail = (e: any) => {
     setEmail(e.target.value);
-    emailValidate(e.target.value) && passwordValidate(password)
-      ? setValidated(true)
-      : setValidated(false);
+    setValidatedEmail(validateEmail(e.target.value));
   };
   const changePassword = (e: any) => {
     setPassword(e.target.value);
-
-    passwordValidate(e.target.value) && emailValidate(email)
-      ? setValidated(true)
-      : setValidated(false);
+    setValidatedPassword(validatePassword(e.target.value));
   };
 
   const handleSubmit = (event: any) => {
@@ -128,6 +124,11 @@ const SignIn = observer(() => {
               required
               onChange={changeEmail}
             />
+            {email.length > 2 && !validatedEmail && (
+              <div className="pl-1 text-red-700 text-xs pb-1 ">
+                ! 이메일 형식에 맞게 입력해주세요.
+              </div>
+            )}
             <input
               className="p-3 mb-1 border-gray-200 w-full"
               type="password"
@@ -137,10 +138,9 @@ const SignIn = observer(() => {
               required
               onChange={changePassword}
             />
-
             <button
               type="submit"
-              disabled={!validated}
+              disabled={!(validatedEmail && validatedPassword)}
               className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full shadow-md"
             >
               이메일로 로그인
