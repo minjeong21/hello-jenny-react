@@ -47,164 +47,127 @@ const Profile = observer(() => {
 
   return (
     <Main className="sm:pt-20 pt-12 pb-56">
-      <nav className="flex justify-center mt-12">
-        <button
-          onClick={() => setPage("history")}
-          className={` ${
-            page === "history" ? "bg-gray-200" : ""
-          } cursor-pointer mr-4 px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-900 hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-gray-200 `}
-        >
-          History
-        </button>{" "}
-        <button
-          onClick={() => setPage("bookmark")}
-          className={` ${
-            page === "bookmark" ? "bg-gray-200" : ""
-          } cursor-pointer mr-4 px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-900 hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-gray-200 `}
-        >
-          Bookmark
-        </button>
-        <button
-          onClick={() => setPage("profile")}
-          className={`${
-            page === "profile" ? "bg-gray-200" : ""
-          } cursor-pointer mr-4 px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-900 hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-gray-200 
-            `}
-        >
-          Profile
-        </button>
-      </nav>
       <div className="mt-6 w-full max-w-screen-md  margin-auto">
-        {page === "profile" && (
-          <section className="bg-white shadow-md rounded-md sm:p-8 p-6 w-full">
-            <div className="flex flex-col items-center  sm:items-start sm:flex-row">
-              <div className="w-28 relative">
-                <img
-                  className="w-full rounded-full"
-                  src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
-                />
+        <section className="bg-white shadow-md rounded-md sm:p-8 p-6 w-full">
+          <div className="flex flex-col items-center  sm:items-start sm:flex-row">
+            <div className="w-28 relative">
+              <img
+                className="w-full rounded-full"
+                src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
+              />
+            </div>
+            <div className="sm:ml-6 w-full">
+              <div className="mb-2 sm:mb-4 flex items-center">
+                <span className="w-12 text-xs text-gray-500">닉네임</span>
+                <h3 className="font-medium text-3xl leading-8">
+                  {userStore.getUser()?.username}
+                </h3>
               </div>
-              <div className="sm:ml-6 w-full">
-                <div className="mb-2 sm:mb-4 flex items-center">
-                  <span className="w-12 text-xs text-gray-500">닉네임</span>
-                  <h3 className="font-medium text-3xl leading-8">
-                    {userStore.getUser()?.username}
-                  </h3>
+              <div className="pb-3 flex items-end">
+                <span className="w-12 text-xs text-gray-500">email</span>
+                <h4>{userStore.getUser()?.email}</h4>
+              </div>
+              <div className="flex items-end">
+                <span className="w-12 text-xs text-gray-500 ">phone</span>
+                <h4>폰번호</h4>
+              </div>
+              <div className="flex justify-end">
+                <div className="mt-12 bg-gray-100 shadow px-3 py-2 rounded mr-2 text-sm">
+                  <button onClick={changeUsername}>닉네임 변경</button>
                 </div>
-                <div className="pb-3 flex items-end">
-                  <span className="w-12 text-xs text-gray-500">email</span>
-                  <h4>{userStore.getUser()?.email}</h4>
+                <div className="mt-12 bg-gray-100 shadow px-3 py-2 rounded mr-2 text-sm">
+                  <button onClick={logout}>번호 변경</button>
                 </div>
-                <div className="flex items-end">
-                  <span className="w-12 text-xs text-gray-500 ">phone</span>
-                  <h4>폰번호</h4>
+                <div className="mt-12 bg-gray-100 shadow px-3 py-2 rounded mr-2 text-sm">
+                  <button onClick={logout}>로그아웃</button>
                 </div>
-                <div className="flex justify-end">
-                  <div className="mt-12 bg-gray-300 px-3 py-2 rounded mr-2">
-                    <button onClick={changeUsername}>닉네임 변경</button>
-                  </div>
-                  <div className="mt-12 bg-gray-300 px-3 py-2 rounded mr-2">
-                    <button onClick={logout}>번호 변경</button>
-                  </div>
-                  <div className="mt-12 bg-gray-300 px-3 py-2 rounded mr-2">
-                    <button onClick={logout}>로그아웃</button>
-                  </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <>
+          <section className="pt-12">
+            <nav className="flex">
+              <button
+                onClick={() => changeTab("correct")}
+                className="border cursor-pointer bg-white px-3 py-2 font-medium text-sm leading-5 rounded-sm text-white font-bold hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-primary-700 bg-primary-700"
+              >
+                맞춘 문제
+              </button>
+              <button
+                onClick={() => changeTab("bookmark")}
+                className="border cursor-pointer bg-white px-3 py-2 font-medium text-sm leading-5 rounded-sm text-gray-900 hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-gray-200"
+              >
+                북마크
+              </button>
+            </nav>
+
+            <div className="flex flex-col">
+              <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                <div className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+                  <table className="min-w-full">
+                    <thead>
+                      <tr>
+                        <th className="px-6 py-3 border-b border-gray-200 bg-white text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          LEVEL
+                        </th>
+                        <th className="px-6 py-3 border-b border-gray-200 bg-white text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          THEME
+                        </th>
+                        <th className="px-6 py-3 border-b border-gray-200 bg-white text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Sentence
+                        </th>
+                        <th className="px-6 py-3 border-b border-gray-200 bg-white text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Date
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="bg-gray-50">
+                        <td className="px-6 capitalize py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
+                          <a
+                            href="#"
+                            className="text-blue-600 hover:text-blue-900"
+                          >
+                            아주 쉬워요
+                          </a>
+                        </td>
+                        <td className="px-6 capitalize py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
+                          <a
+                            href="#"
+                            className="text-blue-600 hover:text-blue-900"
+                          >
+                            친구만들기
+                          </a>
+                          ,
+                          <a
+                            href="#"
+                            className="text-blue-600 hover:text-blue-900"
+                          >
+                            영화 명대사
+                          </a>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
+                          <a
+                            href="#"
+                            target="_blank"
+                            className="text-blue-600 hover:text-blue-900"
+                          >
+                            이번주에 런던에 갈 계획입니다.
+                          </a>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
+                          2020.8.25
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </section>
-        )}
+        </>
 
-        {page === "history" && (
-          <>
-            <section className="pt-12">
-              <nav className="flex">
-                <button
-                  onClick={() => changeTab("correct")}
-                  className="border cursor-pointer bg-white px-3 py-2 font-medium text-sm leading-5 rounded-sm text-white font-bold hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-primary-700 bg-primary-700"
-                >
-                  맞춘 문제
-                </button>
-                <button
-                  onClick={() => changeTab("pass")}
-                  className="border cursor-pointer bg-white px-3 py-2 font-medium text-sm leading-5 rounded-sm text-gray-900 hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-gray-200"
-                >
-                  건너 뛴 문제
-                </button>
-                <button
-                  onClick={() => changeTab("bookmark")}
-                  className="border cursor-pointer bg-white px-3 py-2 font-medium text-sm leading-5 rounded-sm text-gray-900 hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-gray-200"
-                >
-                  북마크
-                </button>
-              </nav>
-
-              <div className="flex flex-col">
-                <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-                  <div className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
-                    <table className="min-w-full">
-                      <thead>
-                        <tr>
-                          <th className="px-6 py-3 border-b border-gray-200 bg-white text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            LEVEL
-                          </th>
-                          <th className="px-6 py-3 border-b border-gray-200 bg-white text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            THEME
-                          </th>
-                          <th className="px-6 py-3 border-b border-gray-200 bg-white text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Sentence
-                          </th>
-                          <th className="px-6 py-3 border-b border-gray-200 bg-white text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Date
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="bg-gray-50">
-                          <td className="px-6 capitalize py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
-                            <a
-                              href="#"
-                              className="text-blue-600 hover:text-blue-900"
-                            >
-                              아주 쉬워요
-                            </a>
-                          </td>
-                          <td className="px-6 capitalize py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
-                            <a
-                              href="#"
-                              className="text-blue-600 hover:text-blue-900"
-                            >
-                              친구만들기
-                            </a>
-                            ,
-                            <a
-                              href="#"
-                              className="text-blue-600 hover:text-blue-900"
-                            >
-                              영화 명대사
-                            </a>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
-                            <a
-                              href="#"
-                              target="_blank"
-                              className="text-blue-600 hover:text-blue-900"
-                            >
-                              이번주에 런던에 갈 계획입니다.
-                            </a>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
-                            2020.8.25
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </>
-        )}
         {/* 뱃지 */}
         {page == "badge" && (
           <>
