@@ -45,6 +45,9 @@ export default observer(() => {
 
   useEffect(() => {
     writingStore.fetchRepWriting();
+    if (!writingStore.writings || writingStore.writings.length === 0) {
+      writingStore.fetchWritingsDefault();
+    }
   }, [writingStore]);
 
   return (
