@@ -24,7 +24,7 @@ min-width:320px;
 
 const TopNavigation = () => {
   const pathManager = new PathManager(useHistory());
-  const { writingStore, profileStore } = useStores();
+  const { writingStore, userStore } = useStores();
   const [openMenu, setMenuOpen] = useState(false);
   const [openProfile, setProfileOpen] = useState(false);
   const [loggined, setLoggined] = useState(false);
@@ -45,7 +45,7 @@ const TopNavigation = () => {
   const isSignPage = () => {
     return window.location.href.includes("signin");
   };
-  console.log(profileStore.getToken());
+  console.log(userStore.getToken());
   return (
     <Container className="absolute top-0 w-full ">
       <div className="sm:min-h-0">
@@ -78,7 +78,7 @@ const TopNavigation = () => {
           <ul className="sm:px-2 ml-0 ml-auto flex space-x-2 fade-in">
             <WideButton onClick={(e) => goNextWriting(e)} label={"영작 연습"} />
             <WideButton onClick={goSpeaking} label={"스피킹 연습"} />
-            {profileStore.isLogined() ? (
+            {userStore.isLogined() ? (
               <>
                 <button
                   onClick={(e) => pathManager.goUserProfile(e)}

@@ -60,8 +60,8 @@ const SignIn = observer(() => {
     } else {
       const token = response.token;
       const profile = await fetchUserProfile(token);
-      profileStore.setUser(profile);
-      profileStore.setToken(token);
+      userStore.setUser(profile);
+      userStore.setToken(token);
       pathManager.goHome();
     }
   };

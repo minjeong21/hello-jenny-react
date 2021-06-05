@@ -51,14 +51,14 @@ const Badges = [
 
 const Profile = observer(() => {
   const pathManager = new PathManager(useHistory());
-  const { profileStore } = useStores();
+  const { userStore } = useStores();
   const [page, setPage] = useState("history");
   const [tab, setTab] = useState("correct");
 
   useEffect(() => {}, []);
 
   const logout = () => {
-    profileStore.logout();
+    userStore.logout();
     pathManager.goHome();
   };
   const changeUsername = () => {
@@ -114,12 +114,12 @@ const Profile = observer(() => {
                 <div className="mb-2 sm:mb-4 flex items-center">
                   <span className="w-12 text-xs text-gray-500">닉네임</span>
                   <h3 className="font-medium text-3xl leading-8">
-                    {profileStore.getUser()?.username}
+                    {userStore.getUser()?.username}
                   </h3>
                 </div>
                 <div className="pb-3 flex items-end">
                   <span className="w-12 text-xs text-gray-500">email</span>
-                  <h4>{profileStore.getUser()?.email}</h4>
+                  <h4>{userStore.getUser()?.email}</h4>
                 </div>
                 <div className="flex items-end">
                   <span className="w-12 text-xs text-gray-500 ">phone</span>
