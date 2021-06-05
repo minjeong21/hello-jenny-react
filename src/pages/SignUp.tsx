@@ -6,6 +6,7 @@ import { observer } from "mobx-react";
 import { registerUser } from "apis/AuthApi";
 import LogoIcon from "components/icons/LogoIcon";
 import { validateEmail, validatePassword } from "utils/Validation";
+import { useStores } from "states/Context";
 
 const Main = styled.main`
   .margin-auto {
@@ -52,20 +53,25 @@ const checkList = {
 
 const SignUp = observer(() => {
   const pathManager = new PathManager(useHistory());
+  const { userStore } = useStores();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [username, setUsername] = useState("");
-  const [step, setStep] = useState(0);
-  const [signUpSuccess, setSignUpSuccess] = useState(false);
+  // 유효셩 체크
   const [validatedEmail, setValidatedEmail] = useState(false);
   const [validatedPassword, setValidatedPassword] = useState(false);
   const [validatedPassword2, setValidatedPassword2] = useState(false);
+  // 이용약관 동의 관련
+  const [checkAll, setCheckAll] = useState(false);
   const [checkTos, setCheckTos] = useState(false);
   const [checkPrivacyPolicy, setCheckPrivacyPolicy] = useState(false);
   const [checkMarketingEmail, setCheckMarketingEmail] = useState(false);
   const [checkMarketingSMS, setCheckMarketingSMS] = useState(false);
-  const [checkAll, setCheckAll] = useState(false);
+  // view 전환
+  const [step, setStep] = useState(0);
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
 
   useEffect(() => {}, [step]);
 
@@ -93,8 +99,14 @@ const SignUp = observer(() => {
   const goPreviosStep = () => {
     setStep(step - 1);
   };
-  const goSecondPage = () => {
-    setStep(1);
+  const goCheckEmailAndNextStep = async () => {
+    // TODO: 로딩 바 있어야 함.
+    const response: any = await userStore.getUserByEmail(email);
+    if (response.isUser) {
+      alert("중복 이메일이 있습니다.");
+    } else {
+      setStep(1);
+    }
   };
   const signinWithKakao = () => {
     alert(email + "/" + password + " ->kakao");
@@ -148,11 +160,12 @@ const SignUp = observer(() => {
   };
 
   const signUpUser = async () => {
-    // TODO: 회원가입 로직 Store로 빼기?
-    const response = await registerUser(email, username, password);
+    const response = await userStore.singUpUser(email, username, password);
+    console.log(response);
     setSignUpSuccess(true);
     setStep(10);
   };
+
   return (
     <Main className="pt-24 pb-24 flex flex-col items-center">
       <div className="w-full margin-auto p-3 sm:pt-16">
@@ -188,7 +201,7 @@ const SignUp = observer(() => {
               <button
                 disabled={!validatedEmail}
                 className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full shadow-md"
-                onClick={goSecondPage}
+                onClick={goCheckEmailAndNextStep}
               >
                 이메일로 가입하기
               </button>
@@ -338,7 +351,12 @@ const AgreeCheckbox = ({
 }) => {
   return (
     <div className="flex items-center cursor-pointer pb-1" onClick={onClick}>
-      <input checked={checked} type="checkbox" className="border-gray-700" />
+      <input
+        checked={checked}
+        type="checkbox"
+        className="border-gray-700"
+        onChange={onClick}
+      />
       <div className="pl-1 text-sm text-gray-900">{text}</div>
     </div>
   );

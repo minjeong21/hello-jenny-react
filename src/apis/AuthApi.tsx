@@ -5,7 +5,7 @@ const KAKAO_OAUTH_TOKEN_API = `https://kauth.kakao.com/oauth/token`;
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_DRF_API,
-  timeout: 10000,
+  timeout: 5000,
 });
 
 export const registerUser = async (
@@ -21,6 +21,7 @@ export const registerUser = async (
       return error;
     });
 };
+
 export const loginUser = async (email: string, password: string) => {
   return instance
     .post("/api-jwt-auth/", { email, password })
@@ -30,6 +31,7 @@ export const loginUser = async (email: string, password: string) => {
       return error;
     });
 };
+
 export const fetchUserProfile = async (jwtToken: string) => {
   const config = {
     headers: {
@@ -63,6 +65,7 @@ export const loginKakaoLastStep = (access_token: string) => {
     .then((response) => response.data)
     .catch((error) => error);
 };
+
 export const getAccessTokenFromKakao = (formBody: any) => {
   const URI = `${KAKAO_OAUTH_TOKEN_API}`;
   const config = {
@@ -75,6 +78,13 @@ export const getAccessTokenFromKakao = (formBody: any) => {
   console.log(JSON.stringify(config));
   return instance
     .post(URI, config)
+    .then((response) => response.data)
+    .catch((error) => error);
+};
+
+export const getUserByEmail = (email: string) => {
+  return instance
+    .post("/users/email/", { email })
     .then((response) => response.data)
     .catch((error) => error);
 };

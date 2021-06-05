@@ -1,4 +1,9 @@
-import { getAccessTokenFromKakao, loginKakaoLastStep } from "apis/AuthApi";
+import {
+  getAccessTokenFromKakao,
+  getUserByEmail,
+  loginKakaoLastStep,
+  registerUser,
+} from "apis/AuthApi";
 import { action, makeObservable, observable, runInAction } from "mobx";
 import SessionStorage from "utils/SessionStorage";
 import { getKakaoCallMethodObject, Method } from "utils/UserAgent";
@@ -123,11 +128,11 @@ export class UserStore {
     window.location.href = KakaoCallUrl;
   };
 
-  successCallback = () => {
+  private successCallback = () => {
     document.querySelector("#signin-loading")?.classList.add("hidden");
     window.location.href = "/profile";
   };
-  failCallback = () => {
+  private failCallback = () => {
     alert("실패");
   };
 
@@ -193,5 +198,26 @@ export class UserStore {
     //   closeLoadingPage();
     //   closeLoginModal();
     // }, 7000);
+  };
+
+  singUpUser = async (email: string, username: string, password: string) => {
+    const response = await registerUser(email, username, password);
+
+    if (response instanceof Error || !response) {
+      console.log("회원 가입 실패 ");
+    } else {
+      console.log("성공 로그인 ");
+    }
+  };
+
+  getUserByEmail = async (email: string) => {
+    // const response = await getUserByEmail(email);
+    const response = { isUser: false };
+    if (response instanceof Error || !response) {
+      alert("API 호출 에러");
+    } else {
+      console.log(response);
+    }
+    return response;
   };
 }
