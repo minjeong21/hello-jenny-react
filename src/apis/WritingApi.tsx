@@ -4,7 +4,7 @@ import axiosRetry from "axios-retry";
 axiosRetry(axios, { retries: 3 });
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_DFR_API,
+  baseURL: process.env.REACT_APP_DRF_API,
   timeout: 5000,
 });
 
