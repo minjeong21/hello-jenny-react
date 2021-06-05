@@ -7,6 +7,7 @@ import { fetchUserProfile, loginUser } from "apis/AuthApi";
 import { useStores } from "states/Context";
 import LogoIcon from "components/icons/LogoIcon";
 import { emailValidate, passwordValidate } from "utils/Validation";
+import LoadingSpinner from "components/LoadingSpinner";
 
 const Main = styled.main`
   .margin-auto {
@@ -66,6 +67,7 @@ const SignIn = observer(() => {
 
   const signinWithKakao = () => {
     userStore.loginKakao();
+    document.querySelector("#signin-loading")?.classList.remove("hidden");
   };
   const signinWithGoogle = () => {
     alert(email + "/" + password + " ->google");
@@ -100,6 +102,9 @@ const SignIn = observer(() => {
   };
   return (
     <Main className="pt-36 flex flex-col items-center">
+      <div className=" hidden" id="signin-loading">
+        <LoadingSpinner />
+      </div>
       <div className="w-full margin-auto p-3 sm:p-0">
         <section className="p-8 max-w-screen-sm width-460 bg-white rounded-lg  shadow-lg z-10">
           <div className="flex justify-center">

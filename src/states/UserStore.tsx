@@ -124,7 +124,7 @@ export class UserStore {
   };
 
   successCallback = () => {
-    alert("로그인 성공");
+    document.querySelector("#signin-loading")?.classList.add("hidden");
     window.location.href = "/profile";
   };
   failCallback = () => {
