@@ -66,8 +66,8 @@ export class WritingStore {
 
   updateFilterFromSession = () => {
     if (this.selectedLevels.length === 0 || this.selectedThemes.length === 0) {
-      const levels = SessionStorage.getSelectedLevelsFromSession();
-      const themes = SessionStorage.getSelectedThemesFromSession();
+      const levels = SessionStorage.getSelectedLevels();
+      const themes = SessionStorage.getSelectedThemes();
       this.setSelectedLevel(levels);
       this.setSelectedThemes(themes);
     }

@@ -58,8 +58,8 @@ export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
       themesString,
       pathManager
     );
-    SessionStorage.setSelectedLevelsToSession(levelsString);
-    SessionStorage.setSelectedThemesToSession(themesString);
+    SessionStorage.saveSelectedLevels(levelsString);
+    SessionStorage.saveSelectedThemes(themesString);
     closePopup();
   };
 
