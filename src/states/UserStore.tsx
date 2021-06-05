@@ -211,13 +211,11 @@ export class UserStore {
   };
 
   getUserByEmail = async (email: string) => {
-    // const response = await getUserByEmail(email);
-    const response = { isUser: false };
+    const response = await getUserByEmail(email);
     if (response instanceof Error || !response) {
-      alert("API 호출 에러");
+      return { error: true };
     } else {
-      console.log(response);
+      return { error: false, isUser: response.is_user, user: response.user };
     }
-    return response;
   };
 }

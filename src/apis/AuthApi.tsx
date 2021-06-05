@@ -84,7 +84,7 @@ export const getAccessTokenFromKakao = (formBody: any) => {
 
 export const getUserByEmail = (email: string) => {
   return instance
-    .post("/users/email/", { email })
+    .post("/user/email/", { email })
     .then((response) => response.data)
     .catch((error) => error);
 };

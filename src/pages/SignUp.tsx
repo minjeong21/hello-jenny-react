@@ -100,12 +100,22 @@ const SignUp = observer(() => {
     setStep(step - 1);
   };
   const goCheckEmailAndNextStep = async () => {
-    // TODO: 로딩 바 있어야 함.
+    document.querySelector("#email-check-spinner")?.classList.remove("hidden");
     const response: any = await userStore.getUserByEmail(email);
-    if (response.isUser) {
-      alert("중복 이메일이 있습니다.");
+    document.querySelector("#email-check-spinner")?.classList.add("hidden");
+    if (response.error) {
+      alert("에러 발생");
+    } else if (response.isUser) {
+      // TODO: Notice 팝업으로 대체
+      alert("이미 가입된 이메일입니다.");
     } else {
       setStep(1);
+    }
+  };
+
+  const onKeyPressEnter = (event: any) => {
+    if (event.charCode == 13 && validatedEmail) {
+      goCheckEmailAndNextStep();
     }
   };
   const signinWithKakao = () => {
@@ -191,19 +201,28 @@ const SignUp = observer(() => {
                 value={email}
                 required
                 onChange={onChangeInput}
+                onKeyPress={onKeyPressEnter}
               />
               {email.length > 2 && !validatedEmail && (
-                <div className="pl-1 text-red-700 text-xs pb-1 ">
+                <div
+                  className="pl-1 text-red-700 text-xs pb-1"
+                  id="email-validation"
+                >
                   ! 이메일 형식에 맞게 입력해주세요.
                 </div>
               )}
-
               <button
                 disabled={!validatedEmail}
                 className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full shadow-md"
                 onClick={goCheckEmailAndNextStep}
               >
-                이메일로 가입하기
+                <div className="flex justify-center">
+                  <div className="mr-3">이메일로 가입하기</div>
+                  <div
+                    className="loader ease-linear rounded-full border-4 border-t-4 border-gray-100 h-5 w-5 hidden"
+                    id="email-check-spinner"
+                  ></div>
+                </div>
               </button>
               <div className="py-6 flex items-center justify-center margin-auto">
                 <div className="flex-1 border-t-2 border-gray-200"></div>
