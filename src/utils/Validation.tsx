@@ -8,5 +8,9 @@ export const validateEmail = (value: string) => {
 };
 
 export const validatePassword = (value: string) => {
-  return value.length > 6;
+  return /(?=.*\d)(?=.*[a-z]).{8,}/.test(value);
+};
+
+export const validatePhone = (value: string) => {
+  return /^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/.test(value);
 };
