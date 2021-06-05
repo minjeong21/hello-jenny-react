@@ -170,10 +170,17 @@ const SignUp = observer(() => {
   };
 
   const signUpUser = async () => {
+    document.querySelector("#signup-check-spinner")?.classList.remove("hidden");
     const response = await userStore.singUpUser(email, username, password);
-    console.log(response);
-    setSignUpSuccess(true);
-    setStep(10);
+    document.querySelector("#signup-check-spinner")?.classList.add("hidden");
+    if (response.success) {
+      console.log(response.user);
+      setSignUpSuccess(true);
+      setStep(10);
+    } else {
+      alert("문제가 발생했습니다. 다시 시도해주세요!");
+      console.log(response.message);
+    }
   };
 
   return (
@@ -216,8 +223,8 @@ const SignUp = observer(() => {
                 className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full shadow-md"
                 onClick={goCheckEmailAndNextStep}
               >
-                <div className="flex justify-center">
-                  <div className="mr-3">이메일로 가입하기</div>
+                <div className="flex justify-center gap-2">
+                  <div>이메일로 가입하기</div>
                   <div
                     className="loader ease-linear rounded-full border-4 border-t-4 border-gray-100 h-5 w-5 hidden"
                     id="email-check-spinner"
@@ -328,7 +335,13 @@ const SignUp = observer(() => {
                   disabled={!validatedSignUpButton()}
                   onClick={signUpUser}
                 >
-                  회원 가입
+                  <div className="flex justify-center gap-2">
+                    <div>회원 가입</div>
+                    <div
+                      className="loader ease-linear rounded-full border-4 border-t-4 border-gray-100 h-5 w-5 hidden"
+                      id="signup-check-spinner"
+                    ></div>
+                  </div>
                 </button>
               </div>
             </>

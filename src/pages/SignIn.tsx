@@ -52,6 +52,7 @@ const SignIn = observer(() => {
   }, []);
 
   const signinWithEmail = async () => {
+    document.querySelector("#signin-check-spinner")?.classList.remove("hidden");
     // AuthStore 추가
     const response = await loginUser(email, password);
     if (response instanceof Error) {
@@ -64,6 +65,7 @@ const SignIn = observer(() => {
       userStore.setToken(token);
       pathManager.goHome();
     }
+    document.querySelector("#signin-check-spinner")?.classList.add("hidden");
   };
 
   const signinWithKakao = () => {
@@ -143,7 +145,13 @@ const SignIn = observer(() => {
               disabled={!(validatedEmail && validatedPassword)}
               className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full shadow-md"
             >
-              이메일로 로그인
+              <div className="flex justify-center gap-2">
+                <div>이메일로 로그인</div>
+                <div
+                  className="loader ease-linear rounded-full border-4 border-t-4 border-gray-100 h-5 w-5 hidden"
+                  id="signin-check-spinner"
+                ></div>
+              </div>
             </button>
           </form>
 

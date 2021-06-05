@@ -202,11 +202,10 @@ export class UserStore {
 
   singUpUser = async (email: string, username: string, password: string) => {
     const response = await registerUser(email, username, password);
-
     if (response instanceof Error || !response) {
-      console.log("회원 가입 실패 ");
+      return { success: false, message: response };
     } else {
-      console.log("성공 로그인 ");
+      return { success: true, user: response };
     }
   };
 
