@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import styled from "styled-components";
 import PathManager from "utils/PathManager";
 import { useStores } from "states/Context";
+import SessionStorage from "utils/SessionStorage";
 
 const Main = styled.main`
   min-height: calc(100vh - 45px);
@@ -54,8 +55,13 @@ const Profile = observer(() => {
   const { userStore } = useStores();
   const [page, setPage] = useState("history");
   const [tab, setTab] = useState("correct");
+  const [user, setUser] = useState(null);
+  const [userLoaded, setUserLoaded] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setUser(SessionStorage.getUser());
+    setUserLoaded(true);
+  }, []);
 
   const logout = () => {
     userStore.logout();

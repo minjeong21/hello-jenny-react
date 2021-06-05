@@ -6,6 +6,7 @@ import { observer } from "mobx-react";
 import { fetchUserProfile, loginUser } from "apis/AuthApi";
 import { useStores } from "states/Context";
 import LogoIcon from "components/icons/LogoIcon";
+import { emailValidate, passwordValidate } from "utils/Validation";
 
 const Main = styled.main`
   .margin-auto {
@@ -19,12 +20,6 @@ const Main = styled.main`
     max-width: 460px;
   }
 
-  input:focus-visible {
-    outline-color: #53cfc8;
-  }
-  button:focus-visible {
-    outline: none;
-  }
   button {
     cursor: pointer;
   }
@@ -47,9 +42,12 @@ const SignIn = observer(() => {
   const pathManager = new PathManager(useHistory());
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { profileStore } = useStores();
+  const [validated, setValidated] = useState(false);
+  const { userStore } = useStores();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    //User Access Token 가져오기
+  }, []);
 
   const signinWithEmail = async () => {
     // AuthStore 추가
@@ -67,7 +65,7 @@ const SignIn = observer(() => {
   };
 
   const signinWithKakao = () => {
-    alert(email + "/" + password + " ->kakao");
+    userStore.loginKakao();
   };
   const signinWithGoogle = () => {
     alert(email + "/" + password + " ->google");
@@ -84,9 +82,16 @@ const SignIn = observer(() => {
   };
   const changeEmail = (e: any) => {
     setEmail(e.target.value);
+    emailValidate(e.target.value) && passwordValidate(password)
+      ? setValidated(true)
+      : setValidated(false);
   };
   const changePassword = (e: any) => {
     setPassword(e.target.value);
+
+    passwordValidate(e.target.value) && emailValidate(email)
+      ? setValidated(true)
+      : setValidated(false);
   };
 
   const handleSubmit = (event: any) => {
@@ -96,8 +101,8 @@ const SignIn = observer(() => {
   return (
     <Main className="pt-36 flex flex-col items-center">
       <div className="w-full margin-auto p-3 sm:p-0">
-        <section className="p-8 max-w-screen-sm width-460 bg-white border rounded-lg  shadow-custom z-10">
-          <div className="flex">
+        <section className="p-8 max-w-screen-sm width-460 bg-white rounded-lg  shadow-lg z-10">
+          <div className="flex justify-center">
             <img
               className="w-9 h-10 mr-2"
               src="/assets/small-quokka.png"
@@ -130,7 +135,7 @@ const SignIn = observer(() => {
 
             <button
               type="submit"
-              disabled
+              disabled={!validated}
               className="py-3 mb-1 bg-primary-700 text-white border-0 font-bold w-full shadow-md"
             >
               이메일로 로그인
@@ -166,7 +171,7 @@ const SignIn = observer(() => {
 
           <div className="flex justify-center">
             <button
-              className="text-primary-700 px-3 py-4 text-sm mb-3"
+              className="text-primary-700 px-3 py-4 text-sm mb-3 hover:underline"
               onClick={findEmail}
             >
               가입 정보를 잊으셨나요?
@@ -175,7 +180,7 @@ const SignIn = observer(() => {
           <div className="flex justify-center pt-2 sm:text-sm">
             <span className="text-gray-500">아직 회원이 아니신가요? </span>
             <button
-              className="pl-3 font-bold text-primary-700 "
+              className="pl-3 font-bold text-primary-700 hover:underline"
               onClick={signup}
             >
               회원가입
