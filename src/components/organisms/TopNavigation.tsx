@@ -103,12 +103,12 @@ const TopNavigation = () => {
                       label={"로그인·회원가입"}
                     />
                   </div>
-                  <div
+                  <button
                     className="sm:hidden block pt-2 pl-2 text-gray-600 w-8 h-8"
                     onClick={pathManager.goSignIn}
                   >
                     <img src="/assets/ico-member.png" alt="member icon" />
-                  </div>
+                  </button>
                 </>
               </>
             )}

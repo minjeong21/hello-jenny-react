@@ -3,6 +3,16 @@
 @import "./firework.css";
 @import "./animation.css";
 
+button {
+  outline: none;
+}
+
+button:visited,
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
 :root {
   --color-primary-600: #31cfca;
   --color-primary-700: #1fb8b4;
@@ -58,9 +68,14 @@ code {
 
 }
 
-
 .border-1 {
   border-width: 1px;
+}
+
+
+.border-primary-700 {
+  --tw-border-opacity: 1;
+  border-color: var(--color-primary-700);
 }
 
 .shadow-custom {
