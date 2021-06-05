@@ -31,8 +31,8 @@ main {
 }
 
 button:disabled {
-  background-color: #f7f8f9 !important;
-  color: var(--color-gray-300) !important;
+  background-color: var(--color-gray-200) !important;
+  color: var(--color-gray-400) !important;
 }
 
 html {
@@ -261,4 +261,19 @@ section {
 
 .md\:min-h-30v {
   min-height: 30vh;
+}
+
+
+/* SNS Icons */
+
+.kakao-icon {
+  background-color: rgb(254, 229, 0);
+}
+
+.gmail-icon {
+  background-color: white;
+}
+
+.naver-icon {
+  background-color: #1ec800;
 }

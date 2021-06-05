@@ -118,20 +118,11 @@ const SignUp = observer(() => {
       goCheckEmailAndNextStep();
     }
   };
-  const signinWithKakao = () => {
-    alert(email + "/" + password + " ->kakao");
-  };
-  const signinWithGoogle = () => {
-    alert(email + "/" + password + " ->google");
+  const signUpWithSns = (sns: string) => {
+    alert(email + "/" + password + "/" + sns);
   };
 
-  const findEmail = () => {
-    alert("찾기");
-  };
-  const findPassword = () => {
-    alert("찾기");
-  };
-  const signin = (e: any) => {
+  const goSignIn = (e: any) => {
     pathManager.goSignIn(e);
   };
 
@@ -231,28 +222,42 @@ const SignUp = observer(() => {
                   ></div>
                 </div>
               </button>
-              <div className="py-6 flex items-center justify-center margin-auto">
-                <div className="flex-1 border-t-2 border-gray-200"></div>
-                <span className=" text-sm uppercase mx-5 font-medium text-gray-600">
-                  Or
-                </span>
-                <div className="flex-1 border-t-2"></div>
-              </div>
               <section className="rounded-lg">
-                <button
-                  className="py-3 mb-3 border-0 font-bold w-full shadow-custom kakao-signin"
-                  onClick={signinWithKakao}
-                >
-                  <div className="flex justify-center sm:text-base text-sm">
-                    <LogoIcon name="kakao" />
+                <div className="flex justify-center pt-6">
+                  <div>
+                    <button
+                      className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md naver-icon mr-1 "
+                      onClick={() => signUpWithSns("naver")}
+                    >
+                      <LogoIcon name="naver" />
+                    </button>
                   </div>
-                </button>
-                <button
-                  className="py-3 mb-3 border-0 font-bold w-full shadow-custom gmail-signin"
-                  onClick={signinWithGoogle}
-                >
-                  <div className="flex justify-center sm:text-base text-sm"></div>
-                </button>
+                  <div>
+                    <button
+                      className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md kakao-icon mr-1 "
+                      onClick={() => signUpWithSns("kakao")}
+                    >
+                      <LogoIcon name="kakao" />
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md gmail-icon mr-1 "
+                      onClick={() => signUpWithSns("google")}
+                    >
+                      <LogoIcon name="google" />
+                    </button>
+                  </div>
+                </div>
+                <div className="flex justify-center pt-10 pb-2 text-sm">
+                  <span className="text-gray-500">이미 회원이신가요?</span>
+                  <button
+                    className="pl-3 font-bold text-primary-700 hover:underline"
+                    onClick={goSignIn}
+                  >
+                    로그인
+                  </button>
+                </div>
               </section>
             </>
           )}

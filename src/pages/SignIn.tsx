@@ -27,16 +27,6 @@ const Main = styled.main`
   .text-button:hover {
     text-decoration: underline;
   }
-
-  .kakao-icon {
-    background-color: rgb(254, 229, 0);
-  }
-  .gmail-icon {
-    background-color: white;
-  }
-  .naver-icon {
-    background-color: #1ec800;
-  }
 `;
 
 const SignIn = observer(() => {
@@ -72,18 +62,17 @@ const SignIn = observer(() => {
     userStore.loginKakao();
     document.querySelector("#signin-loading")?.classList.remove("hidden");
   };
+
   const signinWithGoogle = () => {
     alert(email + "/" + password + " ->google");
   };
 
-  const findEmail = () => {
-    alert("찾기");
+  const findUserAccount = () => {
+    alert("가입 정보 찾기");
   };
-  const findPassword = () => {
-    alert("찾기");
-  };
-  const signup = (e: any) => {
-    pathManager.goReigster(e);
+
+  const goSignUp = (e: any) => {
+    pathManager.goSignUp(e);
   };
   const changeEmail = (e: any) => {
     setEmail(e.target.value);
@@ -163,7 +152,7 @@ const SignIn = observer(() => {
               >
                 <LogoIcon name="naver" />
               </button>
-            </div>{" "}
+            </div>
             <div>
               <button
                 className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md kakao-icon mr-1 "
@@ -185,7 +174,7 @@ const SignIn = observer(() => {
           <div className="flex justify-center">
             <button
               className="text-primary-700 px-3 py-4 text-sm mb-3 hover:underline"
-              onClick={findEmail}
+              onClick={findUserAccount}
             >
               가입 정보를 잊으셨나요?
             </button>
@@ -194,7 +183,7 @@ const SignIn = observer(() => {
             <span className="text-gray-500">아직 회원이 아니신가요? </span>
             <button
               className="pl-3 font-bold text-primary-700 hover:underline"
-              onClick={signup}
+              onClick={goSignUp}
             >
               회원가입
             </button>

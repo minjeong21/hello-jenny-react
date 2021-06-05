@@ -63,7 +63,7 @@ class MovePath {
     e.preventDefault();
     this.history.push(Path.LOGIN);
   };
-  goReigster = (e: any) => {
+  goSignUp = (e: any) => {
     e.preventDefault();
     this.history.push(Path.REGISTER);
   };
