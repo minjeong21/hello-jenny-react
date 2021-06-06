@@ -25,8 +25,8 @@ const Main = styled.main`
 `;
 
 const TabView = [
-  { code: "bookmark", name: "좋아요", icon: <HeartIcon size={5} /> },
-  { code: "correct", name: "맞춘 문제", icon: <SmileIcon /> },
+  { code: "bookmark", name: "좋아요", icon: null },
+  { code: "correct", name: "맞춘 문제", icon: null },
 ];
 const Profile = observer(() => {
   const pathManager = new PathManager(useHistory());
@@ -36,6 +36,7 @@ const Profile = observer(() => {
   const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
+    console.log(userStore.token);
     setUser(LocalStorage.getUser());
     setUserLoaded(true);
     document.querySelector("#profile-main")?.addEventListener("click", () => {
@@ -72,6 +73,15 @@ const Profile = observer(() => {
       pathManager.goNextWriting(e, userActivityStore.bookmarkIds[0]);
     } else {
       alert("북마크 문제 발생");
+    }
+  };
+  const onClickHeart = (e: any, writingId: number) => {
+    e.preventDefault();
+    const token = LocalStorage.getToken();
+    if (token) {
+      userActivityStore.removeBookmark(writingId, token);
+    } else {
+      alert("유저 정보를 찾을 수 없습니다");
     }
   };
 
@@ -175,11 +185,13 @@ const Profile = observer(() => {
 
             {tab === "bookmark" && (
               <>
-                {userActivityStore.bookmarks ? (
+                {userActivityStore.bookmarks &&
+                userActivityStore.bookmarks.length > 0 ? (
                   <SectionBookmark
                     bookmarks={userActivityStore.bookmarks}
                     pathManager={pathManager}
                     goBookmarkWritings={goBookmarkWritings}
+                    onClickHeart={onClickHeart}
                   />
                 ) : (
                   <>아직 좋아요를 누른 영작문이 없어요!</>
@@ -326,18 +338,20 @@ const SectionBookmark = ({
   bookmarks,
   pathManager,
   goBookmarkWritings,
+  onClickHeart,
 }: {
   bookmarks: { writing: IWriting }[];
   pathManager: PathManager;
   goBookmarkWritings: (e: any) => void;
+  onClickHeart: (e: any, writingId: number) => void;
 }) => {
   return (
-    <section className="py-12">
+    <section className="py-8">
       <button
         className="border rounded bg-white px-2 py-1 text-sm shadow-sm"
         onClick={goBookmarkWritings}
       >
-        좋아요한 영작문 풀기
+        ❤️&nbsp; 영작문 모아풀기
       </button>
 
       <div className="sm:grid grid-cols-3 gap-x-2 gap-y-3 py-2">
@@ -352,6 +366,7 @@ const SectionBookmark = ({
               themes={writing.themes}
               korSentence={writing.kr_sentence}
               pathManager={pathManager}
+              onClickHeart={onClickHeart}
             />
           );
         })}

@@ -21,6 +21,15 @@ export class UserActivityStore {
     this.bookmarkIds = null;
   }
 
+  hasBookmark = (writingId: number) => {
+    if (this.bookmarkIds) {
+      console.log(this.bookmarkIds.includes(writingId));
+      return this.bookmarkIds.includes(writingId);
+    } else {
+      return false;
+    }
+  };
+
   fetchAllBookmarks = async (jwt: string) => {
     const response = await getBookmarkList(jwt);
     if (response instanceof Error) {
@@ -32,11 +41,20 @@ export class UserActivityStore {
   };
 
   addBookmark = async (writingId: number, jwt: string) => {
-    const reponse = await createBookmark(writingId, jwt);
-    console.log(reponse);
+    const response = await createBookmark(writingId, jwt);
+    if (response instanceof Error) {
+      console.log(response);
+    } else {
+      this.fetchAllBookmarks(jwt);
+    }
   };
   removeBookmark = async (writingId: number, jwt: string) => {
-    const reponse = await deleteBookmark(writingId, jwt);
-    console.log(reponse);
+    const response = await deleteBookmark(writingId, jwt);
+    if (response instanceof Error) {
+      this.fetchAllBookmarks(jwt);
+      console.log(response);
+    } else {
+      this.fetchAllBookmarks(jwt);
+    }
   };
 }

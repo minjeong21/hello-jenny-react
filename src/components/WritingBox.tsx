@@ -50,6 +50,7 @@ const WritingBox = observer((props: IProps) => {
     dialogStore.resetWriting();
     setTextInWriting("");
     setIsShowColorHelp(false);
+    setCheckedBookmark(userActivityStore.hasBookmark(writingId));
   }, [writingId, dialogStore]);
   /**
    * 도전하기 버튼 클릭 Event
@@ -147,11 +148,7 @@ const WritingBox = observer((props: IProps) => {
           </div>
           <div className="sm:ml-6 flex-1 relative">
             {/* 레벨/테마 */}
-            <div
-              className={`tracking-wide:sm text-sm ${
-                props.isDetailPage ? "hidden" : ""
-              }`}
-            >
+            <div className={`text-sm ${props.isDetailPage ? "hidden" : ""}`}>
               <div className="flex justify-between ">
                 <div className="flex sm:pb-6 pb-1">
                   <div className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700 shadow-sm mr-1">
