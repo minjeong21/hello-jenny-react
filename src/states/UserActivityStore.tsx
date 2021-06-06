@@ -1,6 +1,7 @@
-import { getBookmarkList } from "apis/BookmarkApi";
+import { deleteBookmark, getBookmarkList } from "apis/BookmarkApi";
 import { action, makeObservable, observable, runInAction } from "mobx";
 import { createBookmark } from "apis/BookmarkApi";
+import IWriting from "interface/IWriting";
 
 interface IBookmark {
   id: string;
@@ -8,7 +9,8 @@ interface IBookmark {
 }
 export class UserActivityStore {
   rootStore;
-  bookmarks: IBookmark[] | null;
+  bookmarks: { writing: IWriting }[] | null;
+  bookmarkIds: number[] | null;
 
   constructor(root: any) {
     makeObservable(this, {
@@ -16,14 +18,25 @@ export class UserActivityStore {
     });
     this.rootStore = root;
     this.bookmarks = null;
+    this.bookmarkIds = null;
   }
 
-  fetchAllBookmarks = async (userId: number) => {
-    const response = await getBookmarkList(userId);
-    console.log(response);
+  fetchAllBookmarks = async (jwt: string) => {
+    const response = await getBookmarkList(jwt);
+    if (response instanceof Error) {
+      alert("에러발생");
+    } else {
+      this.bookmarks = response.list;
+      this.bookmarkIds = response.ids;
+    }
   };
 
-  createBookmark = () => {
-    const reponse = await createBookmark();
+  addBookmark = async (writingId: number, jwt: string) => {
+    const reponse = await createBookmark(writingId, jwt);
+    console.log(reponse);
+  };
+  removeBookmark = async (writingId: number, jwt: string) => {
+    const reponse = await deleteBookmark(writingId, jwt);
+    console.log(reponse);
   };
 }

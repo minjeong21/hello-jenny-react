@@ -1,3 +1,4 @@
+import PathManager from "utils/PathManager";
 import WritingImage from "./atoms/WritingImage";
 interface IProps {
   id: number;
@@ -5,6 +6,7 @@ interface IProps {
   level: number;
   themes: { display_name: string }[];
   korSentence: string;
+  pathManager: PathManager;
 }
 
 const WritingHistoryCard = ({
@@ -13,9 +15,13 @@ const WritingHistoryCard = ({
   level,
   themes,
   korSentence,
+  pathManager,
 }: IProps) => {
   return (
-    <article className="sm:p-0 h-fill mb-1">
+    <article
+      className="sm:p-0 h-fill mb-1 cursor-pointer"
+      onClick={(e) => pathManager.goNextWriting(e, id)}
+    >
       <div className="bg-white p-2 rounded-lg shadow-custom">
         <div className="bg-gray-100 w-full sm:h-24 h-0 ">
           <WritingImage imageUrl={imageUrl} size={null} />

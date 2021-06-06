@@ -10,6 +10,9 @@ import { getLevelName, getThemeName } from "properties/Filter";
 import BookMarkIcon from "./BookMarkIcon";
 import SettingIcon from "./SettingIcon";
 import HeartIcon from "./icons/HeartIcon";
+import { UserStore } from "states/UserStore";
+import SessionStorage from "utils/SessionStorage";
+import LocalStorage from "utils/LocalStorage";
 
 const Container = styled.div`
   input {
@@ -20,6 +23,10 @@ const Container = styled.div`
   #explain-section {
     max-height: 60vh;
     overflow-y: auto;
+  }
+
+  .checked {
+    color: var(--color-primary-600) !important;
   }
 `;
 
@@ -35,7 +42,8 @@ const WritingBox = observer((props: IProps) => {
   const { writingId, writing } = props;
   const [textInWriting, setTextInWriting] = useState("");
   const [isShowColorHelp, setIsShowColorHelp] = useState(false);
-  const { dialogStore, writingStore } = useStores();
+  const [checkedBookmark, setCheckedBookmark] = useState(false);
+  const { dialogStore, writingStore, userActivityStore } = useStores();
 
   useEffect(() => {
     dialogStore.setMoveNextWriing(props.moveNextWriting);
@@ -79,10 +87,15 @@ const WritingBox = observer((props: IProps) => {
     }
   };
   const onClickBookmark = (e: any) => {
-    // TODO: 북마크 구현
-    e.target.classList.toggle("text-primary-600");
-    e.target.classList.toggle("text-gray-300");
-    e.target.classList.toggle("text-red-300");
+    const token = LocalStorage.getToken();
+    if (token) {
+      checkedBookmark
+        ? userActivityStore.removeBookmark(writingId, token)
+        : userActivityStore.addBookmark(writingId, token);
+      setCheckedBookmark(!checkedBookmark);
+    } else {
+      alert("로그인을 먼저 진행해주세요.");
+    }
   };
 
   return (
@@ -166,7 +179,12 @@ const WritingBox = observer((props: IProps) => {
                   {writing.getKoreanSentence()}
                 </div>
               </div>
-              <div className="px-1 text-gray-300" onClick={onClickBookmark}>
+              <div
+                className={`px-1  ${
+                  checkedBookmark ? "text-primary-600" : "text-gray-300"
+                }`}
+                onClick={onClickBookmark}
+              >
                 <HeartIcon />
               </div>
             </div>

@@ -4,10 +4,15 @@ import { Home, Detail, Speaking, Profile, SignIn, SignUp } from "../pages";
 import TopNavigation from "components/organisms/TopNavigation";
 import Footer from "components/organisms/Footer";
 import { useStores } from "states/Context";
+import LocalStorage from "utils/LocalStorage";
 
 const App = () => {
-  const { writingStore } = useStores();
+  const { writingStore, userActivityStore } = useStores();
   useEffect(() => {
+    const token = LocalStorage.getToken();
+    if (token) {
+      userActivityStore.fetchAllBookmarks(token);
+    }
     if (!writingStore.writings || writingStore.writings.length === 0) {
       writingStore.fetchWritingsDefault();
     }
