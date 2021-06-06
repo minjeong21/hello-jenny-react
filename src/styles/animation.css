@@ -1,10 +1,11 @@
+/* Fade-in */
 .fade-in {
   animation: fadein 0.5s;
 }
 
 @keyframes fadein {
   from {
-    opacity: 0;
+    opacity: 0.5;
 
   }
 
@@ -13,6 +14,24 @@
   }
 }
 
+.fade-in-down {
+  animation: fade-in-down 0.5s;
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10%);
+
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Spinner  */
 .loader {
   border-top-color: var(--color-primary-700);
   -webkit-animation: spinner 1.5s linear infinite;

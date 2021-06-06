@@ -7,6 +7,20 @@ button {
   outline: none;
 }
 
+
+.animate-ping-once {
+  animation: ping-once 0.5s cubic-bezier(0, 0, 0.2, 1) 1;
+}
+
+@keyframes ping-once {
+
+  75%,
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
 button:visited,
 button:focus,
 button:focus-visible {

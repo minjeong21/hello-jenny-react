@@ -7,11 +7,8 @@ import DialogBox from "components/DialogBox";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
 import { getLevelName, getThemeName } from "properties/Filter";
-import BookMarkIcon from "./BookMarkIcon";
 import SettingIcon from "./SettingIcon";
 import HeartIcon from "./icons/HeartIcon";
-import { UserStore } from "states/UserStore";
-import SessionStorage from "utils/SessionStorage";
 import LocalStorage from "utils/LocalStorage";
 
 const Container = styled.div`
@@ -176,9 +173,12 @@ const WritingBox = observer((props: IProps) => {
                   {writing.getKoreanSentence()}
                 </div>
               </div>
+
               <div
-                className={`px-1  ${
-                  checkedBookmark ? "text-primary-600" : "text-gray-300"
+                className={`px-1 cursor-pointer ${
+                  checkedBookmark
+                    ? "text-primary-600 animate-ping-once"
+                    : "text-gray-300"
                 }`}
                 onClick={onClickBookmark}
               >
