@@ -90,11 +90,17 @@ const Profile = observer(() => {
       <div className="mt-6 p-2 w-full max-w-screen-md  margin-auto">
         <section className="bg-white shadow-md rounded-md sm:p-8 p-6 w-full">
           <div className="flex ">
-            <div className="sm:w-28 w-12 relative">
-              <img
-                className="w-full rounded-full"
-                src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
-              />
+            <div className="sm:w-28 sm:h-28 w-12 h-12 relative">
+              {userStore.userProfile?.photo ? (
+                <img
+                  className="w-full rounded-full"
+                  src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
+                />
+              ) : (
+                <div className="bg-primary-600 sm:w-20 sm:h-20 w-12 h-12 rounded-full text-white flex justify-center items-center truncate">
+                  {userStore.getUser()?.username}
+                </div>
+              )}
             </div>
             <div className="sm:ml-6 w-full">
               <div className="mb-4 flex items-center">
@@ -114,20 +120,17 @@ const Profile = observer(() => {
                 </li>
               </ul>
 
-              <div className="pb-3 flex items-end">
+              <div className="pb-6 flex items-end">
                 <span className="w-12 text-xs text-gray-500">이메일</span>
                 <h4>{userStore.getUser()?.email}</h4>
               </div>
-              <div className="flex items-end">
+
+              <div className="flex items-center">
                 <span className="w-12 text-xs text-gray-500 ">전화</span>
 
-                <button>번호 등록</button>
-              </div>
-
-              <div className="flex items-end">
-                <span className="w-12 text-xs text-gray-500 ">전호</span>
-
-                <button>번호 등록</button>
+                <button className="bg-gray-200 rounded-lg px-3 py-1 text-xs">
+                  번호 등록
+                </button>
               </div>
             </div>
 

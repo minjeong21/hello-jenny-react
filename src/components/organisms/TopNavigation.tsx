@@ -52,7 +52,7 @@ const TopNavigation = () => {
               />
             </a>
           </div>
-          <ul className="sm:px-2 ml-0 ml-auto flex space-x-2 ">
+          <ul className="sm:px-2 ml-0 ml-auto flex space-x-2 items-center">
             <WideButton onClick={(e) => goNextWriting(e)} label={"영작 연습"} />
             <WideButton onClick={goSpeaking} label={"스피킹 연습"} />
             {userStore.isLogined() ? (
@@ -63,11 +63,17 @@ const TopNavigation = () => {
             rounded-full focus:outline-none focus:border-gray-300 transition
             duration-150 ease-in-out"
                 >
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    alt="user avatar"
-                    src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
-                  />
+                  {userStore.userProfile && userStore.userProfile.photo ? (
+                    <img
+                      className="w-7 h-7"
+                      src={userStore.userProfile.photo}
+                      alt="member icon"
+                    />
+                  ) : (
+                    <div className="bg-primary-600 rounded-3xl text-white w-8 h-8 flex justify-center items-center truncate">
+                      {userStore.getUser()?.username}
+                    </div>
+                  )}
                 </button>
               </>
             ) : (
@@ -104,9 +110,21 @@ const WideButton = ({
 }) => (
   <li className="block pl-2 mb-1 sm:border-0">
     <button
-      className="text-sm sm:text-center rounded-md sm:px-2 py-2 w-max "
+      className="text-sm sm:text-center rounded-md sm:px-2 py-2 w-max flex items-center "
       onClick={onClick}
     >
+      {label === "영작 연습" ? (
+        <img
+          className="w-8 h-5"
+          src="https://banner2.cleanpng.com/20190716/fza/kisspng-computer-icons-scalable-vector-graphics-encapsulat-first-year-writing-the-writing-program-at-john-j-5d2e690f829e47.294590941563322639535.jpg"
+        />
+      ) : (
+        <img
+          className="w-8 h-8"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPwAuhUQV982DREwJV7gHKHt_p22QOrOwke0nFz9657dGgCJa--OEpeALlyu7t_gjLxGE&usqp=CAU"
+        />
+      )}
+
       {label}
     </button>
   </li>

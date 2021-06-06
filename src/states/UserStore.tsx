@@ -19,6 +19,7 @@ export class UserStore {
   rootStore;
   user: IUser | null;
   token: string | null;
+  userProfile: { photo: string | null } | null;
 
   constructor(root: any) {
     makeObservable(this, {
@@ -27,6 +28,7 @@ export class UserStore {
     this.rootStore = root;
     this.user = LocalStorage.getUser();
     this.token = LocalStorage.getToken();
+    this.userProfile = null;
   }
 
   @action setUser = (user: IUser | null) => {
