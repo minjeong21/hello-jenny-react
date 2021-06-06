@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import styled from "styled-components";
 import PathManager from "utils/PathManager";
 import { useStores } from "states/Context";
-import SessionStorage from "utils/SessionStorage";
+import LocalStorage from "utils/LocalStorage";
 
 const Main = styled.main`
   min-height: calc(100vh - 45px);
@@ -27,7 +27,7 @@ const Profile = observer(() => {
   const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
-    setUser(SessionStorage.getUser());
+    setUser(LocalStorage.getUser());
     setUserLoaded(true);
   }, []);
 

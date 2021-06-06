@@ -5,7 +5,7 @@ import {
   registerUser,
 } from "apis/AuthApi";
 import { action, makeObservable, observable, runInAction } from "mobx";
-import SessionStorage from "utils/SessionStorage";
+import LocalStorage from "utils/LocalStorage";
 import { getKakaoCallMethodObject, Method } from "utils/UserAgent";
 
 const KAKAO_OAUTH_TOKEN_API = `https://kauth.kakao.com/oauth/authorize`;
@@ -24,36 +24,35 @@ export class UserStore {
       user: observable,
     });
     this.rootStore = root;
-    this.user = SessionStorage.getUser();
+    this.user = LocalStorage.getUser();
+    this.token = LocalStorage.getToken();
   }
 
   @action setUser = (user: IUser | null) => {
     if (user) {
-      SessionStorage.saveUser(JSON.stringify(user));
+      LocalStorage.saveUser(JSON.stringify(user));
     }
     this.user = user;
   };
+
   getUser = () => {
     if (!this.user) {
-      this.user = SessionStorage.getUser();
+      this.user = LocalStorage.getUser();
     }
     return this.user;
   };
 
   setToken = (token: string) => {
-    SessionStorage.saveToken(token);
-  };
-  getToken = () => {
-    return SessionStorage.getToken();
+    LocalStorage.saveToken(token);
   };
 
   isLogined = () => {
-    return SessionStorage.getUser();
+    return LocalStorage.getUser();
   };
 
   logout = () => {
-    SessionStorage.saveToken(null);
-    SessionStorage.saveUser(null);
+    LocalStorage.saveToken(null);
+    LocalStorage.saveUser(null);
     this.setUser(null);
   };
 

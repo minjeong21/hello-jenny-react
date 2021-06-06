@@ -1,7 +1,5 @@
 const LEVELS = "levels";
 const THEMES = "themes";
-const TOKEN = "token";
-const USER_BASIC = "USER_BASIC";
 
 export default {
   saveSelectedLevels: (levels: string) => {
@@ -25,22 +23,5 @@ export default {
     } else {
       return [];
     }
-  },
-  saveToken: (token: string | null) => {
-    token
-      ? sessionStorage.setItem(TOKEN, token)
-      : sessionStorage.removeItem(TOKEN);
-  },
-  getToken: () => {
-    return sessionStorage.getItem(TOKEN);
-  },
-  saveUser: (user: string | null) => {
-    user
-      ? sessionStorage.setItem(USER_BASIC, user)
-      : sessionStorage.removeItem(USER_BASIC);
-  },
-  getUser: () => {
-    const user = sessionStorage.getItem(USER_BASIC);
-    return user ? JSON.parse(user) : null;
   },
 };
