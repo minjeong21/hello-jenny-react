@@ -86,11 +86,13 @@ const WritingBox = observer((props: IProps) => {
   };
   const onClickBookmark = (e: any) => {
     const token = LocalStorage.getToken();
-    if (token) {
-      checkedBookmark
-        ? userActivityStore.removeBookmark(writingId, token)
-        : userActivityStore.addBookmark(writingId, token);
-      setCheckedBookmark(!checkedBookmark);
+    if (token && !checkedBookmark) {
+      userActivityStore.addBookmark(writingId, token);
+      setCheckedBookmark(true);
+      e.target.classList.add("animate-ping-once");
+    } else if (token) {
+      userActivityStore.removeBookmark(writingId, token);
+      setCheckedBookmark(false);
     } else {
       alert("로그인을 먼저 진행해주세요.");
     }
@@ -164,11 +166,11 @@ const WritingBox = observer((props: IProps) => {
             </div>
             <div className="flex justify-between">
               <div>
-                {writing.getSituation() && (
-                  <p className="sm:mt-3 mt-2 text-gray-500 sm:text-sm text-xs">
-                    {writing.getSituation()}
-                  </p>
-                )}
+                <p className="sm:mt-3 mt-2 text-gray-500 sm:text-sm text-xs">
+                  ({writingStore.findIndex(writingId)}/
+                  {writingStore.writings?.length}) {writing.getSituation()}
+                </p>
+
                 <div className="block mt-1 sm:text-2xl leading-tight sm:font-semibold text-gray-900 font-bold pb-3">
                   {writing.getKoreanSentence()}
                 </div>
@@ -176,9 +178,7 @@ const WritingBox = observer((props: IProps) => {
 
               <div
                 className={`px-1 cursor-pointer ${
-                  checkedBookmark
-                    ? "text-primary-600 animate-ping-once"
-                    : "text-gray-300"
+                  checkedBookmark ? "text-primary-600" : "text-gray-300"
                 }`}
                 onClick={onClickBookmark}
               >

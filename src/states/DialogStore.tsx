@@ -254,7 +254,6 @@ export class DialogStore {
         if (!this.showSubjectiveHint) {
           this.tempButtons.push(FirstWordButton);
         }
-        console.log("this.hasMoreHint():", this.hasMoreHint());
         if (this.hasMoreHint()) {
           this.tempButtons.push(HintButton);
         }

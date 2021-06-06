@@ -52,6 +52,17 @@ export class WritingStore {
     });
   };
 
+  findIndex = (writingId: number) => {
+    if (this.writings) {
+      for (let i = 0; i < this.writings?.length; i++) {
+        if (this.writings[i].id === writingId) {
+          return i + 1;
+        }
+      }
+    } else {
+      return 1;
+    }
+  };
   changeOrfetchWriting = (id: number) => {
     let targetWriting: IWriting | undefined;
     targetWriting = this.writings
@@ -115,7 +126,7 @@ export class WritingStore {
   ) => {
     try {
       const response = await fetchWritingListFiltered(levels, themes);
-      this.setWritings(response.data);
+      this.currentIndex = 0;
       pathManager.goNextWriting(e, response.data[0].id);
     } catch (err) {
       console.log(err);

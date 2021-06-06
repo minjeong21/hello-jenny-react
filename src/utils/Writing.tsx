@@ -154,25 +154,25 @@ class Writing {
     }
   };
 
-  hasMoreHint = (currentIndex: number) => {
-    return this.writing ? this.getHintSize() > currentIndex : false;
+  hasMoreHint = (curHintIndex: number) => {
+    return this.writing ? this.getHintSize() > curHintIndex : false;
   };
 
-  getRemainedAllHints = (currentIndex: number) => {
-    if (this.hasMoreHint(currentIndex)) {
-      return this.writing.hints.slice(currentIndex, this.getHintSize());
+  getRemainedAllHints = (curHintIndex: number) => {
+    if (this.hasMoreHint(curHintIndex)) {
+      return this.writing.hints.slice(curHintIndex, this.getHintSize());
     } else {
       return [];
     }
   };
 
-  getHintDescription = (currentIndex: number) => {
-    return this.writing.hints[currentIndex].description;
+  getHintDescription = (curHintIndex: number) => {
+    return this.writing.hints[curHintIndex].description;
   };
 
-  getHintDescriptionMore = (currentIndex: number) => {
-    if (this.hasMoreHint(currentIndex)) {
-      return this.writing.hints[currentIndex].description_more;
+  getHintDescriptionMore = (curHintIndex: number) => {
+    if (this.hasMoreHint(curHintIndex)) {
+      return this.writing.hints[curHintIndex].description_more;
     } else {
       return "";
     }

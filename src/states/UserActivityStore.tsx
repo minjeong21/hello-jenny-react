@@ -23,7 +23,6 @@ export class UserActivityStore {
 
   hasBookmark = (writingId: number) => {
     if (this.bookmarkIds) {
-      console.log(this.bookmarkIds.includes(writingId));
       return this.bookmarkIds.includes(writingId);
     } else {
       return false;

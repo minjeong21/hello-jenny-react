@@ -60,6 +60,7 @@ export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
     );
     SessionStorage.saveSelectedLevels(levelsString);
     SessionStorage.saveSelectedThemes(themesString);
+    writingStore.setCurrentIndex(0);
     closePopup();
   };
 
