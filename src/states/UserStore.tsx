@@ -11,13 +11,14 @@ import { getKakaoCallMethodObject, Method } from "utils/UserAgent";
 const KAKAO_OAUTH_TOKEN_API = `https://kauth.kakao.com/oauth/authorize`;
 
 interface IUser {
-  id: number;
+  pk: number;
   username: string;
   email: string;
 }
 export class UserStore {
   rootStore;
   user: IUser | null;
+  token: string | null;
 
   constructor(root: any) {
     makeObservable(this, {
