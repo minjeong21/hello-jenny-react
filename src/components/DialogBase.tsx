@@ -1,6 +1,6 @@
 const DialogBase = ({ children }: { children: any }) => {
   return (
-    <div className="flex sm:mt-2 mt-1 sm:pl-40 dialog fade-in">
+    <div className="flex sm:mt-2 mt-1 sm:pl-40 dialog fade-in-down">
       <div>
         <div className="rounded-3xl p-1 flex justify-center aligns-center bg-brown-200">
           <img

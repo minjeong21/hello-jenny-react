@@ -6,6 +6,7 @@ import WritingForm from "components/WritingForm";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
 import BookMarkIcon from "./BookMarkIcon";
+import HeartIcon from "./icons/HeartIcon";
 
 const Container = styled.div`
   input {
@@ -79,8 +80,8 @@ const WritingBox = observer((props: IProps) => {
                 </>
               )}
 
-              <div className="pl-6 pr-1 absolute right-0 top-0">
-                <BookMarkIcon />
+              <div className="pl-6 pr-1 absolute right-0 top-0 text-primary-600">
+                <HeartIcon />
               </div>
             </div>
 

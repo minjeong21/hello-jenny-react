@@ -109,7 +109,7 @@ export default observer(() => {
                       )
                     }
                   >
-                    <div className="flex justify-between pb-4 items-center">
+                    <div className="flex justify-between pb-4 items-center flex-wrap">
                       <h4 className="text-lg font-bold">
                         {theme.display_name}
                       </h4>

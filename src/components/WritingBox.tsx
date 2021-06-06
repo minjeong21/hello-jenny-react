@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { getLevelName, getThemeName } from "properties/Filter";
 import BookMarkIcon from "./BookMarkIcon";
 import SettingIcon from "./SettingIcon";
+import HeartIcon from "./icons/HeartIcon";
 
 const Container = styled.div`
   input {
@@ -79,6 +80,7 @@ const WritingBox = observer((props: IProps) => {
   };
   const onClickBookmark = (e: any) => {
     // TODO: 북마크 구현
+    e.target.classList.toggle("text-primary-600");
     e.target.classList.toggle("text-gray-300");
     e.target.classList.toggle("text-red-300");
   };
@@ -164,8 +166,8 @@ const WritingBox = observer((props: IProps) => {
                   {writing.getKoreanSentence()}
                 </div>
               </div>
-              <div className="px-1 " onClick={onClickBookmark}>
-                <BookMarkIcon />
+              <div className="px-1 text-gray-300" onClick={onClickBookmark}>
+                <HeartIcon />
               </div>
             </div>
 
