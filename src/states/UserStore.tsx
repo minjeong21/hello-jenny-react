@@ -59,43 +59,15 @@ export class UserStore {
     this.setUser(null);
   };
 
-  @action fetchAccessCodeFromKakao = async (kakaoCode: string) => {
-    let details: any = {
-      grant_type: "authorization_code",
-      client_id: process.env.REACT_APP_KAKAO_REST_API_KEY,
-      redirect_uri: `${process.env.REACT_APP_PUBLIC_URL}/oauth/`,
-      code: kakaoCode,
-    };
-
-    let formBody = [];
-    for (let property in details) {
-      let encodedKey = encodeURIComponent(property);
-      let encodedValue = encodeURIComponent(details[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
+  fetchAccessCodeFromKakao = async (kakaoCode: string) => {
+    let response = await getAccessTokenFromKakao(kakaoCode);
+    //실패 처리
+    if (response instanceof Error || !response) {
+      alert("카카오 서버에 에러가 발생했습니다. 다시 시도해주세요");
+      return null;
+    } else {
+      return response;
     }
-    let body = formBody.join("&");
-
-    let response = await getAccessTokenFromKakao(body);
-
-    console.log(response);
-
-    // //실패 처리
-    // if (response instanceof Error || !response) {
-    //   if (!loadLogginedUserFromStorage()) {
-    //     Sentry.configureScope(function (scope) {
-    //       scope.setExtra("character_name", response.message);
-    //       scope.setExtra("Redirect_URL", response.details.redirect_uri);
-    //       scope.setExtra("kakao_Code", details.code);
-    //     });
-    //     Sentry.captureException(
-    //       new Error("[KakaoError] Kakao에서 AccessToken 못 가져옴")
-    //     );
-    //     alert("카카오 서버에 에러가 발생했습니다. 다시 시도해주세요");
-    //   }
-    //   return null;
-    // } else {
-    //   return response;
-    // }
   };
 
   loginServerByKakaoAccessToken = async (
@@ -108,7 +80,6 @@ export class UserStore {
     console.log(response);
 
     if (response instanceof Error || !response) {
-      console.log("실패 로그인 ");
       alert("로그인을 다시 시도해주세요. 문제가 반복될 시 1:1로 문의 해주세요");
       if (fromAPI) {
         window.location.href = "/";
@@ -116,18 +87,10 @@ export class UserStore {
         callbackFail();
       }
     } else {
-      console.log("성공 로그인 ");
       this.setUser(response.user);
       this.setToken(response.token);
       callbackSuccess();
     }
-  };
-
-  /** 인앱브라우저인 경우, API 로그인 방식 사용*/
-  loginKakaoAPI = async () => {
-    let redirectURL = process.env.REACT_APP_PUBLIC_URL + "/oauth";
-    let KakaoCallUrl = `${KAKAO_OAUTH_TOKEN_API}?client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${redirectURL}/&response_type=code`;
-    window.location.href = KakaoCallUrl;
   };
 
   private successCallback = () => {
@@ -139,32 +102,40 @@ export class UserStore {
   };
 
   @action loginKakao = async () => {
-    // 사파리나 카톡 브라우저인 경우, javascript SDK 활용
-
-    const loginServerByKakaoAccessToken = this.loginServerByKakaoAccessToken;
-    const successCallback = this.successCallback;
-    const failCallback = this.failCallback;
-    const currentWindow: any = window;
-    if (!currentWindow["Kakao"].isInitialized()) {
-      currentWindow["Kakao"].init(process.env.REACT_APP_KAKAO_JS_KEY);
+    let browerObject = getKakaoCallMethodObject(navigator.userAgent);
+    if (browerObject.method === Method.API) {
+      // API 로그인
+      let BASE_URL = process.env.REACT_APP_PUBLIC_URL;
+      let KakaoCallUrl = `${KAKAO_OAUTH_TOKEN_API}?client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${BASE_URL}/oauth/&response_type=code`;
+      window.location.href = KakaoCallUrl;
+    } else {
+      // SDK로 로그인
+      const loginServerByKakaoAccessToken = this.loginServerByKakaoAccessToken;
+      const successCallback = this.successCallback;
+      const failCallback = this.failCallback;
+      const currentWindow: any = window;
+      if (!currentWindow["Kakao"].isInitialized()) {
+        currentWindow["Kakao"].init(process.env.REACT_APP_KAKAO_JS_KEY);
+      }
+      currentWindow["Kakao"].Auth.cleanup();
+      await currentWindow["Kakao"].Auth.login({
+        persistAccessToken: true,
+        persistRefreshToken: true,
+        success: function (authObj: any) {
+          loginServerByKakaoAccessToken(
+            authObj.access_token,
+            false,
+            successCallback,
+            failCallback
+          );
+        },
+        fail: function (err: any) {
+          console.log(JSON.stringify(err));
+          this.failCallback();
+        },
+      });
     }
-    currentWindow["Kakao"].Auth.cleanup();
-    await currentWindow["Kakao"].Auth.login({
-      persistAccessToken: true,
-      persistRefreshToken: true,
-      success: function (authObj: any) {
-        loginServerByKakaoAccessToken(
-          authObj.access_token,
-          false,
-          successCallback,
-          failCallback
-        );
-      },
-      fail: function (err: any) {
-        console.log(JSON.stringify(err));
-        this.failCallback();
-      },
-    });
+
     // let token = loadJWTFromStorage();
 
     // 로그인 먹통된 경우, 일단 Loading 페이지 제거

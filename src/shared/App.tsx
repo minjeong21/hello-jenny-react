@@ -5,6 +5,7 @@ import TopNavigation from "components/organisms/TopNavigation";
 import Footer from "components/organisms/Footer";
 import { useStores } from "states/Context";
 import LocalStorage from "utils/LocalStorage";
+import OauthKakao from "pages/Oauth";
 
 const App = () => {
   const { writingStore, userActivityStore } = useStores();
@@ -53,6 +54,10 @@ const App = () => {
         <TopNavigation />
         <Speaking />
         <Footer />
+      </Route>
+
+      <Route path="/oauth/">
+        <OauthKakao />
       </Route>
     </Switch>
   );

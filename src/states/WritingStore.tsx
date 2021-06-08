@@ -47,8 +47,20 @@ export class WritingStore {
   fetchRepWriting = async () => {
     const response = await fetchRepWriting();
     runInAction(() => {
-      this.setRepWriting(response.rep_writing);
-      this.setRepThemes(response.themes);
+      if (response instanceof Error) {
+        setTimeout(async () => {
+          const response2 = await fetchRepWriting();
+          if (response instanceof Error) {
+            alert("잠시 후 다시 시도해주세요");
+          } else {
+            this.setRepWriting(response2.rep_writing);
+            this.setRepThemes(response2.themes);
+          }
+        }, 1000);
+      } else {
+        this.setRepWriting(response.rep_writing);
+        this.setRepThemes(response.themes);
+      }
     });
   };
 

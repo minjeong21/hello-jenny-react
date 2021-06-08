@@ -63,7 +63,7 @@ export default observer(() => {
                 onClick={(e) =>
                   pathManager.goNextWriting(
                     e,
-                    writingStore.repWriting
+                    writingStore.repWriting && writingStore.repWriting.getId()
                       ? writingStore.repWriting.getId()
                       : 0
                   )

@@ -66,20 +66,31 @@ export const loginKakaoLastStep = (access_token: string) => {
     .catch((error) => error);
 };
 
-export const getAccessTokenFromKakao = (formBody: any) => {
+export const getAccessTokenFromKakao = (code: string) => {
+  const params = new URLSearchParams();
+  params.append("grant_type", "authorization_code");
+  params.append(
+    "client_id",
+    process.env.REACT_APP_KAKAO_REST_API_KEY
+      ? process.env.REACT_APP_KAKAO_REST_API_KEY
+      : ""
+  );
+  params.append("redirect_uri", `${process.env.REACT_APP_PUBLIC_URL}/oauth/`);
+  params.append("code", code);
+
   const URI = `${KAKAO_OAUTH_TOKEN_API}`;
-  const config = {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-    },
-    body: formBody,
-  };
-  console.log("URI: " + URI);
-  console.log(JSON.stringify(config));
+  console.log(URI);
+  console.log(params);
   return instance
-    .post(URI, config)
+    .post(URI, params)
     .then((response) => response.data)
-    .catch((error) => error);
+    .catch((error) => {
+      alert(error.name); // ReferenceError
+      alert(error.message); // lalala is not defined
+      alert(error.stack); // ReferenceError: lalala is not defined at ... (호출 스택)
+
+      return error;
+    });
 };
 
 export const getUserByEmail = (email: string) => {
