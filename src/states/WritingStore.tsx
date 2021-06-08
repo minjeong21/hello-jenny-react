@@ -99,11 +99,15 @@ export class WritingStore {
     const response = await fetchWritingByNumId(id);
     console.log(response);
     runInAction(() => {
-      if (response === 404) {
-        this.isNotFoundWriting = true;
+      if (response instanceof Error) {
+        alert("다시 시도해주세요 🙏🏻");
       } else {
-        this.isNotFoundWriting = false;
-        this.settingWriting(response.data);
+        if (response === 404) {
+          this.isNotFoundWriting = true;
+        } else {
+          this.isNotFoundWriting = false;
+          this.settingWriting(response.data);
+        }
       }
     });
   };

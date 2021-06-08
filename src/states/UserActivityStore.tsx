@@ -32,7 +32,7 @@ export class UserActivityStore {
   fetchAllBookmarks = async (jwt: string) => {
     const response = await getBookmarkList(jwt);
     if (response instanceof Error) {
-      alert("에러발생");
+      console.error("북마크 리스트 못불러옴");
     } else {
       this.bookmarks = response.list;
       this.bookmarkIds = response.ids;
