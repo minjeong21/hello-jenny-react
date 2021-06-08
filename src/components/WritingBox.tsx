@@ -78,6 +78,8 @@ const WritingBox = observer((props: IProps) => {
           isShowColorHelp,
           "마침표와 쉼표같은 특수문자를 확인해주세요!"
         );
+      } else if (writing.isContainsAllWords(userSentence)) {
+        dialogStore.addWrong(isShowColorHelp, "2개의 단어가 더 필요해요!");
       } else {
         dialogStore.addWrong(isShowColorHelp);
       }

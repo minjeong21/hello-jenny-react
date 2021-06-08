@@ -21,14 +21,14 @@ class Writing {
 
   getAnswerSentencePlain = () => {
     let result = this.writing.en_sentence.trim();
-    result = result.replace(/[.,!]/g, "");
-    result = result.replace(/[`’]/g, "'");
+    result = result.replace(/[?.,~!]/g, "");
+    result = result.replace(/[?.,~!]/g, "'");
     return result;
   };
   convertSentencePlain = (tryText: string) => {
     let result = tryText.trim();
-    result = result.replace(/[.,!]/g, "");
-    result = result.replace(/[`’]/g, "'");
+    result = result.replace(/[?.,;:~!]/g, "");
+    result = result.replace(/[`]/g, "'");
     return result;
   };
 
@@ -61,21 +61,35 @@ class Writing {
     return words;
   };
 
+  isContainsAllWords = (tryText: string) => {
+    // TODO: 모든 단어가 맞으면,
+    let tempText = tryText;
+    const tryTextlastChar = tryText.charAt(tryText.length - 1);
+    const isLastSpecialChar = /[?.,;:~!]/gi.test(tryTextlastChar);
+    if (isLastSpecialChar) {
+      tempText = tempText.slice(0, tempText.length - 1);
+    }
+    return false;
+  };
   getCompareUserSentenceWords = (tryText: string) => {
     // 마지막 특수문자 체크
     const tryTextlastChar = tryText.charAt(tryText.length - 1);
-    const isLastSpecialChar = !/^[a-z0-9]+$/i.test(tryTextlastChar);
+    const isLastSpecialChar = /[?.,;:~!]/gi.test(tryTextlastChar);
 
     // 축약어 처리
-    const abbrs = this.getWriting().abbrs;
     let changeLog: { original: string; converted: string }[] = [];
-    abbrs.map((item) => {
-      if (tryText.includes(item.converted)) {
-        changeLog.push({ original: item.converted, converted: item.original });
-      }
-      tryText = tryText.replace(item.converted, item.original);
-    });
-
+    const abbrs = this.getWriting().abbrs;
+    if (abbrs) {
+      abbrs.map((item) => {
+        if (tryText.includes(item.converted)) {
+          changeLog.push({
+            original: item.converted,
+            converted: item.original,
+          });
+        }
+        tryText = tryText.replace(item.converted, item.original);
+      });
+    }
     const answerWords = this.getAnswerSentencePlain().split(" ");
     const list = this.convertSentencePlain(tryText).split(" ");
     const words = list.map((word) => {
@@ -84,7 +98,7 @@ class Writing {
         return log
           ? { word: log.original, correct: true }
           : { word: word, correct: true };
-      } else if (abbrs.length > 0) {
+      } else if (abbrs && abbrs.length > 0) {
         const target = abbrs.find((abbr) => abbr.converted === word);
         return { word: word, correct: target ? true : false };
       } else {

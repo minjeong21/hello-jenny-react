@@ -33,3 +33,13 @@ test("Trim", () => {
 
   expect(words).toBe(words);
 });
+
+test("getCompareUserSentenceWords", () => {
+  const UserTryText = "I will quit smoking.?";
+  writing.en_sentence = "I must stop smoking.";
+
+  const words = writing.getCompareUserSentenceWords(UserTryText);
+  console.log(words);
+
+  expect(words).toBe(words);
+});
