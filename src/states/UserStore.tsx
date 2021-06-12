@@ -2,6 +2,7 @@ import {
   getAccessTokenFromKakao,
   getUserByEmail,
   loginKakaoLastStep,
+  loginWithGoogle,
   registerUser,
 } from "apis/AuthApi";
 import { action, makeObservable, observable, runInAction } from "mobx";
@@ -69,30 +70,6 @@ export class UserStore {
       return response;
     }
   };
-
-  loginServerByKakaoAccessToken = async (
-    accessToken: string,
-    fromAPI: boolean,
-    callbackSuccess: () => void,
-    callbackFail: () => void
-  ) => {
-    let response = await loginKakaoLastStep(accessToken); //토큰 반환
-    console.log(response);
-
-    if (response instanceof Error || !response) {
-      alert("로그인을 다시 시도해주세요. 문제가 반복될 시 1:1로 문의 해주세요");
-      if (fromAPI) {
-        window.location.href = "/";
-      } else {
-        callbackFail();
-      }
-    } else {
-      this.setUser(response.user);
-      this.setToken(response.token);
-      callbackSuccess();
-    }
-  };
-
   private successCallback = () => {
     document.querySelector("#signin-loading")?.classList.add("hidden");
     window.location.href = "/profile";
@@ -171,6 +148,39 @@ export class UserStore {
     //   closeLoadingPage();
     //   closeLoginModal();
     // }, 7000);
+  };
+
+  loginServerByKakaoAccessToken = async (
+    accessToken: string,
+    fromAPI: boolean,
+    callbackSuccess: () => void,
+    callbackFail: () => void
+  ) => {
+    let response = await loginKakaoLastStep(accessToken); //토큰 반환
+    if (response instanceof Error || !response) {
+      alert("로그인을 다시 시도해주세요. 문제가 반복될 시 1:1로 문의 해주세요");
+      if (fromAPI) {
+        window.location.href = "/";
+      } else {
+        callbackFail();
+      }
+    } else {
+      this.setUser(response.user);
+      this.setToken(response.token);
+      callbackSuccess();
+    }
+  };
+
+  @action loginGoogle = async (accessToken: string) => {
+    const response = await loginWithGoogle(accessToken);
+    if (response instanceof Error) {
+      alert("다시 시도해주세요.");
+      this.failCallback();
+    } else {
+      this.setUser(response.user);
+      this.setToken(response.token);
+      this.successCallback();
+    }
   };
 
   singUpUser = async (email: string, username: string, password: string) => {

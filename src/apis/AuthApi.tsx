@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getKakaoCallMethodObject, Method } from "utils/UserAgent";
 const BASE_KAKAO_LOGIN_API = `${process.env.REACT_APP_DRF_API}/user/rest-auth/kakao/`;
+const BASE_GOOGLE_LOGIN_API = `${process.env.REACT_APP_DRF_API}/user/rest-auth/google/`;
 const KAKAO_OAUTH_TOKEN_API = `https://kauth.kakao.com/oauth/token`;
 
 const instance = axios.create({
@@ -51,6 +52,23 @@ export const loginKakaoLastStep = (access_token: string) => {
   const URI = `${BASE_KAKAO_LOGIN_API}`;
   let browserObject = getKakaoCallMethodObject(navigator.userAgent);
 
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const data = Method.API ? { access_token } : { access_token };
+  console.log("URI: " + URI);
+  console.log("data:", JSON.stringify(data));
+  console.log("config:", JSON.stringify(config));
+  return instance
+    .post(URI, data, config)
+    .then((response) => response.data)
+    .catch((error) => error);
+};
+
+export const loginWithGoogle = (access_token: string) => {
+  const URI = `${BASE_GOOGLE_LOGIN_API}`;
   const config = {
     headers: {
       "Content-Type": "application/json",

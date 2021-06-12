@@ -8,6 +8,7 @@ import { useStores } from "states/Context";
 import LogoIcon from "components/icons/LogoIcon";
 import { validateEmail, validatePassword } from "utils/Validation";
 import LoadingSpinner from "components/LoadingSpinner";
+import GoogleLogin from "react-google-login";
 
 const Main = styled.main`
   .margin-auto {
@@ -28,7 +29,7 @@ const Main = styled.main`
     text-decoration: underline;
   }
 `;
-
+const googleClientID: any = process.env.REACT_APP_GOOGLE_CLEINT_ID;
 const SignIn = observer(() => {
   const pathManager = new PathManager(useHistory());
   const [email, setEmail] = useState("");
@@ -63,8 +64,8 @@ const SignIn = observer(() => {
     document.querySelector("#signin-loading")?.classList.remove("hidden");
   };
 
-  const signinWithGoogle = () => {
-    alert(email + "/" + password + " ->google");
+  const signinWithGoogle = async (result: any) => {
+    userStore.loginGoogle(result.accessToken);
   };
 
   const findUserAccount = () => {
@@ -147,28 +148,30 @@ const SignIn = observer(() => {
           <div className="flex justify-center pt-6">
             <div>
               <button
-                className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md naver-icon mr-1 "
-                onClick={signinWithKakao}
-              >
-                <LogoIcon name="naver" />
-              </button>
-            </div>
-            <div>
-              <button
                 className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md kakao-icon mr-1 "
                 onClick={signinWithKakao}
               >
                 <LogoIcon name="kakao" />
               </button>
             </div>
+
             <div>
-              <button
-                className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md gmail-icon mr-1 "
-                onClick={signinWithGoogle}
-              >
-                <LogoIcon name="google" />
-              </button>
+              <GoogleLogin
+                clientId={googleClientID}
+                render={(props: any) => (
+                  <button
+                    className="flex justify-center items-center w-12 h-12 rounded-3xl shadow-md gmail-icon mr-1 "
+                    onClick={props.onClick}
+                  >
+                    <LogoIcon name="google" />
+                  </button>
+                )}
+                onSuccess={(result) => signinWithGoogle(result)}
+                onFailure={(result) => console.log(result)}
+                cookiePolicy={"single_host_origin"}
+              />
             </div>
+            <div></div>
           </div>
 
           <div className="flex justify-center">
