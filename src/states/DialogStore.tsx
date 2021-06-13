@@ -15,6 +15,7 @@ export class DialogStore {
   hintCount: number;
   dialogButtons: DialogButton[];
   showSubjectiveHint: boolean;
+  isShownAnswer: boolean;
 
   textInWrinting: string;
   userSentence: string;
@@ -33,6 +34,7 @@ export class DialogStore {
     this.writing = null;
     this.dialogList = [];
     this.showSubjectiveHint = false;
+    this.isShownAnswer = false;
     this.hintCount = 0;
     this.textInWrinting = "";
     this.userSentence = "";
@@ -98,6 +100,7 @@ export class DialogStore {
     });
     this.hintCount = 0;
     this.showSubjectiveHint = false;
+    this.isShownAnswer = false;
     this.textInWrinting = "";
     this.userSentence = "";
     const englishInput: any = document.getElementById("english_input");
@@ -150,6 +153,7 @@ export class DialogStore {
   };
   addShowAnswer = () => {
     if (this.writing) {
+      this.isShownAnswer = true;
       this.appendDialog(
         "SHOW_ANSWER",
         <DialogAnswer

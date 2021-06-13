@@ -57,6 +57,13 @@ const WritingBox = observer((props: IProps) => {
     dialogStore.setTextInWriting(e.target.value);
   };
 
+  const addSolvedWritingIfSolved = () => {
+    const token = LocalStorage.getToken();
+    if (!dialogStore.isShownAnswer && token) {
+      userActivityStore.addSolvedWriting(writingId, token);
+    }
+  };
+
   const onSubmitChallenge = (e: any) => {
     const userSentence = dialogStore.textInWrinting;
     e.preventDefault();
@@ -64,6 +71,7 @@ const WritingBox = observer((props: IProps) => {
     const isCorrect = writing.isCorrect(userSentence);
     if (isCorrect) {
       dialogStore.addCorrect();
+      addSolvedWritingIfSolved();
       // 폭죽 효과
       document.querySelector("#firework")?.classList.add("firework");
       window.setTimeout(() => {

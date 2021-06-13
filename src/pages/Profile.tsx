@@ -11,6 +11,8 @@ import HeartIcon from "components/icons/HeartIcon";
 import LocalStorage from "utils/LocalStorage";
 import IWriting from "interface/IWriting";
 import { WritingStore } from "states/WritingStore";
+import SectionCorrectWriting from "components/section/SectionCorrectWriting";
+import SectionBookmark from "components/section/SectionBookmark";
 
 const Main = styled.main`
   min-height: calc(100vh - 45px);
@@ -75,6 +77,19 @@ const Profile = observer(() => {
       alert("북마크 문제 발생");
     }
   };
+
+  const goSolvedWritings = (e: any) => {
+    // TODO: 푼문제 문제 리스트 불러오는 로직 추가
+    if (userActivityStore.solvedWritings) {
+      pathManager.goNextWriting(
+        e,
+        userActivityStore.solvedWritings[0].writing.id
+      );
+    } else {
+      alert("문제 불러오기 문제 발생");
+    }
+  };
+
   const onClickHeart = (e: any, writingId: number) => {
     e.preventDefault();
     const token = LocalStorage.getToken();
@@ -202,7 +217,21 @@ const Profile = observer(() => {
               </>
             )}
 
-            {tab === "correct" && <SectionCorrectWriting />}
+            {tab === "correct" && (
+              <>
+                {userActivityStore.solvedWritings &&
+                userActivityStore.solvedWritings.length > 0 ? (
+                  <SectionCorrectWriting
+                    writings={userActivityStore.solvedWritings}
+                    pathManager={pathManager}
+                    goSolvedWritings={goSolvedWritings}
+                    onClickHeart={onClickHeart}
+                  />
+                ) : (
+                  <div>아직 푼 문제가 없어요</div>
+                )}
+              </>
+            )}
           </div>
         </>
 
