@@ -7,6 +7,7 @@ import PathManager from "utils/PathManager";
 import { LEVEL_MENU } from "properties/Filter";
 import RightArrowIcon from "components/icons/RightArrowIcon";
 import ITheme from "interface/ITheme";
+import { url } from "inspector";
 
 const Main = styled.main`
   .level {
@@ -21,6 +22,7 @@ export default observer(() => {
   const pathManager = new PathManager(useHistory());
   const { writingStore } = useStores();
   const [levels, setLevels] = useState<string[]>([]);
+  const [isTrial, setIsTrial] = useState(true);
 
   useEffect(() => {
     if (!writingStore.repThemes || writingStore.repThemes.length === 0) {
@@ -47,6 +49,11 @@ export default observer(() => {
   const onClickThemeWritings = (e: any, theme: ITheme) => {
     writingStore.moveWritingWithThemeLevel(e, pathManager, theme, levels);
   };
+
+  const alertTrialMode = () => {
+    alert("헬로제니의 멤버가 되시면 주제를 열어볼 수 있어요 🤩");
+  };
+
   return (
     <Main className="sm:py-36 py-20 px-4">
       <section className="">
@@ -73,7 +80,7 @@ export default observer(() => {
         </div>
       </section>
       {/* 문제 풀기 섹션 */}
-      <section className="sm:py-24">
+      <section className="sm:py-24 py-12">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           어떤 주제의 문장부터 만나볼까요?
         </div>
@@ -83,26 +90,49 @@ export default observer(() => {
         </div>
         <div className="sm:grid grid-cols-3 gap-x-2 gap-y-3">
           {writingStore.repThemes ? (
-            writingStore.repThemes.map((theme, index) => (
-              <div
-                key={index}
-                className="bg-white sm:p-4 p-4 my-4 rounded-lg shadow-custom cursor-pointer relative"
-                onClick={(e) => onClickThemeWritings(e, theme)}
-              >
-                <div className="flex justify-between pb-4 items-center flex-wrap">
-                  <h4 className="text-lg font-bold">{theme.display_name}</h4>
-                  <div className="text-xs bg-gray-100 rounded px-1 py-1">
-                    {theme.count}문제
+            writingStore.repThemes.map((theme, index) => {
+              let isDiabled = isTrial && theme.name !== "trial";
+              return (
+                <div
+                  key={index}
+                  className={`sm:p-4 p-4 my-4 rounded-lg shadow-custom cursor-pointer relative ${
+                    isDiabled ? "bg-gray-100 text-gray-400" : "bg-white"
+                  } `}
+                  onClick={
+                    isDiabled
+                      ? alertTrialMode
+                      : (e) => onClickThemeWritings(e, theme)
+                  }
+                >
+                  <div
+                    className={`h-24 ${isDiabled ? "opacity-50" : ""}`}
+                    style={{
+                      backgroundImage: `url(
+                        https://source.unsplash.com/random
+                      )`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  ></div>
+                  <div className="flex justify-between pb-4 items-center flex-wrap pt-2">
+                    <h4 className="text-lg font-bold">{theme.display_name}</h4>
+                    <div className="text-xs bg-gray-100 rounded px-1 py-1">
+                      {theme.count}문제
+                    </div>
+                  </div>
+                  <p className="text-gray-600 text-sm pb-3">
+                    {theme.description}
+                  </p>
+                  <div
+                    className={`absolute bottom-3 right-3 ${
+                      isDiabled ? "text-gray-400" : "text-primary-600"
+                    }`}
+                  >
+                    <RightArrowIcon />
                   </div>
                 </div>
-                <p className="text-gray-600 text-sm pb-3">
-                  {theme.description}
-                </p>
-                <div className="absolute bottom-3 right-3 text-primary-600">
-                  <RightArrowIcon />
-                </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <div>스켈레톤</div>
           )}

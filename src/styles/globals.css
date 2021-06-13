@@ -73,6 +73,11 @@ code {
 }
 
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .bg-gradient-200 {
   background: linear-gradient(to right, #f2ffed, #fffaeb);
 }
