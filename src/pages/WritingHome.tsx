@@ -91,21 +91,21 @@ export default observer(() => {
         <div className="sm:grid grid-cols-3 gap-x-2 gap-y-3">
           {writingStore.repThemes ? (
             writingStore.repThemes.map((theme, index) => {
-              let isDiabled = isTrial && theme.name !== "trial";
+              let isDisabled = isTrial && theme.name !== "trial";
               return (
                 <div
                   key={index}
                   className={`sm:p-4 p-4 my-4 rounded-lg shadow-custom cursor-pointer relative ${
-                    isDiabled ? "bg-gray-100 text-gray-400" : "bg-white"
+                    isDisabled ? "bg-gray-100 text-gray-400" : "bg-white"
                   } `}
                   onClick={
-                    isDiabled
+                    isDisabled
                       ? alertTrialMode
                       : (e) => onClickThemeWritings(e, theme)
                   }
                 >
                   <div
-                    className={`h-24 ${isDiabled ? "opacity-50" : ""}`}
+                    className={`h-24 ${isDisabled ? "opacity-50" : ""}`}
                     style={{
                       backgroundImage: `url(
                         https://source.unsplash.com/random
@@ -125,7 +125,7 @@ export default observer(() => {
                   </p>
                   <div
                     className={`absolute bottom-3 right-3 ${
-                      isDiabled ? "text-gray-400" : "text-primary-600"
+                      isDisabled ? "text-gray-400" : "text-primary-600"
                     }`}
                   >
                     <RightArrowIcon />
