@@ -4,13 +4,8 @@ import { observer } from "mobx-react";
 import styled from "styled-components";
 import { useStores } from "states/Context";
 import PathManager from "utils/PathManager";
-import WritingHistoryCard from "components/WritingHistoryCard";
 import DotMenuIcon from "components/icons/DotMenuIcon";
-import SmileIcon from "components/icons/SmileIcon";
-import HeartIcon from "components/icons/HeartIcon";
 import LocalStorage from "utils/LocalStorage";
-import IWriting from "interface/IWriting";
-import { WritingStore } from "states/WritingStore";
 import SectionCorrectWriting from "components/section/SectionCorrectWriting";
 import SectionBookmark from "components/section/SectionBookmark";
 
@@ -32,15 +27,10 @@ const TabView = [
 ];
 const Profile = observer(() => {
   const pathManager = new PathManager(useHistory());
-  const { userStore, userActivityStore, writingStore } = useStores();
+  const { userStore, userActivityStore } = useStores();
   const [tab, setTab] = useState("bookmark");
-  const [user, setUser] = useState(null);
-  const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
-    console.log(userStore.token);
-    setUser(LocalStorage.getUser());
-    setUserLoaded(true);
     document.querySelector("#profile-main")?.addEventListener("click", () => {
       document.querySelector("#setting-modal")?.classList.add("hidden");
     });
@@ -56,10 +46,6 @@ const Profile = observer(() => {
     // TODO: 유저 정보 페이지로 변경
     e.preventDefault();
     alert("유저 정보 변경");
-  };
-
-  const changeTab = (tab: string) => {
-    setTab(tab);
   };
 
   const toggleSettingModal = () => {
@@ -110,6 +96,7 @@ const Profile = observer(() => {
                 <img
                   className="w-full rounded-full"
                   src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
+                  alt="user profile"
                 />
               ) : (
                 <div className="bg-primary-600 sm:w-20 sm:h-20 w-12 h-12 rounded-full text-white flex justify-center items-center truncate">

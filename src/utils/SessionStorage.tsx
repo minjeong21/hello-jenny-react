@@ -1,7 +1,7 @@
 const LEVELS = "levels";
 const THEMES = "themes";
 
-export default {
+const SessionStorage = {
   saveSelectedLevels: (levels: string) => {
     sessionStorage.setItem(LEVELS, levels);
   },
@@ -25,3 +25,4 @@ export default {
     }
   },
 };
+export default SessionStorage;

@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import PathManager from "utils/PathManager";
 import { observer } from "mobx-react";
-import { registerUser } from "apis/AuthApi";
 import LogoIcon from "components/icons/LogoIcon";
 import { validateEmail, validatePassword } from "utils/Validation";
 import { useStores } from "states/Context";
@@ -114,7 +113,7 @@ const SignUp = observer(() => {
   };
 
   const onKeyPressEnter = (event: any) => {
-    if (event.charCode == 13 && validatedEmail) {
+    if (event.charCode === 13 && validatedEmail) {
       goCheckEmailAndNextStep();
     }
   };

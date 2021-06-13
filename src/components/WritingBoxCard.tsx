@@ -93,8 +93,6 @@ const WritingBox = observer((props: IProps) => {
               onChange={(e) => {}}
               onSubmitChallenge={(e) => {}}
               textInWrinting={textInWriting}
-              onClickHelpJenny={dialogStore.addHelpJenny}
-              moveNextWriting={props.moveNextWriting}
             />
             <section>
               {dialogStore.dialogButtons && (

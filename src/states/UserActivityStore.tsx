@@ -1,5 +1,5 @@
 import { deleteBookmark, getBookmarkList } from "apis/BookmarkApi";
-import { action, makeObservable, observable, runInAction } from "mobx";
+import { makeObservable, observable } from "mobx";
 import { createBookmark } from "apis/BookmarkApi";
 import IWriting from "interface/IWriting";
 import { createSolvedWriting, getSolvedWritingList } from "apis/ActivityApi";

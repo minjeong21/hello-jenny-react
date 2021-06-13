@@ -48,7 +48,7 @@ const WritingBox = observer((props: IProps) => {
     setTextInWriting("");
     setIsShowColorHelp(false);
     setCheckedBookmark(userActivityStore.hasBookmark(writingId));
-  }, [writingId, dialogStore]);
+  }, [writingId, dialogStore, props.moveNextWriting, userActivityStore]);
   /**
    * 도전하기 버튼 클릭 Event
    * */
@@ -200,8 +200,6 @@ const WritingBox = observer((props: IProps) => {
               onChange={onChange}
               onSubmitChallenge={onSubmitChallenge}
               textInWrinting={textInWriting}
-              onClickHelpJenny={dialogStore.addHelpJenny}
-              moveNextWriting={props.moveNextWriting}
             />
             <section>
               {dialogStore.dialogButtons && (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DialogBase, { DialogTitle, DialogDescription } from "./DialogBase";
+import DialogBase, { DialogTitle } from "./DialogBase";
 const DialogHint = ({
   talkText,
   hint,

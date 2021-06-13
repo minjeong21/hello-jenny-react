@@ -115,6 +115,7 @@ class Writing {
   };
 
   convertUserSentenceWithAbbr = (userSentecne: string) => {
+    // TODO: 로직 확인.
     const abbrs = this.getWriting().abbrs;
     let converted = userSentecne;
     abbrs.map((item) => {

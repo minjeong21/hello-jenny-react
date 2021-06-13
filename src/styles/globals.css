@@ -7,7 +7,6 @@ button {
   outline: none;
 }
 
-
 .animate-ping-once {
   animation: ping-once 0.5s cubic-bezier(0, 0, 0.2, 1) 1;
 }
@@ -71,6 +70,11 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+.bg-gradient-200 {
+  background: linear-gradient(to right, #f2ffed, #fffaeb);
 }
 
 .font-gothic {

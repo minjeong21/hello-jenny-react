@@ -5,7 +5,7 @@ import {
   loginWithGoogle,
   registerUser,
 } from "apis/AuthApi";
-import { action, makeObservable, observable, runInAction } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 import LocalStorage from "utils/LocalStorage";
 import { getKakaoCallMethodObject, Method } from "utils/UserAgent";
 

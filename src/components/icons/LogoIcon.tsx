@@ -44,7 +44,13 @@ const LogoIcon = ({ name }: { name: string }) => {
         </svg>
       );
     case "naver":
-      return <img src="/assets/naver-icon.png" className="w-8 h-8" />;
+      return (
+        <img
+          src="/assets/naver-icon.png"
+          className="w-8 h-8"
+          alt="naver logo"
+        />
+      );
     default:
       return null;
   }

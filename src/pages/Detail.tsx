@@ -44,7 +44,7 @@ const Detail = observer(() => {
     <Main className="sm:pt-20 pt-12 sm:px-3 bg-gray-100">
       <section>
         <div className="hidden sm:flex justify-end pt-5 px-3 ">
-          <div className="flex bg-gray-200 fit-h self-center px-3 py-2 sm:py-3 sm:px-5 mr-1 rounded-xl shadow-sm sm:text-sm text-xs">
+          <div className="flex bg-gradient-200 fit-h self-center px-3 py-2 sm:py-3 sm:px-5 mr-1 rounded-xl shadow-sm sm:text-sm text-xs">
             힌트를 사용해서 문제를 풀어보아요!
           </div>
           <img

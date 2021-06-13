@@ -11,7 +11,6 @@ const TopNavigation = () => {
   const pathManager = new PathManager(useHistory());
   const { writingStore, userStore } = useStores();
   const [openMenu, setMenuOpen] = useState(false);
-  const [openUserMenu, setProfileOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!openMenu);
@@ -117,11 +116,13 @@ const WideButton = ({
         <img
           className="w-8 h-5"
           src="https://banner2.cleanpng.com/20190716/fza/kisspng-computer-icons-scalable-vector-graphics-encapsulat-first-year-writing-the-writing-program-at-john-j-5d2e690f829e47.294590941563322639535.jpg"
+          alt="writing"
         />
       ) : (
         <img
           className="w-8 h-8"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPwAuhUQV982DREwJV7gHKHt_p22QOrOwke0nFz9657dGgCJa--OEpeALlyu7t_gjLxGE&usqp=CAU"
+          alt="speaking"
         />
       )}
 
@@ -129,47 +130,3 @@ const WideButton = ({
     </button>
   </li>
 );
-
-const HamberMenu = ({
-  open,
-  toggleMenu,
-}: {
-  open: boolean;
-  toggleMenu: () => void;
-}) => {
-  return (
-    <>
-      <div className="bg-gray-100 flex flex-col justify-center rounded">
-        <div className="relative sm:max-w-xl mx-auto">
-          <nav x-data="{ open: false }">
-            <button
-              className="text-gray-500 w-9 h-9 relative focus:outline-none bg-white rounded"
-              onClick={toggleMenu}
-            >
-              <div className="block w-5 absolute left-1/2 top-1/2   transform  -translate-x-1/2 -translate-y-1/2">
-                <span
-                  aria-hidden="true"
-                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-200 ease-in-out ${
-                    open ? "rotate-45" : " -translate-y-1.5"
-                  }`}
-                ></span>
-                <span
-                  aria-hidden="true"
-                  className={`block absolute  h-0.5 w-5 bg-current   transform transition duration-200 ease-in-out ${
-                    open ? "opacity-0" : ""
-                  }`}
-                ></span>
-                <span
-                  aria-hidden="true"
-                  className={`block absolute  h-0.5 w-5 bg-current transform  transition duration-200 ease-in-out ${
-                    open ? "-rotate-45" : "translate-y-1.5"
-                  }`}
-                ></span>
-              </div>
-            </button>
-          </nav>
-        </div>
-      </div>
-    </>
-  );
-};

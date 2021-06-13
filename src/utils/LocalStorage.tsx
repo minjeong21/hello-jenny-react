@@ -1,7 +1,7 @@
 const TOKEN = "token";
 const USER_BASIC = "USER_BASIC";
 
-export default {
+const LocalStorage = {
   saveToken: (token: string | null) => {
     token ? localStorage.setItem(TOKEN, token) : localStorage.removeItem(TOKEN);
   },
@@ -18,3 +18,5 @@ export default {
     return user ? JSON.parse(user) : null;
   },
 };
+
+export default LocalStorage;

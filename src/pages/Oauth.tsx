@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useStores } from "states/Context";
 import { useLocation } from "react-router-dom";
 import queryString from "querystring";

@@ -17,7 +17,7 @@ const App = () => {
     if (!writingStore.writings || writingStore.writings.length === 0) {
       writingStore.fetchWritingsDefault();
     }
-  }, [writingStore]);
+  }, [writingStore, userActivityStore]);
   return (
     <Switch>
       <Route exact path="/">
