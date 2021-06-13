@@ -94,36 +94,7 @@ export default observer(() => {
             <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
               관심가는 주제로 영어 문장을 만들어보세요. 어렵지 않게 영어를 익힐
               수 있을거에요.
-            </div>
-            <div className="sm:grid grid-cols-3 gap-x-2 gap-y-3">
-              {writingStore.repThemes ? (
-                writingStore.repThemes.map((theme, index) => (
-                  <div
-                    key={index}
-                    className="bg-white sm:p-4 p-4 my-4 rounded-lg shadow-custom cursor-pointer"
-                    onClick={(e) =>
-                      writingStore.moveWritingWithTheme(
-                        e,
-                        pathManager,
-                        theme.name
-                      )
-                    }
-                  >
-                    <div className="flex justify-between pb-4 items-center flex-wrap">
-                      <h4 className="text-lg font-bold">
-                        {theme.display_name}
-                      </h4>
-                      <div className="text-xs bg-gray-100 rounded px-1 py-1">
-                        {theme.count}문제
-                      </div>
-                    </div>
-                    <p className="text-gray-600 text-sm">{theme.description}</p>
-                  </div>
-                ))
-              ) : (
-                <div>스켈레톤</div>
-              )}
-            </div>
+            </div>{" "}
           </section>
         </div>
       </>

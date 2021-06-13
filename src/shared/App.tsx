@@ -6,6 +6,7 @@ import Footer from "components/organisms/Footer";
 import { useStores } from "states/Context";
 import LocalStorage from "utils/LocalStorage";
 import OauthKakao from "pages/Oauth";
+import WritingHome from "pages/WritingHome";
 
 const App = () => {
   const { writingStore, userActivityStore } = useStores();
@@ -40,6 +41,10 @@ const App = () => {
         <TopNavigation />
         <Profile />
         <Footer />
+      </Route>
+      <Route exact path="/writing//">
+        <TopNavigation />
+        <WritingHome />
       </Route>
       <Route exact path="/writing/:id/">
         <TopNavigation />

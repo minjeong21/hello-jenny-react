@@ -1,4 +1,5 @@
-import { LEVEL_MENU, THEME_MENU } from "properties/Filter";
+import ITheme from "interface/ITheme";
+import { LEVEL_MENU } from "properties/Filter";
 import styled from "styled-components";
 import "swiper/swiper.scss";
 
@@ -24,16 +25,22 @@ const Navgation = styled.ul`
   }
 `;
 interface IProps {
-  onClickFilter: (element: any) => void;
+  onClickLevelItem: (item: any) => void;
+  onClickThemeItem: (item: any) => void;
   selectedLevels: string[];
-  selectedThemes: string[];
+  selectedThemes: ITheme[];
+  themes: ITheme[];
 }
 
 const FilterNavigation = ({
-  onClickFilter,
+  onClickLevelItem,
+  onClickThemeItem,
   selectedLevels,
   selectedThemes,
+  themes,
 }: IProps) => {
+  console.log(selectedThemes);
+
   return (
     <Navgation className="flex mb-2">
       {/* Desktop View */}
@@ -48,7 +55,7 @@ const FilterNavigation = ({
                 value={item.value}
                 text={item.displayName}
                 active={selectedLevels.includes(item.value)}
-                onClick={onClickFilter}
+                onClick={() => onClickLevelItem(item.value)}
               />
             ))}
           </div>
@@ -56,16 +63,21 @@ const FilterNavigation = ({
         <div className="pt-6">
           <button className="mr-3 text-lg font-bold">테마</button>
           <div className="inline-block mr-2">
-            {THEME_MENU.map((item, index) => (
-              <SmallButton
-                key={index}
-                name="theme"
-                value={item.value}
-                text={item.text}
-                active={selectedThemes.includes(item.value)}
-                onClick={onClickFilter}
-              />
-            ))}
+            {themes.map((item, index) => {
+              const contains = selectedThemes.find(
+                (theme) => theme.name === item.name
+              );
+              return (
+                <SmallButton
+                  key={index}
+                  name="theme"
+                  value={item.name}
+                  text={item.display_name}
+                  active={contains !== undefined}
+                  onClick={() => onClickThemeItem(item)}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
@@ -83,12 +95,11 @@ const SmallButton = ({
   value: string;
   text: string;
   active?: boolean;
-
   onClick: (e: any) => void;
 }) => (
   <button
     name={name}
-    value={value}
+    data-value={value}
     className={`my-1 mr-2 button-level font-semibold px-2 py-1 sm:text-base text-sm rounded-md shadow filter-button ${
       active ? "active" : ""
     }`}

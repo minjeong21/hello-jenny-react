@@ -6,7 +6,7 @@ import WritingForm from "components/WritingForm";
 import DialogBox from "components/DialogBox";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
-import { getLevelName, getThemeName } from "properties/Filter";
+import { getLevelName } from "properties/Filter";
 import SettingIcon from "./SettingIcon";
 import HeartIcon from "./icons/HeartIcon";
 import LocalStorage from "utils/LocalStorage";
@@ -133,7 +133,7 @@ const WritingBox = observer((props: IProps) => {
                     key={index}
                     className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1"
                   >
-                    {getThemeName(item)}
+                    {item.display_name}
                   </div>
                 ))}
                 <div>

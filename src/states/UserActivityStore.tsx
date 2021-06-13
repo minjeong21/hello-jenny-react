@@ -51,7 +51,6 @@ export class UserActivityStore {
     const response = await deleteBookmark(writingId, jwt);
     if (response instanceof Error) {
       this.fetchAllBookmarks(jwt);
-      console.log(response);
     } else {
       this.fetchAllBookmarks(jwt);
     }

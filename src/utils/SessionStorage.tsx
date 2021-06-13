@@ -1,12 +1,15 @@
+import ITheme from "interface/ITheme";
+
 const LEVELS = "levels";
 const THEMES = "themes";
 
 const SessionStorage = {
-  saveSelectedLevels: (levels: string) => {
-    sessionStorage.setItem(LEVELS, levels);
+  saveSelectedLevels: (levels: string[]) => {
+    sessionStorage.setItem(LEVELS, levels.join(","));
   },
-  saveSelectedThemes: (themes: string) => {
-    sessionStorage.setItem(THEMES, themes);
+  saveSelectedThemes: (themes: ITheme[]) => {
+    sessionStorage.removeItem(THEMES);
+    sessionStorage.setItem(THEMES, JSON.stringify(themes));
   },
   getSelectedLevels: () => {
     const levels = sessionStorage.getItem(LEVELS);
@@ -19,7 +22,9 @@ const SessionStorage = {
   getSelectedThemes: () => {
     const themes = sessionStorage.getItem(THEMES);
     if (themes && themes.length > 0) {
-      return themes.split(",");
+      console.log("getSelectedThemes");
+      console.log(JSON.parse(themes));
+      return JSON.parse(themes);
     } else {
       return [];
     }

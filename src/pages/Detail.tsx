@@ -26,17 +26,11 @@ const Detail = observer(() => {
   useEffect(() => {
     writingStore.currentWriting = null;
     writingStore.changeOrfetchWriting(Number(id));
-    // If WritingNone, fetch
-    if (!writingStore.writings || writingStore.writings.length === 0) {
-      writingStore.fetchWritingsDefault();
-    }
+
+    writingStore.fetchWritingsDefaultIfNone();
+    writingStore.fetchRepWritingIfNone();
     // Params
     const params = new URLSearchParams(window.location.search);
-    if (params.has("theme")) {
-      const theme: any = params.get("theme") ? params.get("theme") : "";
-      writingStore.setSelectedThemes([theme]);
-    }
-
     writingStore.updateFilterFromSession();
   }, [id, writingStore]);
 

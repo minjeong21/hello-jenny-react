@@ -15,11 +15,15 @@ const TopNavigation = () => {
   const toggleMenu = () => {
     setMenuOpen(!openMenu);
   };
-
+  const goWritingBase = (e: any) => {
+    pathManager.goWritingPage();
+    toggleMenu();
+  };
   const goNextWriting = (e: any) => {
     pathManager.goNextWriting(e, writingStore.getNextWritingId());
     toggleMenu();
   };
+
   const goSpeaking = () => {
     pathManager.goSpeakingPath(writingStore.getNextWritingId());
     toggleMenu();
@@ -52,7 +56,7 @@ const TopNavigation = () => {
             </a>
           </div>
           <ul className="sm:px-2 ml-0 ml-auto flex space-x-2 items-center">
-            <WideButton onClick={(e) => goNextWriting(e)} label={"영작 연습"} />
+            <WideButton onClick={(e) => goWritingBase(e)} label={"영작 연습"} />
             <WideButton onClick={goSpeaking} label={"스피킹 연습"} />
             {userStore.isLogined() ? (
               <>

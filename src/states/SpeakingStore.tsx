@@ -43,7 +43,7 @@ export class SpeakingStore {
     this.selectedLevels = [];
     this.selectedThemes = [];
   }
-  
+
   fetchRepSpeaking = async () => {
     const response = await fetchRepSpeaking();
     runInAction(() => {
@@ -68,7 +68,7 @@ export class SpeakingStore {
     if (this.selectedLevels.length === 0 || this.selectedThemes.length === 0) {
       const levels = SessionStorage.getSelectedLevels();
       const themes = SessionStorage.getSelectedThemes();
-      this.setSelectedLevel(levels);
+      this.setSelectedLevels(levels);
       this.setSelectedThemes(themes);
     }
   };
@@ -88,7 +88,7 @@ export class SpeakingStore {
   settingSpeaking = (speaking: any) => {
     this.setCurrentSpeaking(speaking);
     if (this.currentSpeaking && this.selectedLevels.length === 0) {
-      this.setSelectedLevel([`${this.currentSpeaking.getLevel()}`]);
+      this.setSelectedLevels([`${this.currentSpeaking.getLevel()}`]);
     }
     if (
       this.currentSpeaking &&
@@ -164,14 +164,14 @@ export class SpeakingStore {
         speaking = this.speakings[0];
         pathManager.goSpeakingWithTheme(e, speaking.id, themeName);
 
-        this.setSelectedLevel([`${speaking.level}`]);
+        this.setSelectedLevels([`${speaking.level}`]);
       } else {
         alert("다시 시도해주세요.");
       }
     });
   };
 
-  setSelectedLevel = (values: string[]) => {
+  setSelectedLevels = (values: string[]) => {
     this.selectedLevels = values;
   };
   setSelectedThemes = (values: string[]) => {

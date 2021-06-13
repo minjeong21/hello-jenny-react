@@ -5,6 +5,8 @@ import { toJS } from "mobx";
 import FilterNavigation from "./molecules/FilterNavigation";
 import PathManager from "utils/PathManager";
 import SessionStorage from "utils/SessionStorage";
+import ITheme from "interface/ITheme";
+import { useEffect } from "react";
 
 interface IProps {
   open: boolean;
@@ -18,28 +20,43 @@ export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
   const [levels, setLevels] = useState<string[]>(
     toJS(writingStore.selectedLevels)
   );
-  const [themes, setThemes] = useState<string[]>(
+  const [selectedThemes, setThemes] = useState<ITheme[]>(
     toJS(writingStore.selectedThemes)
   );
+  const onClickLevelItem = (level: any) => {
+    const idx = levels.indexOf(level);
+    idx > -1 ? levels.splice(idx, 1) : levels.push(level);
+    const element = document.querySelector(`[data-value='${level}']`);
+    element?.classList.toggle("active");
+    checkBlank();
+  };
 
-  const onClickFilterButton = (e: any) => {
-    const element = e.target;
-    const { name, value } = element;
+  const onClickThemeItem = (theme: ITheme) => {
+    const targetIndex = selectedThemes.findIndex(
+      (item) => item.name === theme.name
+    );
+    const element = document.querySelector(`[data-value='${theme.name}']`);
 
-    if (name === "level") {
-      const idx = levels.indexOf(value);
-      idx > -1 ? levels.splice(idx, 1) : levels.push(value);
+    if (targetIndex > -1) {
+      selectedThemes.splice(targetIndex, 1);
+
+      element?.classList.remove("active");
     } else {
-      const idx = themes.indexOf(value);
-      idx > -1 ? themes.splice(idx, 1) : themes.push(value);
+      selectedThemes.push({
+        name: theme.name,
+        display_name: theme.display_name,
+        count: 0,
+        description: "",
+      });
+      element?.classList.add("active");
     }
-    element.classList.toggle("active");
+    console.log(selectedThemes);
     checkBlank();
   };
 
   const checkBlank = () => {
     const saveButton: any = document.querySelector("#filter-save-button");
-    if (levels.length === 0 || themes.length === 0) {
+    if (levels.length === 0 || selectedThemes.length === 0) {
       saveButton.setAttribute("disabled", true);
     } else {
       saveButton.removeAttribute("disabled");
@@ -47,21 +64,19 @@ export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
   };
 
   const saveFilter = (e: any) => {
-    writingStore.setSelectedLevel(levels);
-    writingStore.setSelectedThemes(themes);
-
-    const levelsString = writingStore.selectedLevels.join(",");
-    const themesString = writingStore.selectedThemes.join(",");
-    writingStore.fetchFilteredWritingAndUpdate(
-      e,
-      levelsString,
-      themesString,
-      pathManager
-    );
-    SessionStorage.saveSelectedLevels(levelsString);
-    SessionStorage.saveSelectedThemes(themesString);
+    writingStore.setSelectedLevels(levels);
+    writingStore.setSelectedThemes(selectedThemes);
+    SessionStorage.saveSelectedLevels(levels);
+    SessionStorage.saveSelectedThemes(toJS(writingStore.selectedThemes));
     writingStore.setCurrentIndex(0);
     closePopup();
+
+    writingStore.fetchFilteredWritingAndUpdate(
+      e,
+      writingStore.selectedLevels,
+      selectedThemes,
+      pathManager
+    );
   };
 
   const resetClose = () => {
@@ -111,11 +126,15 @@ export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
-                  <FilterNavigation
-                    onClickFilter={onClickFilterButton}
-                    selectedLevels={levels}
-                    selectedThemes={themes}
-                  />
+                  {writingStore.repThemes && (
+                    <FilterNavigation
+                      onClickLevelItem={onClickLevelItem}
+                      onClickThemeItem={onClickThemeItem}
+                      selectedLevels={levels}
+                      selectedThemes={selectedThemes}
+                      themes={writingStore.repThemes}
+                    />
+                  )}
                 </div>
               </div>
               <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">

@@ -5,10 +5,10 @@ import styled from "styled-components";
 import MainTheme from "components/MainTheme";
 import Level from "components/atoms/Level";
 import IWriting from "interface/IWriting";
-import ISpeaking from "interface/ISpeaking"
+import ISpeaking from "interface/ISpeaking";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
-import { getLevelName, getThemeName } from "properties/Filter";
+import { getLevelName } from "properties/Filter";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { SpeakingStore } from "states/SpeakingStore";
 // import * as googleTTS from 'google-tts-api'; //Typescript
@@ -98,28 +98,25 @@ const sentenceList = [
   },
 ];
 
-const useAudio = (url : string) => {
+const useAudio = (url: string) => {
   const [audio, setAudio] = useState(new Audio(url));
   const [playing, setPlaying] = useState(false);
 
-  const toggle = () => setPlaying(!playing)
+  const toggle = () => setPlaying(!playing);
 
   useEffect(() => {
     playing ? audio.play() : audio.pause();
-  },
-  [playing]
-  );
+  }, [playing]);
 
   useEffect(() => {
-    audio.addEventListener('ended', () => setPlaying(false));
+    audio.addEventListener("ended", () => setPlaying(false));
     return () => {
-      audio.removeEventListener('ended', () => setPlaying(false));
+      audio.removeEventListener("ended", () => setPlaying(false));
     };
   }, []);
 
   return [playing, toggle];
 };
-
 
 const SpeakingBox = observer((props: IProps) => {
   // const { writing } = props;
@@ -140,7 +137,7 @@ const SpeakingBox = observer((props: IProps) => {
     false,
     false,
   ]);
-  const [engAudioBase64, setEngAudioBase64] = useState('')
+  const [engAudioBase64, setEngAudioBase64] = useState("");
 
   // const { writingId, writing } = props;
   // const writing = Writing
@@ -149,7 +146,6 @@ const SpeakingBox = observer((props: IProps) => {
   const { dialogStore, speakingStore } = useStores();
 
   // const [audioPlay, setAudioPlay] = useState(false);
-  
 
   useEffect(() => {}, []);
 
@@ -169,7 +165,6 @@ const SpeakingBox = observer((props: IProps) => {
 
     // console.log(result)
     // // setEngAudioBase64(result);
-
   };
 
   const nextOnClick = () => {
@@ -187,7 +182,7 @@ const SpeakingBox = observer((props: IProps) => {
     var correctList = correctProblem;
     correctList[i] = true;
     setCorrectProblem(correctList);
-    console.log(correctProblem)
+    console.log(correctProblem);
   };
 
   const CheckNoOnclick = (i: number) => {
@@ -195,7 +190,7 @@ const SpeakingBox = observer((props: IProps) => {
     var correctList = correctProblem;
     correctList[i] = false;
     setCorrectProblem(correctList);
-    console.log(correctProblem)
+    console.log(correctProblem);
   };
 
   // console.log(
@@ -211,18 +206,15 @@ const SpeakingBox = observer((props: IProps) => {
     //   host: 'https://translate.google.com',
     // });
     // console.log(url);
-
     // setAudioPlay(true)
-    
     // const [audioPlay, toggle] = useAudio(url);
-
     // var audio = new Audio(url);
     // audio.play();
-  }
+  };
 
   // console.log(writing.themes);
-  console.log(speakingStore.speakings)
-  
+  console.log(speakingStore.speakings);
+
   return (
     <Container>
       <section>
@@ -299,7 +291,12 @@ const SpeakingBox = observer((props: IProps) => {
                             {/* <button onClick={()=>toggle}>{audioPlay ? "Pause" : "Play"}</button> */}
                             {/* <Player sentence={engSentence}/> */}
                             {/* <button onClick={() => ListenOnclick(engSentence)}>듣기</button> */}
-                            <audio controls src={"https://translate.google.com/translate_tts?ie=UTF-8&q=Hyunju%20likes%20playing.&tl=en&total=1&idx=0&textlen=21&client=tw-ob&prev=input&ttsspeed=1"}>
+                            <audio
+                              controls
+                              src={
+                                "https://translate.google.com/translate_tts?ie=UTF-8&q=Hyunju%20likes%20playing.&tl=en&total=1&idx=0&textlen=21&client=tw-ob&prev=input&ttsspeed=1"
+                              }
+                            >
                               Your browser does not support the audio tag.
                             </audio>
                             {/* <ReactPlayer url={'https://translate.google.com/translate_tts?ie=UTF-8&q=Hyunju%20likes%20playing.&tl=en&total=1&idx=0&textlen=21&client=tw-ob&prev=input&ttsspeed=1'} config={{file:{forceAudio:true}}}/> */}

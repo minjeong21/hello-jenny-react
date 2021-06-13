@@ -20,7 +20,7 @@ export class WritingStore {
   currentWriting: Writing | null;
   currentIndex: number;
   selectedLevels: string[];
-  selectedThemes: string[];
+  selectedThemes: ITheme[];
   isNotFoundWriting: boolean;
 
   constructor(root: any) {
@@ -91,16 +91,16 @@ export class WritingStore {
     if (this.selectedLevels.length === 0 || this.selectedThemes.length === 0) {
       const levels = SessionStorage.getSelectedLevels();
       const themes = SessionStorage.getSelectedThemes();
-      this.setSelectedLevel(levels);
+      this.setSelectedLevels(levels);
       this.setSelectedThemes(themes);
     }
   };
+
   fetchWriting = async (id: number) => {
     const response = await fetchWritingByNumId(id);
-    console.log(response);
     runInAction(() => {
       if (response instanceof Error) {
-        alert("다시 시도해주세요 🙏🏻");
+        alert("다시 시도해주세요 🙏🏻?? ");
       } else {
         if (response === 404) {
           this.isNotFoundWriting = true;
@@ -113,22 +113,35 @@ export class WritingStore {
   };
 
   settingWriting = (writing: any) => {
-    this.setCurrentWriting(writing);
-    if (this.currentWriting && this.selectedLevels.length === 0) {
-      this.setSelectedLevel([`${this.currentWriting.getLevel()}`]);
-    }
-    if (
-      this.currentWriting &&
-      this.selectedThemes.length === 0 &&
-      this.currentWriting.getThemes()
-    ) {
-      let themes: any = this.currentWriting
-        .getThemes()
-        ?.map((item) => item.name);
-      this.setSelectedThemes(themes);
+    runInAction(() => {
+      this.setCurrentWriting(writing);
+      if (this.currentWriting && this.selectedLevels.length === 0) {
+        this.setSelectedLevels([`${this.currentWriting.getLevel()}`]);
+      }
+      if (
+        this.currentWriting &&
+        this.selectedThemes.length === 0 &&
+        this.currentWriting.getThemes()
+      ) {
+        let themes: any = this.currentWriting
+          .getThemes()
+          ?.map((item) => item.name);
+        this.setSelectedThemes(themes);
+      }
+    });
+  };
+
+  fetchRepWritingIfNone = () => {
+    if (!this.repThemes || this.repThemes.length === 0) {
+      this.fetchRepWriting();
     }
   };
 
+  fetchWritingsDefaultIfNone = () => {
+    if (!this.writings || this.writings.length === 0) {
+      this.fetchWritingsDefault();
+    }
+  };
   fetchWritingsDefault = async () => {
     const response = await fetchWritings();
     this.setWritings(response.data);
@@ -136,12 +149,18 @@ export class WritingStore {
 
   fetchFilteredWritingAndUpdate = async (
     e: any,
-    levels: string,
-    themes: string,
+    levels: string[],
+    themes: ITheme[],
     pathManager: PathManager
   ) => {
+    const themesString = themes.map((item) => item.name).join(",");
+    console.log("ThemeString:", themesString);
+    console.log("levels:", levels);
     try {
-      const response = await fetchWritingListFiltered(levels, themes);
+      const response = await fetchWritingListFiltered(
+        levels.join(","),
+        themesString
+      );
       this.currentIndex = 0;
       pathManager.goNextWriting(e, response.data[0].id);
     } catch (err) {
@@ -176,32 +195,42 @@ export class WritingStore {
     return this.writings ? this.writings[this.currentIndex].id : -1;
   };
 
-  moveWritingWithTheme = async (
+  moveWritingWithThemeLevel = async (
     e: any,
     pathManager: PathManager,
-    themeName: string
+    theme: ITheme,
+    levels: string[]
   ) => {
     this.writings = null;
     let writing: IWriting;
-    await this.fetchFilteredWritingAndUpdate(e, "", themeName, pathManager);
+    await this.fetchFilteredWritingAndUpdate(e, levels, [theme], pathManager);
 
     runInAction(() => {
-      this.setSelectedThemes([themeName]);
+      this.setSelectedThemes([theme]);
       if (this.writings) {
         writing = this.writings[0];
-        pathManager.goWritingWithTheme(e, writing.id, themeName);
-
-        this.setSelectedLevel([`${writing.level}`]);
-      } else {
-        alert("다시 시도해주세요.");
+        pathManager.goWritingWithTheme(e, writing.id, theme.name);
+        this.setSelectedLevels([`${writing.level}`]);
       }
     });
   };
 
-  setSelectedLevel = (values: string[]) => {
+  setSelectedLevels = (values: string[]) => {
     this.selectedLevels = values;
+    SessionStorage.saveSelectedLevels(values);
   };
-  setSelectedThemes = (values: string[]) => {
+  setSelectedThemes = (values: ITheme[]) => {
     this.selectedThemes = values;
+    SessionStorage.saveSelectedThemes(values);
+  };
+  getThemeDisplayName = (name: string) => {
+    console.log("name", name);
+    const theme = this.repThemes?.find((item) => item.name === name);
+    return theme ? theme.display_name : "이름없음";
+  };
+
+  resetFilter = () => {
+    this.setSelectedThemes([]);
+    this.setSelectedLevels([]);
   };
 }
