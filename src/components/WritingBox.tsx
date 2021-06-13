@@ -237,7 +237,7 @@ const SmallButton = ({
 }) => (
   <button
     onClick={onClick}
-    className="focus:outline-none text-xs sm:text-base font-bold sm:font-medium py-1 px-2 rounded  bg-gray-200 shadow-sm ml-1"
+    className="focus:outline-none text-xs sm:text-base font-bold sm:font-medium py-1 px-2 rounded  bg-gray-200 shadow-sm ml-1 relative"
   >
     {text}
   </button>

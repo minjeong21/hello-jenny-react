@@ -1,3 +1,4 @@
+import Ping from "components/atoms/Ping";
 import DialogAnswer from "components/DialogAnswer";
 import DialogCorrect from "components/DialogCorrect";
 import DialogExplain from "components/DialogExplain";
@@ -237,7 +238,15 @@ export class DialogStore {
       "🔑 첫단어",
       this.addSubjectiveHint
     );
-    const HintButton = new DialogButton("🔑 힌트 ", this.addHint);
+    const HintButton = new DialogButton(
+      (
+        <div>
+          <Ping />
+          🔑 힌트
+        </div>
+      ),
+      this.addHint
+    );
     const NextButton = new DialogButton(
       (
         <div className="flex items-center">
