@@ -24,17 +24,13 @@ const SectionBookmark = ({
 
       <div className="sm:grid grid-cols-3 gap-x-2 gap-y-3 py-2">
         {bookmarks.map((bookmark) => {
-          const writing: IWriting = bookmark.writing;
           return (
             <WritingHistoryCard
-              id={writing.id}
-              key={writing.id}
-              imageUrl={writing.image_url}
-              level={writing.level}
-              themes={writing.themes}
-              korSentence={writing.kr_sentence}
+              key={bookmark.writing.id}
+              writing={bookmark.writing}
               pathManager={pathManager}
               onClickHeart={onClickHeart}
+              isBookmarkSection={true}
             />
           );
         })}

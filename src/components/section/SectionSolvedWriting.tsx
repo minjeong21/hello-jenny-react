@@ -2,7 +2,7 @@ import WritingHistoryCard from "components/WritingHistoryCard";
 import IWriting from "interface/IWriting";
 import PathManager from "utils/PathManager";
 
-const SectionCorrectWriting = ({
+const SectionSolvedWriting = ({
   writings,
   pathManager,
   goSolvedWritings,
@@ -24,17 +24,13 @@ const SectionCorrectWriting = ({
 
       <div className="sm:grid grid-cols-3 gap-x-2 gap-y-3 py-2">
         {writings.map((solvedWriting) => {
-          const writing: IWriting = solvedWriting.writing;
           return (
             <WritingHistoryCard
-              id={writing.id}
-              key={writing.id}
-              imageUrl={writing.image_url}
-              level={writing.level}
-              themes={writing.themes}
-              korSentence={writing.kr_sentence}
+              writing={solvedWriting.writing}
+              key={solvedWriting.writing.id}
               pathManager={pathManager}
               onClickHeart={onClickHeart}
+              isBookmarkSection={false}
             />
           );
         })}
@@ -43,4 +39,4 @@ const SectionCorrectWriting = ({
   );
 };
 
-export default SectionCorrectWriting;
+export default SectionSolvedWriting;

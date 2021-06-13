@@ -6,7 +6,7 @@ import { useStores } from "states/Context";
 import PathManager from "utils/PathManager";
 import DotMenuIcon from "components/icons/DotMenuIcon";
 import LocalStorage from "utils/LocalStorage";
-import SectionCorrectWriting from "components/section/SectionCorrectWriting";
+import SectionSolvedWriting from "components/section/SectionSolvedWriting";
 import SectionBookmark from "components/section/SectionBookmark";
 
 const Main = styled.main`
@@ -31,6 +31,13 @@ const Profile = observer(() => {
   const [tab, setTab] = useState("bookmark");
 
   useEffect(() => {
+    const token = LocalStorage.getToken();
+    if (token) {
+      userActivityStore.fetchAllSolvedWritings(token);
+    } else {
+      alert("유저 정보를 찾을 수 없습니다");
+    }
+
     document.querySelector("#profile-main")?.addEventListener("click", () => {
       document.querySelector("#setting-modal")?.classList.add("hidden");
     });
@@ -38,7 +45,6 @@ const Profile = observer(() => {
 
   const logout = (e: any) => {
     e.preventDefault();
-
     userStore.logout();
     pathManager.goHome();
   };
@@ -79,8 +85,16 @@ const Profile = observer(() => {
   const onClickHeart = (e: any, writingId: number) => {
     e.preventDefault();
     const token = LocalStorage.getToken();
-    if (token) {
+    const targetElement: any = document.querySelector(
+      `.heart[data-id='${writingId}']`
+    );
+    const isMarked = targetElement.classList.contains("active");
+    if (token && isMarked) {
       userActivityStore.removeBookmark(writingId, token);
+      targetElement?.classList.remove("active");
+    } else if (token) {
+      userActivityStore.addBookmark(writingId, token);
+      targetElement?.classList.add("active");
     } else {
       alert("유저 정보를 찾을 수 없습니다");
     }
@@ -208,7 +222,7 @@ const Profile = observer(() => {
               <>
                 {userActivityStore.solvedWritings &&
                 userActivityStore.solvedWritings.length > 0 ? (
-                  <SectionCorrectWriting
+                  <SectionSolvedWriting
                     writings={userActivityStore.solvedWritings}
                     pathManager={pathManager}
                     goSolvedWritings={goSolvedWritings}
