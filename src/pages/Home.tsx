@@ -56,6 +56,10 @@ export default observer(() => {
     );
   };
 
+  const goWritingBase = () => {
+    pathManager.goWritingPage();
+  };
+
   const advantages = [
     {
       title: "스피킹 연습 기능",
@@ -86,10 +90,16 @@ export default observer(() => {
             </div>
 
             <div className="flex justify-center gap-2 pt-3">
-              <button className="bg-yellow-500 text-white px-5 py-2 rounded shadow text-lg">
+              <button
+                className="bg-yellow-500 text-white px-5 py-2 rounded shadow text-lg"
+                onClick={goWritingBase}
+              >
                 헬로제니 체험하기
               </button>
-              <button className="bg-yellow-500 text-white px-5 py-2 rounded shadow text-lg">
+              <button
+                className="bg-yellow-500 text-white px-5 py-2 rounded shadow text-lg"
+                onClick={pathManager.goMembershipPage}
+              >
                 제니 멤버되기(얼리버드할인)
               </button>
             </div>

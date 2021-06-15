@@ -5,13 +5,14 @@ const Path = {
   PROFILE: "/profile/",
   LOGIN: "/signin/",
   REGISTER: "/signup/",
+  WRITING_BASE: "/writing/",
   WRITING_DETAIL: "/writing/:numid/",
   WRITING_DETAIL_THEME: "/writing/:numid/?theme=:theme",
   SPEAKING: "/speaking/:numid/",
-  WRITING_BASE: "/writing/",
   SPEAKING_DETAIL: "/speaking/:numid/",
   SPEAKING_DETAIL_THEME: "/speaking/:numid/?theme=:theme",
   SPEAKING_BASE: "/speaking/",
+  MEMBERSHIP: "/membership/",
 };
 
 class MovePath {
@@ -32,6 +33,9 @@ class MovePath {
   };
   goWritingPage = () => {
     return this.history.push(Path.WRITING_BASE);
+  };
+  goMembershipPage = () => {
+    return this.history.push(Path.MEMBERSHIP);
   };
 
   goNextWriting = (e: any, writingId: number) => {

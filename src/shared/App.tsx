@@ -1,6 +1,14 @@
 import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
-import { Home, Detail, Speaking, Profile, SignIn, SignUp } from "../pages";
+import {
+  Home,
+  Detail,
+  Speaking,
+  Profile,
+  SignIn,
+  SignUp,
+  Membership,
+} from "../pages";
 import TopNavigation from "components/organisms/TopNavigation";
 import Footer from "components/organisms/Footer";
 import { useStores } from "states/Context";
@@ -63,6 +71,12 @@ const App = () => {
 
       <Route path="/oauth/">
         <OauthKakao />
+      </Route>
+
+      <Route path="/membership/">
+        <TopNavigation />
+        <Membership />
+        <Footer />
       </Route>
     </Switch>
   );
