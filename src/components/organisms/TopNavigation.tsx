@@ -75,7 +75,7 @@ const TopNavigation = () => {
                     />
                   ) : (
                     <div className="bg-primary-600 rounded-3xl text-white w-8 h-8 flex justify-center items-center truncate">
-                      {userStore.getUser()?.username}
+                      {userStore.getUser()?.username.substr(0, 1)}
                     </div>
                   )}
                 </button>

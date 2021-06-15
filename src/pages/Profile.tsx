@@ -23,7 +23,8 @@ const Main = styled.main`
 
 const TabView = [
   { code: "bookmark", name: "좋아요", icon: null },
-  { code: "correct", name: "맞춘 문제", icon: null },
+  { code: "contact", name: "만난 문장", icon: null },
+  { code: "correct", name: "완성한 문장", icon: null },
 ];
 const Profile = observer(() => {
   const pathManager = new PathManager(useHistory());
@@ -58,7 +59,7 @@ const Profile = observer(() => {
     document.querySelector("#setting-modal")?.classList.toggle("hidden");
   };
   const sendMessageToAdmin = () => {
-    alert("이게 필요할까나.");
+    alert("메일보내기 ");
   };
 
   const goBookmarkWritings = (e: any) => {
@@ -124,7 +125,7 @@ const Profile = observer(() => {
                   {userStore.getUser()?.username}
                 </h3>
               </div>
-              <ul className="flex gap-12 pb-6 text-gray-700">
+              {/* <ul className="flex gap-12 pb-6 text-gray-700">
                 <li className="py-1 rounded-lg">
                   <span className="font-bold">100 </span> tried
                 </li>
@@ -134,7 +135,7 @@ const Profile = observer(() => {
                 <li className="py-1 rounded-lg">
                   <span className="font-bold">150 </span> days visited
                 </li>
-              </ul>
+              </ul> */}
 
               <div className="pb-6 flex items-end">
                 <span className="w-12 text-xs text-gray-500">이메일</span>
@@ -160,23 +161,23 @@ const Profile = observer(() => {
                 id="setting-modal"
               >
                 <button
-                  className=" px-3 border-b py-2 rounded mr-2 text-sm"
+                  className=" px-3 border-b py-2 rounded mr-2 text-sm w-full cursor-pointer"
                   onClick={changeUserInfo}
                 >
                   <label>회원 정보 변경</label>
                 </button>
                 <button
-                  className=" px-3 border-b py-2 rounded mr-2 text-sm"
+                  className=" px-3 border-b py-2 rounded mr-2 text-sm w-full cursor-pointer"
                   onClick={logout}
                 >
                   <label>로그아웃하기</label>
                 </button>
-                <button
-                  className=" px-3 border-b py-2 rounded mr-2 text-sm"
+                {/* <button
+                  className=" px-3 border-b py-2 rounded mr-2 text-sm w-full cursor-pointer"
                   onClick={sendMessageToAdmin}
                 >
-                  <label>개발자에게 문의</label>
-                </button>
+                  <label>개발자에게 메일 보내기</label>
+                </button> */}
               </div>
             </div>
           </div>
