@@ -84,11 +84,11 @@ const Membership = observer(() => {
   ];
 
   const functions = [
-    { text: "무제한 이용 가능" },
-    { text: "테마별, 난이도별 영작" },
-    { text: "매일 알림 전송" },
-    { text: "북마크, 푼 문제 레포트 기능" },
-    { text: " 테마별, 난이도별 영작" },
+    { text: "무제한 이용 가능", isOpen: true },
+    { text: "테마별, 난이도별 영작", isOpen: true },
+    { text: "북마크, 푼 문제 저장", isOpen: true },
+    { text: "매일 문장 받기", isOpen: false },
+    { text: "스피킹 연습 기능", isOpen: false },
   ];
   return (
     <Main className="sm:pt-20 pt-12 pb-56" id="profile-main">
@@ -121,9 +121,17 @@ const Membership = observer(() => {
             </div>
             <ul>
               {functions.map((item, index) => (
-                <li key={index} className="pb-6 flex gap-1 text-sm">
-                  <CheckImg />
-                  {item.text}
+                <li key={index} className="pb-5 text-sm">
+                  {item.isOpen ? (
+                    <div className="flex gap-1">
+                      <CheckImg /> {item.text}
+                    </div>
+                  ) : (
+                    <div className="flex text-gray-500 gap-1">
+                      <ClockIcon />
+                      {item.text} (준비 중)
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
@@ -239,3 +247,20 @@ const CheckCircleImg = ({ checked }: { checked: boolean }) => {
     );
   }
 };
+
+const ClockIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-5 w-5 text-gray-500"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>
+);
