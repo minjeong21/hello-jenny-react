@@ -185,11 +185,11 @@ class Writing {
     return this.writing.hints[curHintIndex].description;
   };
 
-  getHintDescriptionMore = (curHintIndex: number) => {
-    if (this.hasMoreHint(curHintIndex)) {
-      return this.writing.hints[curHintIndex].description_more;
+  getHint = (hintIndex: number) => {
+    if (this.hasMoreHint(hintIndex)) {
+      return this.writing.hints[hintIndex];
     } else {
-      return "";
+      return null;
     }
   };
 

@@ -64,7 +64,7 @@ export default observer(() => {
   };
 
   const goWritingBase = () => {
-    pathManager.goWritingPage();
+    document.location.href = "/writing/";
   };
 
   const advantages = [
@@ -156,7 +156,10 @@ export default observer(() => {
                 <div className="sm:te xt-2xl text-2xl pb-6 text-white">
                   {`제니와 함께 만들어볼까요?`}
                 </div>
-                <div className="flex bg-white py-2 px-4 rounded-lg font-bold shadow-lg mx-auto gap-2 justify-center items-center">
+                <div
+                  className="flex bg-white py-2 px-4 rounded-lg font-bold shadow-lg mx-auto gap-2 justify-center items-center cursor-pointer"
+                  onClick={goWritingBase}
+                >
                   <img
                     src="/assets/write-icon.png"
                     alt="advantage 1"

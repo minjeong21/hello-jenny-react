@@ -49,11 +49,11 @@ const Detail = observer(() => {
         </div>
         {writingStore.isNotFoundWriting ? (
           <div>
-            <FilterPopup
+            {/* <FilterPopup
               open={popupOpen}
               closePopup={() => setPopupOpen(false)}
               pathManager={pathManager}
-            />
+            /> */}
             <div>문제를 찾을 수 없습니다.</div>
             <button
               onClick={(e) =>
@@ -68,14 +68,13 @@ const Detail = observer(() => {
             {writingStore.currentWriting &&
             writingStore.currentWriting.writing ? (
               <div className="pt-5 px-1">
-                <FilterPopup
+                {/* <FilterPopup
                   open={popupOpen}
                   closePopup={() => setPopupOpen(false)}
                   pathManager={pathManager}
-                />
+                /> */}
 
                 <WritingBox
-                  isDetailPage
                   openPopup={() => setPopupOpen(true)}
                   writingId={writingStore.currentWriting.writing.id}
                   writing={writingStore.currentWriting}

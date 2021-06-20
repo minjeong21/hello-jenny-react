@@ -164,47 +164,14 @@ export class DialogStore {
       );
     }
   };
-  addSubjectiveHint = () => {
-    this.showSubjectiveHint = true;
-    if (this.writing) {
-      this.appendDialog(
-        "HINT",
-        <DialogHint
-          talkText={"첫 단어 힌트 갑니다!"}
-          hint={this.writing.getSubjective()}
-        />
-      );
-    }
-  };
   addHint = () => {
-    let talkText = "그 다음 힌트에요!";
-
-    switch (this.hintCount) {
-      case 0:
-        talkText = "첫번째 힌트에요.";
-        break;
-      case 1:
-        talkText = "두번째 힌트에요.";
-        break;
-      case 2:
-        talkText = "세번째 힌트에요.";
-        break;
-      case 3:
-        talkText = "네번째 힌트에요.";
-        break;
-    }
-
     const currentHintCount = this.hintCount;
     this.hintCount += 1;
     if (this.writing) {
-      this.appendDialog(
-        "HINT",
-        <DialogHint
-          talkText={talkText}
-          hint={this.writing.getHintDescription(currentHintCount)}
-          hintMore={this.writing.getHintDescriptionMore(currentHintCount)}
-        />
-      );
+      const hint = this.writing.getHint(currentHintCount);
+      if (hint) {
+        this.appendDialog("HINT", <DialogHint hint={hint} />);
+      }
     }
   };
   addExplain = (startIndex: number) => {
@@ -234,15 +201,23 @@ export class DialogStore {
       | "SHOW_ANSWER"
       | "EXPLAIN"
   ) => {
-    // const FirstWordButton = new DialogButton(
-    //   "🔑 첫단어",
-    //   this.addSubjectiveHint
-    // );
+    const hintText = [
+      "1번째 힌트",
+      "2번째 힌트",
+      "3번째 힌트",
+      "4번째 힌트",
+      "5번째 힌트",
+      "6번째 힌트",
+      "7번째 힌트",
+      "8번째 힌트",
+      "9번째 힌트",
+      "10번째 힌트",
+    ];
     const HintButton = new DialogButton(
       (
         <div>
           <Ping />
-          🔑 힌트
+          {hintText[this.hintCount]} 🔑
         </div>
       ),
       this.addHint
@@ -255,37 +230,28 @@ export class DialogStore {
       ),
       (e: any) => this.moveNextWriting(e)
     );
-    // const AnswerButton = new DialogButton(
-    //   "😎 정답 알려줘 ",
-    //   this.addShowAnswer
-    // );
+    const AnswerButton = new DialogButton(
+      "😎 모범답안 보기",
+      this.addShowAnswer
+    );
     const ReTryButton = new DialogButton("🕺다시 풀래", this.reload);
 
     this.tempButtons = [];
     switch (type) {
       case "INIT": // 도와줘 제니.
-        // if (!this.showSubjectiveHint) {
-        //   this.tempButtons.push(FirstWordButton);
-        // }
         if (this.hasMoreHint()) {
           this.tempButtons.push(HintButton);
         }
-        // this.tempButtons.push(AnswerButton);
-        this.tempButtons.push(NextButton);
         break;
 
       case "HELP": // 도와줘 제니.
       case "HINT":
       case "WRONG":
-        // if (!this.showSubjectiveHint) {
-        //   this.tempButtons.push(FirstWordButton);
-        // }
         if (this.hasMoreHint()) {
           this.tempButtons.push(HintButton);
+        } else {
+          this.tempButtons.push(AnswerButton);
         }
-        // this.tempButtons.push(AnswerButton);
-        // this.tempButtons.push(NextButton);
-
         break;
       case "CORRECT":
       case "SHOW_ANSWER":
@@ -297,11 +263,11 @@ export class DialogStore {
           );
         }
         this.tempButtons.push(ReTryButton);
-        // this.tempButtons.push(NextButton);
+        this.tempButtons.push(NextButton);
         break;
       default:
         this.tempButtons.push(ReTryButton);
-      // this.tempButtons.push(NextButton);
+        this.tempButtons.push(NextButton);
     }
 
     runInAction(() => {

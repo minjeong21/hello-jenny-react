@@ -51,7 +51,7 @@ export class WritingStore {
         setTimeout(async () => {
           const response2 = await fetchRepWriting();
           if (response instanceof Error) {
-            alert("잠시 후 다시 시도해주세요");
+            console.log(response);
           } else {
             this.setRepWriting(response2.rep_writing);
             this.setRepThemes(response2.themes);
@@ -186,11 +186,19 @@ export class WritingStore {
     this.currentIndex = index;
   };
 
+  getCurrentIndex = (id: number) => {
+    if (this.writings && this.currentIndex === 0) {
+      this.currentIndex = this.writings.findIndex((item) => item.id === id);
+    }
+    return this.currentIndex;
+  };
+  getWritingSize = () => {
+    return this.writings?.length;
+  };
+
   getNextWritingId = () => {
     if (this.writings && this.writings.length > this.currentIndex - 1) {
       this.setCurrentIndex(this.currentIndex + 1);
-    } else {
-      alert("잠시 후에 다시 시도해주세요🙏🏻");
     }
     return this.writings ? this.writings[this.currentIndex].id : -1;
   };

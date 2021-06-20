@@ -1,24 +1,43 @@
-import React, { useState } from "react";
+import IHint from "interface/IHint";
+import React, { ReactElement, useState } from "react";
 import DialogBase, { DialogTitle } from "./DialogBase";
-const DialogHint = ({
-  talkText,
-  hint,
-  hintMore,
-}: {
-  talkText: string;
-  hint: string;
-  hintMore?: string;
-}) => {
+const DialogHint = ({ hint }: { hint: IHint }) => {
+  let title = "";
+  let description: string = hint.description;
+  let descriptionMore = hint.description_more;
+
+  switch (hint.type) {
+    case "first":
+      description = `<div>문장이 <span class="text-red-500">${description}</span>로 시작해요!</div>`;
+      break;
+    case "word":
+      const postFix = ["도 있어요.", "도 포함되어 있어요.", " 단어가 있어요."];
+      const index = Math.floor(Math.random() * 3);
+      description = `<div><span class="text-red-500">${description}</span>${postFix[index]}</div>`;
+      break;
+    case "blank":
+      title = `마지막 힌트에요~! 화이팅~!`;
+      break;
+    case "grammar":
+      title = `문법 힌트에요!`;
+      break;
+    case "keyword":
+      title = `단어 힌트 나갑니다!`;
+      break;
+    default:
+      title = "힌트 나갑니다~";
+  }
+
   const [visibleMore, setVisibleMore] = useState(false);
   return (
     <DialogBase>
       <DialogTitle>
-        <div className="flex">
-          <div>{talkText}</div>
+        <div className="flex mb-1 items-center">
+          {title && <div>{title}</div>}
           <div>
-            {hintMore && !visibleMore && (
+            {descriptionMore && !visibleMore && (
               <button
-                className="ml-3 bg-primary-700 rounded px-3 py-1 font-bold text-white text-right text-sm"
+                className="ml-3 bg-primary-700 rounded px-3 h-6 font-bold text-white text-right text-sm "
                 onClick={() => setVisibleMore(true)}
               >
                 자세히
@@ -27,20 +46,22 @@ const DialogHint = ({
           </div>
         </div>
       </DialogTitle>
-      <div className="sm:text-sm text-xs pt-2">
+      <div className="sm:text-sm text-xs">
         <div className="text-xs sm:text-base">
-          <div>
-            <div
-              className="inline"
-              dangerouslySetInnerHTML={{ __html: hint }}
-            ></div>
-          </div>
+          {description && (
+            <div>
+              <div
+                className="inline"
+                dangerouslySetInnerHTML={{ __html: description }}
+              ></div>
+            </div>
+          )}
 
-          {visibleMore && hintMore && (
+          {visibleMore && descriptionMore && (
             <div className="flex flex-col">
               <div
                 className="text-gray-600 pt-3"
-                dangerouslySetInnerHTML={{ __html: hintMore }}
+                dangerouslySetInnerHTML={{ __html: descriptionMore }}
               />
 
               <button

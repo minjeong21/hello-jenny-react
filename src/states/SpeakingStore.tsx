@@ -143,8 +143,6 @@ export class SpeakingStore {
   getNextSpeakingId = () => {
     if (this.speakings && this.speakings.length > this.currentIndex - 1) {
       this.setCurrentIndex(this.currentIndex + 1);
-    } else {
-      alert("잠시 후에 다시 시도해주세요🙏🏻");
     }
     return this.speakings ? this.speakings[this.currentIndex].id : -1;
   };

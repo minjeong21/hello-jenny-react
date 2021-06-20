@@ -92,7 +92,7 @@ export default observer(() => {
           </div>
         </div>
       </div>
-      <section className="pt-12 pb-6" id="theme-section">
+      <section className="sm:pt-12 pb-6" id="theme-section">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           어떤 주제의 문장부터 만나볼까요?
         </div>

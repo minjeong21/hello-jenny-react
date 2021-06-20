@@ -20,7 +20,7 @@ const ThemeCard = ({
       } ${active && "bg-gradient-200 border-2 border-primary-600"} `}
     >
       <div
-        className={`h-24 ${disabled ? "opacity-50" : ""}`}
+        className={`h-24 bg-gray-100 ${disabled ? "opacity-50" : ""}`}
         style={{
           backgroundImage: `url(
           ${theme.image_url}
@@ -36,13 +36,6 @@ const ThemeCard = ({
         </div>
       </div>
       <p className="text-gray-600 text-sm pb-3">{theme.description}</p>
-      <div
-        className={`absolute bottom-3 right-3 ${
-          disabled ? "text-gray-400" : "text-primary-600"
-        }`}
-      >
-        <RightArrowIcon />
-      </div>
     </div>
   );
 };
