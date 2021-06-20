@@ -53,6 +53,7 @@ const App = () => {
       <Route exact path="/writing//">
         <TopNavigation />
         <WritingHome />
+        <Footer />
       </Route>
       <Route exact path="/writing/:id/">
         <TopNavigation />

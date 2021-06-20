@@ -4,15 +4,20 @@ import RightArrowIcon from "./icons/RightArrowIcon";
 const ThemeCard = ({
   theme,
   disabled,
+  active,
+  onClick,
 }: {
   theme: ITheme;
   disabled: boolean;
+  active?: boolean;
+  onClick?: () => void;
 }) => {
   return (
     <div
+      onClick={onClick}
       className={`sm:p-4 p-4 my-4 rounded-lg shadow-custom cursor-pointer relative ${
         disabled ? "bg-gray-100 text-gray-400" : "bg-white"
-      } `}
+      } ${active && "bg-gradient-200 border-2 border-primary-600"} `}
     >
       <div
         className={`h-24 ${disabled ? "opacity-50" : ""}`}

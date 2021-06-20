@@ -271,7 +271,7 @@ export class DialogStore {
           this.tempButtons.push(HintButton);
         }
         // this.tempButtons.push(AnswerButton);
-        // this.tempButtons.push(NextButton);
+        this.tempButtons.push(NextButton);
         break;
 
       case "HELP": // 도와줘 제니.

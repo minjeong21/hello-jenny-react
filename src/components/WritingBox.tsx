@@ -7,7 +7,6 @@ import DialogBox from "components/DialogBox";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
 import { getLevelName } from "properties/Filter";
-import SettingIcon from "./SettingIcon";
 import HeartIcon from "./icons/HeartIcon";
 import LocalStorage from "utils/LocalStorage";
 
@@ -118,28 +117,26 @@ const WritingBox = observer((props: IProps) => {
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="flex cursor-pointer" onClick={props.openPopup}>
-              <div className="flex flex-wrap">
-                {writingStore.selectedLevels.map((item, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1"
-                  >
-                    {getLevelName(item)}
-                  </div>
-                ))}
-                {writingStore.selectedThemes.map((item, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1"
-                  >
-                    {item.display_name}
-                  </div>
-                ))}
-                <div>
-                  <SettingIcon />
+            <div className="flex flex-wrap cursor-default">
+              {writingStore.selectedLevels.map((item, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1"
+                >
+                  {getLevelName(item)}
                 </div>
-              </div>
+              ))}
+              {writingStore.selectedThemes.map((item, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1"
+                >
+                  {item.display_name}
+                </div>
+              ))}
+              {/* <div>
+                  <SettingIcon />
+                </div> */}
             </div>
           </div>
         </>
@@ -177,8 +174,7 @@ const WritingBox = observer((props: IProps) => {
             <div className="flex justify-between">
               <div>
                 <p className="sm:mt-3 mt-2 text-gray-500 sm:text-sm text-xs">
-                  ({writingStore.findIndex(writingId)}/
-                  {writingStore.writings?.length}) {writing.getSituation()}
+                  {writing.getSituation()}
                 </p>
 
                 <div className="block mt-1 sm:text-2xl leading-tight sm:font-semibold text-gray-900 font-bold pb-3">

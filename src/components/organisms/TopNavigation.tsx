@@ -58,7 +58,7 @@ const TopNavigation = () => {
           <ul className="sm:px-2 ml-0 ml-auto flex space-x-2 items-center">
             <WideButton onClick={(e) => goWritingBase(e)} label={"영작 연습"} />
             <WideButton onClick={goMemgership} label={"멤버십"} />
-            <WideButton onClick={goSpeaking} label={"스피킹 연습"} />
+            {/* <WideButton onClick={goSpeaking} label={"스피킹 연습"} /> */}
             {userStore.isLogined() ? (
               <>
                 <button
