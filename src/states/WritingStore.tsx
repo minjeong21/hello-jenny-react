@@ -199,11 +199,11 @@ export class WritingStore {
     e: any,
     pathManager: PathManager,
     theme: ITheme,
-    levels: string[]
+    level: string
   ) => {
     this.writings = null;
     let writing: IWriting;
-    await this.fetchFilteredWritingAndUpdate(e, levels, [theme], pathManager);
+    await this.fetchFilteredWritingAndUpdate(e, [level], [theme], pathManager);
 
     runInAction(() => {
       this.setSelectedThemes([theme]);

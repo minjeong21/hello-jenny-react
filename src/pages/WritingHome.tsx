@@ -8,6 +8,7 @@ import { LEVEL_MENU } from "properties/Filter";
 import RightArrowIcon from "components/icons/RightArrowIcon";
 import ITheme from "interface/ITheme";
 import { url } from "inspector";
+import ThemeCard from "components/ThemeCard";
 
 const Main = styled.main`
   .level {
@@ -21,8 +22,9 @@ const Main = styled.main`
 export default observer(() => {
   const pathManager = new PathManager(useHistory());
   const { writingStore } = useStores();
-  const [levels, setLevels] = useState<string[]>([]);
-  const [isTrial, setIsTrial] = useState(true);
+  const [level, setLevel] = useState<string>("");
+  const [isMember, setIsMember] = useState(true);
+  const [theme, setTheme] = useState<ITheme>();
 
   useEffect(() => {
     if (!writingStore.repThemes || writingStore.repThemes.length === 0) {
@@ -31,23 +33,19 @@ export default observer(() => {
     writingStore.resetFilter();
   }, [writingStore]);
 
-  const onClickLevel = (level: string) => {
+  const onClickLevel = (e: any, level: string) => {
+    console.log(level);
     const targetElement: any = document.querySelector(
       `[data-level='${level}']`
     );
-    if (targetElement.classList.contains("active")) {
-      const idx = levels.indexOf(level);
-      idx > -1 ? levels.splice(idx, 1) : levels.push(level);
-      targetElement?.classList.remove("active");
-    } else {
-      levels.push(level);
-      targetElement?.classList.add("active");
+    setLevel(level);
+    if (theme) {
+      writingStore.moveWritingWithThemeLevel(e, pathManager, theme, level);
     }
-    setLevels(levels);
   };
 
-  const onClickThemeWritings = (e: any, theme: ITheme) => {
-    writingStore.moveWritingWithThemeLevel(e, pathManager, theme, levels);
+  const onClickThemeWritings = (theme: ITheme) => {
+    setTheme(theme);
   };
 
   const alertTrialMode = () => {
@@ -56,6 +54,40 @@ export default observer(() => {
 
   return (
     <Main className="sm:py-36 py-20 px-4">
+      {/* 문제 풀기 섹션 */}
+      {!theme && (
+        <section className="py-12">
+          <div className="sm:text-3xl text-2xl font-bold pb-2">
+            어떤 주제의 문장부터 만나볼까요?
+          </div>
+          <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
+            관심가는 주제로 영어 문장을 만들어보세요. 어렵지 않게 영어를 익힐 수
+            있을거에요.
+          </div>
+          <div className="sm:grid grid-cols-3 gap-x-2 gap-y-3">
+            {writingStore.repThemes ? (
+              writingStore.repThemes.map((theme, index) => {
+                // let disabled = !isMember && theme.name !== "trial";
+                let disabled = false;
+                return (
+                  <div
+                    key={index}
+                    onClick={
+                      disabled
+                        ? alertTrialMode
+                        : (e) => onClickThemeWritings(theme)
+                    }
+                  >
+                    <ThemeCard theme={theme} disabled={disabled} />
+                  </div>
+                );
+              })
+            ) : (
+              <div>스켈레톤</div>
+            )}
+          </div>
+        </section>
+      )}
       <section className="">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           내가 도전하고 싶은 난이도는?
@@ -64,78 +96,21 @@ export default observer(() => {
           마음은 편하게! 약간 높은 난이도로 도전하길 추천해요!
         </div>
         <div>
-          <div className="flex gap-2 sm:pt-3 pt-1 flex-wrap">
+          <div className="gap-2 sm:pt-3 pt-1">
             {LEVEL_MENU.map((item, index) => (
               <div key={index} className="">
                 <button
-                  className="level px-3 py-2 rounded shadow "
+                  className={`level px-3 py-2 rounded shadow ${
+                    level === item.value ? "active" : ""
+                  }`}
                   data-level={item.value}
-                  onClick={() => onClickLevel(item.value)}
+                  onClick={(e) => onClickLevel(e, item.value)}
                 >
                   {item.displayName}
                 </button>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-      {/* 문제 풀기 섹션 */}
-      <section className="sm:py-24 py-12">
-        <div className="sm:text-3xl text-2xl font-bold pb-2">
-          어떤 주제의 문장부터 만나볼까요?
-        </div>
-        <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
-          관심가는 주제로 영어 문장을 만들어보세요. 어렵지 않게 영어를 익힐 수
-          있을거에요.
-        </div>
-        <div className="sm:grid grid-cols-3 gap-x-2 gap-y-3">
-          {writingStore.repThemes ? (
-            writingStore.repThemes.map((theme, index) => {
-              let isDisabled = isTrial && theme.name !== "trial";
-              return (
-                <div
-                  key={index}
-                  className={`sm:p-4 p-4 my-4 rounded-lg shadow-custom cursor-pointer relative ${
-                    isDisabled ? "bg-gray-100 text-gray-400" : "bg-white"
-                  } `}
-                  onClick={
-                    isDisabled
-                      ? alertTrialMode
-                      : (e) => onClickThemeWritings(e, theme)
-                  }
-                >
-                  <div
-                    className={`h-24 ${isDisabled ? "opacity-50" : ""}`}
-                    style={{
-                      backgroundImage: `url(
-                        https://source.unsplash.com/random
-                      )`,
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                  ></div>
-                  <div className="flex justify-between pb-4 items-center flex-wrap pt-2">
-                    <h4 className="text-lg font-bold">{theme.display_name}</h4>
-                    <div className="text-xs bg-gray-100 rounded px-1 py-1">
-                      {theme.count}문제
-                    </div>
-                  </div>
-                  <p className="text-gray-600 text-sm pb-3">
-                    {theme.description}
-                  </p>
-                  <div
-                    className={`absolute bottom-3 right-3 ${
-                      isDisabled ? "text-gray-400" : "text-primary-600"
-                    }`}
-                  >
-                    <RightArrowIcon />
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <div>스켈레톤</div>
-          )}
         </div>
       </section>
     </Main>

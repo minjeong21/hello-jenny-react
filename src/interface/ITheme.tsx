@@ -3,4 +3,5 @@ export default interface ITheme {
   description: string;
   name: string;
   count: number;
+  image_url: string;
 }

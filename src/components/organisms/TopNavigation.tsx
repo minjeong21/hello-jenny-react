@@ -36,7 +36,7 @@ const TopNavigation = () => {
           <div className="font-bold sm:block hidden">
             <a href="/">
               <img
-                src="/logo2.png"
+                src="/logo3.png"
                 width="200"
                 height="100"
                 alt="Hello Jenny Logo"
@@ -47,7 +47,7 @@ const TopNavigation = () => {
           <div className="font-bold sm:hidden block">
             <a href="/">
               <img
-                src="/logo192.png"
+                src="/logo3.png"
                 width="50"
                 height="50"
                 alt="Hello Jenny Logo"

@@ -47,6 +47,7 @@ export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
         display_name: theme.display_name,
         count: 0,
         description: "",
+        image_url: theme.image_url,
       });
       element?.classList.add("active");
     }

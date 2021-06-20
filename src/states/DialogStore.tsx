@@ -234,10 +234,10 @@ export class DialogStore {
       | "SHOW_ANSWER"
       | "EXPLAIN"
   ) => {
-    const FirstWordButton = new DialogButton(
-      "🔑 첫단어",
-      this.addSubjectiveHint
-    );
+    // const FirstWordButton = new DialogButton(
+    //   "🔑 첫단어",
+    //   this.addSubjectiveHint
+    // );
     const HintButton = new DialogButton(
       (
         <div>
@@ -255,36 +255,36 @@ export class DialogStore {
       ),
       (e: any) => this.moveNextWriting(e)
     );
-    const AnswerButton = new DialogButton(
-      "😎 정답 알려줘 ",
-      this.addShowAnswer
-    );
+    // const AnswerButton = new DialogButton(
+    //   "😎 정답 알려줘 ",
+    //   this.addShowAnswer
+    // );
     const ReTryButton = new DialogButton("🕺다시 풀래", this.reload);
 
     this.tempButtons = [];
     switch (type) {
       case "INIT": // 도와줘 제니.
-        if (!this.showSubjectiveHint) {
-          this.tempButtons.push(FirstWordButton);
-        }
+        // if (!this.showSubjectiveHint) {
+        //   this.tempButtons.push(FirstWordButton);
+        // }
         if (this.hasMoreHint()) {
           this.tempButtons.push(HintButton);
         }
-        this.tempButtons.push(AnswerButton);
-        this.tempButtons.push(NextButton);
+        // this.tempButtons.push(AnswerButton);
+        // this.tempButtons.push(NextButton);
         break;
 
       case "HELP": // 도와줘 제니.
       case "HINT":
       case "WRONG":
-        if (!this.showSubjectiveHint) {
-          this.tempButtons.push(FirstWordButton);
-        }
+        // if (!this.showSubjectiveHint) {
+        //   this.tempButtons.push(FirstWordButton);
+        // }
         if (this.hasMoreHint()) {
           this.tempButtons.push(HintButton);
         }
-        this.tempButtons.push(AnswerButton);
-        this.tempButtons.push(NextButton);
+        // this.tempButtons.push(AnswerButton);
+        // this.tempButtons.push(NextButton);
 
         break;
       case "CORRECT":
@@ -297,11 +297,11 @@ export class DialogStore {
           );
         }
         this.tempButtons.push(ReTryButton);
-        this.tempButtons.push(NextButton);
+        // this.tempButtons.push(NextButton);
         break;
       default:
         this.tempButtons.push(ReTryButton);
-        this.tempButtons.push(NextButton);
+      // this.tempButtons.push(NextButton);
     }
 
     runInAction(() => {

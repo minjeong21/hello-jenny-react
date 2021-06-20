@@ -6,6 +6,8 @@ import styled from "styled-components";
 import WritingBox from "components/WritingBox";
 import SkeletonWritingBox from "components/SkeletonWritingBox";
 import PathManager from "utils/PathManager";
+import ThemeCard from "components/ThemeCard";
+import ThemeCardSwiper from "components/ThemeCardSwiper";
 
 const Main = styled.main`
   padding-bottom: 80px;
@@ -21,18 +23,23 @@ const Main = styled.main`
   }
 
   .bg-main {
-    background-image: url(/assets/bg-main-6.jpg);
-    background-size: 100%;
+    background-image: url(/assets/home/bg-main-1.jpg);
+    background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
   }
   @media (max-width: 640px) {
     .bg-main {
-      background-image: url(/assets/bg-main-7-mobile.jpg);
+      background-image: url(/assets/home/bg-main-1.jpg);
       background-size: cover;
       background-position: center;
       height: 350px;
     }
+  }
+
+  .bg-main-2 {
+    background-image: url(/assets/home/bg-main-2.jpg);
+    background-size: cover;
   }
 `;
 
@@ -62,45 +69,54 @@ export default observer(() => {
 
   const advantages = [
     {
-      title: "스피킹 연습 기능",
-      text: "바로 인간이 따뜻한 원대하고, 못하다 천하를 것이다. 무엇을",
+      title: "나에게 딱 맞는\n난이도와 테마를 선택해요",
+      text:
+        "실시간 피드백으로 자연스러운 원어민의 영어를 바로 배울 수 있어요.\n원어민 튜터의 꼼꼼한 피드백을 통해 나의 영어가 풍성해져요.",
+      image_url: "/assets/home/section-adv-2.png",
     },
     {
-      title: "다양한 테마",
-      text: "바로 인간이 따뜻한 원대하고, 못하다 천하를 것이다. 무엇을",
+      title: "나도 모르는 새 \n문법과 영단어가 머릿 속에 쏘옥!",
+      text:
+        "창공에 예수는 가는 사는가 눈이 것은 옷을 인류의 약동하다.\n끓는 풀이 청춘의 길지 가진 실현에 인생을 구하지 운다. ",
+      image_url: "/assets/home/section-adv-1.png",
     },
     {
-      title: "다양한 테마",
-      text: "바로 인간이 따뜻한 원대하고, 못하다 천하를 것이다. 무엇을",
+      title: "하루 3문장이면?\n1년에 1,000문장이라구요!",
+      text:
+        "매일 원하는 시간에 영어 문장을 보내드려요. \n통상 기본 회화를 하려면 500문장이 필요하다고 합니다.",
+      image_url: "/assets/home/section-adv-3.png",
+    },
+    {
+      title: "하루 43원 놀라운 가성비!!",
+      text:
+        " 사는가 눈이 것은 옷을 인류의 약동하다. \n길지 가진 실현에 인생을 구하지 운다. ",
+      image_url: "/assets/home/section-adv-4.png",
     },
   ];
   return (
     <Main>
       <>
-        <div className=" pt-20 pb-10 bg-main bg-primary-600">
+        <div className=" pt-20 pb-36 bg-main bg-primary-600">
           {/* 문제 풀기 섹션 */}
-          <section id="writing-section" className="px-2 pt-36">
-            <div className="whitespace-pre-line">
-              {`그동안 해왔던, 보고 듣기만하는 영어 공부, 괜찮을까요?
-            영작은 다른 영어공부의 10배의 효과를 냅니다. 
-            제니와 함께 하루에 3문장씩, 어떠세요?`}
-            </div>
-            <div className="" onClick={goFirstWriting}>
-              <img src="/assets/main-writing.png" alt="main writing" />
-            </div>
-
+          <section id="writing-section" className="px-16 pt-36">
             <div className="flex justify-center gap-2 pt-3">
+              <div className="flex-1">
+                <h3 className="whitespace-pre-line  text-3xl font-bold">{`게임처럼 스스로 만드는 영작\n헬로제니`}</h3>
+                <div className="whitespace-pre-line pt-2 text-gray-700">
+                  {`하루에 3문장이면 1년에 1000천 문장. \n헬로 제니, 영어를 배우는 새로운 세상을 경험하세요.`}
+                </div>
+              </div>
+              <div className="flex-1">
+                <img src="/assets/home/header-image.png" alt="main writing" />
+              </div>
+            </div>
+            <div className="flex justify-center gap-2 pt-10">
               <button
-                className="bg-yellow-500 text-white px-5 py-2 rounded shadow text-lg"
+                className="px-5 py-2 rounded shadow-lg text-lg bg-white flex gap-2 font-bold"
                 onClick={goWritingBase}
               >
-                헬로제니 체험하기
-              </button>
-              <button
-                className="bg-yellow-500 text-white px-5 py-2 rounded shadow text-lg"
-                onClick={pathManager.goMembershipPage}
-              >
-                제니 멤버되기(얼리버드할인)
+                <img className="w-6" src="/assets/write-icon.png" />
+                <div>100문장 무료 체험하기</div>
               </button>
             </div>
           </section>
@@ -108,102 +124,95 @@ export default observer(() => {
         </div>
         <div className="bg-white">
           <section className="py-32 px-4 text-center">
-            <div className="sm:text-4xl text-2xl font-bold pb-2">
-              영어를 잘하고 싶은 이유는 무엇인가요?
+            <div className="sm:text-4xl text-2xl font-bold pb-6">
+              영작으로 시작하는 나만의 새로운 세상
             </div>
-            <div className="sm:text-base text-sm sm:pb-16 pb-4 text-gray-500">
-              우리는 언제까지 영어를 평생 숙제로 가져가야 할까요?
+            <div className="sm:text-base text-sm sm:pb-6 pb-4 text-gray-500 whitespace-pre-line">
+              {`창공에 예수는 가는 사는가 눈이 것은 옷을 인류의 약동하다. \n끓는 풀이 청춘의 길지 가진 실현에 인생을 구하지 운다. \n귀는 몸이 무엇을 있을 위하여 이는 보라 이는 보라.`}
             </div>
-            <div className="sm:flex justify-center gap-3">
-              {advantages.map((item) => (
-                <div className="flex-1 bg-gray-100 shadow-lg p-6 rounded">
-                  <div className="h-20 bg-primary-200  flex justify-center items-center mx-auto rounded">
-                    (이모지)
-                  </div>
-                  <h3 className="pt-3 text-lg font-bold">{item.title}</h3>
-                  <div className="text-left pt-4">{item.text}</div>
+            <div>
+              <img
+                className="w-2/3 mx-auto"
+                src="/assets/home/main-slogan.png"
+              />
+            </div>
+          </section>
+        </div>
+        <SectionAdvantage content={advantages[0]} isImageLeft={true} />
+        <SectionAdvantage content={advantages[1]} isImageLeft={false} />
+        <SectionAdvantage content={advantages[2]} isImageLeft={true} />
+        <SectionAdvantage content={advantages[3]} isImageLeft={false} />
+
+        <div className="bg-main-2">
+          <section className="sm:py-20 py-16 px-4 flex flex-col items-center">
+            <div className="flex">
+              <div className="text-center">
+                <div className="text-gray-700 text-sm pb-1">
+                  하루 3문장, 1년이면 1073 문장!!
                 </div>
-              ))}
-            </div>
-          </section>
-        </div>
-        <section className="sm:py-20 px-4 flex justify-between whitespace-pre-line">
-          <div>
-            <div className="sm:text-4xl text-2xl font-bold pb-2 ">
-              {`퀴즈 풀 듯\n 재미있게 공부할 수 있어요.`}
-            </div>
-            <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
-              제니의 도움을 받아, 힌트 쾅쾅
-            </div>
-          </div>
-          <div className="w-1/2">
-            <img
-              src="assets/main-advantage-1.png"
-              alt="advantage 1"
-              className=""
-            />
-          </div>
-        </section>
-        {/*  */}
-        <div className="bg-white">
-          <section className="sm:py-20 px-4 flex justify-between">
-            <div className="w-1/2">
-              <img
-                src="assets/main-advantage-2.png"
-                alt="advantage 1"
-                className=""
-              />
-            </div>
-            <div>
-              <div className="sm:text-4xl text-2xl font-bold pb-2">
-                {`관심있는 주제로 \n공부할 수 있어요.`}
+                <div className="sm:text-5xl text-2xl text-center font-bold text-white ">
+                  1천 문장의 기적
+                </div>
+                <div className="sm:te xt-2xl text-2xl pb-6 text-white">
+                  {`제니와 함께 만들어볼까요?`}
+                </div>
+                <div className="flex bg-white py-2 px-4 rounded-lg font-bold shadow-lg mx-auto gap-2 justify-center items-center">
+                  <img
+                    src="/assets/write-icon.png"
+                    alt="advantage 1"
+                    className="w-6 h-6"
+                  />
+                  <div className="text-center items-center text-xl">
+                    100문장 무료 체험하기
+                  </div>
+                </div>
               </div>
-              <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
-                1000여개가 넘는 문장이 재미있는 구성으로 준비되어 있답니다.
-                문장은 매주 추가되고 있어요 :)
+              <div className="w-24">
+                <img src="/assets/home/avatar-left.png" />
               </div>
             </div>
           </section>
         </div>
-        {/*  */}
-        <section className="sm:py-20 px-4 flex justify-between flex gap-3">
+        <section className="py-20 px-12 " id="more">
+          <h3 className="text-2xl text-center whitespace-pre-line pb-6">
+            {`3152개 이상의 문장, 152개의 테마를\n원하는 대로, 원하는 만큼`}
+          </h3>
           <div>
-            <div className="sm:text-4xl text-2xl font-bold pb-2">
-              {`꾸준함을 이길 수 있는게 없죠! \n매일 카톡으로 문제를 받을 수 있어요.`}
-            </div>
-            <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
-              1000여개가 넘는 문장이 재미있는 구성으로 준비되어 있답니다. 문장은
-              매주 추가되고 있어요 :)
-            </div>
-          </div>
-          <div className="w-1/2">
-            <img
-              src="assets/main-advantage-3.png"
-              alt="advantage 1"
-              className=""
-            />
+            {writingStore.repThemes ? (
+              <ThemeCardSwiper themes={writingStore.repThemes} />
+            ) : (
+              <div>스켈레톤</div>
+            )}
           </div>
         </section>
-
-        <div className="bg-primary-700">
-          <section className="sm:py-20 py-16 px-4 ">
-            <div className="sm:text-4xl text-2xl font-bold pb-2 text-white text-center">
-              {`제니와 함께, \n재미있는 영작 연습 시작해봐요`}
-            </div>
-
-            <div>
-              <img
-                src="assets/main-advantage-5.png"
-                alt="advantage 1"
-                className=""
-              />
-            </div>
-            <div className="bg-yellow-500 py-3 rounded text-white font-bold shadow-lg w-32 mx-auto text-center">
-              시작하러 가기
-            </div>
-          </section>
-        </div>
       </>
     </Main>
   );
 });
+
+const SectionAdvantage = ({
+  content,
+  isImageLeft,
+}: {
+  content: any;
+  isImageLeft: boolean;
+}) => (
+  <section className="sm:py-20 sm:px-12 px-4 flex justify-between flex gap-8">
+    {isImageLeft && (
+      <div className="w-2/5">
+        <img src={content.image_url} alt="advantage 1" className="" />
+      </div>
+    )}
+    <div className="w-3/5 flex flex-col justify-center whitespace-pre-line">
+      <div className="sm:text-3xl text-xl font-bold pb-2 ">{content.title}</div>
+      <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
+        {content.text}
+      </div>
+    </div>
+    {!isImageLeft && (
+      <div className="w-2/5">
+        <img src={content.image_url} alt="advantage 1" className="" />
+      </div>
+    )}
+  </section>
+);

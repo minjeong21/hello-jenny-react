@@ -146,6 +146,12 @@ section {
   margin: 0 auto;
 }
 
+.max-width {
+  max-width: 860px;
+  margin: 0 auto;
+
+}
+
 .text-primary-200 {
   color: #d5fffe;
 }
