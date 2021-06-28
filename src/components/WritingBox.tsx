@@ -40,12 +40,17 @@ const WritingBox = observer((props: IProps) => {
   const [textInWriting, setTextInWriting] = useState("");
   const [isShowColorHelp, setIsShowColorHelp] = useState(false);
   const [checkedBookmark, setCheckedBookmark] = useState(false);
+  const [tryStatusText, setTryStatusText] = useState<any>();
+  const [userSentence, setUserSentence] = useState("");
+  const [isCorrect, setisCorrect] = useState(false);
   const { dialogStore, writingStore, userActivityStore } = useStores();
 
   useEffect(() => {
     dialogStore.setMoveNextWriing(props.moveNextWriting);
     dialogStore.resetWriting();
     setTextInWriting("");
+    setUserSentence("");
+    setTryStatusText("");
     setIsShowColorHelp(false);
     setCheckedBookmark(userActivityStore.hasBookmark(writingId));
   }, [writingId, dialogStore, props.moveNextWriting, userActivityStore]);
@@ -66,11 +71,25 @@ const WritingBox = observer((props: IProps) => {
 
   const onSubmitChallenge = (e: any) => {
     const userSentence = dialogStore.textInWrinting;
+    dialogStore.userSentence = userSentence;
+    setUserSentence(userSentence);
     e.preventDefault();
 
     const isCorrect = writing.isCorrect(userSentence);
     if (isCorrect) {
-      dialogStore.addCorrect();
+      setisCorrect(true);
+      setTryStatusText(
+        <div>
+          💕 와~ 맞았어요!! 정말 대단해요!! &nbsp;
+          <img
+            className="inline"
+            src="/assets/party_blob.gif"
+            width="25"
+            alt="happy emoji"
+          />
+        </div>
+      );
+      // dialogStore.addCorrect();
       addSolvedWritingIfSolved();
       // 폭죽 효과
       document.querySelector("#firework")?.classList.add("firework");
@@ -78,18 +97,18 @@ const WritingBox = observer((props: IProps) => {
         document.querySelector("#firework")?.classList.remove("firework");
       }, 2000);
     } else {
+      const percent = writing.getMatchedWordPercent(userSentence);
       // 정답 틀렸을 때
       if (writing.isIgnoreCaseCorrect(userSentence)) {
-        dialogStore.addWrong(isShowColorHelp, "대소문자를 확인해주세요!");
+        setTryStatusText("대소문자를 확인해주세요!");
       } else if (writing.isIgnoreSpecialCharCorrect(userSentence)) {
-        dialogStore.addWrong(
-          isShowColorHelp,
-          "마침표와 쉼표같은 특수문자를 확인해주세요!"
-        );
+        setTryStatusText("마침표와 쉼표같은 특수문자를 확인해주세요!");
       } else if (writing.isContainsAllWords(userSentence)) {
-        dialogStore.addWrong(isShowColorHelp, "2개의 단어가 더 필요해요!");
+        setTryStatusText("단어가 더 필요해요!");
+      } else if (percent == 100) {
+        setTryStatusText(`🍀 단어는 모두 맞았지만, 순서가 달라요 😭`);
       } else {
-        dialogStore.addWrong(isShowColorHelp);
+        setTryStatusText(`🍀 앗 아쉬워요, ${percent}% 단어가 맞았어요.`);
       }
       setIsShowColorHelp(true);
     }
@@ -151,14 +170,14 @@ const WritingBox = observer((props: IProps) => {
             </div>
             <div className="flex">
               <div className="bg-primary-200 rounded-lg sm:text-sm text-xs py-1 text-gray-700  mr-1 shadow-sm mb-1 items-center flex">
-                <button className="px-2" onClick={goPreviousWriting}>
+                <button onClick={goPreviousWriting}>
                   <LeftArrowIcon />
                 </button>
                 <div className="flex">
                   {writingStore.getCurrentIndex(writing.getId())}/
                   {writingStore.getWritingSize()}
                 </div>
-                <button className="px-2" onClick={goNextWriting}>
+                <button onClick={goNextWriting}>
                   <RightArrowIcon />
                 </button>
               </div>
@@ -208,6 +227,28 @@ const WritingBox = observer((props: IProps) => {
                   </div>
                 </div>
               </div>
+              {/* 도전 문장 */}
+              <>
+                {dialogStore.userSentence &&
+                  writing
+                    .getCompareUserSentenceWords(dialogStore.userSentence)
+                    .map((item, index) => {
+                      return (
+                        <span
+                          key={index}
+                          className={`text-sm ${
+                            item.correct ? "text-blue-700" : "text-pink-600"
+                          }`}
+                        >
+                          {item.word}&nbsp;
+                        </span>
+                      );
+                    })}
+
+                {tryStatusText && (
+                  <div className="text-xs pt-1 pb-2">{tryStatusText}</div>
+                )}
+              </>
 
               <WritingForm
                 onChange={onChange}

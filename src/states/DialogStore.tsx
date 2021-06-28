@@ -223,11 +223,7 @@ export class DialogStore {
       this.addHint
     );
     const NextButton = new DialogButton(
-      (
-        <div className="flex items-center">
-          <RightArrowIcon />
-        </div>
-      ),
+      <div className="flex items-center">다음 문제</div>,
       (e: any) => this.moveNextWriting(e)
     );
     const AnswerButton = new DialogButton(
