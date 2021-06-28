@@ -7,6 +7,7 @@ import PathManager from "utils/PathManager";
 import { LEVEL_MENU } from "properties/Filter";
 import ITheme from "interface/ITheme";
 import ThemeCard from "components/ThemeCard";
+import SkeletonTheme from "components/SkeletonTheme";
 
 const Main = styled.main`
   .level {
@@ -106,21 +107,29 @@ export default observer(() => {
               // let disabled = !isMember && theme.name !== "trial";
               let disabled = false;
               return (
-                <ThemeCard
-                  key={index}
-                  onClick={() => onClickThemeWritings(theme)}
-                  theme={theme}
-                  disabled={disabled}
-                  active={selectedTheme?.name === theme.name}
-                />
+                <>
+                  <ThemeCard
+                    key={index}
+                    onClick={() => onClickThemeWritings(theme)}
+                    theme={theme}
+                    disabled={disabled}
+                    active={selectedTheme?.name === theme.name}
+                  />
+                </>
               );
             })
           ) : (
-            <div>스켈레톤</div>
+            <>
+              <SkeletonTheme />
+              <SkeletonTheme />
+              <SkeletonTheme />
+              <SkeletonTheme />
+              <SkeletonTheme />
+            </>
           )}
         </div>
       </section>
-      <section className="pt-32 text-center" id="level-section">
+      <section className="sm:pt-32 pt-6 text-center" id="level-section">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           내가 도전하고 싶은 난이도는?
         </div>
@@ -128,11 +137,11 @@ export default observer(() => {
           마음은 편하게! 약간 높은 난이도로 도전하길 추천해요!
         </div>
         <div>
-          <div className="gap-5 flex justify-center">
+          <div className="sm:gap-5 gap-1 flex justify-center">
             {LEVEL_MENU.map((item, index) => (
               <div key={index} className="">
                 <button
-                  className={`level px-3 py-2 rounded shadow border-2 ${
+                  className={`level sm:px-3 px-2 sm:py-2 py-2 rounded shadow sm:text-lg text-sm border-2 ${
                     selectedLevel === item.value
                       ? "bg-gradient-200 border-primary-500"
                       : "border-white"
@@ -146,9 +155,9 @@ export default observer(() => {
             ))}
           </div>
         </div>
-        <div className="flex justify-center pt-24 items-center">
+        <div className="flex justify-center sm:pt-24 pt-12 items-center">
           <button
-            className={`px-5 py-3 rounded shadow text-right font-bold flex text-xl items-center ${
+            className={`sm:text-xl text-lg px-5 py-3 rounded shadow text-right font-bold flex text-xl items-center ${
               isValidated
                 ? "bg-primary-700 text-white "
                 : "bg-gray-100 text-gray-200"

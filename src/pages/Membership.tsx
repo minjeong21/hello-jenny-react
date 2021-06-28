@@ -92,13 +92,13 @@ const Membership = observer(() => {
   ];
   return (
     <Main className="sm:pt-20 pt-12 pb-56" id="profile-main">
-      <div className="mt-6 p-2 w-full max-w-screen-md  margin-auto">
+      <div className="mt-12 p-2 w-full max-w-screen-md  margin-auto">
         <header>
           <div className="text-center text-3xl font-bold pb-4">
             멤버십 혜택보기
           </div>
-          <div className="text-center textpb-20 text-gray-600 pb-12">
-            <div className="pb-2">오픈 기념 수퍼 얼리버드 행사 중이에요.</div>
+          <div className="text-center sm:pb-20 pb-12 text-gray-600 ">
+            <div>오픈 기념 수퍼 얼리버드 행사 중이에요.</div>
             <div>
               두번 다시 오지 않을 기회! 놓치지 마세요!!
               <img
@@ -111,17 +111,17 @@ const Membership = observer(() => {
           </div>
         </header>
 
-        <div className="flex gap-3">
+        <div className="flex gap-3 sm:flex-row flex-col p-2">
           <div className=" flex-1 p-4 border bg-white rounded-lg shadow-lg">
             <h3 className="text-primary-700 font-bold pb-1 text-lg">
               제니 멤버를 위한 혜택
             </h3>
-            <div className="pb-8 text-gray-500 text-xs">
+            <div className="sm:pb-8 pb-4 text-gray-500 text-xs">
               계속 추가되는 혜택을 기대해주세요!
             </div>
             <ul>
               {functions.map((item, index) => (
-                <li key={index} className="pb-5 text-sm">
+                <li key={index} className="sm:pb-5 pb-2 text-sm">
                   {item.isOpen ? (
                     <div className="flex gap-1">
                       <CheckImg /> {item.text}
@@ -159,10 +159,12 @@ const Membership = observer(() => {
                     <CheckCircleImg checked={true} />
                   </div>
                   <div>
-                    <h4 className="text-bold pb-2 text-lg font-bold">
+                    <h4 className="text-bold pb-2 sm:text-lg text-medium font-bold">
                       {product.name}
                     </h4>
-                    <div>{product.period}</div>
+                    <div className="sm:text-medium text-sm">
+                      {product.period}
+                    </div>
                   </div>
                 </div>
                 <div>
@@ -170,10 +172,12 @@ const Membership = observer(() => {
                     {product.originPrice}원
                   </div>
                   <div className="flex gap-1 items-center text-lg font-bold">
-                    <div className="bg-primary-700 py-1 px-2 text-bold text-white text-xs rounded-xl text-center ">
+                    <div className="bg-primary-700 py-1 px-2 text-bold text-white sm:text-sm text-xs rounded-xl text-center ">
                       -{product.discount}%
                     </div>
-                    <div>{product.price}원</div>
+                    <div className="sm:text-medium text-sm">
+                      {product.price}원
+                    </div>
                   </div>
                 </div>
               </div>
@@ -183,13 +187,12 @@ const Membership = observer(() => {
 
         <div className="flex justify-center pt-6">
           <button
-            className="text-xl bg-primary-600 text-white px-16 py-5 rounded shadow-lg font-bold"
+            className="sm:text-xl text-lg bg-primary-600 text-white px-16 sm:py-5 py-3 rounded shadow-lg font-bold"
             onClick={onClickPaymentButton}
           >
             멤버십 구매하기
           </button>
         </div>
-        {/* <img src="/assets/membership_sample.png" alt="membership samle" /> */}
       </div>
     </Main>
   );
