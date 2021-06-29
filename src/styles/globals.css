@@ -37,6 +37,11 @@ button:focus-visible {
   --color-white: white;
 }
 
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
 
 main {
   min-width: 320px;
@@ -71,7 +76,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
 
 .mx-auto {
   margin-left: auto;
@@ -304,7 +308,6 @@ section {
 
 
 /* SNS Icons */
-
 .kakao-icon {
   background-color: rgb(254, 229, 0);
 }

@@ -54,15 +54,6 @@ export default observer(() => {
     }
   }, [writingStore]);
 
-  const goFirstWriting = (e: any) => {
-    pathManager.goNextWriting(
-      e,
-      writingStore.repWriting && writingStore.repWriting.getId()
-        ? writingStore.repWriting.getId()
-        : 0
-    );
-  };
-
   const goWritingBase = () => {
     document.location.href = "/writing/";
   };
@@ -180,7 +171,7 @@ export default observer(() => {
           <h3 className="text-2xl text-center whitespace-pre-line pb-6">
             {`3152개 이상의 문장, 152개의 테마를\n원하는 대로, 원하는 만큼`}
           </h3>
-          <div>
+          <div onClick={goWritingBase}>
             {writingStore.repThemes ? (
               <ThemeCardSwiper themes={writingStore.repThemes} />
             ) : (

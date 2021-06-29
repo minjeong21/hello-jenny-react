@@ -8,13 +8,7 @@ const DialogCorrect = ({ userSentence }: { userSentence: string }) => {
     <>
       <DialogBase>
         <DialogTitle>
-          💕 와~ 맞았어요!! 정말 대단해요!! &nbsp;
-          <img
-            className="inline"
-            src="/assets/party_blob.gif"
-            width="25"
-            alt="happy emoji"
-          />
+         
         </DialogTitle>
         <DialogDescription>
           <div className="flex">

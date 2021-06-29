@@ -1,7 +1,7 @@
 export const LEVEL_MENU = [
-  { value: "1", displayName: "👶 쉬워요" },
-  { value: "3", displayName: "🤨 중간 난이도" },
-  { value: "5", displayName: "😎 어려워요" },
+  { value: "1", displayName: "Easy" },
+  { value: "2", displayName: "Medium" },
+  { value: "3", displayName: "Advanced" },
 ];
 
 export const getLevelName = (value: string) => {
