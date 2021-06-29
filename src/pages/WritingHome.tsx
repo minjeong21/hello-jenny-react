@@ -128,27 +128,38 @@ export default observer(() => {
   return (
     <Main className="sm:py-36 py-20 px-4">
       {/* 문제 풀기 섹션 */}
-      <div className="pb-8 flex justify-center rounded">
+      <div className="pb-8 flex justify-center rounded cursor-pointer ">
         {/* 로그인  */}
         {isMember ? (
           <div>
-            <div className="p-6 flex flex-col items-center bg-white shadow-lg rounded-lg">
-              <div className="flex gap-1">
+            <div
+              className="p-6 flex flex-col items-center bg-white shadow-lg rounded-lg"
+              onClick={() => alert("shortcut")}
+            >
+              <div className="flex gap-1 items-center pb-4">
                 <img
                   className="w-6 h-7 mr-2"
                   src="/assets/small-quokka.png"
                   alt="quokka character"
                 />
-                <div className="text-gray-800 pb-3 font-bold">
+                <div className="text-gray-800 text-sm">
                   마지막 테마를 이어서 만나볼까요?
                 </div>
               </div>
-              <div className="text-gray-600 pb-4 text-sm">
+              <div className="text-gray-800 text-lg font-bold pb-2">
                 ☀️ 일상영어 100 (1탄) (Easy)
               </div>
-              <button onClick={() => alert("shortcut")}>
-                <div className="bg-gradient-200 text-primary-800 border-primary-600 self-right px-6 py-2 border-1 rounded-lg cursor-pointer shadow-lg">
-                  이어서 풀기
+              <div className="pb-4 text-center">
+                <div className="text-sm text-gray-600">
+                  v 전체 <b>100개</b> 중 <b>16개</b> 완성!!
+                </div>
+                <div className="text-sm text-gray-600">
+                  v 남은 문제 <b>86개</b>!
+                </div>
+              </div>
+              <button>
+                <div className="bg-gradient-200 text-primary-800 border-primary-600 self-right px-6 py-2 border-1 rounded-lg shadow">
+                  이어서 풀러가기
                 </div>
               </button>
             </div>
