@@ -6,7 +6,6 @@ import {
   fetchRepWriting,
   fetchWritingByNumId,
   fetchWritingListFiltered,
-  fetchWritings,
 } from "apis/WritingApi";
 import PathManager from "utils/PathManager";
 import Writing from "utils/Writing";
@@ -15,7 +14,6 @@ import SessionStorage from "utils/SessionStorage";
 export class WritingStore {
   rootStore;
   writings: IWriting[] | null;
-  repWriting: Writing | null;
   repThemes: ITheme[] | null;
   currentWriting: Writing | null;
   currentIndex: number;
@@ -26,7 +24,6 @@ export class WritingStore {
   constructor(root: any) {
     makeObservable(this, {
       writings: observable,
-      repWriting: observable,
       currentWriting: observable,
       repThemes: observable,
       selectedLevels: observable,
@@ -37,7 +34,6 @@ export class WritingStore {
     this.rootStore = root;
     this.currentIndex = 0;
     this.writings = null;
-    this.repWriting = null;
     this.repThemes = null;
     this.currentWriting = null;
     this.selectedLevels = [];
@@ -53,12 +49,10 @@ export class WritingStore {
           if (response instanceof Error) {
             console.log(response);
           } else {
-            this.setRepWriting(response2.rep_writing);
             this.setRepThemes(response2.themes);
           }
         }, 1000);
       } else {
-        this.setRepWriting(response.rep_writing);
         this.setRepThemes(response.themes);
       }
     });
@@ -137,16 +131,6 @@ export class WritingStore {
     }
   };
 
-  fetchWritingsDefaultIfNone = () => {
-    if (!this.writings || this.writings.length === 0) {
-      this.fetchWritingsDefault();
-    }
-  };
-  fetchWritingsDefault = async () => {
-    const response = await fetchWritings();
-    this.setWritings(response.data);
-  };
-
   fetchFilteredWritingAndUpdate = async (
     e: any,
     levels: string[],
@@ -168,9 +152,6 @@ export class WritingStore {
     }
   };
 
-  setRepWriting = (writing: IWriting) => {
-    this.repWriting = new Writing(writing);
-  };
   setRepThemes = (themes: ITheme[]) => {
     this.repThemes = themes;
   };

@@ -27,7 +27,7 @@ const Detail = observer(() => {
     writingStore.currentWriting = null;
     writingStore.changeOrfetchWriting(Number(id));
 
-    writingStore.fetchWritingsDefaultIfNone();
+    // TODO: 샘플 문제를 어떻게하지
     writingStore.fetchRepWritingIfNone();
     // Params
     const params = new URLSearchParams(window.location.search);

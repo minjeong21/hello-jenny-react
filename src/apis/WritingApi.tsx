@@ -17,16 +17,6 @@ export const fetchRepWriting = async () => {
       return error;
     });
 };
-
-export const fetchWritings = async () => {
-  return instance
-    .get("/writing/list/")
-    .then((response) => response.data)
-    .catch(function (error) {
-      console.log(error);
-      return error;
-    });
-};
 export const fetchWritingListFiltered = async (
   levels: string,
   themes: string

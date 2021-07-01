@@ -23,9 +23,6 @@ const App = () => {
     if (token) {
       userActivityStore.fetchAllBookmarks(token);
     }
-    if (!writingStore.writings || writingStore.writings.length === 0) {
-      writingStore.fetchWritingsDefault();
-    }
   }, [writingStore, userActivityStore]);
   return (
     <Switch>

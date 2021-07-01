@@ -118,7 +118,6 @@ const WritingBox = observer((props: IProps) => {
     if (token && !checkedBookmark) {
       userActivityStore.addBookmark(writingId, token);
       setCheckedBookmark(true);
-      e.target.classList.add("animate-ping-once");
     } else if (token) {
       userActivityStore.removeBookmark(writingId, token);
       setCheckedBookmark(false);
