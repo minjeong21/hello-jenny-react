@@ -35,7 +35,9 @@ const ThemeCard = ({
           {theme.count}문제
         </div>
       </div>
-      <p className="text-gray-600 text-sm pb-3">{theme.description}</p>
+      <p className="text-gray-600 text-sm pb-3 text-left">
+        {theme.description}
+      </p>
     </div>
   );
 };

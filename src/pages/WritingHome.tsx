@@ -145,7 +145,7 @@ export default observer(() => {
         {isMember ? (
           <div>
             <div
-              className="bg-gradient-200  px-16 py-6 flex flex-col items-center bg-white shadow-lg rounded-lg"
+              className="bg-gradient-200 sm:px-16 px-6 py-6 flex flex-col items-center bg-white shadow-lg rounded-lg"
               onClick={() => alert("shortcut")}
             >
               <div className="flex gap-1 items-center pb-4">
