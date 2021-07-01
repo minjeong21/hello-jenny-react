@@ -3,11 +3,10 @@ import { useHistory } from "react-router";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
 import styled from "styled-components";
-import WritingBox from "components/WritingBox";
-import SkeletonWritingBox from "components/SkeletonWritingBox";
 import PathManager from "utils/PathManager";
-import ThemeCard from "components/ThemeCard";
 import ThemeCardSwiper from "components/ThemeCardSwiper";
+import SkeletonTheme from "components/SkeletonTheme";
+import ThemeCard from "components/ThemeCard";
 
 const Main = styled.main`
   padding-bottom: 80px;
@@ -49,9 +48,6 @@ export default observer(() => {
 
   useEffect(() => {
     writingStore.fetchRepWriting();
-    if (!writingStore.writings || writingStore.writings.length === 0) {
-      writingStore.fetchWritingsDefault();
-    }
   }, [writingStore]);
 
   const goWritingBase = () => {
@@ -89,10 +85,10 @@ export default observer(() => {
       <>
         <div className=" pt-20 pb-36 bg-main bg-primary-600">
           {/* 문제 풀기 섹션 */}
-          <section id="writing-section" className="px-16 pt-36">
-            <div className="flex justify-center gap-2 pt-3">
+          <section id="writing-section" className="px-16 sm:pt-36 pt-6">
+            <div className="sm:flex justify-center gap-2 pt-3">
               <div className="flex-1">
-                <h3 className="whitespace-pre-line  text-3xl font-bold">{`게임처럼 스스로 만드는 영작\n헬로제니`}</h3>
+                <h3 className="whitespace-pre-line sm:text-3xl text-xl sm:text-left text-center font-bold">{`게임처럼 스스로 만드는 영작\n헬로제니`}</h3>
                 <div className="whitespace-pre-line pt-2 text-gray-700">
                   {`하루에 3문장이면 1년에 1000천 문장. \n헬로 제니, 영어를 배우는 새로운 세상을 경험하세요.`}
                 </div>
@@ -113,9 +109,9 @@ export default observer(() => {
           </section>
           {/* 문제 리스트 */}
         </div>
-        <div className="bg-white">
+        <div className="bg-white sm:pt-0 pt-32">
           <section className="py-32 px-4 text-center">
-            <div className="sm:text-4xl text-2xl font-bold pb-6">
+            <div className="sm:text-4xl text-xl font-bold pb-6 ">
               영작으로 시작하는 나만의 새로운 세상
             </div>
             <div className="sm:text-base text-sm sm:pb-6 pb-4 text-gray-500 whitespace-pre-line">
@@ -161,7 +157,7 @@ export default observer(() => {
                   </div>
                 </div>
               </div>
-              <div className="w-24">
+              <div className="w-24 sm:block hidden">
                 <img src="/assets/home/avatar-left.png" />
               </div>
             </div>
@@ -173,9 +169,23 @@ export default observer(() => {
           </h3>
           <div onClick={goWritingBase}>
             {writingStore.repThemes ? (
-              <ThemeCardSwiper themes={writingStore.repThemes} />
+              <>
+                <div className="sm:block hidden">
+                  <ThemeCardSwiper themes={writingStore.repThemes} />
+                </div>
+
+                <div className="sm:hidden">
+                  {writingStore.repThemes.map((theme) => (
+                    <ThemeCard theme={theme} disabled={false} />
+                  ))}
+                </div>
+              </>
             ) : (
-              <div>스켈레톤</div>
+              <>
+                <SkeletonTheme />
+                <SkeletonTheme />
+                <SkeletonTheme />
+              </>
             )}
           </div>
         </section>
@@ -191,22 +201,42 @@ const SectionAdvantage = ({
   content: any;
   isImageLeft: boolean;
 }) => (
-  <section className="sm:py-20 sm:px-12 px-4 flex justify-between flex gap-8">
-    {isImageLeft && (
-      <div className="w-2/5">
+  <>
+    {/* 모바일 뷰 */}
+    <section className="p-4 gap-8 ">
+      <div className="sm:text-3xl text-xl font-bold pb-4 pt-4 text-center whitespace-pre-line">
+        {content.title}
+      </div>
+      <div className="w-2/3 mx-auto">
         <img src={content.image_url} alt="advantage 1" className="" />
       </div>
-    )}
-    <div className="w-3/5 flex flex-col justify-center whitespace-pre-line">
-      <div className="sm:text-3xl text-xl font-bold pb-2 ">{content.title}</div>
-      <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
-        {content.text}
+      <div className="flex flex-col justify-center pt-4">
+        <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
+          {content.text}
+        </div>
       </div>
-    </div>
-    {!isImageLeft && (
-      <div className="w-2/5">
-        <img src={content.image_url} alt="advantage 1" className="" />
+    </section>
+    {/* PC 뷰 */}
+
+    <section className="sm:py-20 sm:px-12 sm:flex hidden justify-between gap-8 ">
+      {isImageLeft && (
+        <div className="w-2/5">
+          <img src={content.image_url} alt="advantage 1" className="" />
+        </div>
+      )}
+      <div className="w-3/5 flex flex-col justify-center whitespace-pre-line">
+        <div className="sm:text-3xl text-xl font-bold pb-2 ">
+          {content.title}
+        </div>
+        <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
+          {content.text}
+        </div>
       </div>
-    )}
-  </section>
+      {!isImageLeft && (
+        <div className="w-2/5">
+          <img src={content.image_url} alt="advantage 1" className="" />
+        </div>
+      )}
+    </section>
+  </>
 );

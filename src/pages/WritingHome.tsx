@@ -9,6 +9,7 @@ import ITheme from "interface/ITheme";
 import ThemeCard from "components/ThemeCard";
 import SkeletonTheme from "components/SkeletonTheme";
 import { fetchWritingListFiltered } from "apis/WritingApi";
+import LocalStorage from "utils/LocalStorage";
 
 const Main = styled.main`
   .level {
@@ -82,6 +83,8 @@ export default observer(() => {
       writingStore.fetchRepWriting();
     }
     writingStore.resetFilter();
+
+    const token = LocalStorage.getToken();
   }, [writingStore]);
 
   const onClickThemeWritings = (theme: ITheme) => {
@@ -89,7 +92,7 @@ export default observer(() => {
     console.log(theme);
 
     setTimeout(() => {
-      var levelSectionElement: any = document.querySelector("#level-section");
+      var levelSectionElement: any = document.querySelector("#button-section");
       if (levelSectionElement) {
         window.scrollTo({
           top: levelSectionElement.offsetTop,
@@ -104,6 +107,15 @@ export default observer(() => {
   const onClickLevel = (level: string) => {
     setSelectedLevel(level);
     setIsValidated(selectedTheme != null);
+    setTimeout(() => {
+      var themeSectionElement: any = document.querySelector("#theme-section");
+      if (themeSectionElement) {
+        window.scrollTo({
+          top: themeSectionElement.offsetTop,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
   };
 
   const fetchWritingsAndGoDetail = async (e: any) => {
@@ -133,7 +145,7 @@ export default observer(() => {
         {isMember ? (
           <div>
             <div
-              className="p-6 flex flex-col items-center bg-white shadow-lg rounded-lg"
+              className="bg-gradient-200  px-16 py-6 flex flex-col items-center bg-white shadow-lg rounded-lg"
               onClick={() => alert("shortcut")}
             >
               <div className="flex gap-1 items-center pb-4">
@@ -158,7 +170,7 @@ export default observer(() => {
                 </div>
               </div>
               <button>
-                <div className="bg-gradient-200 text-primary-800 border-primary-600 self-right px-6 py-2 border-1 rounded-lg shadow">
+                <div className="bg-primary-600 text-white font-bold border-primary-600 self-right px-6 py-2 border-1 rounded-lg shadow">
                   이어서 풀러가기
                 </div>
               </button>
@@ -178,7 +190,33 @@ export default observer(() => {
           </div>
         )}
       </div>
-      <section className="sm:pt-12 pb-6" id="theme-section">
+
+      <section className="text-center py-12">
+        <div className="sm:text-3xl text-2xl font-bold pb-2">
+          내가 도전하고 싶은 난이도는?
+        </div>
+        <div className="sm:text-base text-sm text-gray-500 pb-12">
+          편하게 즐겁게 도전할 수 있는 난이도로 시작해봐요!
+        </div>
+        <div>
+          {/* TODO: radio 만든는 중 */}
+          <form className="flex gap-1 justify-center">
+            {LEVEL_MENU.map((item, index) => (
+              <label key={index}>
+                <input
+                  type="radio"
+                  name="level"
+                  checked={selectedLevel === item.value}
+                  data-level={item.value}
+                  onChange={() => onClickLevel(item.value)}
+                />
+                <span className="border-1 bg-gray-100">{item.displayName}</span>
+              </label>
+            ))}
+          </form>
+        </div>
+      </section>
+      <section className="sm:pt-12 pb-6 text-center" id="theme-section">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           어떤 주제의 문장부터 만나볼까요?
         </div>
@@ -211,31 +249,7 @@ export default observer(() => {
           )}
         </div>
       </section>
-      <section className="sm:pt-32 pt-6 text-center" id="level-section">
-        <div className="sm:text-3xl text-2xl font-bold pb-2">
-          내가 도전하고 싶은 난이도는?
-        </div>
-        <div className="sm:text-base text-sm text-gray-500 pb-12">
-          편하게 즐겁게 도전할 수 있는 난이도로 시작해봐요!
-        </div>
-        <div>
-          {/* TODO: radio 만든는 중 */}
-          <form className="flex justify-center gap-1">
-            {LEVEL_MENU.map((item, index) => (
-              <label key={index}>
-                <input
-                  type="radio"
-                  name="level"
-                  checked={selectedLevel === item.value}
-                  data-level={item.value}
-                  onChange={() => onClickLevel(item.value)}
-                />
-                <span className="border-1">{item.displayName}</span>
-              </label>
-            ))}
-          </form>
-        </div>
-
+      <section className="sm:pt-12 pt-6 text-center" id="button-section">
         <div className="justify-center sm:pt-16 pt-12 flex flex-col items-center">
           {selectedLevel && selectedTheme ? (
             <div className="pb-6">
