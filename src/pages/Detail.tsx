@@ -28,7 +28,6 @@ const Detail = observer(() => {
     writingStore.changeOrfetchWriting(Number(id));
 
     // TODO: 샘플 문제를 어떻게하지
-    writingStore.fetchRepWritingIfNone();
     // Params
     const params = new URLSearchParams(window.location.search);
     writingStore.updateFilterFromSession();

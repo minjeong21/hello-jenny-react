@@ -3,7 +3,8 @@ import ITheme from "interface/ITheme";
 import IWriting from "interface/IWriting";
 
 import {
-  fetchRepWriting,
+  fetchDoneWritingsByTheme,
+  fetchThemeList,
   fetchWritingByNumId,
   fetchWritingListFiltered,
 } from "apis/WritingApi";
@@ -11,6 +12,14 @@ import PathManager from "utils/PathManager";
 import Writing from "utils/Writing";
 import SessionStorage from "utils/SessionStorage";
 
+interface IVisitedTheme {
+  theme_id: number;
+  theme_name: string;
+  theme_level: number;
+  count_done: number;
+  count_total: number;
+  done_writings: number[];
+}
 export class WritingStore {
   rootStore;
   writings: IWriting[] | null;
@@ -20,6 +29,7 @@ export class WritingStore {
   selectedLevels: string[];
   selectedThemes: ITheme[];
   isNotFoundWriting: boolean;
+  lastVisitedTheme: IVisitedTheme | null;
 
   constructor(root: any) {
     makeObservable(this, {
@@ -29,6 +39,7 @@ export class WritingStore {
       selectedLevels: observable,
       selectedThemes: observable,
       isNotFoundWriting: observable,
+      lastVisitedTheme: observable,
     });
     this.isNotFoundWriting = false;
     this.rootStore = root;
@@ -38,25 +49,8 @@ export class WritingStore {
     this.currentWriting = null;
     this.selectedLevels = [];
     this.selectedThemes = [];
+    this.lastVisitedTheme = null;
   }
-
-  fetchRepWriting = async () => {
-    const response = await fetchRepWriting();
-    runInAction(() => {
-      if (response instanceof Error) {
-        setTimeout(async () => {
-          const response2 = await fetchRepWriting();
-          if (response instanceof Error) {
-            console.log(response);
-          } else {
-            this.setRepThemes(response2.themes);
-          }
-        }, 1000);
-      } else {
-        this.setRepThemes(response.themes);
-      }
-    });
-  };
 
   findIndex = (writingId: number) => {
     if (this.writings) {
@@ -106,6 +100,34 @@ export class WritingStore {
     });
   };
 
+  fetchThemes = async () => {
+    const response = await fetchThemeList();
+    runInAction(() => {
+      if (response instanceof Error) {
+        alert("다시 시도해주세요 🙏🏻?? ");
+      } else {
+        if (response === 404) {
+          console.log(response);
+        } else {
+          this.setRepThemes(response.themes);
+        }
+      }
+    });
+  };
+
+  fetchActivityWritings = async (jwt: string) => {
+    const response = await fetchDoneWritingsByTheme(jwt);
+    runInAction(() => {
+      if (response instanceof Error) {
+        console.log(response);
+      } else if (response.data && response.data.length > 0) {
+        this.lastVisitedTheme = response.data[0];
+      } else {
+        this.lastVisitedTheme = null;
+      }
+    });
+  };
+
   settingWriting = (writing: any) => {
     runInAction(() => {
       this.setCurrentWriting(writing);
@@ -123,12 +145,6 @@ export class WritingStore {
         this.setSelectedThemes(themes);
       }
     });
-  };
-
-  fetchRepWritingIfNone = () => {
-    if (!this.repThemes || this.repThemes.length === 0) {
-      this.fetchRepWriting();
-    }
   };
 
   fetchFilteredWritingAndUpdate = async (

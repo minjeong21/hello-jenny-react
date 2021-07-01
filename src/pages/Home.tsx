@@ -46,10 +46,6 @@ export default observer(() => {
   const pathManager = new PathManager(useHistory());
   const { writingStore } = useStores();
 
-  useEffect(() => {
-    writingStore.fetchRepWriting();
-  }, [writingStore]);
-
   const goWritingBase = () => {
     document.location.href = "/writing/";
   };

@@ -10,6 +10,7 @@ import ThemeCard from "components/ThemeCard";
 import SkeletonTheme from "components/SkeletonTheme";
 import { fetchWritingListFiltered } from "apis/WritingApi";
 import LocalStorage from "utils/LocalStorage";
+import ThemePopup from "components/ThemePopup";
 
 const Main = styled.main`
   .level {
@@ -77,30 +78,21 @@ export default observer(() => {
   const [selectedTheme, setSelectedTheme] = useState<ITheme>();
   const [isValidated, setIsValidated] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [visiblePopup, setVisiblePopup] = useState(false);
   useEffect(() => {
-    if (!writingStore.repThemes || writingStore.repThemes.length === 0) {
-      writingStore.fetchRepWriting();
-    }
     writingStore.resetFilter();
+    writingStore.fetchThemes();
 
     const token = LocalStorage.getToken();
+    // TODO: 로그인 되어 있으면
+    if (token) {
+      writingStore.fetchActivityWritings(token);
+    }
   }, [writingStore]);
 
   const onClickThemeWritings = (theme: ITheme) => {
     setSelectedTheme(theme);
-    console.log(theme);
-
-    setTimeout(() => {
-      var levelSectionElement: any = document.querySelector("#button-section");
-      if (levelSectionElement) {
-        window.scrollTo({
-          top: levelSectionElement.offsetTop,
-          behavior: "smooth",
-        });
-      }
-    }, 100);
-
+    setVisiblePopup(true);
     setIsValidated(selectedLevel.length > 0);
   };
 
@@ -142,7 +134,7 @@ export default observer(() => {
       {/* 문제 풀기 섹션 */}
       <div className="pb-8 flex justify-center rounded cursor-pointer ">
         {/* 로그인  */}
-        {isMember ? (
+        {isMember && writingStore.lastVisitedTheme ? (
           <div>
             <div
               className="bg-gradient-200 sm:px-16 px-6 py-6 flex flex-col items-center bg-white shadow-lg rounded-lg"
@@ -159,14 +151,21 @@ export default observer(() => {
                 </div>
               </div>
               <div className="text-gray-800 text-lg font-bold pb-2">
-                ☀️ 일상영어 100 (1탄) (Easy)
+                {writingStore.lastVisitedTheme.theme_name}
               </div>
               <div className="pb-4 text-center">
                 <div className="text-sm text-gray-600">
-                  v 전체 <b>100개</b> 중 <b>16개</b> 완성!!
+                  v 전체 <b>{writingStore.lastVisitedTheme.count_total}개</b> 중{" "}
+                  <b>{writingStore.lastVisitedTheme.count_done}개</b> 완성!!
                 </div>
                 <div className="text-sm text-gray-600">
-                  v 남은 문제 <b>86개</b>!
+                  v 남은 문제
+                  <b>
+                    {writingStore.lastVisitedTheme.count_total -
+                      writingStore.lastVisitedTheme.count_done}
+                    개
+                  </b>
+                  !
                 </div>
               </div>
               <button>
@@ -249,77 +248,80 @@ export default observer(() => {
           )}
         </div>
       </section>
-      <section className="sm:pt-12 pt-6 text-center" id="button-section">
-        <div className="justify-center sm:pt-16 pt-12 flex flex-col items-center">
-          {selectedLevel && selectedTheme ? (
-            <div className="pb-6">
-              <div className="bg-white rounded-lg shadow-xl px-6 py-3">
-                <div className="pb-2 font-semibold">
-                  {selectedTheme?.display_name}
+      <ThemePopup open={visiblePopup} closePopup={() => setVisiblePopup(false)}>
+        <>
+          <div>
+            {selectedLevel && selectedTheme ? (
+              <div className="pb-6">
+                <div className="flex pb-2 items-center gap-1 sm:text-lg font-semibold flex-wrap">
+                  <div className="">{selectedTheme?.display_name}</div>
+                  <span className="font-semibold text-primary-700">
+                    {selectedLevel === "1"
+                      ? "(Easy)"
+                      : selectedLevel === "2"
+                      ? "(Medium)"
+                      : "(Advanced)"}
+                  </span>
+                  <span>풀러 갈까요?</span>
                 </div>
-                <div className="pb-4 font-semibold">
-                  {selectedLevel === "1"
-                    ? "Easy"
-                    : selectedLevel === "2"
-                    ? "Medium"
-                    : "Advanced"}
-                </div>
-                <div className="text-sm text-gray-600">- 전체 100개</div>
-                <div className="text-sm text-gray-600">- 푼 문제 16개</div>
-                <div className="text-sm text-gray-600">
-                  - 남은 문제 수 : 86개
+                <div className="">
+                  <div className="text-sm text-gray-600">- 전체 100개</div>
+                  <div className="text-sm text-gray-600">- 푼 문제 16개</div>
+                  <div className="text-sm text-gray-600">
+                    - 남은 문제 수 : 86개
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : null}
+            ) : null}
 
-          {isMember ? (
-            <div className="flex gap-3 pg">
+            {isMember ? (
+              <div className="flex justify-center gap-1">
+                <button
+                  className={`px-3 py-2 rounded shadow-lg text-right flex items-center border-1 border-gray-300`}
+                  onClick={() => setVisiblePopup(false)}
+                >
+                  <div className="flex items-center">
+                    <span>취소</span>
+                  </div>
+                </button>
+                <button
+                  className={`px-4 py-2 rounded shadow-lg text-right font-bold flex items-center bg-primary-700 text-white`}
+                  onClick={fetchWritingsAndGoDetail}
+                >
+                  <div className="flex items-center">
+                    <span>처음부터</span>
+                  </div>
+                </button>
+                <button
+                  className={`px-4 py-2 rounded shadow-lg text-right font-bold flex items-center bg-primary-700 text-white`}
+                  onClick={() => alert("이어서 풀기")}
+                >
+                  <div className="flex items-center">
+                    <span>이어서 풀기</span>
+                  </div>
+                </button>
+              </div>
+            ) : (
               <button
-                className={`px-5 py-3 rounded shadow-lg text-right font-bold flex items-center ${
+                className={`px-3 py-2 rounded shadow text-right font-bold flex items-center ${
                   isValidated
                     ? "bg-primary-700 text-white "
-                    : "bg-gray-100 text-gray-300"
+                    : "bg-gray-100 text-gray-200"
                 }`}
                 onClick={fetchWritingsAndGoDetail}
               >
-                <div className="flex items-center">
-                  <span>처음부터</span>
+                <img className="w-8 mr-2" src="/assets/write-icon.png" />
+                <div className="flex items-center gap-3">
+                  <span>영작 시작하기</span>
+                  {loading && (
+                    <div className="loader-orange ease-linear rounded-full border-4 border-t-4 border-gray-200 h-6 w-6"></div>
+                  )}
                 </div>
               </button>
-              <button
-                className={`px-5 py-3 rounded shadow-lg text-right font-bold flex items-center ${
-                  isValidated
-                    ? "bg-primary-700 text-white "
-                    : "bg-gray-100 text-gray-300"
-                }`}
-                onClick={() => alert("이어서 풀기")}
-              >
-                <div className="flex items-center">
-                  <span>이어서 풀기</span>
-                </div>
-              </button>
-            </div>
-          ) : (
-            <button
-              className={`px-5 py-3 rounded shadow text-right font-bold flex items-center ${
-                isValidated
-                  ? "bg-primary-700 text-white "
-                  : "bg-gray-100 text-gray-200"
-              }`}
-              onClick={fetchWritingsAndGoDetail}
-            >
-              <img className="w-8 mr-2" src="/assets/write-icon.png" />
-              <div className="flex items-center gap-3">
-                <span>영작 시작하기</span>
-                {loading && (
-                  <div className="loader-orange ease-linear rounded-full border-4 border-t-4 border-gray-200 h-6 w-6"></div>
-                )}
-              </div>
-            </button>
-          )}
-        </div>
-      </section>
+            )}
+          </div>
+        </>
+      </ThemePopup>
     </Main>
   );
 });
