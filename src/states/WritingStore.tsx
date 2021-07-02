@@ -11,45 +11,38 @@ import {
 import PathManager from "utils/PathManager";
 import Writing from "utils/Writing";
 import SessionStorage from "utils/SessionStorage";
+import IVisitedTheme from "interface/IvisitedTheme";
 
-interface IVisitedTheme {
-  theme_id: number;
-  theme_name: string;
-  theme_level: number;
-  count_done: number;
-  count_total: number;
-  done_writings: number[];
-}
 export class WritingStore {
   rootStore;
   writings: IWriting[] | null;
-  repThemes: ITheme[] | null;
+  themes: ITheme[] | null;
   currentWriting: Writing | null;
   currentIndex: number;
   selectedLevels: string[];
   selectedThemes: ITheme[];
   isNotFoundWriting: boolean;
-  lastVisitedTheme: IVisitedTheme | null;
+  visitedThemes: IVisitedTheme[] | null;
 
   constructor(root: any) {
     makeObservable(this, {
       writings: observable,
       currentWriting: observable,
-      repThemes: observable,
+      themes: observable,
       selectedLevels: observable,
       selectedThemes: observable,
       isNotFoundWriting: observable,
-      lastVisitedTheme: observable,
+      visitedThemes: observable,
     });
     this.isNotFoundWriting = false;
     this.rootStore = root;
     this.currentIndex = 0;
     this.writings = null;
-    this.repThemes = null;
+    this.themes = null;
     this.currentWriting = null;
     this.selectedLevels = [];
     this.selectedThemes = [];
-    this.lastVisitedTheme = null;
+    this.visitedThemes = null;
   }
 
   findIndex = (writingId: number) => {
@@ -102,6 +95,7 @@ export class WritingStore {
 
   fetchThemes = async () => {
     const response = await fetchThemeList();
+    console.log(response);
     runInAction(() => {
       if (response instanceof Error) {
         alert("다시 시도해주세요 🙏🏻?? ");
@@ -109,7 +103,7 @@ export class WritingStore {
         if (response === 404) {
           console.log(response);
         } else {
-          this.setRepThemes(response.themes);
+          this.setThemes(response.data);
         }
       }
     });
@@ -117,13 +111,14 @@ export class WritingStore {
 
   fetchActivityWritings = async (jwt: string) => {
     const response = await fetchDoneWritingsByTheme(jwt);
+    console.log(response);
     runInAction(() => {
       if (response instanceof Error) {
         console.log(response);
       } else if (response.data && response.data.length > 0) {
-        this.lastVisitedTheme = response.data[0];
+        this.visitedThemes = response.data;
       } else {
-        this.lastVisitedTheme = null;
+        this.visitedThemes = [];
       }
     });
   };
@@ -168,8 +163,8 @@ export class WritingStore {
     }
   };
 
-  setRepThemes = (themes: ITheme[]) => {
-    this.repThemes = themes;
+  setThemes = (themes: ITheme[]) => {
+    this.themes = themes;
   };
   setCurrentWriting = (writing: IWriting) => {
     this.currentWriting = new Writing(writing);
@@ -230,7 +225,7 @@ export class WritingStore {
   };
   getThemeDisplayName = (name: string) => {
     console.log("name", name);
-    const theme = this.repThemes?.find((item) => item.name === name);
+    const theme = this.themes?.find((item) => item.name === name);
     return theme ? theme.display_name : "이름없음";
   };
 

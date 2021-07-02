@@ -164,14 +164,14 @@ export default observer(() => {
             {`3152개 이상의 문장, 152개의 테마를\n원하는 대로, 원하는 만큼`}
           </h3>
           <div onClick={goWritingBase}>
-            {writingStore.repThemes ? (
+            {writingStore.themes ? (
               <>
                 <div className="sm:block hidden">
-                  <ThemeCardSwiper themes={writingStore.repThemes} />
+                  <ThemeCardSwiper themes={writingStore.themes} />
                 </div>
 
                 <div className="sm:hidden">
-                  {writingStore.repThemes.map((theme) => (
+                  {writingStore.themes.map((theme) => (
                     <ThemeCard theme={theme} disabled={false} />
                   ))}
                 </div>

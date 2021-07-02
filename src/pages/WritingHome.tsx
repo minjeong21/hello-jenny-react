@@ -11,6 +11,7 @@ import SkeletonTheme from "components/SkeletonTheme";
 import { fetchWritingListFiltered } from "apis/WritingApi";
 import LocalStorage from "utils/LocalStorage";
 import ThemePopup from "components/ThemePopup";
+import IVisitedTheme from "interface/IvisitedTheme";
 
 const Main = styled.main`
   .level {
@@ -79,6 +80,10 @@ export default observer(() => {
   const [isValidated, setIsValidated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [visiblePopup, setVisiblePopup] = useState(false);
+  const [targetVisitedTheme, setTargetVisitiedTheme] = useState<
+    IVisitedTheme
+  >();
+
   useEffect(() => {
     writingStore.resetFilter();
     writingStore.fetchThemes();
@@ -86,21 +91,35 @@ export default observer(() => {
     const token = LocalStorage.getToken();
     // TODO: 로그인 되어 있으면
     if (token) {
+      console.log(token);
       writingStore.fetchActivityWritings(token);
     }
+
+    // theme 리스트 불러오기
   }, [writingStore]);
 
-  const onClickThemeWritings = (theme: ITheme) => {
+  const onClickTheme = (theme: ITheme) => {
     setSelectedTheme(theme);
     setVisiblePopup(true);
+    console.log(writingStore.visitedThemes);
+    const foundedTheme = writingStore.visitedThemes?.find((item) => {
+      console.log(item.theme_id, theme.id, item.theme_id === theme.id);
+      return item.theme_id === theme.id;
+    });
+    if (foundedTheme) {
+      setTargetVisitiedTheme(foundedTheme);
+    }
+    console.log("foundedTheme");
+    console.log(foundedTheme);
     setIsValidated(selectedLevel.length > 0);
   };
 
   const onClickLevel = (level: string) => {
+    console.log("level:", level);
     setSelectedLevel(level);
     setIsValidated(selectedTheme != null);
     setTimeout(() => {
-      var themeSectionElement: any = document.querySelector("#theme-section");
+      var themeSectionElement: any = document.querySelector("#level-section");
       if (themeSectionElement) {
         window.scrollTo({
           top: themeSectionElement.offsetTop,
@@ -134,7 +153,9 @@ export default observer(() => {
       {/* 문제 풀기 섹션 */}
       <div className="pb-8 flex justify-center rounded cursor-pointer ">
         {/* 로그인  */}
-        {isMember && writingStore.lastVisitedTheme ? (
+        {isMember &&
+        writingStore.visitedThemes &&
+        writingStore.visitedThemes.length > 0 ? (
           <div>
             <div
               className="bg-gradient-200 sm:px-16 px-6 py-6 flex flex-col items-center bg-white shadow-lg rounded-lg"
@@ -150,19 +171,19 @@ export default observer(() => {
                   마지막 테마를 이어서 만나볼까요?
                 </div>
               </div>
-              <div className="text-gray-800 text-lg font-bold pb-2">
-                {writingStore.lastVisitedTheme.theme_name}
+              <div className="text-gray-800 text-lg font-bold pb-2 text-left">
+                {writingStore.visitedThemes[0].theme_name}
               </div>
               <div className="pb-4 text-center">
                 <div className="text-sm text-gray-600">
-                  v 전체 <b>{writingStore.lastVisitedTheme.count_total}개</b> 중{" "}
-                  <b>{writingStore.lastVisitedTheme.count_done}개</b> 완성!!
+                  v 전체 <b>{writingStore.visitedThemes[0].count_total}개</b> 중{" "}
+                  <b>{writingStore.visitedThemes[0].count_done}개</b> 완성!!
                 </div>
                 <div className="text-sm text-gray-600">
                   v 남은 문제
                   <b>
-                    {writingStore.lastVisitedTheme.count_total -
-                      writingStore.lastVisitedTheme.count_done}
+                    {writingStore.visitedThemes[0].count_total -
+                      writingStore.visitedThemes[0].count_done}
                     개
                   </b>
                   !
@@ -190,7 +211,7 @@ export default observer(() => {
         )}
       </div>
 
-      <section className="text-center py-12">
+      <section className="text-center py-12" id="level-section">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           내가 도전하고 싶은 난이도는?
         </div>
@@ -224,19 +245,21 @@ export default observer(() => {
           있을거에요.
         </div>
         <div className="sm:grid grid-cols-3 gap-x-2 gap-y-3">
-          {writingStore.repThemes ? (
-            writingStore.repThemes.map((theme, index) => {
-              let disabled = !isMember && theme.name !== "trial";
-              return (
-                <ThemeCard
-                  key={index}
-                  onClick={() => onClickThemeWritings(theme)}
-                  theme={theme}
-                  disabled={disabled}
-                  active={selectedTheme?.name === theme.name}
-                />
-              );
-            })
+          {writingStore.themes ? (
+            writingStore.themes
+              .filter((item) => item.level == Number(selectedLevel))
+              .map((theme, index) => {
+                let disabled = !isMember && theme.name !== "trial";
+                return (
+                  <ThemeCard
+                    key={index}
+                    onClick={() => onClickTheme(theme)}
+                    theme={theme}
+                    disabled={disabled}
+                    active={selectedTheme?.name === theme.name}
+                  />
+                );
+              })
           ) : (
             <>
               <SkeletonTheme />
@@ -254,21 +277,24 @@ export default observer(() => {
             {selectedLevel && selectedTheme ? (
               <div className="pb-6">
                 <div className="flex pb-2 items-center gap-1 sm:text-lg font-semibold flex-wrap">
-                  <div className="">{selectedTheme?.display_name}</div>
-                  <span className="font-semibold text-primary-700">
-                    {selectedLevel === "1"
-                      ? "(Easy)"
-                      : selectedLevel === "2"
-                      ? "(Medium)"
-                      : "(Advanced)"}
-                  </span>
-                  <span>풀러 갈까요?</span>
+                  <div className="font-semibold">
+                    {selectedTheme.display_name}
+                  </div>
                 </div>
                 <div className="">
-                  <div className="text-sm text-gray-600">- 전체 100개</div>
-                  <div className="text-sm text-gray-600">- 푼 문제 16개</div>
                   <div className="text-sm text-gray-600">
-                    - 남은 문제 수 : 86개
+                    - 전체 문장 : {selectedTheme.count}개
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    - 완료한 문장 :{" "}
+                    {targetVisitedTheme ? targetVisitedTheme.count_done : 0}개
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    - 남은 문장 수 :{" "}
+                    {targetVisitedTheme
+                      ? selectedTheme.count - targetVisitedTheme.count_done
+                      : selectedTheme.count}
+                    개
                   </div>
                 </div>
               </div>
@@ -289,7 +315,7 @@ export default observer(() => {
                   onClick={fetchWritingsAndGoDetail}
                 >
                   <div className="flex items-center">
-                    <span>처음부터</span>
+                    <span>처음부터 풀기</span>
                   </div>
                 </button>
                 <button
