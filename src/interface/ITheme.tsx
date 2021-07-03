@@ -1,5 +1,5 @@
 export default interface ITheme {
-  id?: number;
+  id: number;
   display_name: string;
   description: string;
   name: string;

@@ -8,7 +8,6 @@ import { LEVEL_MENU } from "properties/Filter";
 import ITheme from "interface/ITheme";
 import ThemeCard from "components/ThemeCard";
 import SkeletonTheme from "components/SkeletonTheme";
-import { fetchWritingListFiltered } from "apis/WritingApi";
 import LocalStorage from "utils/LocalStorage";
 import ThemePopup from "components/ThemePopup";
 import IVisitedTheme from "interface/IvisitedTheme";
@@ -103,14 +102,11 @@ export default observer(() => {
     setVisiblePopup(true);
     console.log(writingStore.visitedThemes);
     const foundedTheme = writingStore.visitedThemes?.find((item) => {
-      console.log(item.theme_id, theme.id, item.theme_id === theme.id);
       return item.theme_id === theme.id;
     });
     if (foundedTheme) {
       setTargetVisitiedTheme(foundedTheme);
     }
-    console.log("foundedTheme");
-    console.log(foundedTheme);
     setIsValidated(selectedLevel.length > 0);
   };
 
@@ -129,7 +125,7 @@ export default observer(() => {
     }, 100);
   };
 
-  const fetchWritingsAndGoDetail = async (e: any) => {
+  const onClickStartFirstWriting = async (e: any) => {
     if (!selectedTheme) {
       var levelSectionElement: any = document.querySelector("#theme-section");
       window.scrollTo({
@@ -138,14 +134,16 @@ export default observer(() => {
       });
     } else if (isValidated) {
       setLoading(true);
-      await fetchWritingListFiltered(selectedLevel, selectedTheme.name);
-      writingStore.moveWritingWithThemeLevel(
-        e,
-        pathManager,
-        selectedTheme,
-        selectedLevel
-      );
+      writingStore.moveWritingDetail(pathManager, selectedTheme);
     }
+  };
+  const onClickStartNextWriting = async (e: any) => {
+    // 2. 해당 테마의 문장 리스트 불러오기
+    // if visitedTheme에 해당 테마가 있으면
+    // 1. 테마 문장 리스트에서, 이미 푼 영작 id 기준으로 제거
+    // 1. 남은 영작 리스트 중, 리스트 중 첫번째 페이지로 상세 페이지 이동
+
+    alert("onClickStartNextWriting");
   };
 
   return (
@@ -159,7 +157,7 @@ export default observer(() => {
           <div>
             <div
               className="bg-gradient-200 sm:px-16 px-6 py-6 flex flex-col items-center bg-white shadow-lg rounded-lg"
-              onClick={() => alert("shortcut")}
+              onClick={onClickStartNextWriting}
             >
               <div className="flex gap-1 items-center pb-4">
                 <img
@@ -312,7 +310,7 @@ export default observer(() => {
                 </button>
                 <button
                   className={`px-4 py-2 rounded shadow-lg text-right font-bold flex items-center bg-primary-700 text-white`}
-                  onClick={fetchWritingsAndGoDetail}
+                  onClick={onClickStartFirstWriting}
                 >
                   <div className="flex items-center">
                     <span>처음부터 풀기</span>
@@ -320,7 +318,7 @@ export default observer(() => {
                 </button>
                 <button
                   className={`px-4 py-2 rounded shadow-lg text-right font-bold flex items-center bg-primary-700 text-white`}
-                  onClick={() => alert("이어서 풀기")}
+                  onClick={onClickStartNextWriting}
                 >
                   <div className="flex items-center">
                     <span>이어서 풀기</span>
@@ -334,7 +332,7 @@ export default observer(() => {
                     ? "bg-primary-700 text-white "
                     : "bg-gray-100 text-gray-200"
                 }`}
-                onClick={fetchWritingsAndGoDetail}
+                onClick={onClickStartFirstWriting}
               >
                 <img className="w-8 mr-2" src="/assets/write-icon.png" />
                 <div className="flex items-center gap-3">

@@ -65,7 +65,7 @@ const Profile = observer(() => {
   const goBookmarkWritings = (e: any) => {
     // TODO: 북마크 문제 리스트 불러오는 로직 추가
     if (userActivityStore.bookmarkIds) {
-      pathManager.goNextWriting(e, userActivityStore.bookmarkIds[0]);
+      pathManager.goNextWriting(userActivityStore.bookmarkIds[0]);
     } else {
       alert("북마크 문제 발생");
     }
@@ -74,10 +74,7 @@ const Profile = observer(() => {
   const goSolvedWritings = (e: any) => {
     // TODO: 푼문제 문제 리스트 불러오는 로직 추가
     if (userActivityStore.solvedWritings) {
-      pathManager.goNextWriting(
-        e,
-        userActivityStore.solvedWritings[0].writing.id
-      );
+      pathManager.goNextWriting(userActivityStore.solvedWritings[0].writing.id);
     } else {
       alert("문제 불러오기 문제 발생");
     }

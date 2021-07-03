@@ -5,7 +5,6 @@ import { observer } from "mobx-react";
 import styled from "styled-components";
 import PathManager from "utils/PathManager";
 import WritingBox from "components/WritingBox";
-import FilterPopup from "components/FilterPopup";
 import SkeletonWritingBox from "components/SkeletonWritingBox";
 
 interface ParamTypes {
@@ -54,13 +53,7 @@ const Detail = observer(() => {
               pathManager={pathManager}
             /> */}
             <div>문제를 찾을 수 없습니다.</div>
-            <button
-              onClick={(e) =>
-                pathManager.goNextWriting(e, writingStore.getNextWritingId())
-              }
-            >
-              다른 문제
-            </button>
+            <button onClick={(e) => alert("다른 문제 가기")}>다른 문제</button>
           </div>
         ) : (
           <>
@@ -77,12 +70,7 @@ const Detail = observer(() => {
                   openPopup={() => setPopupOpen(true)}
                   writingId={writingStore.currentWriting.writing.id}
                   writing={writingStore.currentWriting}
-                  moveNextWriting={(e) =>
-                    pathManager.goNextWriting(
-                      e,
-                      writingStore.getNextWritingId()
-                    )
-                  }
+                  moveNextWriting={(e) => alert("다음 문제가기")}
                 />
               </div>
             ) : (

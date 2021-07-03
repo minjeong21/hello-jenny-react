@@ -13,7 +13,7 @@ interface IProps {
   pathManager: PathManager;
   closePopup: () => void;
 }
-export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
+export default function DialogPopup({ open, pathManager, closePopup }: IProps) {
   const cancelButtonRef = useRef(null);
   const { writingStore } = useStores();
 
@@ -64,22 +64,6 @@ export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
     } else {
       saveButton.removeAttribute("disabled");
     }
-  };
-
-  const saveFilter = (e: any) => {
-    writingStore.setSelectedLevels(levels);
-    writingStore.setSelectedThemes(selectedThemes);
-    SessionStorage.saveSelectedLevels(levels);
-    SessionStorage.saveSelectedThemes(toJS(writingStore.selectedThemes));
-    writingStore.setCurrentIndex(0);
-    closePopup();
-
-    writingStore.fetchFilteredWritingAndUpdate(
-      e,
-      writingStore.selectedLevels,
-      selectedThemes,
-      pathManager
-    );
   };
 
   const resetClose = () => {
@@ -138,7 +122,7 @@ export default function FilterPopup({ open, pathManager, closePopup }: IProps) {
                   type="button"
                   id="filter-save-button"
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-700 text-base font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={saveFilter}
+                  onClick={() => alert("적용하기")}
                 >
                   적용하기
                 </button>

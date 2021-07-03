@@ -6,7 +6,7 @@ import {
   fetchDoneWritingsByTheme,
   fetchThemeList,
   fetchWritingByNumId,
-  fetchWritingListFiltered,
+  fetchWritingsByTheme,
 } from "apis/WritingApi";
 import PathManager from "utils/PathManager";
 import Writing from "utils/Writing";
@@ -142,22 +142,11 @@ export class WritingStore {
     });
   };
 
-  fetchFilteredWritingAndUpdate = async (
-    e: any,
-    levels: string[],
-    themes: ITheme[],
-    pathManager: PathManager
-  ) => {
-    const themesString = themes.map((item) => item.name).join(",");
-    console.log("ThemeString:", themesString);
-    console.log("levels:", levels);
+  fetchWritingsByTheme = async (theme_id: number, pathManager: PathManager) => {
     try {
-      const response = await fetchWritingListFiltered(
-        levels.join(","),
-        themesString
-      );
+      const response = await fetchWritingsByTheme(theme_id);
       this.currentIndex = 0;
-      pathManager.goNextWriting(e, response.data[0].id);
+      pathManager.goNextWriting(response.data[0].id);
     } catch (err) {
       console.log(err);
     }
@@ -195,21 +184,18 @@ export class WritingStore {
     return this.writings ? this.writings[this.currentIndex].id : -1;
   };
 
-  moveWritingWithThemeLevel = async (
-    e: any,
-    pathManager: PathManager,
-    theme: ITheme,
-    level: string
-  ) => {
+  moveWritingDetail = async (pathManager: PathManager, theme: ITheme) => {
     this.writings = null;
     let writing: IWriting;
-    await this.fetchFilteredWritingAndUpdate(e, [level], [theme], pathManager);
+    if (theme && theme.id) {
+      await this.fetchWritingsByTheme(theme.id, pathManager);
+    }
 
     runInAction(() => {
       this.setSelectedThemes([theme]);
       if (this.writings) {
         writing = this.writings[0];
-        pathManager.goWritingWithTheme(e, writing.id, theme.name);
+        pathManager.goWritingWithTheme(writing.id, theme.name);
         this.setSelectedLevels([`${writing.level}`]);
       }
     });

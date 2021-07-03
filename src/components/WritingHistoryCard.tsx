@@ -46,7 +46,7 @@ const WritingHistoryCard = ({
             )}
             <div
               className="flex flex-1"
-              onClick={(e) => pathManager.goNextWriting(e, writing.id)}
+              onClick={(e) => pathManager.goNextWriting(writing.id)}
             />
             {isBookmarkSection ? (
               <div
@@ -72,7 +72,7 @@ const WritingHistoryCard = ({
         </div>
         <div
           className="flex-1 sm:pt-2 pb-1 sm:pl-0 pl-2 "
-          onClick={(e) => pathManager.goNextWriting(e, writing.id)}
+          onClick={() => pathManager.goNextWriting(writing.id)}
         >
           {/* 레벨/테마 */}
           <div className="text-sm">

@@ -18,12 +18,9 @@ export const fetchThemeList = async () => {
     });
 };
 
-export const fetchWritingListFiltered = async (
-  levels: string,
-  themes: string
-) => {
+export const fetchWritingsByTheme = async (theme_id: number) => {
   return instance
-    .get(`/writing/list/filtered/?theme=${themes}&level=${levels}`)
+    .get(`/writing/list/theme/${theme_id}/`)
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);
@@ -54,6 +51,30 @@ export const fetchDoneWritingsByTheme = async (jwtToken: string) => {
   };
   return instance
     .get("/activity/theme_writing/", config)
+    .then((response) => response.data)
+    .catch(function (error) {
+      console.log(error);
+      return error;
+    });
+};
+
+/** 문 푼제 저장 */
+export const updateDoneWriting = async (
+  jwtToken: string,
+  theme_id: number,
+  writing_id: number
+) => {
+  const config = {
+    headers: {
+      Authorization: "jwt " + jwtToken,
+    },
+    body: {
+      theme_id,
+      writing_id,
+    },
+  };
+  return instance
+    .post("/activity/theme_writing/", config)
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);

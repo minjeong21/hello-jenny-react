@@ -38,8 +38,7 @@ class MovePath {
     return this.history.push(Path.MEMBERSHIP);
   };
 
-  goNextWriting = (e: any, writingId: number) => {
-    e.preventDefault();
+  goNextWriting = (writingId: number) => {
     return writingId < 0
       ? null
       : this.history.push(
@@ -49,8 +48,7 @@ class MovePath {
         );
   };
 
-  goWritingWithTheme = (e: any, writingId: number, theme: string) => {
-    e.preventDefault();
+  goWritingWithTheme = (writingId: number, theme: string) => {
     this.history.push(
       generatePath(Path.WRITING_DETAIL_THEME, {
         numid: writingId,
