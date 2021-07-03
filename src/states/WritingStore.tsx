@@ -170,7 +170,6 @@ export class WritingStore {
       this.loadCurrentTheme();
       if (this.currentTheme) {
         await this.fetchWritingsByTheme(this.currentTheme.id);
-        this.setCurrentIndex(this.currentIndex + 1);
       }
     }
     // 2문제 전에 fetch
@@ -198,6 +197,23 @@ export class WritingStore {
     }
   };
 
+  getPreviousWritingId = () => {
+    if (this.writings && this.writings.length > 0 && this.currentIndex > 0) {
+      const targetIndex = this.currentIndex - 1;
+      this.setCurrentIndex(targetIndex);
+      return this.writings[targetIndex].id;
+    } else {
+      return -1;
+    }
+  };
+  getFirstWritingIdInTheme = () => {
+    if (this.writings && this.writings.length > 0) {
+      this.setCurrentIndex(0);
+      return this.writings[0].id;
+    } else {
+      return -1;
+    }
+  };
   moveWritingDetail = async (pathManager: PathManager, theme: ITheme) => {
     this.writings = null;
     let writing: IWriting;
