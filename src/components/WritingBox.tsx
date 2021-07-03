@@ -158,14 +158,14 @@ const WritingBox = observer((props: IProps) => {
               </button>
             </div>
           </div>
-          <div
+          {/* <div
             className={`px-1 cursor-pointer ${
               checkedBookmark ? "text-primary-600" : "text-gray-300"
             }`}
             onClick={onClickBookmark}
           >
             <HeartIcon />
-          </div>
+          </div> */}
         </div>
         {/* 태그 끝 */}
 

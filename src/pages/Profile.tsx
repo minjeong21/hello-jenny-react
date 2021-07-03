@@ -22,8 +22,8 @@ const Main = styled.main`
 `;
 
 const TabView = [
-  { code: "bookmark", name: "좋아요", icon: null },
-  { code: "contact", name: "만난 문장", icon: null },
+  // { code: "bookmark", name: "좋아요", icon: null },
+  { code: "contact", name: "최근 푼 테마", icon: null },
   { code: "correct", name: "완성한 문장", icon: null },
 ];
 const Profile = observer(() => {
@@ -101,7 +101,7 @@ const Profile = observer(() => {
   };
 
   return (
-    <Main className="sm:pt-20 pt-12 pb-56" id="profile-main">
+    <Main className="sm:pt-20 pt-12 pb-56 bg-gray-100" id="profile-main">
       <div className="mt-6 p-2 w-full max-w-screen-md  margin-auto">
         <section className="bg-white shadow-md rounded-md sm:p-8 p-6 w-full">
           <div className="flex ">
@@ -160,13 +160,13 @@ const Profile = observer(() => {
                 id="setting-modal"
               >
                 <button
-                  className=" px-3 border-b py-2 rounded mr-2 text-sm w-full cursor-pointer"
+                  className="bg-gray-100 px-3 border-b py-2 rounded mr-2 text-sm w-full cursor-pointer"
                   onClick={changeUserInfo}
                 >
                   <label>회원 정보 변경</label>
                 </button>
                 <button
-                  className=" px-3 border-b py-2 rounded mr-2 text-sm w-full cursor-pointer"
+                  className="bg-gray-100 px-3 border-b py-2 rounded mr-2 text-sm w-full cursor-pointer"
                   onClick={logout}
                 >
                   <label>로그아웃하기</label>
@@ -183,7 +183,7 @@ const Profile = observer(() => {
         </section>
         <>
           <div className="pt-12">
-            <nav className="flex justify-center text-gray-400 ">
+            {/* <nav className="flex justify-center text-gray-400 ">
               {TabView.map((item, index) => (
                 <button
                   key={index}
@@ -198,11 +198,11 @@ const Profile = observer(() => {
                   <div>{item.name}</div>
                 </button>
               ))}
-            </nav>
+            </nav> */}
 
             {/* 북마크 */}
 
-            {tab === "bookmark" && (
+            {/* {tab === "bookmark" && (
               <>
                 {userActivityStore.bookmarks &&
                 userActivityStore.bookmarks.length > 0 ? (
@@ -216,7 +216,7 @@ const Profile = observer(() => {
                   <>아직 좋아요를 누른 영작문이 없어요!</>
                 )}
               </>
-            )}
+            )} */}
 
             {tab === "correct" && (
               <>

@@ -148,69 +148,23 @@ export default observer(() => {
   };
 
   return (
-    <Main className="sm:py-36 py-20 px-4">
+    <Main className="sm:py-36 py-20 px-4 bg-gray-100">
       {/* 문제 풀기 섹션 */}
-      <div className="pb-8 flex justify-center rounded cursor-pointer ">
-        {/* 로그인  */}
-        {isMember &&
-        writingStore.visitedThemes &&
-        writingStore.visitedThemes.length > 0 ? (
-          <div>
-            <div
-              className="bg-gradient-200 sm:px-16 px-6 py-6 flex flex-col items-center bg-white shadow-lg rounded-lg"
-              onClick={onClickStartNextWriting}
-            >
-              <div className="flex gap-1 items-center pb-4">
-                <img
-                  className="w-6 h-7 mr-2"
-                  src="/assets/small-quokka.png"
-                  alt="quokka character"
-                />
-                <div className="text-gray-800 text-sm">
-                  마지막 테마를 이어서 만나볼까요?
-                </div>
-              </div>
-              <div className="text-gray-800 text-lg font-bold pb-2 text-left">
-                {writingStore.visitedThemes[0].theme_name}
-              </div>
-              <div className="pb-4 text-center">
-                <div className="text-sm text-gray-600">
-                  v 전체 <b>{writingStore.visitedThemes[0].count_total}개</b> 중{" "}
-                  <b>{writingStore.visitedThemes[0].count_done}개</b> 완성!!
-                </div>
-                <div className="text-sm text-gray-600">
-                  v 남은 문제
-                  <b>
-                    {writingStore.visitedThemes[0].count_total -
-                      writingStore.visitedThemes[0].count_done}
-                    개
-                  </b>
-                  !
-                </div>
-              </div>
-              <button>
-                <div className="bg-primary-600 text-white font-bold border-primary-600 self-right px-6 py-2 border-1 rounded-lg shadow">
-                  이어서 풀러가기
-                </div>
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-white rounded-3xl flex text-gray-700 items-center px-5 py-2  shadow">
-            <img
-              className="w-6 h-7 mr-2"
-              src="/assets/small-quokka.png"
-              alt="quokka character"
-            />
 
-            <div className="text-gray-800 text-sm">
-              원하는 <b>테마</b>와 <b>난이도</b>를 선택할 수 있어요!
-            </div>
-          </div>
-        )}
-      </div>
+      <header className="flex justify-center">
+        <div className="bg-white rounded-3xl flex text-gray-700 items-center px-5 py-2  shadow">
+          <img
+            className="w-6 h-7 mr-2"
+            src="/assets/small-quokka.png"
+            alt="quokka character"
+          />
 
-      <section className="text-center py-12" id="level-section">
+          <div className="text-gray-800 text-sm">
+            원하는 <b>테마</b>와 <b>난이도</b>를 선택할 수 있어요!
+          </div>
+        </div>
+      </header>
+      <section className="py-12">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           내가 도전하고 싶은 난이도는?
         </div>
@@ -218,7 +172,7 @@ export default observer(() => {
           편하게 즐겁게 도전할 수 있는 난이도로 시작해봐요!
         </div>
         <div>
-          <form className="flex gap-1 justify-center">
+          <form className="flex gap-1">
             {LEVEL_MENU.map((item, index) => (
               <label key={index}>
                 <input
@@ -228,13 +182,13 @@ export default observer(() => {
                   data-level={item.value}
                   onChange={() => onClickLevel(Number(item.value))}
                 />
-                <span className="border-1 bg-gray-100">{item.displayName}</span>
+                <span className="border-1 bg-gray-200">{item.displayName}</span>
               </label>
             ))}
           </form>
         </div>
       </section>
-      <section className="sm:pt-12 pb-6 text-center" id="theme-section">
+      <section className="sm:pt-12 pb-6" id="theme-section">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           어떤 주제의 문장부터 만나볼까요?
         </div>
@@ -349,3 +303,34 @@ export default observer(() => {
     </Main>
   );
 });
+
+{
+  /* <section className="pb-8 flex rounded cursor-pointer ">
+        {isMember &&
+        writingStore.visitedThemes &&
+        writingStore.visitedThemes.length > 0 ? (
+          <div>
+            <div className="sm:text-3xl text-2xl font-bold pb-2">
+              최근에 푼 테마를 이어서 만나볼까요?
+            </div>
+            <div className="flex">
+              {writingStore.visitedThemes.map((theme) => (
+                <div
+                  className="bg-gradient-200 sm:px-4 px-4 py-2 shadow-lg rounded-lg"
+                  onClick={onClickStartNextWriting}
+                >
+                  <div className="text-gray-800 text-left flex justify-between items-center">
+                    <div className="font-semibold"> {theme.theme_name}</div>
+                    <div className="text-xs bg-white rounded px-1 py-1 ml-2">
+                      ({theme.count_done}/{theme.count_total})
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          
+        )}
+      </section> */
+}
