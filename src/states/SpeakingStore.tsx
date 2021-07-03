@@ -64,17 +64,8 @@ export class SpeakingStore {
     }
   };
 
-  updateFilterFromSession = () => {
-    if (this.selectedLevels.length === 0 || this.selectedThemes.length === 0) {
-      const levels = SessionStorage.getSelectedLevels();
-      const themes = SessionStorage.getSelectedThemes();
-      this.setSelectedLevels(levels);
-      this.setSelectedThemes(themes);
-    }
-  };
   fetchSpeaking = async (id: number) => {
     const response = await fetchSpeakingByNumId(id);
-    console.log(response);
     runInAction(() => {
       if (response === 404) {
         this.isNotFoundSpeaking = true;
@@ -88,7 +79,7 @@ export class SpeakingStore {
   settingSpeaking = (speaking: any) => {
     this.setCurrentSpeaking(speaking);
     if (this.currentSpeaking && this.selectedLevels.length === 0) {
-      this.setSelectedLevels([`${this.currentSpeaking.getLevel()}`]);
+      this.setCurrentLevel([`${this.currentSpeaking.getLevel()}`]);
     }
     if (
       this.currentSpeaking &&
@@ -98,7 +89,7 @@ export class SpeakingStore {
       let themes: any = this.currentSpeaking
         .getThemes()
         ?.map((item) => item.name);
-      this.setSelectedThemes(themes);
+      this.setCurrentTheme(themes);
     }
   };
 
@@ -157,22 +148,22 @@ export class SpeakingStore {
     await this.fetchFilteredSpeakingAndUpdate(e, "", themeName, pathManager);
 
     runInAction(() => {
-      this.setSelectedThemes([themeName]);
+      this.setCurrentTheme([themeName]);
       if (this.speakings) {
         speaking = this.speakings[0];
         pathManager.goSpeakingWithTheme(e, speaking.id, themeName);
 
-        this.setSelectedLevels([`${speaking.level}`]);
+        this.setCurrentLevel([`${speaking.level}`]);
       } else {
         alert("다시 시도해주세요.");
       }
     });
   };
 
-  setSelectedLevels = (values: string[]) => {
+  setCurrentLevel = (values: string[]) => {
     this.selectedLevels = values;
   };
-  setSelectedThemes = (values: string[]) => {
+  setCurrentTheme = (values: string[]) => {
     this.selectedThemes = values;
   };
 }

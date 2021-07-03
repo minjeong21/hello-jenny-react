@@ -18,9 +18,9 @@ export const fetchThemeList = async () => {
     });
 };
 
-export const fetchWritingsByTheme = async (theme_id: number) => {
+export const fetchWritingsByTheme = async (theme_id: number, page?: number) => {
   return instance
-    .get(`/writing/list/theme/${theme_id}/`)
+    .get(`/writing/list/theme/${theme_id}/?page=${page ? page : 1}`)
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);

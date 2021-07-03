@@ -31,7 +31,6 @@ const WritingBox = observer((props: IProps) => {
   const { dialogStore, writingStore } = useStores();
 
   useEffect(() => {
-    dialogStore.setMoveNextWriing(props.moveNextWriting);
     dialogStore.resetWriting();
     setTextInWriting("");
     setIsShowColorHelp(false);

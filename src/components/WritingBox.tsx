@@ -31,7 +31,8 @@ const Container = styled.div`
 interface IProps {
   writingId: number;
   writing: Writing;
-  moveNextWriting: (e: any) => void;
+  goNextWriting: () => void;
+  goPreviosWriting: () => void;
   openPopup?: () => void;
 }
 
@@ -42,18 +43,23 @@ const WritingBox = observer((props: IProps) => {
   const [checkedBookmark, setCheckedBookmark] = useState(false);
   const [tryStatusText, setTryStatusText] = useState<any>();
   const [userSentence, setUserSentence] = useState("");
-  const [isCorrect, setisCorrect] = useState(false);
   const { dialogStore, writingStore, userActivityStore } = useStores();
-
+  const [indexInTheme, setIndexInTheme] = useState(1);
   useEffect(() => {
-    dialogStore.setMoveNextWriing(props.moveNextWriting);
     dialogStore.resetWriting();
     setTextInWriting("");
     setUserSentence("");
     setTryStatusText("");
     setIsShowColorHelp(false);
     setCheckedBookmark(userActivityStore.hasBookmark(writingId));
-  }, [writingId, dialogStore, props.moveNextWriting, userActivityStore]);
+    findIndexInTheme();
+  }, [writingId, dialogStore, userActivityStore]);
+
+  const findIndexInTheme = () => {
+    const target = writingStore.writings?.findIndex(
+      (item) => item.id === writingId
+    );
+  };
   /**
    * 도전하기 버튼 클릭 Event
    * */
@@ -77,7 +83,6 @@ const WritingBox = observer((props: IProps) => {
 
     const isCorrect = writing.isCorrect(userSentence);
     if (isCorrect) {
-      setisCorrect(true);
       setTryStatusText(
         <div>
           💕 와~ 맞았어요!! 정말 대단해요!! &nbsp;
@@ -125,12 +130,6 @@ const WritingBox = observer((props: IProps) => {
       alert("로그인을 먼저 진행해주세요.");
     }
   };
-  const goPreviousWriting = () => {
-    alert("이전 문제로 가기");
-  };
-  const goWritingDetail = (e: any) => {
-    dialogStore.moveNextWriting(e);
-  };
 
   return (
     <Container className="sm:p-0">
@@ -146,52 +145,42 @@ const WritingBox = observer((props: IProps) => {
         <DialogBox writing={writing} />
       </div> */}
       <section id="writing-box">
-        <div className="bg-white sm:p-6 mt-2 p-3 shadow-custom rounded-lg">
-          {/* 태그 시작 */}
-          <div className="flex items-center justify-between sm:pb-1">
-            <div className="flex flex-wrap cursor-default">
-              {writingStore.selectedLevels.map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1"
-                >
-                  {getLevelName(item)}
-                </div>
-              ))}
-              {writingStore.selectedThemes.map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1"
-                >
-                  {item.display_name}
-                </div>
-              ))}
+        {/* 태그 시작 */}
+        <div className="flex items-center justify-between sm:pb-1">
+          <div className="flex flex-wrap cursor-default">
+            <div className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1">
+              {writingStore.getCurrentThemeDisplayName()}
             </div>
-            <div className="flex">
-              <div className="bg-primary-200 rounded-lg sm:text-sm text-xs py-1 text-gray-700  mr-1 shadow-sm mb-1 items-center flex">
-                <button onClick={goPreviousWriting}>
-                  <LeftArrowIcon />
-                </button>
-                <div className="flex">
-                  {writingStore.getCurrentIndex(writing.getId())}/
-                  {writingStore.getWritingSize()}
-                </div>
-                <button onClick={goWritingDetail}>
-                  <RightArrowIcon />
-                </button>
-              </div>
-            </div>
-            <div
-              className={`px-1 cursor-pointer ${
-                checkedBookmark ? "text-primary-600" : "text-gray-300"
-              }`}
-              onClick={onClickBookmark}
-            >
-              <HeartIcon />
+            <div className="bg-gray-200 rounded-lg sm:text-sm text-xs px-2 py-1 text-gray-700  mr-1 shadow-sm mb-1">
+              {writingStore.getCurrentLevel()}
             </div>
           </div>
-          {/* 태그 끝 */}
+          <div className="flex">
+            <div className="bg-primary-200 rounded-lg sm:text-sm text-xs py-1 text-gray-700  mr-1 shadow-sm mb-1 items-center flex">
+              <button onClick={props.goPreviosWriting}>
+                <LeftArrowIcon />
+              </button>
+              <div className="flex">
+                {writingStore.currentIndex + 1}/
+                {writingStore.currentTheme?.count}
+              </div>
+              <button onClick={props.goNextWriting}>
+                <RightArrowIcon />
+              </button>
+            </div>
+          </div>
+          <div
+            className={`px-1 cursor-pointer ${
+              checkedBookmark ? "text-primary-600" : "text-gray-300"
+            }`}
+            onClick={onClickBookmark}
+          >
+            <HeartIcon />
+          </div>
+        </div>
+        {/* 태그 끝 */}
 
+        <div className="bg-white sm:p-6 mt-2 p-3 shadow-custom rounded-lg">
           <div className="sm:flex">
             <div className="sm:flex-shrink-0 bg-gray-100 sm:w-40 md:w-56 w-0">
               <WritingImage imageUrl={writing.getImageURL()} size={null} />

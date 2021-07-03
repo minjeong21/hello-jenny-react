@@ -42,7 +42,7 @@ const Speaking = () => {
                     // moveNextWriting={(e) =>
                     //   pathManager.goWritingDetail(
                     //     e,
-                    //     writingStore.getNextWritingId()
+                    //     writingStore.getOrFetchNextWritingId()
                     //   )
                     // }
                   />
@@ -54,7 +54,7 @@ const Speaking = () => {
                 // moveNextWriting={(e) =>
                 //   pathManager.goWritingDetail(
                 //     e,
-                //     writingStore.getNextWritingId()
+                //     writingStore.getOrFetchNextWritingId()
                 //   )
                 // }
                 />

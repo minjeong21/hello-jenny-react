@@ -1,32 +1,26 @@
 import ITheme from "interface/ITheme";
 
-const LEVELS = "levels";
-const THEMES = "themes";
+const LEVEL = "LEVEL";
+const THEME = "THEME";
 
 const SessionStorage = {
-  saveSelectedLevels: (levels: string[]) => {
-    sessionStorage.setItem(LEVELS, levels.join(","));
+  saveCurrentLevel: (level: number) => {
+    sessionStorage.setItem(LEVEL, `${level}`);
   },
-  saveSelectedThemes: (themes: ITheme[]) => {
-    sessionStorage.removeItem(THEMES);
-    sessionStorage.setItem(THEMES, JSON.stringify(themes));
+  saveCurrentTheme: (theme: ITheme) => {
+    sessionStorage.removeItem(THEME);
+    sessionStorage.setItem(THEME, JSON.stringify(theme));
   },
-  getSelectedLevels: () => {
-    const levels = sessionStorage.getItem(LEVELS);
-    if (levels && levels.length > 0) {
-      return levels.split(",");
-    } else {
-      return [];
-    }
+  loadCurrentLevel: () => {
+    const level = sessionStorage.getItem(LEVEL);
+    return level ? Number(level) : 1;
   },
-  getSelectedThemes: () => {
-    const themes = sessionStorage.getItem(THEMES);
+  loadCurrentTheme: () => {
+    const themes = sessionStorage.getItem(THEME);
     if (themes && themes.length > 0) {
-      console.log("getSelectedThemes");
-      console.log(JSON.parse(themes));
       return JSON.parse(themes);
     } else {
-      return [];
+      return null;
     }
   },
 };

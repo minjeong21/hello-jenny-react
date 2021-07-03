@@ -1,4 +1,4 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeObservable, observable, runInAction, toJS } from "mobx";
 import ITheme from "interface/ITheme";
 import IWriting from "interface/IWriting";
 
@@ -19,18 +19,19 @@ export class WritingStore {
   themes: ITheme[] | null;
   currentWriting: Writing | null;
   currentIndex: number;
-  selectedLevels: string[];
-  selectedThemes: ITheme[];
+  currentLevel: number;
+  currentTheme: ITheme | null;
   isNotFoundWriting: boolean;
   visitedThemes: IVisitedTheme[] | null;
+  page: number;
 
   constructor(root: any) {
     makeObservable(this, {
       writings: observable,
       currentWriting: observable,
       themes: observable,
-      selectedLevels: observable,
-      selectedThemes: observable,
+      currentLevel: observable,
+      currentTheme: observable,
       isNotFoundWriting: observable,
       visitedThemes: observable,
     });
@@ -40,9 +41,10 @@ export class WritingStore {
     this.writings = null;
     this.themes = null;
     this.currentWriting = null;
-    this.selectedLevels = [];
-    this.selectedThemes = [];
+    this.currentLevel = 1;
+    this.currentTheme = null;
     this.visitedThemes = null;
+    this.page = 1;
   }
 
   findIndex = (writingId: number) => {
@@ -62,18 +64,9 @@ export class WritingStore {
       ? this.writings.find((item) => item.id === id)
       : undefined;
     if (targetWriting) {
-      this.settingWriting(targetWriting);
+      this.setWriting(targetWriting);
     } else {
       this.fetchWriting(id);
-    }
-  };
-
-  updateFilterFromSession = () => {
-    if (this.selectedLevels.length === 0 || this.selectedThemes.length === 0) {
-      const levels = SessionStorage.getSelectedLevels();
-      const themes = SessionStorage.getSelectedThemes();
-      this.setSelectedLevels(levels);
-      this.setSelectedThemes(themes);
     }
   };
 
@@ -81,13 +74,13 @@ export class WritingStore {
     const response = await fetchWritingByNumId(id);
     runInAction(() => {
       if (response instanceof Error) {
-        alert("다시 시도해주세요 🙏🏻?? ");
+        alert("다시 시도해주세요 🙏🏻");
       } else {
         if (response === 404) {
           this.isNotFoundWriting = true;
         } else {
           this.isNotFoundWriting = false;
-          this.settingWriting(response.data);
+          this.setWriting(response.data);
         }
       }
     });
@@ -98,7 +91,7 @@ export class WritingStore {
     console.log(response);
     runInAction(() => {
       if (response instanceof Error) {
-        alert("다시 시도해주세요 🙏🏻?? ");
+        console.log(response);
       } else {
         if (response === 404) {
           console.log(response);
@@ -111,7 +104,6 @@ export class WritingStore {
 
   fetchActivityWritings = async (jwt: string) => {
     const response = await fetchDoneWritingsByTheme(jwt);
-    console.log(response);
     runInAction(() => {
       if (response instanceof Error) {
         console.log(response);
@@ -123,29 +115,25 @@ export class WritingStore {
     });
   };
 
-  settingWriting = (writing: any) => {
+  setWriting = (writing: any) => {
     runInAction(() => {
       this.setCurrentWriting(writing);
-      if (this.currentWriting && this.selectedLevels.length === 0) {
-        this.setSelectedLevels([`${this.currentWriting.getLevel()}`]);
-      }
-      if (
-        this.currentWriting &&
-        this.selectedThemes.length === 0 &&
-        this.currentWriting.getThemes()
-      ) {
-        let themes: any = this.currentWriting
-          .getThemes()
-          ?.map((item) => item.name);
-        this.setSelectedThemes(themes);
-      }
     });
   };
 
-  fetchWritingsByTheme = async (theme_id: number) => {
+  fetchWritingsByTheme = async (theme_id: number, page?: number) => {
+    let response = null;
     try {
-      const response = await fetchWritingsByTheme(theme_id);
-      this.writings = response.data;
+      if (!page) {
+        response = await fetchWritingsByTheme(theme_id);
+        this.writings = response.data;
+      } else {
+        response = await fetchWritingsByTheme(theme_id, page);
+        const writings = toJS(this.writings);
+        if (writings) {
+          this.writings = writings.concat(response.data);
+        }
+      }
     } catch (err) {
       console.log(err);
     }
@@ -176,42 +164,81 @@ export class WritingStore {
     return this.writings?.length;
   };
 
-  getNextWritingId = () => {
-    if (this.writings && this.writings.length > this.currentIndex - 1) {
-      this.setCurrentIndex(this.currentIndex + 1);
+  getOrFetchNextWritingId = async () => {
+    // 영작문 리스트 없을때 Fetch
+    if (!this.writings || this.writings.length === 0) {
+      this.loadCurrentTheme();
+      if (this.currentTheme) {
+        await this.fetchWritingsByTheme(this.currentTheme.id);
+        this.setCurrentIndex(this.currentIndex + 1);
+      }
     }
-    return this.writings ? this.writings[this.currentIndex].id : -1;
+    // 2문제 전에 fetch
+    if (
+      this.writings &&
+      this.currentTheme &&
+      this.currentTheme.count > this.writings.length &&
+      this.writings.length > this.currentIndex + 3
+    ) {
+      await this.fetchWritingsByTheme(this.currentTheme.id, this.page + 1);
+    }
+
+    if (this.writings && this.writings.length > this.currentIndex + 1) {
+      this.setCurrentIndex(this.currentIndex + 1);
+      return this.writings[this.currentIndex].id;
+    } else if (
+      this.writings &&
+      this.currentTheme &&
+      this.currentTheme.count > this.writings.length
+    ) {
+      await this.fetchWritingsByTheme(this.currentTheme.id, this.page + 1);
+      return this.writings[this.currentIndex].id;
+    } else {
+      return -1;
+    }
   };
 
   moveWritingDetail = async (pathManager: PathManager, theme: ITheme) => {
     this.writings = null;
     let writing: IWriting;
     runInAction(() => {
-      this.setSelectedThemes([theme]);
       if (this.writings) {
         writing = this.writings[0];
         pathManager.goWritingWithTheme(writing.id, theme.name);
-        this.setSelectedLevels([`${writing.level}`]);
       }
     });
   };
 
-  setSelectedLevels = (values: string[]) => {
-    this.selectedLevels = values;
-    SessionStorage.saveSelectedLevels(values);
+  saveCurrentLevel = (level: number) => {
+    this.currentLevel = level;
+    SessionStorage.saveCurrentLevel(level);
   };
-  setSelectedThemes = (values: ITheme[]) => {
-    this.selectedThemes = values;
-    SessionStorage.saveSelectedThemes(values);
+  saveCurrentTheme = (theme: ITheme) => {
+    this.currentTheme = theme;
+    SessionStorage.saveCurrentTheme(theme);
   };
-  getThemeDisplayName = (name: string) => {
-    console.log("name", name);
-    const theme = this.themes?.find((item) => item.name === name);
-    return theme ? theme.display_name : "이름없음";
+  getCurrentLevel = () => {
+    if (!this.currentLevel) {
+      this.currentLevel = SessionStorage.loadCurrentLevel();
+    }
+    switch (this.currentLevel) {
+      case 1:
+        return "Easy";
+      case 2:
+        return "Medium";
+      case 3:
+        return "Advanced";
+      default:
+        return "Easy";
+    }
   };
-
-  resetFilter = () => {
-    this.setSelectedThemes([]);
-    this.setSelectedLevels([]);
+  loadCurrentTheme = () => {
+    if (!this.currentTheme) {
+      this.currentTheme = SessionStorage.loadCurrentTheme();
+    }
+  };
+  getCurrentThemeDisplayName = () => {
+    this.loadCurrentTheme();
+    return this.currentTheme?.display_name;
   };
 }

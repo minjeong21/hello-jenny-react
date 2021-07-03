@@ -11,6 +11,7 @@ import SkeletonTheme from "components/SkeletonTheme";
 import LocalStorage from "utils/LocalStorage";
 import ThemePopup from "components/ThemePopup";
 import IVisitedTheme from "interface/IvisitedTheme";
+import { toJS } from "mobx";
 
 const Main = styled.main`
   .level {
@@ -73,7 +74,7 @@ const Main = styled.main`
 export default observer(() => {
   const pathManager = new PathManager(useHistory());
   const { writingStore } = useStores();
-  const [selectedLevel, setSelectedLevel] = useState<string>("1");
+  const [selectedLevel, setSelectedLevel] = useState(1);
   const [isMember, setIsMember] = useState(true);
   const [selectedTheme, setSelectedTheme] = useState<ITheme>();
   const [isValidated, setIsValidated] = useState(false);
@@ -84,7 +85,6 @@ export default observer(() => {
   >();
 
   useEffect(() => {
-    writingStore.resetFilter();
     writingStore.fetchThemes();
 
     const token = LocalStorage.getToken();
@@ -107,11 +107,10 @@ export default observer(() => {
     if (foundedTheme) {
       setTargetVisitiedTheme(foundedTheme);
     }
-    setIsValidated(selectedLevel.length > 0);
+    setIsValidated(selectedLevel !== null);
   };
 
-  const onClickLevel = (level: string) => {
-    console.log("level:", level);
+  const onClickLevel = (level: number) => {
     setSelectedLevel(level);
     setIsValidated(selectedTheme != null);
     setTimeout(() => {
@@ -126,6 +125,11 @@ export default observer(() => {
   };
 
   const onClickStartFirstWriting = async () => {
+    console.log(selectedLevel, toJS(selectedTheme));
+    if (selectedLevel && selectedTheme) {
+      writingStore.saveCurrentLevel(selectedLevel);
+      writingStore.saveCurrentTheme(toJS(selectedTheme));
+    }
     if (selectedTheme && selectedTheme.id) {
       await writingStore.fetchWritingsByTheme(selectedTheme.id);
       if (writingStore.writings && writingStore.writings.length > 0) {
@@ -221,9 +225,9 @@ export default observer(() => {
                 <input
                   type="radio"
                   name="level"
-                  checked={selectedLevel === item.value}
+                  checked={selectedLevel === Number(item.value)}
                   data-level={item.value}
-                  onChange={() => onClickLevel(item.value)}
+                  onChange={() => onClickLevel(Number(item.value))}
                 />
                 <span className="border-1 bg-gray-100">{item.displayName}</span>
               </label>

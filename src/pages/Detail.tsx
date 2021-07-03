@@ -26,12 +26,22 @@ const Detail = observer(() => {
     writingStore.currentWriting = null;
     writingStore.changeOrfetchWriting(Number(id));
 
-    // TODO: 샘플 문제를 어떻게하지
-    // Params
+    // TODO: 테마가 없는 경우
     const params = new URLSearchParams(window.location.search);
-    writingStore.updateFilterFromSession();
   }, [id, writingStore]);
 
+  const goNextWriting = async () => {
+    const nextId = await writingStore.getOrFetchNextWritingId();
+    if (nextId > 0) {
+      pathManager.goWritingDetail(nextId);
+    } else {
+      // TODO: 마지막 문제 처리
+      alert("이 테마의 마지막 문장입니다.");
+    }
+  };
+  const goPreviosWriting = () => {
+    alert("이전 문제");
+  };
   return (
     <Main className="sm:pt-20 pt-12 sm:px-3 bg-gray-100">
       <section>
@@ -47,11 +57,6 @@ const Detail = observer(() => {
         </div>
         {writingStore.isNotFoundWriting ? (
           <div>
-            {/* <FilterPopup
-              open={popupOpen}
-              closePopup={() => setPopupOpen(false)}
-              pathManager={pathManager}
-            /> */}
             <div>문제를 찾을 수 없습니다.</div>
             <button onClick={(e) => alert("다른 문제 가기")}>다른 문제</button>
           </div>
@@ -60,17 +65,12 @@ const Detail = observer(() => {
             {writingStore.currentWriting &&
             writingStore.currentWriting.writing ? (
               <div className="pt-5 px-1">
-                {/* <FilterPopup
-                  open={popupOpen}
-                  closePopup={() => setPopupOpen(false)}
-                  pathManager={pathManager}
-                /> */}
-
                 <WritingBox
                   openPopup={() => setPopupOpen(true)}
                   writingId={writingStore.currentWriting.writing.id}
                   writing={writingStore.currentWriting}
-                  moveNextWriting={(e) => alert("다음 문제가기")}
+                  goNextWriting={goNextWriting}
+                  goPreviosWriting={goPreviosWriting}
                 />
               </div>
             ) : (

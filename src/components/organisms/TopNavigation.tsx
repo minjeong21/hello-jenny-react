@@ -26,11 +26,6 @@ const TopNavigation = () => {
     toggleMenu();
   };
 
-  const goSpeaking = () => {
-    pathManager.goSpeakingPath(writingStore.getNextWritingId());
-    toggleMenu();
-  };
-
   return (
     <Container className="absolute top-0 w-screen">
       <div className="sm:min-h-0">

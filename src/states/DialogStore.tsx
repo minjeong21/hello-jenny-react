@@ -20,7 +20,6 @@ export class DialogStore {
 
   textInWrinting: string;
   userSentence: string;
-  moveNextWriting: any;
   tempButtons: DialogButton[];
 
   constructor(root: any) {
@@ -30,7 +29,6 @@ export class DialogStore {
       hintCount: observable,
       dialogButtons: observable,
     });
-    this.moveNextWriting = null;
     this.rootStore = root;
     this.writing = null;
     this.dialogList = [];
@@ -87,10 +85,6 @@ export class DialogStore {
         behavior: "smooth",
       });
     }
-  };
-
-  @action setMoveNextWriing = (moveNextWriting: (e: any) => void) => {
-    this.moveNextWriting = moveNextWriting;
   };
 
   @action resetWriting = () => {
@@ -199,7 +193,8 @@ export class DialogStore {
       | "WRONG"
       | "CORRECT"
       | "SHOW_ANSWER"
-      | "EXPLAIN"
+      | "EXPLAIN",
+    goNextWriting?: any
   ) => {
     const hintText = [
       "1번째 힌트",
@@ -224,7 +219,7 @@ export class DialogStore {
     );
     const NextButton = new DialogButton(
       <div className="flex items-center">다음 문제</div>,
-      (e: any) => this.moveNextWriting(e)
+      goNextWriting
     );
     const AnswerButton = new DialogButton(
       "😎 모범답안 보기",
