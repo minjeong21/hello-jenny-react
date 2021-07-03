@@ -1,11 +1,5 @@
 import Ping from "components/atoms/Ping";
-import DialogAnswer from "components/DialogAnswer";
-import DialogCorrect from "components/DialogCorrect";
-import DialogExplain from "components/DialogExplain";
-import DialogHint from "components/DialogHInt";
-import DialogJenny from "components/DialogJenny";
-import DialogWrong from "components/DialogWrong";
-import RightArrowIcon from "components/icons/RightArrowIcon";
+import { DialogAnswer, DialogExplain, DialogHint } from "components/Dialog";
 import { action, makeObservable, observable, runInAction } from "mobx";
 import Writing from "utils/Writing";
 
@@ -118,34 +112,6 @@ export class DialogStore {
     }
   };
 
-  addHelpJenny = (e: any) => {
-    e.preventDefault();
-    this.appendDialog("HINT", <DialogJenny />);
-  };
-
-  addCorrect = () => {
-    this.userSentence = this.textInWrinting;
-    this.appendDialog(
-      "CORRECT",
-      <DialogCorrect userSentence={this.userSentence} />
-    );
-  };
-  addWrong = (isShowColorHelp: boolean, moreDescription?: string) => {
-    this.userSentence = this.textInWrinting;
-    if (this.writing) {
-      this.appendDialog(
-        "WRONG",
-        <DialogWrong
-          isShowHelp={isShowColorHelp}
-          moreDescription={moreDescription}
-          userSentenceWords={this.writing.getCompareUserSentenceWords(
-            this.userSentence
-          )}
-          percent={this.writing.getMatchedWordPercent(this.userSentence)}
-        />
-      );
-    }
-  };
   addShowAnswer = () => {
     if (this.writing) {
       this.isShownAnswer = true;

@@ -1,4 +1,4 @@
-import DialogBase from "components/DialogBase";
+import DialogBase from "./DialogBase";
 import styled from "styled-components";
 
 export const DialogUser = ({ text }: { text: string }) => {

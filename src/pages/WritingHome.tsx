@@ -9,7 +9,7 @@ import ITheme from "interface/ITheme";
 import ThemeCard from "components/ThemeCard";
 import SkeletonTheme from "components/SkeletonTheme";
 import LocalStorage from "utils/LocalStorage";
-import ThemePopup from "components/ThemePopup";
+import ModalTheme from "components/ModalTheme";
 import IVisitedTheme from "interface/IvisitedTheme";
 import { toJS } from "mobx";
 
@@ -270,7 +270,7 @@ export default observer(() => {
           )}
         </div>
       </section>
-      <ThemePopup open={visiblePopup} closePopup={() => setVisiblePopup(false)}>
+      <ModalTheme open={visiblePopup} closePopup={() => setVisiblePopup(false)}>
         <>
           <div>
             {selectedLevel && selectedTheme ? (
@@ -346,7 +346,7 @@ export default observer(() => {
             )}
           </div>
         </>
-      </ThemePopup>
+      </ModalTheme>
     </Main>
   );
 });

@@ -7,7 +7,7 @@ interface IProps {
   closePopup: () => void;
   children: any;
 }
-export default function ThemePopup({ open, closePopup, children }: IProps) {
+export default function ModalTheme({ open, closePopup, children }: IProps) {
   const cancelButtonRef = useRef(null);
   const { writingStore } = useStores();
 

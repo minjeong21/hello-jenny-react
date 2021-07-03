@@ -1,8 +1,5 @@
 import React from "react";
-import DialogBase, {
-  DialogDescription,
-  DialogTitle,
-} from "components/DialogBase";
+import DialogBase, { DialogDescription, DialogTitle } from "./DialogBase";
 
 const DialogWrong = ({
   percent,

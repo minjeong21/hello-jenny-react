@@ -3,7 +3,7 @@ import WritingImage from "./atoms/WritingImage";
 import styled from "styled-components";
 import Writing from "utils/Writing";
 import WritingForm from "components/WritingForm";
-import DialogBox from "components/DialogBox";
+import DialogBox from "components/Dialog/DialogBox";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
 import { getLevelName } from "properties/Filter";

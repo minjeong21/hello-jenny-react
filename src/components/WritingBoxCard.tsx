@@ -5,7 +5,6 @@ import Writing from "utils/Writing";
 import WritingForm from "components/WritingForm";
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
-import BookMarkIcon from "./BookMarkIcon";
 import HeartIcon from "./icons/HeartIcon";
 
 const Container = styled.div`

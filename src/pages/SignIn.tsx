@@ -7,7 +7,7 @@ import { fetchUserProfile, loginUser } from "apis/AuthApi";
 import { useStores } from "states/Context";
 import LogoIcon from "components/icons/LogoIcon";
 import { validateEmail, validatePassword } from "utils/Validation";
-import LoadingSpinner from "components/LoadingSpinner";
+import LoadingSpinner from "components/atoms/LoadingSpinner";
 import GoogleLogin from "react-google-login";
 
 const Main = styled.main`
