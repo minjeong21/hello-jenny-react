@@ -1836,10 +1836,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@headlessui/react@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/@headlessui/react/-/react-1.1.1.tgz"
-  integrity sha512-fxNKxRrjNXdNYNMhAVrv1nz0gIMX3JhFizTA9lNrEC8+aY3JR00GZTPhuG785RZGvnHXCdYCGHeAhqw9uRNRrA==
+"@headlessui/react@^1.2.0-e56dd07":
+  version "1.2.0-e56dd07"
+  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.2.0-e56dd07.tgz#0a27a042f1acf0714959a5b95b0c87599b75e23d"
+  integrity sha512-G0vJht1koumGK6vc1ES7cnHhE59OKM9qoUXrv9SUXO/d7ewa6anJvpM2wOGRLq2+cD7Qh4w8DqWVRZasbqvwaA==
 
 "@heroicons/react@^1.0.1":
   version "1.0.1"

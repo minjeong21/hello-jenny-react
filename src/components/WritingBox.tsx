@@ -33,33 +33,23 @@ interface IProps {
   writing: Writing;
   goNextWriting: () => void;
   goPreviosWriting: () => void;
-  openPopup?: () => void;
 }
 
 const WritingBox = observer((props: IProps) => {
   const { writingId, writing } = props;
   const [textInWriting, setTextInWriting] = useState("");
-  const [isShowColorHelp, setIsShowColorHelp] = useState(false);
   const [checkedBookmark, setCheckedBookmark] = useState(false);
   const [tryStatusText, setTryStatusText] = useState<any>();
   const [userSentence, setUserSentence] = useState("");
   const { dialogStore, writingStore, userActivityStore } = useStores();
-  const [indexInTheme, setIndexInTheme] = useState(1);
   useEffect(() => {
     dialogStore.resetWriting();
     setTextInWriting("");
     setUserSentence("");
     setTryStatusText("");
-    setIsShowColorHelp(false);
     setCheckedBookmark(userActivityStore.hasBookmark(writingId));
-    findIndexInTheme();
   }, [writingId, dialogStore, userActivityStore]);
 
-  const findIndexInTheme = () => {
-    const target = writingStore.writings?.findIndex(
-      (item) => item.id === writingId
-    );
-  };
   /**
    * 도전하기 버튼 클릭 Event
    * */
@@ -115,7 +105,6 @@ const WritingBox = observer((props: IProps) => {
       } else {
         setTryStatusText(`🍀 앗 아쉬워요, ${percent}% 단어가 맞았어요.`);
       }
-      setIsShowColorHelp(true);
     }
   };
   const onClickBookmark = (e: any) => {

@@ -218,7 +218,6 @@ export default observer(() => {
           편하게 즐겁게 도전할 수 있는 난이도로 시작해봐요!
         </div>
         <div>
-          {/* TODO: radio 만든는 중 */}
           <form className="flex gap-1 justify-center">
             {LEVEL_MENU.map((item, index) => (
               <label key={index}>

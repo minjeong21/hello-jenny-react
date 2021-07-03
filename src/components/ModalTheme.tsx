@@ -1,5 +1,4 @@
 import React, { Fragment, useRef, useState } from "react";
-import { useStores } from "states/Context";
 import { Dialog, Transition } from "@headlessui/react";
 
 interface IProps {
@@ -9,7 +8,6 @@ interface IProps {
 }
 export default function ModalTheme({ open, closePopup, children }: IProps) {
   const cancelButtonRef = useRef(null);
-  const { writingStore } = useStores();
 
   return (
     <Transition.Root show={open} as={Fragment}>
