@@ -40,7 +40,7 @@ const Speaking = () => {
                   <SpeakingBox
                     writing={writingStore.currentWriting.writing}
                     // moveNextWriting={(e) =>
-                    //   pathManager.goNextWriting(
+                    //   pathManager.goWritingDetail(
                     //     e,
                     //     writingStore.getNextWritingId()
                     //   )
@@ -50,14 +50,14 @@ const Speaking = () => {
                   <div>스켈레톤</div>
                 )} */}
                 <SpeakingBox
-                    // writing={writingStore.currentWriting.writing}
-                    // moveNextWriting={(e) =>
-                    //   pathManager.goNextWriting(
-                    //     e,
-                    //     writingStore.getNextWritingId()
-                    //   )
-                    // }
-                  />
+                // writing={writingStore.currentWriting.writing}
+                // moveNextWriting={(e) =>
+                //   pathManager.goWritingDetail(
+                //     e,
+                //     writingStore.getNextWritingId()
+                //   )
+                // }
+                />
               </div>
             </section>
           </main>

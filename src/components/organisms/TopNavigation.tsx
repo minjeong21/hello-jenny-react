@@ -18,7 +18,7 @@ const TopNavigation = () => {
     setMenuOpen(!openMenu);
   };
   const goWritingBase = (e: any) => {
-    pathManager.goWritingPage();
+    pathManager.goWritingBase();
     toggleMenu();
   };
   const goMemgership = (e: any) => {

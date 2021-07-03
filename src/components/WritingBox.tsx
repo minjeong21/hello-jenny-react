@@ -128,7 +128,7 @@ const WritingBox = observer((props: IProps) => {
   const goPreviousWriting = () => {
     alert("이전 문제로 가기");
   };
-  const goNextWriting = (e: any) => {
+  const goWritingDetail = (e: any) => {
     dialogStore.moveNextWriting(e);
   };
 
@@ -176,7 +176,7 @@ const WritingBox = observer((props: IProps) => {
                   {writingStore.getCurrentIndex(writing.getId())}/
                   {writingStore.getWritingSize()}
                 </div>
-                <button onClick={goNextWriting}>
+                <button onClick={goWritingDetail}>
                   <RightArrowIcon />
                 </button>
               </div>

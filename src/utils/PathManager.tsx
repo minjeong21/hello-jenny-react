@@ -31,14 +31,14 @@ class MovePath {
   goHome = () => {
     return this.history.push(Path.HOME);
   };
-  goWritingPage = () => {
+  goWritingBase = () => {
     return this.history.push(Path.WRITING_BASE);
   };
   goMembershipPage = () => {
     return this.history.push(Path.MEMBERSHIP);
   };
 
-  goNextWriting = (writingId: number) => {
+  goWritingDetail = (writingId: number) => {
     return writingId < 0
       ? null
       : this.history.push(

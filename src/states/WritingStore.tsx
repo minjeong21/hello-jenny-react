@@ -142,11 +142,10 @@ export class WritingStore {
     });
   };
 
-  fetchWritingsByTheme = async (theme_id: number, pathManager: PathManager) => {
+  fetchWritingsByTheme = async (theme_id: number) => {
     try {
       const response = await fetchWritingsByTheme(theme_id);
-      this.currentIndex = 0;
-      pathManager.goNextWriting(response.data[0].id);
+      this.writings = response.data;
     } catch (err) {
       console.log(err);
     }
@@ -187,10 +186,6 @@ export class WritingStore {
   moveWritingDetail = async (pathManager: PathManager, theme: ITheme) => {
     this.writings = null;
     let writing: IWriting;
-    if (theme && theme.id) {
-      await this.fetchWritingsByTheme(theme.id, pathManager);
-    }
-
     runInAction(() => {
       this.setSelectedThemes([theme]);
       if (this.writings) {

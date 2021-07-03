@@ -125,25 +125,22 @@ export default observer(() => {
     }, 100);
   };
 
-  const onClickStartFirstWriting = async (e: any) => {
-    if (!selectedTheme) {
-      var levelSectionElement: any = document.querySelector("#theme-section");
-      window.scrollTo({
-        top: levelSectionElement.offsetTop,
-        behavior: "smooth",
-      });
-    } else if (isValidated) {
-      setLoading(true);
-      writingStore.moveWritingDetail(pathManager, selectedTheme);
+  const onClickStartFirstWriting = async () => {
+    if (selectedTheme && selectedTheme.id) {
+      await writingStore.fetchWritingsByTheme(selectedTheme.id);
+      if (writingStore.writings && writingStore.writings.length > 0) {
+        pathManager.goWritingDetail(writingStore.writings[0].id);
+      }
     }
   };
-  const onClickStartNextWriting = async (e: any) => {
-    // 2. 해당 테마의 문장 리스트 불러오기
-    // if visitedTheme에 해당 테마가 있으면
-    // 1. 테마 문장 리스트에서, 이미 푼 영작 id 기준으로 제거
-    // 1. 남은 영작 리스트 중, 리스트 중 첫번째 페이지로 상세 페이지 이동
-
-    alert("onClickStartNextWriting");
+  const onClickStartNextWriting = async () => {
+    // TODO: 이미 푼 영작 ID 기준으로 제거
+    if (selectedTheme && selectedTheme.id) {
+      await writingStore.fetchWritingsByTheme(selectedTheme.id);
+      if (writingStore.writings && writingStore.writings.length > 0) {
+        pathManager.goWritingDetail(writingStore.writings[0].id);
+      }
+    }
   };
 
   return (
