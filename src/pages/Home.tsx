@@ -65,25 +65,25 @@ export default observer(() => {
       title: "나에게 딱 맞는\n난이도와 테마를 선택해요",
       text:
         "실시간 피드백으로 자연스러운 원어민의 영어를 바로 배울 수 있어요.\n원어민 튜터의 꼼꼼한 피드백을 통해 나의 영어가 풍성해져요.",
-      image_url: "/assets/home/section-adv-2.png",
+      image_url: "/assets/home/section-pros-2.png",
     },
     {
       title: "나도 모르는 새 \n문법과 영단어가 머릿 속에 쏘옥!",
       text:
         "창공에 예수는 가는 사는가 눈이 것은 옷을 인류의 약동하다.\n끓는 풀이 청춘의 길지 가진 실현에 인생을 구하지 운다. ",
-      image_url: "/assets/home/section-adv-1.png",
+      image_url: "/assets/home/section-pros-1.png",
     },
     {
       title: "하루 3문장이면?\n1년에 1,000문장이라구요!",
       text:
         "매일 원하는 시간에 영어 문장을 보내드려요. \n통상 기본 회화를 하려면 500문장이 필요하다고 합니다.",
-      image_url: "/assets/home/section-adv-3.png",
+      image_url: "/assets/home/section-pros-3.png",
     },
     {
       title: "하루 43원 놀라운 가성비!!",
       text:
         " 사는가 눈이 것은 옷을 인류의 약동하다. \n길지 가진 실현에 인생을 구하지 운다. ",
-      image_url: "/assets/home/section-adv-4.png",
+      image_url: "/assets/home/section-pros-4.png",
     },
   ];
   return (
@@ -96,21 +96,21 @@ export default observer(() => {
             className="sm:px-16 px-4 sm:pt-36 pb-12 pt-6"
           >
             <div className="sm:flex justify-center gap-2 pt-3">
-              <div className="flex-1">
+              <div className="">
                 <h3 className="whitespace-pre-line sm:text-4xl text-2xl sm:text-left text-center font-bold">{`스스로 완성하는 영작\n헬로제니`}</h3>
-                <div className="whitespace-pre-line pt-2 text-gray-700 font-normal sm:text-left text-center">
+                <div className="whitespace-pre-line pt-4 text-gray-700 font-normal sm:text-left text-center">
                   {`하루에 3문장이면 1년에 1000천 문장. \n헬로 제니, 영어를 배우는 새로운 세상을 경험하세요.`}
                 </div>
                 <div className="flex-1 sm:hidden p-4">
                   <img
                     className="w-2/3 mx-auto"
-                    src="/assets/home/header-image.png"
+                    src="/assets/home/header-img.png"
                     alt="main writing"
                   />
                 </div>
-                <div className="flex gap-2 sm:pt-10 pt-4 sm:flex-start justify-center">
+                <div className="flex gap-2 sm:pt-10 pt-4 sm:justify-start justify-center">
                   <button
-                    className="px-7 py-3 rounded shadow-lg text-lg bg-white flex gap-2 font-bold"
+                    className="px-6 py-2 rounded shadow-lg text-lg bg-white flex gap-2 font-bold"
                     onClick={goWritingBase}
                   >
                     <img className="w-6" src="/assets/write-icon.png" />
@@ -119,14 +119,18 @@ export default observer(() => {
                 </div>
               </div>
               <div className="flex-1 sm:block hidden">
-                <img src="/assets/home/header-image.png" alt="main writing" />
+                <img
+                  className="w-3/4"
+                  src="/assets/home/header-img.png"
+                  alt="main writing"
+                />
               </div>
             </div>
           </section>
           {/* 문제 리스트 */}
         </div>
         <div className="bg-white sm:pt-0 pt-32 bg-color">
-          <section className="py-24 px-4 text-center">
+          <section className="pt-12 pb-24 px-4 text-center">
             <div className="sm:text-4xl text-xl font-bold pb-6">
               영작으로 시작하는 나만의 새로운 세상
             </div>
@@ -136,7 +140,7 @@ export default observer(() => {
             <div>
               <img
                 className="w-2/3 mx-auto"
-                src="/assets/home/main-slogan.png"
+                src="/assets/home/section-slogan.png"
               />
             </div>
           </section>
@@ -234,29 +238,29 @@ const SectionAdvantage = ({
     </section>
     {/* PC 뷰 */}
 
-    <section
-      className={`sm:py-20 sm:px-12 sm:flex hidden justify-between gap-12  ${
-        isImageLeft ? "" : "bg-base"
-      }`}
-    >
-      {isImageLeft && (
-        <div className="w-2/5">
-          <img src={content.image_url} alt="advantage 1" className="" />
+    <div className={isImageLeft ? "" : "bg-base"}>
+      <section
+        className={`sm:py-20 sm:px-12 sm:flex hidden justify-between gap-12`}
+      >
+        {isImageLeft && (
+          <div className="w-2/5">
+            <img src={content.image_url} alt="advantage 1" className="" />
+          </div>
+        )}
+        <div className="w-3/5 flex flex-col justify-center whitespace-pre-line">
+          <div className="sm:text-3xl text-xl font-bold pb-4">
+            {content.title}
+          </div>
+          <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500 leading-3">
+            {content.text}
+          </div>
         </div>
-      )}
-      <div className="w-3/5 flex flex-col justify-center whitespace-pre-line">
-        <div className="sm:text-3xl text-xl font-bold pb-4">
-          {content.title}
-        </div>
-        <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500 leading-3">
-          {content.text}
-        </div>
-      </div>
-      {!isImageLeft && (
-        <div className="w-2/5">
-          <img src={content.image_url} alt="advantage 1" className="" />
-        </div>
-      )}
-    </section>
+        {!isImageLeft && (
+          <div className="w-2/5">
+            <img src={content.image_url} alt="advantage 1" className="" />
+          </div>
+        )}
+      </section>
+    </div>
   </>
 );
