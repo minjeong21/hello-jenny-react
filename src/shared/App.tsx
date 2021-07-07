@@ -20,9 +20,10 @@ const App = () => {
   const { writingStore, userActivityStore } = useStores();
   useEffect(() => {
     const token = LocalStorage.getToken();
-    if (token) {
-      userActivityStore.fetchAllBookmarks(token);
-    }
+    // TODO: 북마크 기능 추가
+    // if (token) {
+    // userActivityStore.fetchAllBookmarks(token);
+    // }
   }, [writingStore, userActivityStore]);
   return (
     <Switch>

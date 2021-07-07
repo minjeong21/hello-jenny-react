@@ -24,7 +24,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="bg-gray-800 text-gray-400 text-sm">
+        <div className="bg-gray-800 text-gray-400 text-xs">
           <div>쿠러쉬 coorush </div>
           <div className="flex flex-wrap">
             <div>경기도 성남시 분당구 정자동 75-8, 102호 |&nbsp;</div>

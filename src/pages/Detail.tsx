@@ -7,7 +7,6 @@ import PathManager from "utils/PathManager";
 import WritingBox from "components/WritingBox";
 import SkeletonWritingBox from "components/SkeletonWritingBox";
 import ModalWriting from "components/ModalWriting";
-import JennyIcon from "components/icons/JennyIcon";
 import { Dialog } from "@headlessui/react";
 
 interface ParamTypes {
@@ -90,8 +89,11 @@ const Detail = observer(() => {
             </Dialog.Title>
           </div>
           <p className="text-sm text-gray-600">
-            {writingStore.getCurrentThemeDisplayName()} 테마의 모든 문장을
-            완료했어요! <br /> 다른 테마의 문장을 만나러 가볼까요?
+            <span className="font-bold">
+              {writingStore.getCurrentThemeDisplayName()}
+            </span>
+            테마의 모든 문장을 완료했어요! <br /> 다른 테마의 문장을 만나러
+            가볼까요?
           </p>
           <div className="flex justify-center gap-2 pt-4 flew-wrap text-sm sm:text-medium">
             <button

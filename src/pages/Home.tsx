@@ -9,6 +9,9 @@ import SkeletonTheme from "components/SkeletonTheme";
 import ThemeCard from "components/ThemeCard";
 
 const Main = styled.main`
+  .margin-small {
+    margin-bottom: -3px;
+  }
   padding-bottom: 80px;
   .writing-box {
     max-width: 860px;
@@ -22,14 +25,15 @@ const Main = styled.main`
   }
 
   .bg-main {
-    background-image: url(/assets/home/bg-main-1.jpg);
-    background-size: cover;
-    background-position: top;
-    background-repeat: no-repeat;
+    background-color: #a3d3af;
+    background-image: url(/assets/home/bg-main-1.png);
+    background-size: contain;
+    background-repeat: repeat-x;
   }
   @media (max-width: 640px) {
     .bg-main {
-      background-image: url(/assets/home/bg-main-1.jpg);
+      backgrounc-color: #a3d3af;
+      background-image: url(/assets/home/bg-main-1.png);
       background-size: cover;
       background-position: center;
       height: 350px;
@@ -37,8 +41,14 @@ const Main = styled.main`
   }
 
   .bg-main-2 {
-    background-image: url(/assets/home/bg-main-2.jpg);
+    background-image: url(/assets/home/bg-main-2.png);
     background-size: cover;
+  }
+  .bg-color {
+    background-color: #a3d3af;
+  }
+  .bg-base {
+    background-color: #fbf9f3;
   }
 `;
 
@@ -77,40 +87,50 @@ export default observer(() => {
     },
   ];
   return (
-    <Main>
+    <Main className="tracking-tighter">
       <>
-        <div className=" pt-20 pb-36 bg-main bg-primary-600">
+        <div className="pt-20 bg-main bg-primary-600 tracking-tighter">
           {/* 문제 풀기 섹션 */}
-          <section id="writing-section" className="px-16 sm:pt-36 pt-6">
+          <section
+            id="writing-section"
+            className="sm:px-16 px-4 sm:pt-36 pb-12 pt-6"
+          >
             <div className="sm:flex justify-center gap-2 pt-3">
               <div className="flex-1">
-                <h3 className="whitespace-pre-line sm:text-3xl text-xl sm:text-left text-center font-bold">{`게임처럼 스스로 만드는 영작\n헬로제니`}</h3>
-                <div className="whitespace-pre-line pt-2 text-gray-700">
+                <h3 className="whitespace-pre-line sm:text-4xl text-2xl sm:text-left text-center font-bold">{`스스로 완성하는 영작\n헬로제니`}</h3>
+                <div className="whitespace-pre-line pt-2 text-gray-700 font-normal sm:text-left text-center">
                   {`하루에 3문장이면 1년에 1000천 문장. \n헬로 제니, 영어를 배우는 새로운 세상을 경험하세요.`}
                 </div>
+                <div className="flex-1 sm:hidden p-4">
+                  <img
+                    className="w-2/3 mx-auto"
+                    src="/assets/home/header-image.png"
+                    alt="main writing"
+                  />
+                </div>
+                <div className="flex gap-2 sm:pt-10 pt-4 sm:flex-start justify-center">
+                  <button
+                    className="px-7 py-3 rounded shadow-lg text-lg bg-white flex gap-2 font-bold"
+                    onClick={goWritingBase}
+                  >
+                    <img className="w-6" src="/assets/write-icon.png" />
+                    <div>100문장 무료 체험하기</div>
+                  </button>
+                </div>
               </div>
-              <div className="flex-1">
+              <div className="flex-1 sm:block hidden">
                 <img src="/assets/home/header-image.png" alt="main writing" />
               </div>
-            </div>
-            <div className="flex justify-center gap-2 pt-10">
-              <button
-                className="px-5 py-2 rounded shadow-lg text-lg bg-white flex gap-2 font-bold"
-                onClick={goWritingBase}
-              >
-                <img className="w-6" src="/assets/write-icon.png" />
-                <div>100문장 무료 체험하기</div>
-              </button>
             </div>
           </section>
           {/* 문제 리스트 */}
         </div>
-        <div className="bg-white sm:pt-0 pt-32">
-          <section className="py-32 px-4 text-center">
-            <div className="sm:text-4xl text-xl font-bold pb-6 ">
+        <div className="bg-white sm:pt-0 pt-32 bg-color">
+          <section className="py-24 px-4 text-center">
+            <div className="sm:text-4xl text-xl font-bold pb-6">
               영작으로 시작하는 나만의 새로운 세상
             </div>
-            <div className="sm:text-base text-sm sm:pb-6 pb-4 text-gray-500 whitespace-pre-line">
+            <div className="sm:text-base text-sm sm:pb-6 pb-4 text-gray-800 whitespace-pre-line">
               {`창공에 예수는 가는 사는가 눈이 것은 옷을 인류의 약동하다. \n끓는 풀이 청춘의 길지 가진 실현에 인생을 구하지 운다. \n귀는 몸이 무엇을 있을 위하여 이는 보라 이는 보라.`}
             </div>
             <div>
@@ -127,20 +147,20 @@ export default observer(() => {
         <SectionAdvantage content={advantages[3]} isImageLeft={false} />
 
         <div className="bg-main-2">
-          <section className="sm:py-20 py-16 px-4 flex flex-col items-center">
+          <section className="pt-8 px-4 flex flex-col items-center">
             <div className="flex">
               <div className="text-center">
                 <div className="text-gray-700 text-sm pb-1">
                   하루 3문장, 1년이면 1073 문장!!
                 </div>
-                <div className="sm:text-5xl text-2xl text-center font-bold text-white ">
+                <div className="text-2xl text-center font-bold margin-small">
                   1천 문장의 기적
                 </div>
-                <div className="sm:te xt-2xl text-2xl pb-6 text-white">
+                <div className="text-2xl pb-6">
                   {`제니와 함께 만들어볼까요?`}
                 </div>
                 <div
-                  className="flex bg-white py-2 px-4 rounded-lg font-bold shadow-lg mx-auto gap-2 justify-center items-center cursor-pointer"
+                  className="flex bg-white py-2 px-4 rounded font-bold shadow-lg mx-auto gap-2 justify-center items-center cursor-pointer mb-8"
                   onClick={goWritingBase}
                 >
                   <img
@@ -148,19 +168,19 @@ export default observer(() => {
                     alt="advantage 1"
                     className="w-6 h-6"
                   />
-                  <div className="text-center items-center text-xl">
+                  <div className="text-center items-center">
                     100문장 무료 체험하기
                   </div>
                 </div>
               </div>
-              <div className="w-24 sm:block hidden">
-                <img src="/assets/home/avatar-left.png" />
+              <div className="ml-8 w-20 sm:block hidden self-end">
+                <img src="/assets/home/avatar-2.png" />
               </div>
             </div>
           </section>
         </div>
         <section className="py-20 px-12 " id="more">
-          <h3 className="text-2xl text-center whitespace-pre-line pb-6">
+          <h3 className="text-lg font-bold text-center whitespace-pre-line pb-6">
             {`3152개 이상의 문장, 152개의 테마를\n원하는 대로, 원하는 만큼`}
           </h3>
           <div onClick={goWritingBase}>
@@ -199,7 +219,7 @@ const SectionAdvantage = ({
 }) => (
   <>
     {/* 모바일 뷰 */}
-    <section className="p-4 gap-8 ">
+    <section className={`p-4 gap-8 sm:hidden`}>
       <div className="sm:text-3xl text-xl font-bold pb-4 pt-4 text-center whitespace-pre-line">
         {content.title}
       </div>
@@ -214,17 +234,21 @@ const SectionAdvantage = ({
     </section>
     {/* PC 뷰 */}
 
-    <section className="sm:py-20 sm:px-12 sm:flex hidden justify-between gap-8 ">
+    <section
+      className={`sm:py-20 sm:px-12 sm:flex hidden justify-between gap-12  ${
+        isImageLeft ? "" : "bg-base"
+      }`}
+    >
       {isImageLeft && (
         <div className="w-2/5">
           <img src={content.image_url} alt="advantage 1" className="" />
         </div>
       )}
       <div className="w-3/5 flex flex-col justify-center whitespace-pre-line">
-        <div className="sm:text-3xl text-xl font-bold pb-2 ">
+        <div className="sm:text-3xl text-xl font-bold pb-4">
           {content.title}
         </div>
-        <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
+        <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500 leading-3">
           {content.text}
         </div>
       </div>
