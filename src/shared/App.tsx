@@ -15,6 +15,7 @@ import { useStores } from "states/Context";
 import LocalStorage from "utils/LocalStorage";
 import OauthKakao from "pages/Oauth";
 import WritingHome from "pages/WritingHome";
+import Member from "pages/Member";
 
 const App = () => {
   const { writingStore, userActivityStore } = useStores();
@@ -46,6 +47,11 @@ const App = () => {
       <Route exact path="/profile/">
         <TopNavigation />
         <Profile />
+        <Footer />
+      </Route>
+      <Route exact path="/member/">
+        <TopNavigation />
+        <Member />
         <Footer />
       </Route>
       <Route exact path="/writing//">

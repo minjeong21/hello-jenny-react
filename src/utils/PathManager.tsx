@@ -13,6 +13,7 @@ const Path = {
   SPEAKING_DETAIL_THEME: "/speaking/:numid/?theme=:theme",
   SPEAKING_BASE: "/speaking/",
   MEMBERSHIP: "/membership/",
+  MEMBER: "/member/",
 };
 
 class MovePath {
@@ -38,14 +39,17 @@ class MovePath {
     return this.history.push(Path.MEMBERSHIP);
   };
 
+  goMember = () => {
+    return this.history.push(Path.MEMBER);
+  }
   goWritingDetail = (writingId: number) => {
     return writingId < 0
       ? null
       : this.history.push(
-          generatePath(Path.WRITING_DETAIL, {
-            numid: writingId,
-          })
-        );
+        generatePath(Path.WRITING_DETAIL, {
+          numid: writingId,
+        })
+      );
   };
 
   goWritingWithTheme = (writingId: number, theme: string) => {

@@ -25,6 +25,10 @@ const TopNavigation = () => {
     pathManager.goMembershipPage();
     toggleMenu();
   };
+  const goMember = () => {
+    pathManager.goMember();
+    toggleMenu();
+  };
 
   return (
     <Container className="absolute top-0 w-screen">
@@ -57,8 +61,15 @@ const TopNavigation = () => {
               onClick={(e) => goWritingBase(e)}
               label={
                 <>
-                  <PencilIcon />
-                  영작 연습
+                  테마/난이도 선택
+                </>
+              }
+            />
+            <WideButton
+              onClick={goMember}
+              label={
+                <>
+                  <span className="ml-1">멤버 기능</span>
                 </>
               }
             />
@@ -66,10 +77,7 @@ const TopNavigation = () => {
               onClick={goMemgership}
               label={
                 <>
-                  <span className="text-gray-700">
-                    <SmileIcon />
-                  </span>
-                  <span className="ml-1">멤버십</span>
+                  <span className="ml-1">멤버십 혜택</span>
                 </>
               }
             />
