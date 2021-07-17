@@ -150,21 +150,7 @@ export default observer(() => {
   return (
     <Main className="sm:py-36 py-20 px-4 bg-gray-100">
       {/* 문제 풀기 섹션 */}
-
-      <header className="flex justify-center">
-        <div className="bg-white rounded-3xl flex text-gray-700 items-center px-5 py-2  shadow">
-          <img
-            className="w-6 h-7 mr-2"
-            src="/assets/small-quokka.png"
-            alt="quokka character"
-          />
-
-          <div className="text-gray-800 text-sm">
-            원하는 <b>테마</b>와 <b>난이도</b>를 선택할 수 있어요!
-          </div>
-        </div>
-      </header>
-      <section className="py-12">
+      <section className="pb-12">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           내가 도전하고 싶은 난이도는?
         </div>
@@ -281,11 +267,10 @@ export default observer(() => {
               </div>
             ) : (
               <button
-                className={`px-3 py-2 rounded shadow text-right font-bold flex items-center ${
-                  isValidated
-                    ? "bg-primary-700 text-white "
-                    : "bg-gray-100 text-gray-200"
-                }`}
+                className={`px-3 py-2 rounded shadow text-right font-bold flex items-center ${isValidated
+                  ? "bg-primary-700 text-white "
+                  : "bg-gray-100 text-gray-200"
+                  }`}
                 onClick={onClickStartFirstWriting}
               >
                 <img className="w-8 mr-2" src="/assets/write-icon.png" />
