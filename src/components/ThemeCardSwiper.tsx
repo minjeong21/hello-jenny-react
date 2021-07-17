@@ -18,14 +18,14 @@ const ThemeCardSwiper = ({ themes }: { themes: ITheme[] }) => {
     <Container className="flex mb-2 swiper-slide">
       <Swiper
         spaceBetween={6}
-        slidesPerView={3.2}
+        slidesPerView={1.2}
         onSlideChange={() => console.log("slide change")}
         pagination={{
           dynamicBullets: true,
         }}
       >
         {themes.map((theme, index) => (
-          <SwiperSlide key={index} className="pb-6">
+          <SwiperSlide key={index} className="pb-2 pl-1">
             <ThemeCard theme={theme} disabled={false} />
           </SwiperSlide>
         ))}

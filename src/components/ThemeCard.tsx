@@ -15,9 +15,8 @@ const ThemeCard = ({
   return (
     <div
       onClick={onClick}
-      className={`sm:p-4 p-2 my-4 rounded-lg shadow-custom cursor-pointer relative ${
-        disabled ? "bg-gray-100 text-gray-400" : "bg-white"
-      } ${active && "bg-gradient-200 border-2 border-primary-600"} `}
+      className={`sm:p-4 p-2 my-4 rounded-lg shadow-custom cursor-pointer relative ${disabled ? "bg-gray-100 text-gray-400" : "bg-white"
+        } ${active && "bg-gradient-200 border-2 border-primary-600"} `}
     >
       <div
         className={`h-24 bg-gray-100 ${disabled ? "opacity-50" : ""}`}

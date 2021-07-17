@@ -86,6 +86,10 @@ code {
   background: linear-gradient(to right, #f2ffed, #fffaeb);
 }
 
+.bg-gradient-300 {
+  background: linear-gradient(to right, #e3ffd8, #ffeaac);
+}
+
 .font-gothic {
   font-family: 'Noto Sans SC', source-code-pro, Menlo, Monaco, Consolas, 'Courier New' !important
 }

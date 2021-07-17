@@ -7,6 +7,7 @@ import PathManager from "utils/PathManager";
 import ThemeCardSwiper from "components/ThemeCardSwiper";
 import SkeletonTheme from "components/SkeletonTheme";
 import ThemeCard from "components/ThemeCard";
+import ITheme from "interface/ITheme";
 
 const Main = styled.main`
   .margin-small {
@@ -22,6 +23,12 @@ const Main = styled.main`
     max-width: 860px;
     margin: 0 auto;
     line-height: 1.3;
+  }
+
+  .char-image{
+    width:100%;
+    max-width:620px;
+    
   }
 
   .bg-main {
@@ -56,34 +63,47 @@ export default observer(() => {
   const pathManager = new PathManager(useHistory());
   const { writingStore } = useStores();
 
+
+  useEffect(() => {
+    writingStore.fetchThemes();
+
+  }, []);
+
   const goWritingBase = () => {
     document.location.href = "/writing/";
   };
 
   const advantages = [
+
     {
-      title: "나에게 딱 맞는\n난이도와 테마를 선택해요",
+      title: "1. 목표가 있어야 해요.\n 여러분은 왜 영어를 잘하고 싶으신가요?",
       text:
-        "실시간 피드백으로 자연스러운 원어민의 영어를 바로 배울 수 있어요.\n원어민 튜터의 꼼꼼한 피드백을 통해 나의 영어가 풍성해져요.",
+        "영어로 된 영화를 이해하고 싶나요? \n영어를 하며 멋지게 여행하고 싶나요? \n외국계 회사에 취직하고 싶나요? \n모든 학습의 시작은 \'why\'에 있다고 생각해요.\n 내가 원하는 목표에 맞게, \n원하는 테마를 선택해서 공부하세요!",
       image_url: "/assets/home/section-pros-2.png",
     },
     {
-      title: "나도 모르는 새 \n문법과 영단어가 머릿 속에 쏘옥!",
+      title: "2. 나에게 딱 맞는 난이도로!",
       text:
-        "창공에 예수는 가는 사는가 눈이 것은 옷을 인류의 약동하다.\n끓는 풀이 청춘의 길지 가진 실현에 인생을 구하지 운다. ",
+        "영어 공부의 시작은 나에게 맞는 난이도로 시작하는 거에요.",
+      image_url: "/assets/home/section-pros-2.png",
+    },
+    {
+      title: "3. 부담없이 몰입하는 상태일수록\n 효과가 배가 되요! ",
+      text:
+        "짧은 시간이라도, 스스로 생각하는 몰입상태에서\n 학습 효과가 배가 된다는 사실! 알고 계셨나요? \n듣고 읽기만 하는 수동적인 학습은 이제 그만! \n한 문장을 풀어도 내것으로 만들어요 :)",
       image_url: "/assets/home/section-pros-1.png",
     },
     {
-      title: "하루 3문장이면?\n1년에 1,000문장이라구요!",
+      title: "4.꾸준함은 모든 것을 해냅니다!",
       text:
         "매일 원하는 시간에 영어 문장을 보내드려요. \n통상 기본 회화를 하려면 500문장이 필요하다고 합니다.",
       image_url: "/assets/home/section-pros-3.png",
     },
     {
-      title: "하루 43원 놀라운 가성비!!",
+      title: "5. 망각을 대비하는 반복학습!",
       text:
-        " 사는가 눈이 것은 옷을 인류의 약동하다. \n길지 가진 실현에 인생을 구하지 운다. ",
-      image_url: "/assets/home/section-pros-4.png",
+        "1일이면 50, 3일이면 100을 잊어버리는 것을 아시나요? 틀린 문제를 반복해서 풀도록 도와드려요!",
+      image_url: "/assets/home/section-pros-3.png",
     },
   ];
   return (
@@ -93,124 +113,81 @@ export default observer(() => {
           {/* 문제 풀기 섹션 */}
           <section
             id="writing-section"
-            className="sm:px-16 px-4 sm:pt-36 pb-12 pt-6"
+            className="px-2 sm:pt-36 pb-12 pt-6 flex flex-col items-center"
           >
-            <div className="sm:flex justify-center gap-2 pt-3">
-              <div className="">
-                <h3 className="whitespace-pre-line sm:text-4xl text-2xl sm:text-left text-center font-bold">{`스스로 완성하는 영작\n헬로제니`}</h3>
-                <div className="whitespace-pre-line pt-4 text-gray-700 font-normal sm:text-left text-center">
-                  {`하루에 3문장이면 1년에 1000천 문장. \n헬로 제니, 영어를 배우는 새로운 세상을 경험하세요.`}
-                </div>
-                <div className="flex-1 sm:hidden p-4">
-                  <img
-                    className="w-2/3 mx-auto"
-                    src="/assets/home/header-img.png"
-                    alt="main writing"
-                  />
-                </div>
-                <div className="flex gap-2 sm:pt-10 pt-4 sm:justify-start justify-center">
-                  <button
-                    className="px-6 py-2 rounded shadow-lg text-lg bg-white flex gap-2 font-bold"
-                    onClick={goWritingBase}
-                  >
-                    <img className="w-6" src="/assets/write-icon.png" />
-                    <div>100문장 무료 체험하기</div>
-                  </button>
-                </div>
-              </div>
-              <div className="flex-1 sm:block hidden">
-                <img
-                  className="w-3/4"
-                  src="/assets/home/header-img.png"
-                  alt="main writing"
-                />
-              </div>
+            <h3 className="whitespace-pre-line sm:text-6xl text-2xl font-bold">{`스스로 완성하는 영작, 헬로제니!`}</h3>
+
+            <div className="pt-4 text-gray-700 font-normal text-xl text-center">
+              <div><b>하루 3문장</b>이면 <b>1년에 1000문장</b>!</div>
+              <div>영어를 배우는 새로운 세상을 경험하세요.</div>
             </div>
-          </section>
-          {/* 문제 리스트 */}
-        </div>
-        <div className="bg-white sm:pt-0 pt-32 bg-color">
-          <section className="pt-12 pb-24 px-4 text-center">
-            <div className="sm:text-4xl text-xl font-bold pb-6">
-              영작으로 시작하는 나만의 새로운 세상
-            </div>
-            <div className="sm:text-base text-sm sm:pb-6 pb-4 text-gray-800 whitespace-pre-line">
-              {`창공에 예수는 가는 사는가 눈이 것은 옷을 인류의 약동하다. \n끓는 풀이 청춘의 길지 가진 실현에 인생을 구하지 운다. \n귀는 몸이 무엇을 있을 위하여 이는 보라 이는 보라.`}
-            </div>
-            <div>
+
+
+            <div className="sm:block hidden">
               <img
-                className="w-2/3 mx-auto"
+                className="w-full mx-auto"
                 src="/assets/home/section-slogan.png"
               />
             </div>
+
+            <button
+              className="mt-4 px-20 py-4 rounded shadow-lg text-2xl bg-gradient-300 font-bold mx-auto"
+              onClick={goWritingBase}
+            >
+              <div>100문장 무료 체험하기</div>
+            </button>
+          </section>
+          {/* 문제 리스트 */}
+        </div>
+        <div className="bg-base sm:pt-0 pt-32 ">
+          <section className="py-24 px-4 text-center">
+            <div className="sm:text-4xl text-xl font-bold pb-6">
+
+              영어 공부는 이렇게 해야해요!
+            </div>
+            <div className="text-gray-600">지금까지 우리는 왜, 그렇게 많은 시간을 투자하고도 영어가 잘 되지 않았을까요?</div>
+            <div className="text-gray-600 pb-6">헬로 제니가 제안하는 '독학하는 영어 공부 법'</div>
+            <div className="sm:text-base text-sm sm:pb-6 pb-4 text-gray-800 whitespace-pre-line">
+              {`선생님과 함께하는 공부, 시간을 따로 내야 하는 공부. 부담스럽지 않으셨나요? \n헬로 제니에서는 매일 3문장씩 만들어내는 습관을 만들 수 있어요!`}
+            </div>
           </section>
         </div>
-        <SectionAdvantage content={advantages[0]} isImageLeft={true} />
-        <SectionAdvantage content={advantages[1]} isImageLeft={false} />
-        <SectionAdvantage content={advantages[2]} isImageLeft={true} />
-        <SectionAdvantage content={advantages[3]} isImageLeft={false} />
+        <SectionProsTheme content={advantages[0]} isImageLeft={false} themes={writingStore.themes ? writingStore.themes : null} />
+        <SectionAdvantage content={advantages[1]} isImageLeft={true} />
+        <SectionAdvantage content={advantages[2]} isImageLeft={false} />
+        <SectionAdvantage content={advantages[3]} isImageLeft={true} />
+        <SectionAdvantage content={advantages[4]} isImageLeft={false} />
 
         <div className="bg-main-2">
-          <section className="pt-8 px-4 flex flex-col items-center">
-            <div className="flex">
+          <section className="py-12 px-4 flex flex-col items-center">
+            <div className="flex pb-6">
               <div className="text-center">
-                <div className="text-gray-700 text-sm pb-1">
+                <div className="text-gray-700 text-xl pb-1">
                   하루 3문장, 1년이면 1073 문장!!
                 </div>
-                <div className="text-2xl text-center font-bold margin-small">
+                <div className="text-4xl text-center font-bold margin-small">
                   1천 문장의 기적
                 </div>
-                <div className="text-2xl pb-6">
+                <div className="text-3xl">
                   {`제니와 함께 만들어볼까요?`}
                 </div>
-                <div
-                  className="flex bg-white py-2 px-4 rounded font-bold shadow-lg mx-auto gap-2 justify-center items-center cursor-pointer mb-8"
-                  onClick={goWritingBase}
-                >
-                  <img
-                    src="/assets/write-icon.png"
-                    alt="advantage 1"
-                    className="w-6 h-6"
-                  />
-                  <div className="text-center items-center">
-                    100문장 무료 체험하기
-                  </div>
-                </div>
               </div>
-              <div className="ml-8 w-20 sm:block hidden self-end">
+              <div className="ml-8 w-20 sm:block hidden">
                 <img src="/assets/home/avatar-2.png" />
+              </div>
+            </div>
+            <div
+              className="mt-4 px-20 py-4 rounded shadow-lg text-2xl bg-gradient-300 font-bold mx-auto"
+              onClick={goWritingBase}
+            >
+              <div className="text-center items-center">
+                100문장 무료 체험하기
               </div>
             </div>
           </section>
         </div>
-        <section className="py-20 px-12 " id="more">
-          <h3 className="text-lg font-bold text-center whitespace-pre-line pb-6">
-            {`3152개 이상의 문장, 152개의 테마를\n원하는 대로, 원하는 만큼`}
-          </h3>
-          <div onClick={goWritingBase}>
-            {writingStore.themes ? (
-              <>
-                <div className="sm:block hidden">
-                  <ThemeCardSwiper themes={writingStore.themes} />
-                </div>
-
-                <div className="sm:hidden">
-                  {writingStore.themes.map((theme) => (
-                    <ThemeCard theme={theme} disabled={false} />
-                  ))}
-                </div>
-              </>
-            ) : (
-              <>
-                <SkeletonTheme />
-                <SkeletonTheme />
-                <SkeletonTheme />
-              </>
-            )}
-          </div>
-        </section>
       </>
-    </Main>
+    </Main >
   );
 });
 
@@ -227,7 +204,7 @@ const SectionAdvantage = ({
       <div className="sm:text-3xl text-xl font-bold pb-4 pt-4 text-center whitespace-pre-line">
         {content.title}
       </div>
-      <div className="w-2/3 mx-auto">
+      <div className="w-1/2 mx-auto">
         <img src={content.image_url} alt="advantage 1" className="" />
       </div>
       <div className="flex flex-col justify-center pt-4">
@@ -240,14 +217,14 @@ const SectionAdvantage = ({
 
     <div className={isImageLeft ? "" : "bg-base"}>
       <section
-        className={`sm:py-20 sm:px-12 sm:flex hidden justify-between gap-12`}
+        className={`sm:py-20 sm:flex hidden justify-between gap-12`}
       >
         {isImageLeft && (
-          <div className="w-2/5">
+          <div className="w-1/2">
             <img src={content.image_url} alt="advantage 1" className="" />
           </div>
         )}
-        <div className="w-3/5 flex flex-col justify-center whitespace-pre-line">
+        <div className="w-1/2 flex flex-col justify-center whitespace-pre-line">
           <div className="sm:text-3xl text-xl font-bold pb-4">
             {content.title}
           </div>
@@ -256,8 +233,78 @@ const SectionAdvantage = ({
           </div>
         </div>
         {!isImageLeft && (
-          <div className="w-2/5">
+          <div className="w-1/2">
             <img src={content.image_url} alt="advantage 1" className="" />
+          </div>
+        )}
+      </section>
+    </div>
+  </>
+);
+
+
+const SectionProsTheme = ({
+  content,
+  isImageLeft,
+  themes
+}: {
+  content: any;
+  isImageLeft: boolean;
+  themes: ITheme[] | null;
+}) => (
+  <>
+    {/* 모바일 뷰 */}
+    <section className={`p-4 gap-8 sm:hidden`}>
+      <div className="sm:text-3xl text-xl font-bold pb-4 pt-4 text-center whitespace-pre-line">
+        {content.title}
+      </div>
+      <div className="w1/2 mx-auto">
+        {themes ?
+          <div className="sm:block hidden">
+            <ThemeCardSwiper themes={themes} />
+          </div>
+          : <SkeletonTheme />
+        }
+      </div>
+      <div className="flex flex-col justify-center pt-4">
+        <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500">
+          {content.text}
+        </div>
+      </div>
+    </section>
+    {/* PC 뷰 */}
+
+    <div className={isImageLeft ? "" : "bg-base"}>
+      <section
+        className={`sm:py-20 sm:flex hidden justify-between gap-12`}
+      >
+        {isImageLeft && (
+          <div className="w-1/2">
+            {themes ?
+              <div className="sm:block hidden">
+                <ThemeCardSwiper themes={themes} />
+              </div>
+              : <SkeletonTheme />
+            }
+          </div>
+        )}
+        <div className="w-1/2 flex flex-col justify-center whitespace-pre-line">
+          <div className="sm:text-3xl text-xl font-bold pb-4">
+            {content.title}
+          </div>
+          <div className="sm:text-base text-sm sm:pb-8 pb-4 text-gray-500 leading-3">
+            {content.text}
+          </div>
+
+        </div>
+        {!isImageLeft && (
+          <div className="w-1/2">
+            {themes ?
+              <div className="sm:block hidden">
+                <ThemeCardSwiper themes={themes} />
+              </div>
+              : <SkeletonTheme />
+            }
           </div>
         )}
       </section>
