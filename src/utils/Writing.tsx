@@ -36,6 +36,10 @@ class Writing {
     return this.writing.en_sentence.trim();
   };
 
+  getShortDescription = () => {
+    return this.writing.short_description ? this.writing.short_description : null;
+  };
+
   /** 정답 문장에서 몇 퍼센트 단어 맞췄는지 return */
   getMatchedWordPercent = (tryText: string) => {
     const correctTextWords = this.convertPlainText(

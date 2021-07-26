@@ -120,6 +120,7 @@ export class DialogStore {
         <DialogAnswer
           userSentence={this.userSentence}
           answer={this.writing.getAnswerSentence()}
+          shortDescription={this.writing.getShortDescription()}
         />
       );
     }

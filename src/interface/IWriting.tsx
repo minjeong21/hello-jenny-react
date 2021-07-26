@@ -3,6 +3,7 @@ export default interface IWriting {
   kr_sentence: string;
   en_sentence: string;
   alter_sentences: string[];
+  short_description: string;
   first_word: string;
   id: number;
   level: number;
