@@ -11,8 +11,8 @@ const DialogHint = ({ hint }: { hint: IHint }) => {
       description = `<div>문장이 <span class="text-red-500">${description}</span>로 시작해요!</div>`;
       break;
     case "word":
-      const postFix = ["도 있어요.", "도 포함되어 있어요.", " 단어가 있어요."];
-      const index = Math.floor(Math.random() * 3);
+      const postFix = ["가 쓰였어요.", " 단어가 있어요."];
+      const index = Math.floor(Math.random() * postFix.length);
       description = `<div><span class="text-red-500">${description}</span>${postFix[index]}</div>`;
       break;
     case "blank":

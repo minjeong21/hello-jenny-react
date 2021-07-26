@@ -25,25 +25,18 @@ const Main = styled.main`
     line-height: 1.3;
   }
 
-  .char-image{
-    width:100%;
-    max-width:620px;
-    
-  }
-
   .bg-main {
-    background-color: #a3d3af;
-    background-image: url(/assets/home/bg-main-1.png);
-    background-size: contain;
+    backgrounc-color: #a3d3af;
+    background-image: url(/assets/home/bg-main-2.jpg);
+    background-size: cover;
+    background-position: center;
     background-repeat: repeat-x;
   }
   @media (max-width: 640px) {
     .bg-main {
-      backgrounc-color: #a3d3af;
-      background-image: url(/assets/home/bg-main-1.png);
+      background-image: url(/assets/home/bg-main-2.jpg);
       background-size: cover;
       background-position: center;
-      height: 350px;
     }
   }
 
@@ -109,44 +102,44 @@ export default observer(() => {
   return (
     <Main className="tracking-tighter">
       <>
-        <div className="pt-20 bg-main bg-primary-600 tracking-tighter">
+        <div className="pt-20 bg-main tracking-tighter">
           {/* 문제 풀기 섹션 */}
           <section
             id="writing-section"
-            className="px-2 sm:pt-36 pb-12 pt-6 flex flex-col items-center"
+            className="px-2 flex flex-col justify-center items-center h-screen"
           >
-            <h3 className="whitespace-pre-line sm:text-6xl text-2xl font-bold">{`스스로 완성하는 영작, 헬로제니!`}</h3>
+            <h3 className="whitespace-pre-line sm:text-6xl text-2xl font-bold pb-6">{`스스로 완성하는 영작, 헬로제니!`}</h3>
 
-            <div className="pt-4 text-gray-700 font-normal text-xl text-center">
-              <div><b>하루 3문장</b>이면 <b>1년에 1000문장</b>!</div>
+            <div className="font-normal text-xl text-center">
+              <div>하루 3문장이면1년에 1000문장!</div>
               <div>영어를 배우는 새로운 세상을 경험하세요.</div>
             </div>
 
 
-            <div className="sm:block hidden">
+            <div className="pb-6">
               <img
-                className="w-full mx-auto"
-                src="/assets/home/section-slogan.png"
+                className="w-full"
+                src="/assets/home/section-slogan-1.png"
               />
             </div>
 
             <button
-              className="mt-4 px-20 py-4 rounded shadow-lg text-2xl bg-gradient-300 font-bold mx-auto"
+              className="sm:px-24 w-full sm:w-auto sm:py-6 py-3 my-16 rounded shadow-lg sm:text-3xl text-xl bg-gradient-300 font-bold mx-auto"
               onClick={goWritingBase}
             >
-              <div>100문장 무료 체험하기</div>
+              <div>100문장 무료 체험하기 💕 </div>
             </button>
           </section>
           {/* 문제 리스트 */}
         </div>
-        <div className="bg-base sm:pt-0 pt-32 ">
+        <div className="bg-base">
           <section className="py-24 px-4 text-center">
             <div className="sm:text-4xl text-xl font-bold pb-6">
 
               영어 공부는 이렇게 해야해요!
             </div>
             <div className="text-gray-600">지금까지 우리는 왜, 그렇게 많은 시간을 투자하고도 영어가 잘 되지 않았을까요?</div>
-            <div className="text-gray-600 pb-6">헬로 제니가 제안하는 '독학하는 영어 공부 법'</div>
+            <div className="text-gray-600 pb-6">헬로 제니가 제안하는 '독학하는 영어 공부법'</div>
             <div className="sm:text-base text-sm sm:pb-6 pb-4 text-gray-800 whitespace-pre-line">
               {`선생님과 함께하는 공부, 시간을 따로 내야 하는 공부. 부담스럽지 않으셨나요? \n헬로 제니에서는 매일 3문장씩 만들어내는 습관을 만들 수 있어요!`}
             </div>
@@ -177,7 +170,7 @@ export default observer(() => {
               </div>
             </div>
             <div
-              className="mt-4 px-20 py-4 rounded shadow-lg text-2xl bg-gradient-300 font-bold mx-auto"
+              className="mt-4 sm:px-20 w-full sm:w-auto py-4 rounded shadow-lg text-2xl bg-gradient-300 font-bold mx-auto"
               onClick={goWritingBase}
             >
               <div className="text-center items-center">
@@ -201,7 +194,7 @@ const SectionAdvantage = ({
   <>
     {/* 모바일 뷰 */}
     <section className={`p-4 gap-8 sm:hidden`}>
-      <div className="sm:text-3xl text-xl font-bold pb-4 pt-4 text-center whitespace-pre-line">
+      <div className="sm:text-3xl text-2xl font-bold pb-4 pt-4 text-center whitespace-pre-line">
         {content.title}
       </div>
       <div className="w-1/2 mx-auto">
@@ -255,7 +248,7 @@ const SectionProsTheme = ({
   <>
     {/* 모바일 뷰 */}
     <section className={`p-4 gap-8 sm:hidden`}>
-      <div className="sm:text-3xl text-xl font-bold pb-4 pt-4 text-center whitespace-pre-line">
+      <div className="sm:text-3xl text-2xl font-bold pb-4 pt-4 text-center whitespace-pre-line">
         {content.title}
       </div>
       <div className="w1/2 mx-auto">
