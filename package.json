@@ -39,10 +39,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy:alpha": "yarn build",
+    "predeploy:dev": "yarn build",
     "predeploy": "yarn build",
-    "deploy": "aws s3 sync --cache-control 'max-age=604800' --exclude '*.html' --exclude '*/index.js' build/ s3://english-training/ && aws s3 sync --cache-control 'no-cache' build/ s3://english-training/",
-    "deploy:alpha": "aws s3 sync --cache-control 'max-age=604800' --exclude '*.html' --exclude '*/index.js' build/ s3://hello-jenny-alpha/ && aws s3 sync --cache-control 'no-cache' build/ s3://hello-jenny-alpha/",
+    "deploy:dev": "aws s3 sync --cache-control 'max-age=604800' --exclude '*.html' --exclude '*/index.js' build/ s3://english-training/ && aws s3 sync --cache-control 'no-cache' build/ s3://english-training/",
+    "deploy": "aws s3 sync --cache-control 'max-age=604800' --exclude '*.html' --exclude '*/index.js' build/ s3://hello-jenny-alpha/ && aws s3 sync --cache-control 'no-cache' build/ s3://hello-jenny-alpha/",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
