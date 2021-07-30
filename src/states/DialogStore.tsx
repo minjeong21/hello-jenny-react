@@ -4,6 +4,7 @@ import DialogExplain from "components/DialogExplain";
 import DialogHint from "components/DialogHInt";
 import DialogJenny from "components/DialogJenny";
 import DialogWrong from "components/DialogWrong";
+import RightArrowIcon from "components/icons/RightArrowIcon";
 import { action, makeObservable, observable, runInAction } from "mobx";
 import Writing from "utils/Writing";
 
@@ -14,13 +15,7 @@ export class DialogStore {
   hintCount: number;
   dialogButtons: DialogButton[];
   showSubjectiveHint: boolean;
-  currentType:
-    | "HELP"
-    | "HINT"
-    | "WRONG"
-    | "CORRECT"
-    | "SHOW_ANSWER"
-    | "EXPLAIN";
+
   textInWrinting: string;
   userSentence: string;
   moveNextWriting: any;
@@ -37,13 +32,12 @@ export class DialogStore {
     this.rootStore = root;
     this.writing = null;
     this.dialogList = [];
-    this.dialogButtons = [];
     this.showSubjectiveHint = false;
     this.hintCount = 0;
-    this.currentType = "HELP";
     this.textInWrinting = "";
     this.userSentence = "";
     this.tempButtons = [];
+    this.dialogButtons = [];
   }
 
   @action setTextInWriting = (value: string) => {
@@ -60,22 +54,36 @@ export class DialogStore {
   };
 
   hasMoreHint = () => {
-    return this.writing ? this.writing.hasMoreHint(this.hintCount) : false;
+    return this.writing && this.writing.getWriting().hints
+      ? this.writing.getWriting().hints.length > this.hintCount
+      : false;
   };
 
-  @action appendDialog = (type: string, element: JSX.Element) => {
+  @action appendDialog = (
+    type:
+      | "INIT"
+      | "HELP"
+      | "HINT"
+      | "WRONG"
+      | "CORRECT"
+      | "SHOW_ANSWER"
+      | "EXPLAIN",
+    element: JSX.Element
+  ) => {
     runInAction(() => {
       this.dialogList = [...this.dialogList, { type, element }];
-      this.updateButtonActions();
+      this.updateButtonActions(type);
     });
 
-    setTimeout(() => {
-      var dialogSection = document.getElementById("explain-section");
+    if (window.innerWidth < 480) {
+      const dialogSection: any = document.querySelector("#explain-section");
+      const offsetTop = dialogSection.scrollHeight;
 
-      if (dialogSection) {
-        dialogSection.scrollTop = dialogSection.scrollHeight;
-      }
-    }, 500);
+      dialogSection.scroll({
+        top: offsetTop,
+        behavior: "smooth",
+      });
+    }
   };
 
   @action setMoveNextWriing = (moveNextWriting: (e: any) => void) => {
@@ -90,15 +98,14 @@ export class DialogStore {
     });
     this.hintCount = 0;
     this.showSubjectiveHint = false;
-    this.currentType = "HELP";
     this.textInWrinting = "";
     this.userSentence = "";
     const englishInput: any = document.getElementById("english_input");
     if (englishInput) {
       englishInput.readOnly = false;
-      englishInput.classList.add("bg-basic-100");
       englishInput.addEventListener("focus", this.scrollEvent);
     }
+    this.updateButtonActions("INIT");
   };
 
   scrollEvent = () => {
@@ -112,15 +119,16 @@ export class DialogStore {
       });
     }
   };
+
   addHelpJenny = (e: any) => {
     e.preventDefault();
-    this.appendDialog("jenny", <DialogJenny />);
+    this.appendDialog("HINT", <DialogJenny />);
   };
 
   addCorrect = () => {
     this.userSentence = this.textInWrinting;
     this.appendDialog(
-      "jenny",
+      "CORRECT",
       <DialogCorrect userSentence={this.userSentence} />
     );
   };
@@ -128,7 +136,7 @@ export class DialogStore {
     this.userSentence = this.textInWrinting;
     if (this.writing) {
       this.appendDialog(
-        "jenny",
+        "WRONG",
         <DialogWrong
           isShowHelp={isShowColorHelp}
           moreDescription={moreDescription}
@@ -141,10 +149,9 @@ export class DialogStore {
     }
   };
   addShowAnswer = () => {
-    this.currentType = "SHOW_ANSWER";
     if (this.writing) {
       this.appendDialog(
-        "jenny",
+        "SHOW_ANSWER",
         <DialogAnswer
           userSentence={this.userSentence}
           answer={this.writing.getAnswerSentence()}
@@ -153,11 +160,10 @@ export class DialogStore {
     }
   };
   addSubjectiveHint = () => {
-    this.currentType = "HINT";
     this.showSubjectiveHint = true;
     if (this.writing) {
       this.appendDialog(
-        "jenny",
+        "HINT",
         <DialogHint
           talkText={"첫 단어 힌트 갑니다!"}
           hint={this.writing.getSubjective()}
@@ -166,7 +172,6 @@ export class DialogStore {
     }
   };
   addHint = () => {
-    this.currentType = "HINT";
     let talkText = "그 다음 힌트에요!";
 
     switch (this.hintCount) {
@@ -188,7 +193,7 @@ export class DialogStore {
     this.hintCount += 1;
     if (this.writing) {
       this.appendDialog(
-        "jenny",
+        "HINT",
         <DialogHint
           talkText={talkText}
           hint={this.writing.getHintDescription(currentHintCount)}
@@ -198,11 +203,10 @@ export class DialogStore {
     }
   };
   addExplain = (startIndex: number) => {
-    this.currentType = "EXPLAIN";
     let talkText = "문장에 대해 더 깊게 이해해보아요 :) ";
     if (this.writing) {
       this.appendDialog(
-        "jenny",
+        "EXPLAIN",
         <DialogExplain
           talkText={talkText}
           hints={this.writing.getRemainedAllHints(startIndex)}
@@ -215,26 +219,60 @@ export class DialogStore {
     window.location.reload();
   };
 
-  @action updateButtonActions = () => {
+  @action updateButtonActions = (
+    type:
+      | "INIT"
+      | "HELP"
+      | "HINT"
+      | "WRONG"
+      | "CORRECT"
+      | "SHOW_ANSWER"
+      | "EXPLAIN"
+  ) => {
+    const FirstWordButton = new DialogButton(
+      "🔑 첫단어",
+      this.addSubjectiveHint
+    );
+    const HintButton = new DialogButton("🔑 힌트 ", this.addHint);
+    const NextButton = new DialogButton(
+      (
+        <div className="flex items-center">
+          <RightArrowIcon />
+        </div>
+      ),
+      (e: any) => this.moveNextWriting(e)
+    );
+    const AnswerButton = new DialogButton(
+      "😎 정답 알려줘 ",
+      this.addShowAnswer
+    );
+    const ReTryButton = new DialogButton("🕺다시 풀래", this.reload);
+
     this.tempButtons = [];
-    switch (this.currentType) {
+    switch (type) {
+      case "INIT": // 도와줘 제니.
+        if (!this.showSubjectiveHint) {
+          this.tempButtons.push(FirstWordButton);
+        }
+        console.log("this.hasMoreHint():", this.hasMoreHint());
+        if (this.hasMoreHint()) {
+          this.tempButtons.push(HintButton);
+        }
+        this.tempButtons.push(AnswerButton);
+        this.tempButtons.push(NextButton);
+        break;
+
       case "HELP": // 도와줘 제니.
       case "HINT":
       case "WRONG":
         if (!this.showSubjectiveHint) {
-          this.tempButtons.push(
-            new DialogButton("첫 단어 🔑", this.addSubjectiveHint)
-          );
+          this.tempButtons.push(FirstWordButton);
         }
         if (this.hasMoreHint()) {
-          this.tempButtons.push(new DialogButton("힌트 🔑", this.addHint));
+          this.tempButtons.push(HintButton);
         }
-        this.tempButtons.push(
-          new DialogButton("정답 알려줘 😎", this.addShowAnswer)
-        );
-        this.tempButtons.push(
-          new DialogButton("다음 문제", (e: any) => this.moveNextWriting(e))
-        );
+        this.tempButtons.push(AnswerButton);
+        this.tempButtons.push(NextButton);
 
         break;
       case "CORRECT":
@@ -246,16 +284,12 @@ export class DialogStore {
             )
           );
         }
-        this.tempButtons.push(new DialogButton("🕺다시 풀래", this.reload));
-        this.tempButtons.push(
-          new DialogButton("😎 다음 문제", (e: any) => this.moveNextWriting(e))
-        );
+        this.tempButtons.push(ReTryButton);
+        this.tempButtons.push(NextButton);
         break;
       default:
-        this.tempButtons.push(new DialogButton("🕺다시 풀래", this.reload));
-        this.tempButtons.push(
-          new DialogButton("😎 다음 문제", (e: any) => this.moveNextWriting(e))
-        );
+        this.tempButtons.push(ReTryButton);
+        this.tempButtons.push(NextButton);
     }
 
     runInAction(() => {
@@ -265,9 +299,10 @@ export class DialogStore {
 }
 
 class DialogButton {
-  label: string;
+  label: any;
   onClick: () => void;
-  constructor(label: string, onClick: any) {
+
+  constructor(label: any, onClick: any) {
     this.label = label;
     this.onClick = onClick;
   }

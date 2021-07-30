@@ -29,7 +29,6 @@ const App = () => {
       <Route exact path="/writing/:id/">
         <TopNavigation />
         <Detail />
-        <Footer />
       </Route>
       <Route path="/writing">
         <TopNavigation />

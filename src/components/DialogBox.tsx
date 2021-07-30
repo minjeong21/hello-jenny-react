@@ -21,36 +21,9 @@ const DialogBox = observer(({ writing }: { writing: Writing }) => {
             <div key={index}>{dialog.element}</div>
           ))}
         </section>
-        <section>
-          {dialogStore.getDialogs().length > 0 && dialogStore.dialogButtons && (
-            <div className="flex justify-end pt-3 flex-wrap">
-              {dialogStore.dialogButtons.map((item, index) => (
-                <SmallButton
-                  key={index}
-                  text={item.label}
-                  onClick={item.onClick}
-                />
-              ))}
-            </div>
-          )}
-        </section>
       </div>
     </section>
   );
 });
 
-const SmallButton = ({
-  onClick,
-  text,
-}: {
-  onClick: () => void;
-  text: string;
-}) => (
-  <button
-    onClick={onClick}
-    className="focus:outline-none text-xs md:text-sm font-bold md:font-medium py-1 px-2 rounded-md text-white bg-brown-500 hover:bg-brown-700 ml-1"
-  >
-    {text}
-  </button>
-);
 export default DialogBox;

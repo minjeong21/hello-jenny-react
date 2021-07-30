@@ -3,9 +3,8 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import PathManager from "utils/PathManager";
 import { observer } from "mobx-react";
-import GoogleIcon from "components/GoogleIcon";
-import KakaoIcon from "components/KakaoIcon";
 import { registerUser } from "apis/AuthApi";
+import LogoIcon from "components/icons/LogoIcon";
 
 const Main = styled.main`
   .margin-auto {
@@ -97,11 +96,11 @@ const SignUp = observer(() => {
   };
   return (
     <Main className="pt-24 pb-24 flex flex-col items-center">
-      <div className="w-full margin-auto p-3 md:pt-16">
+      <div className="w-full margin-auto p-3 sm:pt-16">
         <header className="flex justify-between width-460 margin-auto relative pt-4">
           <button
             id="signup-button"
-            className="absolute bottom-0 right-2 bg-gray-400 text-white font-bold px-4 py-3 rounded-t self-end md:text-base text-sm"
+            className="absolute bottom-0 right-2 bg-gray-400 text-white font-bold px-4 py-3 rounded-t self-end sm:text-base text-sm"
             onClick={signin}
           >
             로그인 하러가기
@@ -109,7 +108,7 @@ const SignUp = observer(() => {
         </header>
 
         <section className="p-8 max-w-screen-sm width-460 bg-white border rounded-lg  shadow-custom z-10">
-          <h3 className="md:text-3xl text-2xl font-bold mb-6 text-center">
+          <h3 className="sm:text-3xl text-2xl font-bold mb-6 text-center">
             제니 멤버되기
           </h3>
           {step === 0 && (
@@ -141,19 +140,15 @@ const SignUp = observer(() => {
                   className="py-3 mb-3 border-0 font-bold w-full shadow-custom kakao-signin"
                   onClick={signinWithKakao}
                 >
-                  <div className="flex justify-center md:text-base text-sm">
-                    <KakaoIcon />
-                    <span>카카오로 멤버 되기</span>
+                  <div className="flex justify-center sm:text-base text-sm">
+                    <LogoIcon name="kakao" />
                   </div>
                 </button>
                 <button
                   className="py-3 mb-3 border-0 font-bold w-full shadow-custom gmail-signin"
                   onClick={signinWithGoogle}
                 >
-                  <div className="flex justify-center md:text-base text-sm">
-                    <GoogleIcon />
-                    <span>구글로 멤버 되기</span>
-                  </div>
+                  <div className="flex justify-center sm:text-base text-sm"></div>
                 </button>
               </section>
             </>

@@ -27,8 +27,8 @@ const DialogHint = ({
           </div>
         </div>
       </DialogTitle>
-      <div className="md:text-sm text-xs pt-2">
-        <div className="text-xs md:text-base">
+      <div className="sm:text-sm text-xs pt-2">
+        <div className="text-xs sm:text-base">
           <div>
             <div
               className="inline"

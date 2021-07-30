@@ -1,14 +1,16 @@
 const LEVELS = "levels";
 const THEMES = "themes";
+const TOKEN = "token";
+const USER_BASIC = "USER_BASIC";
 
 export default {
-  setSelectedLevelsToSession: (levels: string) => {
+  saveSelectedLevels: (levels: string) => {
     sessionStorage.setItem(LEVELS, levels);
   },
-  setSelectedThemesToSession: (themes: string) => {
+  saveSelectedThemes: (themes: string) => {
     sessionStorage.setItem(THEMES, themes);
   },
-  getSelectedLevelsFromSession: () => {
+  getSelectedLevels: () => {
     const levels = sessionStorage.getItem(LEVELS);
     if (levels && levels.length > 0) {
       return levels.split(",");
@@ -16,12 +18,29 @@ export default {
       return [];
     }
   },
-  getSelectedThemesFromSession: () => {
+  getSelectedThemes: () => {
     const themes = sessionStorage.getItem(THEMES);
     if (themes && themes.length > 0) {
       return themes.split(",");
     } else {
       return [];
     }
+  },
+  saveToken: (token: string | null) => {
+    token
+      ? sessionStorage.setItem(TOKEN, token)
+      : sessionStorage.removeItem(TOKEN);
+  },
+  getToken: () => {
+    return sessionStorage.getItem(TOKEN);
+  },
+  saveUser: (user: string | null) => {
+    user
+      ? sessionStorage.setItem(USER_BASIC, user)
+      : sessionStorage.removeItem(USER_BASIC);
+  },
+  getUser: () => {
+    const user = sessionStorage.getItem(USER_BASIC);
+    return user ? JSON.parse(user) : null;
   },
 };

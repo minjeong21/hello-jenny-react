@@ -1,4 +1,4 @@
-const FilterIcon = () => (
+const FilterAddIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className="h-7 w-7 text-primary-300"
@@ -13,4 +13,4 @@ const FilterIcon = () => (
   </svg>
 );
 
-export default FilterIcon;
+export default FilterAddIcon;

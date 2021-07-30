@@ -41,10 +41,10 @@ const Detail = observer(() => {
   }, [id, writingStore]);
 
   return (
-    <Main className="md:pt-20 pt-12 px-3">
+    <Main className="sm:pt-20 pt-12 sm:px-3 bg-gray-100">
       <section>
-        <div className="flex justify-end py-5 px-3">
-          <div className="flex bg-gray-200 fit-h self-center px-3 py-2 md:py-3 md:px-5 mr-1 rounded-xl shadow-sm md:text-sm text-xs">
+        <div className="hidden sm:flex justify-end pt-5 px-3 ">
+          <div className="flex bg-gray-200 fit-h self-center px-3 py-2 sm:py-3 sm:px-5 mr-1 rounded-xl shadow-sm sm:text-sm text-xs">
             힌트를 사용해서 문제를 풀어보아요!
           </div>
           <img
@@ -73,7 +73,7 @@ const Detail = observer(() => {
           <>
             {writingStore.currentWriting &&
             writingStore.currentWriting.writing ? (
-              <>
+              <div className="pt-5 px-1">
                 <FilterPopup
                   open={popupOpen}
                   closePopup={() => setPopupOpen(false)}
@@ -92,7 +92,7 @@ const Detail = observer(() => {
                     )
                   }
                 />
-              </>
+              </div>
             ) : (
               <div>
                 <SkeletonWritingBox />
@@ -102,7 +102,7 @@ const Detail = observer(() => {
         )}
       </section>
 
-      <div className="md:pb-12" />
+      <div className="sm:pb-12" />
     </Main>
   );
 });

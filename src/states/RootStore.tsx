@@ -1,18 +1,18 @@
 import { WritingStore } from "states/WritingStore";
 import { DialogStore } from "states/DialogStore";
-import { ProfileStore } from "states/ProfileStore";
+import { UserStore } from "states/UserStore";
 import { SpeakingStore } from "states/SpeakingStore";
 
 export class RootStore {
   speakingStore;
   writingStore;
   dialogStore;
-  profileStore;
+  userStore;
 
   constructor() {
     this.writingStore = new WritingStore(this);
     this.dialogStore = new DialogStore(this);
-    this.profileStore = new ProfileStore(this);
+    this.userStore = new UserStore(this);
     this.speakingStore = new SpeakingStore(this);
   }
 }

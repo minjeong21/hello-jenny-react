@@ -4,6 +4,7 @@ import { useStores } from "states/Context";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 const Container = styled.nav`
+min-width:320px;
 
   .fade-in-box {
     animation: fadein 0.2s;
@@ -23,7 +24,7 @@ const Container = styled.nav`
 
 const TopNavigation = () => {
   const pathManager = new PathManager(useHistory());
-  const { writingStore, profileStore } = useStores();
+  const { writingStore, userStore } = useStores();
   const [openMenu, setMenuOpen] = useState(false);
   const [openProfile, setProfileOpen] = useState(false);
   const [loggined, setLoggined] = useState(false);
@@ -44,12 +45,12 @@ const TopNavigation = () => {
   const isSignPage = () => {
     return window.location.href.includes("signin");
   };
-  console.log(profileStore.getToken());
+  console.log(userStore.getToken());
   return (
     <Container className="absolute top-0 w-full ">
-      <div className="md:p-4 md:min-h-0">
-        <nav className="flex md:p-4 px-2 items-center relative justify-between z-10">
-          <div className="text-lg font-bold md:block hidden">
+      <div className="sm:min-h-0">
+        <nav className="flex sm:p-3 px-2 items-center relative justify-between z-10">
+          <div className="font-bold sm:block hidden">
             <a href="/">
               <img
                 src="/logo2.png"
@@ -60,7 +61,7 @@ const TopNavigation = () => {
               />
             </a>
           </div>
-          <div className="text-lg font-bold md:hidden block">
+          <div className="font-bold sm:hidden block">
             <a href="/">
               <img
                 src="/logo192.png"
@@ -71,41 +72,47 @@ const TopNavigation = () => {
               />
             </a>
           </div>
-          {/* <ul className="md:hidden">
+          {/* <ul className="sm:hidden">
             <HamberMenu open={openMenu} toggleMenu={toggleMenu} />
           </ul> */}
-          <ul className="md:px-2 ml-0 ml-auto flex space-x-2  fade-in-box">
+          <ul className="sm:px-2 ml-0 ml-auto flex space-x-2 fade-in">
             <WideButton onClick={(e) => goNextWriting(e)} label={"영작 연습"} />
             <WideButton onClick={goSpeaking} label={"스피킹 연습"} />
-          </ul>
-          {profileStore.isLogined() ? (
-            <>
-              <button
-                onClick={(e) => pathManager.goUserProfile(e)}
-                className="flex ml-3 text-gray-400 text-sm border-2 border-white
+            {userStore.isLogined() ? (
+              <>
+                <button
+                  onClick={(e) => pathManager.goUserProfile(e)}
+                  className="flex ml-3 text-gray-400 text-sm border-2 border-white
             rounded-full focus:outline-none focus:border-gray-300 transition
             duration-150 ease-in-out"
-              >
-                <img
-                  className="h-8 w-8 rounded-full"
-                  alt="user avatar"
-                  src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
-                />
-              </button>
-              {openProfile ? <div>hello</div> : null}
-            </>
-          ) : (
-            <>
-              {!isSignPage() && (
-                <button
-                  onClick={(e) => pathManager.goSignIn(e)}
-                  className="bg-primary-700 text-white font-bold ml-2 py-2 px-3 rounded shadow-sm"
                 >
-                  SignIn
+                  <img
+                    className="h-8 w-8 rounded-full"
+                    alt="user avatar"
+                    src="https://d1telmomo28umc.cloudfront.net/media/public/avatars/congchu-avatar.jpg"
+                  />
                 </button>
-              )}
-            </>
-          )}
+                {openProfile ? <div>hello</div> : null}
+              </>
+            ) : (
+              <>
+                <>
+                  <div className="sm:block hidden">
+                    <WideButton
+                      onClick={pathManager.goSignIn}
+                      label={"로그인·회원가입"}
+                    />
+                  </div>
+                  <div
+                    className="sm:hidden block pt-2 pl-2 text-gray-600 w-8 h-8"
+                    onClick={pathManager.goSignIn}
+                  >
+                    <img src="/assets/ico-member.png" alt="member icon" />
+                  </div>
+                </>
+              </>
+            )}
+          </ul>
         </nav>
       </div>
     </Container>
@@ -121,9 +128,9 @@ const WideButton = ({
   label: string;
   onClick: (e?: any) => void;
 }) => (
-  <li className="block pl-2 mb-1 md:border-0">
+  <li className="block pl-2 mb-1 sm:border-0">
     <button
-      className="text-left md:text-center rounded-md md:px-4 py-2 font-semibold text-gray-600 w-max"
+      className="text-sm sm:text-center rounded-md sm:px-2 py-2 w-max "
       onClick={onClick}
     >
       {label}

@@ -36,11 +36,13 @@ class MovePath {
 
   goNextWriting = (e: any, writingId: number) => {
     e.preventDefault();
-    this.history.push(
-      generatePath(Path.WRITING_DETAIL, {
-        numid: writingId,
-      })
-    );
+    return writingId < 0
+      ? null
+      : this.history.push(
+          generatePath(Path.WRITING_DETAIL, {
+            numid: writingId,
+          })
+        );
   };
 
   goWritingWithTheme = (e: any, writingId: number, theme: string) => {
