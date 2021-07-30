@@ -4,13 +4,13 @@ import axiosRetry from "axios-retry";
 axiosRetry(axios, { retries: 3 });
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_DFR_API,
+  baseURL: process.env.LOCAL_API,
   timeout: 5000,
 });
 
 export const fetchRepSpeaking = async () => {
   return instance
-    .get("/speaking/recap/")
+    .get("/speaking/recap")
     .then((response) => response.data)
     .catch(function (error) {
       console.log(error);

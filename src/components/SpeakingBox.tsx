@@ -221,7 +221,7 @@ const SpeakingBox = observer((props: IProps) => {
   }
 
   // console.log(writing.themes);
-  console.log(speakingStore.speakings)
+  console.log(speakingStore.fetchSpeakingsDefault())
   
   return (
     <Container>
