@@ -32,9 +32,9 @@ const Speaking = () => {
     <main className="pt-24">
       <Container>
         <>
-          <main>
+          <main style={{padding:"10px"}}>
             {/* 문제 풀기 섹션 */}
-            <section className="bg-gray-6 pb-xl pt-12">
+            <section  className="bg-gray-6 pb-xl pt-12">
               <div className="pad-l writing-box bg-white mb-l rounded-lg">
                 {/* {writingStore.currentWriting ? (
                   <SpeakingBox

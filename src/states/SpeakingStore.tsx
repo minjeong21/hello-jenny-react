@@ -104,7 +104,8 @@ export class SpeakingStore {
 
   fetchSpeakingsDefault = async () => {
     const response = await fetchSpeakings();
-    this.setSpeakings(response.data);
+    this.setSpeakings(response);
+    console.log(response)
   };
 
   fetchFilteredSpeakingAndUpdate = async (
@@ -148,6 +149,13 @@ export class SpeakingStore {
     }
     return this.speakings ? this.speakings[this.currentIndex].id : -1;
   };
+
+  getSpeaking = () => {
+    const response = fetchSpeakings();
+    console.log(response)
+    return response;
+  };
+
 
   moveSpeakingWithTheme = async (
     e: any,
