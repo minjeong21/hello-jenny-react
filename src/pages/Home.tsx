@@ -26,29 +26,19 @@ const Main = styled.main`
   }
 
   .bg-main {
-    backgrounc-color: #a3d3af;
-    background-image: url(/assets/home/bg-main-2.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: repeat-x;
+    background-color: #ebf1f1;
+    // background-image: url(/assets/home/bg-main-2.jpg);
   }
   @media (max-width: 640px) {
     .bg-main {
-      background-image: url(/assets/home/bg-main-2.jpg);
-      background-size: cover;
-      background-position: center;
+      background-color: #ebf1f1;
+      // background-image: url(/assets/home/bg-main-2.jpg);
     }
   }
 
   .bg-main-2 {
     background-image: url(/assets/home/bg-main-2.png);
     background-size: cover;
-  }
-  .bg-color {
-    background-color: #a3d3af;
-  }
-  .bg-base {
-    background-color: #fbf9f3;
   }
 `;
 
@@ -69,7 +59,7 @@ export default observer(() => {
   const advantages = [
 
     {
-      title: "1. 목표가 있어야 해요.\n 여러분은 왜 영어를 잘하고 싶으신가요?",
+      title: "1. 왜 영어를 잘하고 싶으신가요?",
       text:
         "영어로 된 영화를 이해하고 싶나요? \n영어를 하며 멋지게 여행하고 싶나요? \n외국계 회사에 취직하고 싶나요? \n모든 학습의 시작은 \'why\'에 있다고 생각해요.\n 내가 원하는 목표에 맞게, \n원하는 테마를 선택해서 공부하세요!",
       image_url: "/assets/home/section-pros-2.png",
@@ -101,85 +91,91 @@ export default observer(() => {
   ];
   return (
     <Main className="tracking-tighter">
-      <>
-        <div className="pt-20 bg-main tracking-tighter">
-          {/* 문제 풀기 섹션 */}
-          <section
-            id="writing-section"
-            className="px-2 flex flex-col justify-center items-center h-screen"
-          >
-            <h3 className="whitespace-pre-line sm:text-6xl text-2xl font-bold pb-6">{`스스로 완성하는 영작, 헬로제니!`}</h3>
-
-            <div className="font-normal text-xl text-center">
-              <div>하루 3문장이면1년에 1000문장!</div>
-              <div>영어를 배우는 새로운 세상을 경험하세요.</div>
+      {/* 문제 풀기 섹션 */}
+      <section
+        id="writing-section"
+        className="pt-24 px-2 flex flex-col justify-center items-center min-h-screen bg-gray-100"
+      >
+        <div className="w-fit">
+          <div className="py-12 text-center">
+            <h3 className="whitespace-pre-line sm:text-5xl text-2xl font-bold pb-6 items-center">스스로 완성하는 영작, <span className="text-primary-700">헬로제니👋🏻</span></h3>
+            <div className="flex justify-center items-end">
+              <div className="font-normal text-lg text-gray-600 pb-12">
+                <div>그동안 영어 공부 실패하셨나요?  </div>
+                <div>영어를 배우는 새로운 세상을 경험하세요.</div>
+                <div>하루 3문장이면 1년에 1000문장!</div>
+              </div>
+              <div className="ml-8 w-20 sm:block hidden"><img src="/assets/home/avatar-2.png" /></div>
             </div>
 
+          </div>
 
-            <div className="pb-6">
-              <img
-                className="w-full"
-                src="/assets/home/section-slogan-1.png"
-              />
-            </div>
-
-            <button
-              className="sm:px-24 w-full sm:w-auto sm:py-6 py-3 my-16 rounded shadow-lg sm:text-3xl text-xl bg-gradient-300 font-bold mx-auto"
-              onClick={goWritingBase}
-            >
-              <div>100문장 무료 체험하기 💕 </div>
-            </button>
-          </section>
-          {/* 문제 리스트 */}
+          <div className="pb-6">
+            <img
+              className="w-full"
+              src="/assets/home/demo.gif"
+            />
+          </div>
         </div>
-        <div className="bg-base">
-          <section className="py-24 px-4 text-center">
+      </section>
+      {/* 문제 리스트 */}
+      <div>
+        <section className="py-24 px-4 flex flex-col items-center">
+          <div className="w-1/2 text-center">
             <div className="sm:text-4xl text-xl font-bold pb-6">
 
-              영어 공부는 이렇게 해야해요!
+              제니가 제안하는 진짜 되는 영어 공부법
             </div>
             <div className="text-gray-600">지금까지 우리는 왜, 그렇게 많은 시간을 투자하고도 영어가 잘 되지 않았을까요?</div>
             <div className="text-gray-600 pb-6">헬로 제니가 제안하는 '독학하는 영어 공부법'</div>
             <div className="sm:text-base text-sm sm:pb-6 pb-4 text-gray-800 whitespace-pre-line">
               {`선생님과 함께하는 공부, 시간을 따로 내야 하는 공부. 부담스럽지 않으셨나요? \n헬로 제니에서는 매일 3문장씩 만들어내는 습관을 만들 수 있어요!`}
             </div>
-          </section>
-        </div>
-        <SectionProsTheme content={advantages[0]} isImageLeft={false} themes={writingStore.themes ? writingStore.themes : null} />
-        <SectionAdvantage content={advantages[1]} isImageLeft={true} />
-        <SectionAdvantage content={advantages[2]} isImageLeft={false} />
-        <SectionAdvantage content={advantages[3]} isImageLeft={true} />
-        <SectionAdvantage content={advantages[4]} isImageLeft={false} />
+            <div className="text-center">
+              <button
+                className="sm:px-16 w-full sm:w-auto sm:py-4 py-2 rounded shadow-lg sm:text-2xl text-xl bg-primary-600 text-white font-bold mx-auto"
+                onClick={goWritingBase}
+              >
+                <div>영작 하러가기 😁 </div>
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+      <SectionProsTheme content={advantages[0]} isImageLeft={false} themes={writingStore.themes ? writingStore.themes : null} />
+      <SectionAdvantage content={advantages[1]} isImageLeft={true} bgColor={true} />
+      <SectionAdvantage content={advantages[2]} isImageLeft={false} />
+      <SectionAdvantage content={advantages[3]} isImageLeft={true} bgColor={true} />
+      <SectionAdvantage content={advantages[4]} isImageLeft={false} />
 
-        <div className="bg-main-2">
-          <section className="py-12 px-4 flex flex-col items-center">
-            <div className="flex pb-6">
-              <div className="text-center">
-                <div className="text-gray-700 text-xl pb-1">
-                  하루 3문장, 1년이면 1073 문장!!
-                </div>
-                <div className="text-4xl text-center font-bold margin-small">
-                  1천 문장의 기적
-                </div>
-                <div className="text-3xl">
-                  {`제니와 함께 만들어볼까요?`}
-                </div>
+      <div className="bg-gray-100">
+        <section className="py-12 px-4 flex flex-col items-center">
+          <div className="flex pb-6">
+            <div className="text-center">
+              <div className="text-gray-600 text-xl pb-1">
+                하루 3문장, 1년이면 1073 문장!!
               </div>
-              <div className="ml-8 w-20 sm:block hidden">
-                <img src="/assets/home/avatar-2.png" />
+              <div className="text-4xl text-center font-bold margin-small">
+                1천 문장의 기적
+              </div>
+              <div className="text-3xl">
+                {`제니와 함께 만들어볼까요?`}
               </div>
             </div>
-            <div
-              className="mt-4 sm:px-20 w-full sm:w-auto py-4 rounded shadow-lg text-2xl bg-gradient-300 font-bold mx-auto"
-              onClick={goWritingBase}
-            >
-              <div className="text-center items-center">
-                100문장 무료 체험하기
-              </div>
+            <div className="ml-8 w-20 sm:block hidden">
+              <img src="/assets/home/avatar-2.png" />
             </div>
-          </section>
-        </div>
-      </>
+          </div>
+          <div
+            className="mt-4 sm:px-20 w-full sm:w-auto py-4 rounded shadow-lg text-2xl bg-primary-600 text-white font-bold mx-auto"
+            onClick={goWritingBase}
+          >
+            <div className="text-center items-center">
+              100문장 무료 체험하기
+            </div>
+          </div>
+        </section>
+      </div>
     </Main >
   );
 });
@@ -187,13 +183,15 @@ export default observer(() => {
 const SectionAdvantage = ({
   content,
   isImageLeft,
+  bgColor
 }: {
   content: any;
   isImageLeft: boolean;
+  bgColor?: boolean;
 }) => (
   <>
     {/* 모바일 뷰 */}
-    <section className={`p-4 gap-8 sm:hidden`}>
+    <section className={`p-4 gap-8 sm:hidden `}>
       <div className="sm:text-3xl text-2xl font-bold pb-4 pt-4 text-center whitespace-pre-line">
         {content.title}
       </div>
@@ -208,10 +206,10 @@ const SectionAdvantage = ({
     </section>
     {/* PC 뷰 */}
 
-    <div className={isImageLeft ? "" : "bg-base"}>
-      <section
-        className={`sm:py-20 sm:flex hidden justify-between gap-12`}
-      >
+    <section
+      className={`${bgColor ? "bg-gray-100" : ""}`}
+    >
+      <div className="w-fit sm:py-20 sm:flex hidden justify-between gap-12 ">
         {isImageLeft && (
           <div className="w-1/2">
             <img src={content.image_url} alt="advantage 1" className="" />
@@ -230,8 +228,8 @@ const SectionAdvantage = ({
             <img src={content.image_url} alt="advantage 1" className="" />
           </div>
         )}
-      </section>
-    </div>
+      </div>
+    </section>
   </>
 );
 
@@ -267,7 +265,7 @@ const SectionProsTheme = ({
     </section>
     {/* PC 뷰 */}
 
-    <div className={isImageLeft ? "" : "bg-base"}>
+    <div className="w-fit">
       <section
         className={`sm:py-20 sm:flex hidden justify-between gap-12`}
       >

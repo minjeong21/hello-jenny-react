@@ -2,13 +2,26 @@ const SectionBadge = () => {
   return (
     <>
       <section className=" mt-3 bg-white shadow-md rounded-md p-5">
+        <ul className="flex gap-12 pb-6 text-gray-700">
+          <li className="py-1 rounded-lg">
+            <span className="font-bold">100 </span> sentences
+          </li>
+          <li className="py-1 rounded-lg">
+            <span className="font-bold">3</span> thems
+          </li>
+          <li className="py-1 rounded-lg">
+            <span className="font-bold">150 </span> days visited
+          </li>
+        </ul>
         <div className="col-span-2 flex items-center">
+
           <div className="mr-5 bg-gray-200">
             <img
               src="https://i.pinimg.com/originals/52/66/81/52668161fff4bea0d9bca989bdb8a1ae.jpg"
               className="w-16"
             />
           </div>
+
           <div className="flex flex-col">
             <span className="mb-2 text-gray-800 text-2xl font-medium leading-4">
               꽃 뱃지를 모아봐요 💕
@@ -81,16 +94,14 @@ const Badge = ({
             ? "https://st2.depositphotos.com/3907761/7233/v/600/depositphotos_72338459-stock-illustration-01208a.jpg"
             : imageUrl
         }
-        className={`w-14 h-14 border-2 border-white rounded-full shadow-md ${
-          lock ? "opacity-50" : ""
-        }`}
+        className={`w-14 h-14 border-2 border-white rounded-full shadow-md ${lock ? "opacity-50" : ""
+          }`}
       />
       <span
-        className={`${
-          lock
-            ? "bg-gray-200 text-gray-500"
-            : "bg-brown-600 text-white font-bold"
-        } mt-1 shadow text-sm font-medium px-2 py-x rounded-md`}
+        className={`${lock
+          ? "bg-gray-200 text-gray-500"
+          : "bg-brown-600 text-white font-bold"
+          } mt-1 shadow text-sm font-medium px-2 py-x rounded-md`}
       >
         {label}
       </span>

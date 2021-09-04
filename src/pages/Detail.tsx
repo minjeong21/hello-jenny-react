@@ -123,14 +123,14 @@ const Detail = observer(() => {
           </div>
         </div>
       </ModalWriting>
-      <section>
+      <section className="w-fit-860">
         <div className="hidden sm:flex justify-end pt-5 px-3 ">
           <div className="flex bg-gradient-200 fit-h self-center px-3 py-2 sm:py-3 sm:px-5 mr-1 rounded-xl shadow-sm sm:text-sm text-xs">
             힌트를 사용해서 문제를 풀어보아요!
           </div>
           <img
-            className="w-12 h-14"
-            src="/assets/small-quokka-left.png"
+            className="w-14 h-14"
+            src="/assets/avatar-3.png"
             alt="quokka"
           />
         </div>
@@ -142,7 +142,7 @@ const Detail = observer(() => {
         ) : (
           <>
             {writingStore.currentWriting &&
-            writingStore.currentWriting.writing ? (
+              writingStore.currentWriting.writing ? (
               <div className="pt-5 px-1">
                 <WritingBox
                   writingId={writingStore.currentWriting.writing.id}

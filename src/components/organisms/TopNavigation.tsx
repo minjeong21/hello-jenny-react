@@ -31,7 +31,7 @@ const TopNavigation = () => {
   };
 
   return (
-    <Container className="absolute top-0 w-screen">
+    <Container className="fixed top-0 w-screen bg-gray-100">
       <div className="sm:min-h-0">
         <nav className="flex sm:p-3 px-2 items-center relative justify-between z-10">
           <div className="font-bold sm:block hidden">
@@ -57,7 +57,16 @@ const TopNavigation = () => {
             </a>
           </div>
           <ul className="sm:px-2 ml-0 ml-auto flex space-x-2 items-center">
+
+
             <WideButton
+              onClick={goMemgership}
+              label={
+                <>
+                  <span className="ml-1">랜덤 문제 풀기</span>
+                </>
+              }
+            /><WideButton
               onClick={(e) => goWritingBase(e)}
               label={
                 <>
@@ -69,18 +78,18 @@ const TopNavigation = () => {
               onClick={goMember}
               label={
                 <>
-                  <span className="ml-1">멤버 기능</span>
+                  <span className="ml-1">마이 페이지</span>
                 </>
               }
             />
-            <WideButton
+            {/* <WideButton
               onClick={goMemgership}
               label={
                 <>
-                  <span className="ml-1">멤버십 혜택</span>
+                  <span className="ml-1">멤버십 혜택🚫</span>
                 </>
               }
-            />
+            /> */}
             {/* <WideButton onClick={goSpeaking} label={"스피킹 연습"} /> */}
             {userStore.isLogined() ? (
               <>

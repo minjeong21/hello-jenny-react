@@ -150,7 +150,7 @@ export default observer(() => {
   return (
     <Main className="sm:py-36 py-20 px-4 bg-gray-100">
       {/* 문제 풀기 섹션 */}
-      <section className="pb-12">
+      <section className="pb-12 w-fit-860">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           내가 도전하고 싶은 난이도는?
         </div>
@@ -174,7 +174,7 @@ export default observer(() => {
           </form>
         </div>
       </section>
-      <section className="sm:pt-12 pb-6" id="theme-section">
+      <section className="sm:pt-12 pb-6 w-fit-860" id="theme-section">
         <div className="sm:text-3xl text-2xl font-bold pb-2">
           어떤 주제의 문장부터 만나볼까요?
         </div>

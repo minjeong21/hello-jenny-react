@@ -24,8 +24,10 @@ const Main = styled.main`
 
 const TabView = [
   // { code: "bookmark", name: "좋아요", icon: null },
-  { code: "contact", name: "최근 푼 테마", icon: null },
-  { code: "correct", name: "완성한 문장", icon: null },
+  { code: "status", name: "내 활동", icon: null },
+  { code: "bookmark", name: "북마크", icon: null },
+  { code: "themes", name: "최근 푼 테마", icon: null },
+  { code: "sentences", name: "최근 푼 문장", icon: null },
 ];
 const Member = observer(() => {
   const pathManager = new PathManager(useHistory());
@@ -104,42 +106,24 @@ const Member = observer(() => {
   return (
     <Main className="sm:pt-20 pt-12 pb-56 bg-gray-100" id="profile-main">
       <div className="mt-6 p-2 w-full max-w-screen-md  margin-auto">
-        <section className="bg-white shadow-md rounded-md sm:p-8 p-6 w-full">
-          <div className="flex ">
-            <div className="sm:w-28 sm:h-28 w-12 h-12 relative">
-
-              <ul className="flex gap-12 pb-6 text-gray-700">
-                <li className="py-1 rounded-lg">
-                  <span className="font-bold">100 </span> tried
-                </li>
-                <li className="py-1 rounded-lg">
-                  <span className="font-bold">41</span> solved
-                </li>
-                <li className="py-1 rounded-lg">
-                  <span className="font-bold">150 </span> days visited
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
+        <nav className="flex  text-gray-400 ">
+          {TabView.map((item, index) => (
+            <button
+              key={index}
+              onClick={() => setTab(item.code)}
+              className={`border-t-2 px-6 cursor-pointer py-2 font-medium text-sm leading-5 rounded-sm flex items-center gap-1 ${tab === item.code
+                ? "text-gray-800 border-gray-800 fade-in"
+                : ""
+                }`}
+            >
+              {item.icon}
+              <div>{item.name}</div>
+            </button>
+          ))}
+        </nav>
         <SectionBadge />
         <>
           <div className="pt-12">
-            <nav className="flex justify-center text-gray-400 ">
-              {TabView.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={() => setTab(item.code)}
-                  className={`border-t-2 px-6 cursor-pointer py-2 font-medium text-sm leading-5 rounded-sm flex items-center gap-1 ${tab === item.code
-                    ? "text-gray-800 border-gray-800 fade-in"
-                    : ""
-                    }`}
-                >
-                  {item.icon}
-                  <div>{item.name}</div>
-                </button>
-              ))}
-            </nav>
 
             {/* 북마크 */}
 

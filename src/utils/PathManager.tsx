@@ -2,7 +2,7 @@ import { generatePath } from "react-router";
 
 const Path = {
   HOME: "/",
-  PROFILE: "/profile/",
+  SETTING: "/setting/",
   LOGIN: "/signin/",
   REGISTER: "/signup/",
   WRITING_BASE: "/writing/",
@@ -62,7 +62,7 @@ class MovePath {
   };
   goUserProfile = (e: any) => {
     e.preventDefault();
-    this.history.push(Path.PROFILE);
+    this.history.push(Path.SETTING);
   };
 
   goSignIn = (e: any) => {

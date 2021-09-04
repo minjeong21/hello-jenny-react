@@ -44,7 +44,7 @@ const App = () => {
         <SignUp />
         <Footer />
       </Route>
-      <Route exact path="/profile/">
+      <Route exact path="/setting/">
         <TopNavigation />
         <Profile />
         <Footer />

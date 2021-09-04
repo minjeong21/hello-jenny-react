@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className=" bg-gray-800 justify-center py-10 px-6 text-sm text-gray-200 bottom-0 w-full">
-      <div className="max-width">
+      <div className="w-fit">
         <div className="flex pb-3">
           <div className="flex-1">
             <h4 className="text-white text-xl font-bold">헬로제니</h4>
