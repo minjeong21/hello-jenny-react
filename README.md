@@ -2,7 +2,7 @@
 <div align="center">
   <img width="400" src="https://github.com/congchu/hello-jenny-react/blob/main/public/logo2.png?raw=true" alt="Jenny Logo">
   <h1>스스로 완성하는 영작, 헬로제니👋🏻</h1>
-  <h4> 난이도별, 테마별 문제를 선택하고 힌트를 통해 스스로 풀 수 있는 영작 연습 서비스</h4>
+  <h4> 난이도별, 테마별 문제를 선택하고 힌트를 통해 스스로 풀 수 있는 영작 연습 서비스 <a target="_blank" href="https://alpha.hellojenny.io/">(DEMO)<a/></h4>
 </div>
 <div align="center">
   <img align="center" width="600" src="https://alpha.hellojenny.io/assets/home/demo.gif" alt="jenny demo"/>
