@@ -4,19 +4,18 @@
   <h1>스스로 완성하는 영작, 헬로제니👋🏻</h1>
   <h4> 난이도별, 테마별 문제를 선택하고 힌트를 통해 스스로 풀 수 있는 영작 연습 서비스</h4>
 </div>
-
-      
-<div>
-
-  
 <div align="center">
   <img align="center" width="600" src="https://alpha.hellojenny.io/assets/home/demo.gif" alt="jenny demo"/>
 </div>
-      </div>
+
       
-      
+<br/>
+
 ## 📝 About The Project
-This project aims to classify human activities using data obtained from accelerometer and gyroscope sensors from phone and watch. The raw data will be preprocessed using two different approaches such as topological data analysis and statistical features extraction from segmented time series. The goal is to compare and evaluate the performance of different classifiers (Decision Tree, k Nearest Neighbors, Random Forest, SVM and CNN) which are trained on the two sets of preprocessed data.
+이 프로젝트는 스스로 <b>힌트를 통해 퀴즈를 풀듯, 영작을 하며 영어 실력을 향상시킬 수 있는 서비스</b> 입니다. <br/>수동적으로 10시간을 듣는 것보다, 10분이라도 스스로 문장을 만들어내는 것이 더 더 효과적인 공부법이라는 전제하게 기획되었으며 
+<br/>편안한 환경에서 재미있게 학습할 수 있도록 '제니'라는 캐릭터가 문제에 대한 힌트를 제공하는 것이 주요 기능입니다.
+<br/><br/>
+
 
 ## 👨‍💻 Tech stack
 다음은 Hello Jenny 서비스가 채택한 기술 스택에 대한 간략한 개요입니다.
@@ -26,6 +25,7 @@ This project aims to classify human activities using data obtained from accelero
 - 컴포넌트 스타일링을 위해 CSS-in-JS 라이브러리인 styled-componentsf를 사용합니다.
 - 상태관리 라이브러리로 mobX를 사용합니다.
 - 코딩 컨벤션은 Airbnb의 자바스크립트 스타일 가이드를 따릅니다.
+<br/><br/>
      
 ## 💪 Features
 
@@ -43,7 +43,7 @@ This project aims to classify human activities using data obtained from accelero
 | 영작 북마크                   |         ❌         |        ❌        |
 
 
-
+<br/>
 
 <!-- :paw_prints:-->
 <!-- FOLDER STRUCTURE -->
@@ -64,21 +64,26 @@ This project aims to classify human activities using data obtained from accelero
     │   ├── properties
     │   ├── utils
 
+<br/><br/>
 
 ## Documentation
+더 자세한 내용은 아래 링크에서 확인할 수 있습니다.
+- [API 정의서](https://www.notion.so/cucus/API-1a7df2430fea4af4a49ef4c6ac59b533)
+- [기능 명세](https://www.notion.so/cucus/3c24fa19b650432aaa8e06ff3e40f006)
+<br/><br/>
 
-자세한 문서는 [HelloJenny WIKI](!)에서 확인해주세요.
+## Update History 🌳
+| 날짜 | 버전 | 내용 | 
+| -------------------------- | :----------------: | :-------------: |
+|2021-09-02|v0.7.1 |- 스피킹 기능 추가 |
+|2021-05-19|v0.6.4 |- Dynamic View 적용 <br/> 자잘한 디자인 개선 |
+|2021-05-18|v0.6.3 |- 디자인 일러스트 변경<br/>- 홈 테마로 가기 버튼 추가 |
+|2021-05-05|v0.6.2 |- 테마 및 레벨 선택 태그로 변경 |
+|2021-05-03|v0.6.1 |- 캐릭터 변경|
+|2021-04-11|v0.5.2 |- 웹 도메인 변경 |
+|2021-04-03|v0.5.1 |- 대화하듯이 문제 풀기<br/>- 도와줘 제니 기능 추가|
+|2021-04-02|v0.5.0 |- 사이트맵, 네이베게이션 적용 <br/> - 초기 디자인 반영|
 
-
-## Deploy History 🌳
-2021-04-22
-
-- 전체 레이아웃 수정
-- header 사진 변경
-
-2021-04-20
-
-- 프로젝트 생성
 
 
 
